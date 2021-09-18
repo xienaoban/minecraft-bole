@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "bole",
+  "version": "${version}",
+  "name": "Bole",
+  "description": "Bole mod for Fabric.",
+  "authors": [
+    "XieNaoban"
+  ],
+  "contact": {
+    "website": "https://xienaoban.github.io/",
+    "repo": "https://github.com/XieNaoban/minecraft-bole"
+  },
+  "license": "MIT",
+  "icon": "assets/bole/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "xienaoban.minecraft.bole.client.BoleClient"
+    ],
+    "main": [
+      "xienaoban.minecraft.bole.Bole"
+    ]
+  },
+  "mixins": [
+    "bole.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.7",
+    "fabric": "*",
+    "minecraft": "1.16.5"
+  }
+}
