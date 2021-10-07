@@ -26,7 +26,7 @@
     "bole.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.11.7",
+    "fabricloader": ">=0.11.6",
     "fabric": "*",
     "minecraft": "1.16.5"
   }
