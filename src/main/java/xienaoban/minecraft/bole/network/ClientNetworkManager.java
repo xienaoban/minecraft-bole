@@ -4,15 +4,18 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.minecraft.entity.passive.HorseEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
-import xienaoban.minecraft.bole.Bole;
 
 @Environment(EnvType.CLIENT)
 public class ClientNetworkManager {
-    public static void openBoleHorseScreen(HorseEntity entity){
+    public static void openBoleGui(){
+        ClientPlayNetworking.send(Channels.OPEN_BOLE_GUI, PacketByteBufs.empty());
+    }
+
+    public static void openBoleGui(Entity entity){
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeInt(entity.getEntityId());
-        ClientPlayNetworking.send(Bole.BOLE_HORSE_PACKET, buf);
+        ClientPlayNetworking.send(Channels.OPEN_BOLE_GUI, buf);
     }
 }
