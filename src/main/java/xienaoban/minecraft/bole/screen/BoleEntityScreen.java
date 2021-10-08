@@ -8,8 +8,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 
 @Environment(EnvType.CLIENT)
-public class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookScreenHandler> {
-    public BoleHandbookScreen(BoleHandbookScreenHandler handler, PlayerInventory inventory, Text title) {
+public class BoleEntityScreen extends AbstractBoleScreen<Entity, BoleEntityScreenHandler> {
+    public BoleEntityScreen(BoleEntityScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
