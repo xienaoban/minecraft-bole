@@ -8,7 +8,11 @@ import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 public class ScreenRegistryManager {
     public static void init() {
         ScreenRegistry.register(BoleHandbookScreenHandler.HANDLER, BoleHandbookScreen::new);
+
         ScreenRegistry.register(BoleEntityScreenHandler.HANDLER, BoleEntityScreen::new);
-        ScreenRegistry.register(BoleHorseScreenHandler.HANDLER, BoleHorseScreen::new);
+        ScreenRegistry.register(BoleLivingEntityScreenHandler.HANDLER, BoleLivingEntityScreen::new);
+
+        ScreenRegistry.register(BoleHorseEntityScreenHandler.HANDLER, BoleHorseEntityScreen::new);
+        ScreenRegistry.register(BoleVillagerEntityScreenHandler.HANDLER, BoleVillagerEntityScreen::new);
     }
 }

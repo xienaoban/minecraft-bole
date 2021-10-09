@@ -15,6 +15,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Matrix4f;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 
@@ -28,6 +29,8 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
     protected final int contentWidth, contentHeight, contentSpacingWidth;
     protected int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
+    protected int entityLeft, entityRight, entityTop, entityBottom;
+    protected int plan;
 
     public AbstractBoleScreen(T handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -62,6 +65,52 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
         this.contentRight[1] = this.contentLeft[1] + this.contentWidth;
         this.contentTop = this.bodyTop + 15;
         this.contentBottom = this.contentTop + this.contentHeight;
+        this.plan = this.calEntityDisplayRegion();
+    }
+
+    private int calEntityDisplayRegion() {
+        if (this.handler.entity == null) return 0;
+        Box box = this.handler.entity.getVisibilityBoundingBox();
+        double x = box.getXLength(), y = box.getYLength();
+        double area = x * y, ratio = y / x;
+        int plan;
+        if (ratio > 2.0) plan = 4;
+        else if (ratio < 1 / 2.0) {
+            if (area < 0.4) plan = 1;
+            else plan = 3;
+        }
+        else {
+            if (area < 0.5) plan = 1;
+            else plan = 2;
+        }
+        switch (plan) {
+            case 1:
+                this.entityLeft = this.contentRight[0] - contentWidth / 2;
+                this.entityTop = this.contentTop + 10;
+                this.entityRight = this.contentRight[0];
+                this.entityBottom = this.entityTop + this.contentHeight / 3;
+                break;
+            case 2:
+                this.entityLeft = this.contentLeft[0];
+                this.entityTop = this.contentTop + 10;
+                this.entityRight = this.contentRight[0] - contentWidth / 2;
+                this.entityBottom = this.entityTop + this.contentHeight / 2;
+                break;
+            case 3:
+                this.entityLeft = this.contentLeft[0] + 25;
+                this.entityTop = this.contentTop + 50;
+                this.entityRight = this.contentRight[0] - 25;
+                this.entityBottom = this.entityTop + (int) (this.contentHeight * 0.2F);
+                break;
+            case 4:
+                this.entityLeft = this.contentLeft[0] + 5;
+                this.entityTop = this.contentTop + 10;
+                this.entityRight = this.contentLeft[0] + (int) (contentWidth * 0.3F);
+                this.entityBottom = this.entityTop + (int) (this.contentHeight * 0.75F);
+                break;
+            default: break;
+        }
+        return plan;
     }
 
     @Override
@@ -76,7 +125,7 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
         drawTextureNormally(matrices, 256, 256, this.getZOffset(),
                 this.width >> 1, y0, x1, y1, u0, v0, u1, v1);
         if (mouseX < 5 && mouseY < 5) {
-            drawContentRegionDebug(matrices);
+            drawRegionDebug(matrices);
         }
         this.textRenderer.drawWithShadow(matrices, this.title, this.contentLeft[0], this.contentTop, 0xff666666);
     }
@@ -84,9 +133,9 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {}
 
-    private void drawContentRegionDebug(MatrixStack matrices) {
-        final int c = 0x66dd001b;
+    private void drawRegionDebug(MatrixStack matrices) {
         final float r = 0.3F;
+        int c = 0x66dd001b;
         drawHorizontalLine(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentRight[0], this.contentTop);
         drawHorizontalLine(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentRight[0], this.contentBottom);
         drawHorizontalLine(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentRight[1], this.contentTop);
@@ -95,10 +144,41 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
         drawVerticalLine(matrices, c, r, getZOffset(), this.contentRight[0], this.contentTop, this.contentBottom);
         drawVerticalLine(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentTop, this.contentBottom);
         drawVerticalLine(matrices, c, r, getZOffset(), this.contentRight[1], this.contentTop, this.contentBottom);
+
+        c = 0x66287bde;
+        drawHorizontalLine(matrices, c, r, getZOffset(), this.entityLeft, this.entityRight, this.entityTop);
+        drawHorizontalLine(matrices, c, r, getZOffset(), this.entityLeft, this.entityRight, this.entityBottom);
+        drawVerticalLine(matrices, c, r, getZOffset(), this.entityLeft, this.entityTop, this.entityBottom);
+        drawVerticalLine(matrices, c, r, getZOffset(), this.entityRight, this.entityTop, this.entityBottom);
     }
 
-    public void drawLivingEntity(LivingEntity entity, int x, int y, int size, float mouseX, float mouseY) {
-        InventoryScreen.drawEntity(x, y, size, mouseX, mouseY, entity);
+    public void drawLivingEntityPlan(LivingEntity entity, int mouseX, int mouseY) {
+        drawLivingEntityAuto(entity, this.entityLeft, this.entityTop, this.entityRight, this.entityBottom,
+                mouseX / -33.0F, mouseY / -33.0F - 10);
+    }
+
+    public void drawLivingEntityAuto(LivingEntity entity, int x0, int y0, int x1, int y1, float mouseX, float mouseY) {
+        Box box = entity.getVisibilityBoundingBox();
+        double ew = box.getXLength(), eh = box.getYLength();
+        if (ew > eh) {
+            ew = Math.max(ew, 1);
+        }
+        else {
+            eh = Math.max(eh, 1);
+        }
+        int rw = x1 - x0, rh = y1 - y0;
+        int size = (int) (Math.min(rw / ew, rh / eh) * 0.85);
+        InventoryScreen.drawEntity(x0 + x1 >> 1, y1, size, mouseX, mouseY, entity);
+    }
+
+    public void drawLivingEntityByWidth(LivingEntity entity, int x, int y, int width, float mouseX, float mouseY) {
+        Box box = entity.getVisibilityBoundingBox();
+        InventoryScreen.drawEntity(x, y, (int) (width / box.getXLength()), mouseX, mouseY, entity);
+    }
+
+    public void drawLivingEntityByHeight(LivingEntity entity, int x, int y, int height, float mouseX, float mouseY) {
+        Box box = entity.getVisibilityBoundingBox();
+        InventoryScreen.drawEntity(x, y, (int) (height / box.getYLength()), mouseX, mouseY, entity);
     }
 
     public void drawHorizontalLine(MatrixStack matrices, int color, float radius, float z, float x0, float x1, float y) {

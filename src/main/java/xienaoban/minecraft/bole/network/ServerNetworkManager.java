@@ -2,6 +2,7 @@ package xienaoban.minecraft.bole.network;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -11,7 +12,8 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.screen.BoleEntityScreenHandler;
 import xienaoban.minecraft.bole.screen.BoleHandbookScreenHandler;
-import xienaoban.minecraft.bole.screen.BoleHorseScreenHandler;
+import xienaoban.minecraft.bole.screen.BoleHorseEntityScreenHandler;
+import xienaoban.minecraft.bole.screen.BoleLivingEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class ServerNetworkManager {
@@ -38,7 +40,8 @@ public class ServerNetworkManager {
                     player.openHandledScreen(new NamedScreenHandlerFactory() {
                         @Override
                         public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-                            if (entity instanceof HorseEntity) return new BoleHorseScreenHandler(syncId, inv, entity);
+                            if (entity instanceof HorseEntity) return new BoleHorseEntityScreenHandler(syncId, inv, entity);
+                            if (entity instanceof LivingEntity) return new BoleLivingEntityScreenHandler(syncId, inv, entity);
                             return new BoleEntityScreenHandler(syncId, inv, entity);
                         }
 
