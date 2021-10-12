@@ -3,25 +3,25 @@ package xienaoban.minecraft.bole.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Quaternion;
+import net.minecraft.util.math.Vec3f;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 
 @Environment(EnvType.CLIENT)
 public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBoleScreenHandler<E>> extends HandledScreen<T> {
-    public static final Identifier BOOK_TEXTURE = new Identifier("textures/gui/book.png");
+    private static final Identifier BOOK_TEXTURE = new Identifier("textures/gui/book.png");
     private static final int BOOK_TEXTURE_CUT = 29;
 
     protected final int bodyWidth, bodyHeight;
@@ -29,8 +29,9 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
     protected final int contentWidth, contentHeight, contentSpacingWidth;
     protected int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
-    protected int entityLeft, entityRight, entityTop, entityBottom;
     protected int plan;
+    protected int planEntityLeft, planEntityRight, planEntityTop, planEntityBottom;
+    protected E displayedEntity;
 
     public AbstractBoleScreen(T handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -53,6 +54,7 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void init() {
         super.init();
         this.bodyLeft = (this.width - this.bodyWidth) / 2;
@@ -66,6 +68,8 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
         this.contentTop = this.bodyTop + 15;
         this.contentBottom = this.contentTop + this.contentHeight;
         this.plan = this.calEntityDisplayRegion();
+        this.displayedEntity = (E) this.handler.entity.getType().create(this.client.world);
+        this.updateDisplayedEntity();
     }
 
     private int calEntityDisplayRegion() {
@@ -74,8 +78,8 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
         double x = box.getXLength(), y = box.getYLength();
         double area = x * y, ratio = y / x;
         int plan;
-        if (ratio > 2.0) plan = 4;
-        else if (ratio < 1 / 2.0) {
+        if (ratio > 2.5) plan = 4;
+        else if (ratio < 1 / 2.5) {
             if (area < 0.4) plan = 1;
             else plan = 3;
         }
@@ -85,28 +89,28 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
         }
         switch (plan) {
             case 1:
-                this.entityLeft = this.contentRight[0] - contentWidth / 2;
-                this.entityTop = this.contentTop + 10;
-                this.entityRight = this.contentRight[0];
-                this.entityBottom = this.entityTop + this.contentHeight / 3;
+                this.planEntityLeft = this.contentRight[0] - contentWidth / 2;
+                this.planEntityTop = this.contentTop + 10;
+                this.planEntityRight = this.contentRight[0];
+                this.planEntityBottom = this.planEntityTop + this.contentHeight / 3;
                 break;
             case 2:
-                this.entityLeft = this.contentLeft[0];
-                this.entityTop = this.contentTop + 10;
-                this.entityRight = this.contentRight[0] - contentWidth / 2;
-                this.entityBottom = this.entityTop + this.contentHeight / 2;
+                this.planEntityLeft = this.contentLeft[0];
+                this.planEntityTop = this.contentTop + 10;
+                this.planEntityRight = this.contentRight[0] - contentWidth / 2;
+                this.planEntityBottom = this.planEntityTop + (int) (this.contentHeight / 2.2);
                 break;
             case 3:
-                this.entityLeft = this.contentLeft[0] + 25;
-                this.entityTop = this.contentTop + 50;
-                this.entityRight = this.contentRight[0] - 25;
-                this.entityBottom = this.entityTop + (int) (this.contentHeight * 0.2F);
+                this.planEntityLeft = this.contentLeft[0] + 25;
+                this.planEntityTop = this.contentTop + 50;
+                this.planEntityRight = this.contentRight[0] - 25;
+                this.planEntityBottom = this.planEntityTop + (int) (this.contentHeight * 0.2F);
                 break;
             case 4:
-                this.entityLeft = this.contentLeft[0] + 5;
-                this.entityTop = this.contentTop + 10;
-                this.entityRight = this.contentLeft[0] + (int) (contentWidth * 0.3F);
-                this.entityBottom = this.entityTop + (int) (this.contentHeight * 0.75F);
+                this.planEntityLeft = this.contentLeft[0] + 5;
+                this.planEntityTop = this.contentTop + 10;
+                this.planEntityRight = this.contentLeft[0] + (int) (contentWidth * 0.3F);
+                this.planEntityBottom = this.planEntityTop + (int) (this.contentHeight * 0.75F);
                 break;
             default: break;
         }
@@ -136,28 +140,18 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
     private void drawRegionDebug(MatrixStack matrices) {
         final float r = 0.3F;
         int c = 0x66dd001b;
-        drawHorizontalLine(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentRight[0], this.contentTop);
-        drawHorizontalLine(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentRight[0], this.contentBottom);
-        drawHorizontalLine(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentRight[1], this.contentTop);
-        drawHorizontalLine(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentRight[1], this.contentBottom);
-        drawVerticalLine(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentTop, this.contentBottom);
-        drawVerticalLine(matrices, c, r, getZOffset(), this.contentRight[0], this.contentTop, this.contentBottom);
-        drawVerticalLine(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentTop, this.contentBottom);
-        drawVerticalLine(matrices, c, r, getZOffset(), this.contentRight[1], this.contentTop, this.contentBottom);
-
+        drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentTop, this.contentRight[0], this.contentBottom);
+        drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentTop, this.contentRight[1], this.contentBottom);
         c = 0x66287bde;
-        drawHorizontalLine(matrices, c, r, getZOffset(), this.entityLeft, this.entityRight, this.entityTop);
-        drawHorizontalLine(matrices, c, r, getZOffset(), this.entityLeft, this.entityRight, this.entityBottom);
-        drawVerticalLine(matrices, c, r, getZOffset(), this.entityLeft, this.entityTop, this.entityBottom);
-        drawVerticalLine(matrices, c, r, getZOffset(), this.entityRight, this.entityTop, this.entityBottom);
+        drawRectangle(matrices, c, r, getZOffset(), this.planEntityLeft, this.planEntityTop, this.planEntityRight, this.planEntityBottom);
     }
 
-    public void drawLivingEntityPlan(LivingEntity entity, int mouseX, int mouseY) {
-        drawLivingEntityAuto(entity, this.entityLeft, this.entityTop, this.entityRight, this.entityBottom,
-                mouseX / -33.0F, mouseY / -33.0F - 10);
+    protected void drawPlanEntity(int mouseX, int mouseY) {
+        drawEntityAuto(this.displayedEntity, this.planEntityLeft, this.planEntityTop, this.planEntityRight, this.planEntityBottom,
+                (mouseX) / -33.0F, mouseY / -55.0F - 10);
     }
 
-    public void drawLivingEntityAuto(LivingEntity entity, int x0, int y0, int x1, int y1, float mouseX, float mouseY) {
+    public static void drawEntityAuto(Entity entity, int x0, int y0, int x1, int y1, float mouseX, float mouseY) {
         Box box = entity.getVisibilityBoundingBox();
         double ew = box.getXLength(), eh = box.getYLength();
         if (ew > eh) {
@@ -168,28 +162,64 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
         }
         int rw = x1 - x0, rh = y1 - y0;
         int size = (int) (Math.min(rw / ew, rh / eh) * 0.85);
-        InventoryScreen.drawEntity(x0 + x1 >> 1, y1, size, mouseX, mouseY, entity);
+        drawEntity(entity, x0 + x1 >> 1, y1, size, mouseX, mouseY);
     }
 
-    public void drawLivingEntityByWidth(LivingEntity entity, int x, int y, int width, float mouseX, float mouseY) {
+    public static void drawEntityByWidth(Entity entity, int x, int y, int width, float mouseX, float mouseY) {
         Box box = entity.getVisibilityBoundingBox();
-        InventoryScreen.drawEntity(x, y, (int) (width / box.getXLength()), mouseX, mouseY, entity);
+        drawEntity(entity, x, y, (int) (width / box.getXLength()), mouseX, mouseY);
     }
 
-    public void drawLivingEntityByHeight(LivingEntity entity, int x, int y, int height, float mouseX, float mouseY) {
+    public static void drawEntityByHeight(Entity entity, int x, int y, int height, float mouseX, float mouseY) {
         Box box = entity.getVisibilityBoundingBox();
-        InventoryScreen.drawEntity(x, y, (int) (height / box.getYLength()), mouseX, mouseY, entity);
+        drawEntity(entity, x, y, (int) (height / box.getYLength()), mouseX, mouseY);
     }
 
-    public void drawHorizontalLine(MatrixStack matrices, int color, float radius, float z, float x0, float x1, float y) {
+    /**
+     * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
+     */
+    public static void drawEntity(Entity entity, int x, int y, int size, float mouseX, float mouseY) {
+        float f = (float)Math.atan(mouseX / 40.0F);
+        float g = (float)Math.atan(mouseY / 40.0F);
+        RenderSystem.pushMatrix();
+        RenderSystem.translatef((float)x, (float)y, 1050.0F);
+        RenderSystem.scalef(1.0F, 1.0F, -1.0F);
+        MatrixStack matrixStack = new MatrixStack();
+        matrixStack.translate(0.0D, 0.0D, 1000.0D);
+        matrixStack.scale((float)size, (float)size, (float)size);
+        Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
+        Quaternion quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(g * 20.0F);
+        Quaternion quaternion3 = Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.getYaw(0.0F) + 180 - f * 40.0F);
+        quaternion.hamiltonProduct(quaternion2);
+        quaternion.hamiltonProduct(quaternion3);
+        matrixStack.multiply(quaternion);
+        EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
+        quaternion3.conjugate();
+        entityRenderDispatcher.setRotation(quaternion3);
+        entityRenderDispatcher.setRenderShadows(false);
+        VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
+        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 180.0F, 1.0F, matrixStack, immediate, 0x00F000F0));   // 0x00F000F0
+        immediate.draw();
+        entityRenderDispatcher.setRenderShadows(true);
+        RenderSystem.popMatrix();
+    }
+
+    public static void drawRectangle(MatrixStack matrices, int color, float radius, float z, float x0, float y0, float x1, float y1) {
+        drawHorizontalLine(matrices, color, radius, z, x0, x1, y0);
+        drawHorizontalLine(matrices, color, radius, z, x0, x1, y1);
+        drawVerticalLine(matrices, color, radius, z, x0, y0, y1);
+        drawVerticalLine(matrices, color, radius, z, x1, y0, y1);
+    }
+
+    public static void drawHorizontalLine(MatrixStack matrices, int color, float radius, float z, float x0, float x1, float y) {
         drawQuadrilateral(matrices, color, z, x0, y - radius, x1, y - radius, x0, y + radius, x1, y + radius);
     }
 
-    public void drawVerticalLine(MatrixStack matrices, int color, float radius, float z, float x, float y0, float y1) {
+    public static void drawVerticalLine(MatrixStack matrices, int color, float radius, float z, float x, float y0, float y1) {
         drawQuadrilateral(matrices, color, z, x - radius, y0, x + radius, y0, x - radius, y1, x + radius, y1);
     }
 
-    public void drawQuadrilateral(MatrixStack matrices, int color, float z,
+    public static void drawQuadrilateral(MatrixStack matrices, int color, float z,
                                           float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3) {
         Matrix4f model = matrices.peek().getModel();
         int a = color >> 24 & 255;
@@ -227,7 +257,7 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
      * @param u1 the right-most coordinate of the texture region
      * @param v1 the bottom-most coordinate of the texture region
      */
-    public void drawTextureNormally(MatrixStack matrices, float tw, float th, float z,
+    public static void drawTextureNormally(MatrixStack matrices, float tw, float th, float z,
                                     float x0, float y0, float x1, float y1,
                                     float u0, float v0, float u1, float v1) {
         drawTextureQuadrilateral(matrices, tw, th, z, x0, y0, x1, y0, x0, y1, x1, y1, u0, v0, u1, v0, u0, v1, u1, v1);
@@ -249,7 +279,7 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
      * @param u1 the right-most coordinate of the texture region
      * @param v1 the bottom-most coordinate of the texture region
      */
-    public void drawTextureFlippedHorizontally(MatrixStack matrices, float tw, float th, float z,
+    public static void drawTextureFlippedHorizontally(MatrixStack matrices, float tw, float th, float z,
                                                       float x0, float y0, float x1, float y1,
                                                       float u0, float v0, float u1, float v1) {
         drawTextureQuadrilateral(matrices, tw, th, z, x0, y0, x1, y0, x0, y1, x1, y1, u1, v0, u0, v0, u1, v1, u0, v1);
@@ -271,7 +301,7 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
      * @param u1 the right-most coordinate of the texture region
      * @param v1 the bottom-most coordinate of the texture region
      */
-    public void drawTextureFlippedVertically(MatrixStack matrices, float tw, float th, float z,
+    public static void drawTextureFlippedVertically(MatrixStack matrices, float tw, float th, float z,
                                                     float x0, float y0, float x1, float y1,
                                                     float u0, float v0, float u1, float v1) {
         drawTextureQuadrilateral(matrices, tw, th, z, x0, y0, x1, y0, x0, y1, x1, y1, u0, v1, u1, v1, u0, v0, u1, v0);
@@ -293,7 +323,7 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
      * @param u1 the right-most coordinate of the texture region
      * @param v1 the bottom-most coordinate of the texture region
      */
-    public void drawTextureRotated180(MatrixStack matrices, float tw, float th, float z,
+    public static void drawTextureRotated180(MatrixStack matrices, float tw, float th, float z,
                                              float x0, float y0, float x1, float y1,
                                              float u0, float v0, float u1, float v1) {
         drawTextureQuadrilateral(matrices, tw, th, z, x0, y0, x1, y0, x0, y1, x1, y1, u1, v1, u0, v1, u1, v0, u0, v0);
@@ -302,7 +332,7 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
     /**
      * @see net.minecraft.client.gui.DrawableHelper#drawTexturedQuad
      */
-    public void drawTextureQuadrilateral(MatrixStack matrices, float textureWidth, float textureHeight, float z,
+    public static void drawTextureQuadrilateral(MatrixStack matrices, float textureWidth, float textureHeight, float z,
                                          float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3,
                                          float u0, float v0, float u1, float v1, float u2, float v2, float u3, float v3) {
         u0 /= textureWidth; v0 /= textureHeight;
@@ -324,5 +354,14 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
     public void setTexture(Identifier id) {
         assert this.client != null;
         this.client.getTextureManager().bindTexture(id);
+    }
+
+    public void updateDisplayedEntity() {
+        NbtCompound nbt = this.handler.entity.writeNbt(new NbtCompound());
+        nbt.remove("Dimension");
+        nbt.remove("Rotation");
+        nbt.remove("CustomName");
+        nbt.remove("CustomNameVisible");
+        this.displayedEntity.readNbt(nbt);
     }
 }

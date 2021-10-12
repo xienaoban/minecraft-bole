@@ -17,7 +17,7 @@ public class Bole{#0}Screen extends AbstractBoleScreen<{#0}, Bole{#0}ScreenHandl
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         super.drawBackground(matrices, delta, mouseX, mouseY);
-        drawLivingEntityPlan(this.handler.entity, mouseX, mouseY);
+        drawEntityPlan(mouseX, mouseY);
     }
 }
 '''

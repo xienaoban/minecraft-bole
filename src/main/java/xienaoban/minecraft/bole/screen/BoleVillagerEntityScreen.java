@@ -16,6 +16,6 @@ public class BoleVillagerEntityScreen extends AbstractBoleScreen<VillagerEntity,
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         super.drawBackground(matrices, delta, mouseX, mouseY);
-        drawLivingEntityPlan(this.handler.entity, mouseX, mouseY);
+        drawPlanEntity(mouseX, mouseY);
     }
 }
