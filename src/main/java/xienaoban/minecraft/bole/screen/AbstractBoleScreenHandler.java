@@ -12,21 +12,17 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     protected final PlayerEntity player;
     protected final E entity;
 
-    public AbstractBoleScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId,
-                                     PlayerInventory playerInventory) {
-        this(type, syncId, playerInventory, BoleClient.boleTarget);
-    }
-
     @SuppressWarnings("unchecked")
     public AbstractBoleScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId,
                                       PlayerInventory playerInventor, Entity entity) {
         super(type, syncId);
         this.player = playerInventor.player;
         this.entity = (E) entity;
-        this.init();
     }
 
-    protected abstract void init();
+    protected static Entity clientEntity() {
+        return BoleClient.boleTarget;
+    }
 
     @Override
     public boolean canUse(PlayerEntity player) {

@@ -9,20 +9,24 @@ import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleLivingEntityScreenHandler extends AbstractBoleScreenHandler<LivingEntity> {
-    public static final ScreenHandlerType<BoleLivingEntityScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
+public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleEntityScreenHandler<E> {
+    public static final ScreenHandlerType<BoleLivingEntityScreenHandler<LivingEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "living_entity"), BoleLivingEntityScreenHandler::new);
 
     public BoleLivingEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
-        super(HANDLER, syncId, playerInventory);
+        this(HANDLER, syncId, playerInventory);
     }
 
-    public BoleLivingEntityScreenHandler(int syncId, PlayerInventory playerInventor, Entity entity) {
-        super(HANDLER, syncId, playerInventor, entity);
+    public BoleLivingEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
+        this(HANDLER, syncId, playerInventory, entity);
     }
 
-    @Override
-    protected void init() {
+    public BoleLivingEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
+        this(handler, syncId, playerInventory, clientEntity());
+    }
+
+    public BoleLivingEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
+        super(handler, syncId, playerInventory, entity);
         Bole.LOGGER.info("name: " + this.entity.getEntityName());
         Bole.LOGGER.info("name: " + this.entity.getCustomName());
         Bole.LOGGER.info("box: " + this.entity.getBoundingBox().getXLength() + ", " + this.entity.getBoundingBox().getYLength() + ", " + this.entity.getBoundingBox().getZLength());

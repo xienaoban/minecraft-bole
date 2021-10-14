@@ -12,21 +12,24 @@ import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleVillagerEntityScreenHandler extends AbstractBoleScreenHandler<VillagerEntity> {
-    public static final ScreenHandlerType<BoleVillagerEntityScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
+public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends BoleLivingEntityScreenHandler<E> {
+    public static final ScreenHandlerType<BoleVillagerEntityScreenHandler<VillagerEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "villager_entity"), BoleVillagerEntityScreenHandler::new);
 
     public BoleVillagerEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
-        super(HANDLER, syncId, playerInventory);
+        this(HANDLER, syncId, playerInventory);
     }
 
-    public BoleVillagerEntityScreenHandler(int syncId, PlayerInventory playerInventor, Entity entity) {
-        super(HANDLER, syncId, playerInventor, entity);
+    public BoleVillagerEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
+        this(HANDLER, syncId, playerInventory, entity);
     }
 
-    @Override
-    protected void init() {
-        PlayerInventory playerInventory = this.player.inventory;
+    public BoleVillagerEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
+        this(handler, syncId, playerInventory, clientEntity());
+    }
+
+    public BoleVillagerEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
+        super(handler, syncId, playerInventory, entity);
         ItemStack stack = new ItemStack(Items.EMERALD, 4);
         int ccc = 0;
         for(int i = playerInventory.size() - 1; i >= 0; --i) {

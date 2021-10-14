@@ -38,8 +38,8 @@ public class Bole{#0}ScreenHandler extends AbstractBoleScreenHandler<{#0}> {
         super(HANDLER, syncId, playerInventory);
     }
 
-    public Bole{#0}ScreenHandler(int syncId, PlayerInventory playerInventor, Entity entity) {
-        super(HANDLER, syncId, playerInventor, entity);
+    public Bole{#0}ScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
+        super(HANDLER, syncId, playerInventory, entity);
     }
 
     @Override

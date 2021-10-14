@@ -20,28 +20,33 @@ import net.minecraft.util.math.Vec3f;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 
 @Environment(EnvType.CLIENT)
-public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBoleScreenHandler<E>> extends HandledScreen<T> {
+public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBoleScreenHandler<E>> extends HandledScreen<H> {
     private static final Identifier BOOK_TEXTURE = new Identifier("textures/gui/book.png");
     private static final int BOOK_TEXTURE_CUT = 29;
 
     protected final int bodyWidth, bodyHeight;
     protected int bodyLeft, bodyRight, bodyTop, bodyBottom;
+
     protected final int contentWidth, contentHeight, contentSpacingWidth;
     protected int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
+
     protected int plan;
     protected int planEntityLeft, planEntityRight, planEntityTop, planEntityBottom;
     protected E displayedEntity;
 
-    public AbstractBoleScreen(T handler, PlayerInventory inventory, Text title) {
+    protected boolean debugMode;
+
+    public AbstractBoleScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.bodyWidth = (192 - BOOK_TEXTURE_CUT) * 2;
         this.bodyHeight = 192;
         this.contentWidth = 110;
-        this.contentHeight = 140;
+        this.contentHeight = 130;
         this.contentSpacingWidth = 20;
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
+        this.debugMode = false;
     }
 
     @Override
@@ -65,21 +70,21 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
         this.contentRight[0] = this.contentLeft[0] + this.contentWidth;
         this.contentLeft[1] = (this.width + this.contentSpacingWidth) / 2;
         this.contentRight[1] = this.contentLeft[1] + this.contentWidth;
-        this.contentTop = this.bodyTop + 15;
+        this.contentTop = this.bodyTop + 25;
         this.contentBottom = this.contentTop + this.contentHeight;
         this.plan = this.calEntityDisplayRegion();
         this.displayedEntity = (E) this.handler.entity.getType().create(this.client.world);
         this.updateDisplayedEntity();
     }
 
-    private int calEntityDisplayRegion() {
+    protected int calEntityDisplayRegion() {
         if (this.handler.entity == null) return 0;
         Box box = this.handler.entity.getVisibilityBoundingBox();
         double x = box.getXLength(), y = box.getYLength();
         double area = x * y, ratio = y / x;
         int plan;
         if (ratio > 2.5) plan = 4;
-        else if (ratio < 1 / 2.5) {
+        else if (ratio < 1 / 2.2) {
             if (area < 0.4) plan = 1;
             else plan = 3;
         }
@@ -89,28 +94,28 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
         }
         switch (plan) {
             case 1:
-                this.planEntityLeft = this.contentRight[0] - contentWidth / 2;
-                this.planEntityTop = this.contentTop + 10;
-                this.planEntityRight = this.contentRight[0];
-                this.planEntityBottom = this.planEntityTop + this.contentHeight / 3;
+                this.planEntityLeft = this.contentWidth >> 1 ;
+                this.planEntityTop = 0;
+                this.planEntityRight = this.contentWidth;
+                this.planEntityBottom = this.contentHeight / 3;
                 break;
             case 2:
-                this.planEntityLeft = this.contentLeft[0];
-                this.planEntityTop = this.contentTop + 10;
-                this.planEntityRight = this.contentRight[0] - contentWidth / 2;
-                this.planEntityBottom = this.planEntityTop + (int) (this.contentHeight / 2.2);
+                this.planEntityLeft = 0;
+                this.planEntityTop = 0;
+                this.planEntityRight = this.contentWidth >> 1;
+                this.planEntityBottom = (int) (this.contentHeight * 0.45F);
                 break;
             case 3:
-                this.planEntityLeft = this.contentLeft[0] + 25;
-                this.planEntityTop = this.contentTop + 50;
-                this.planEntityRight = this.contentRight[0] - 25;
+                this.planEntityLeft = 25;
+                this.planEntityTop = 40;
+                this.planEntityRight = this.contentWidth - 25;
                 this.planEntityBottom = this.planEntityTop + (int) (this.contentHeight * 0.2F);
                 break;
             case 4:
-                this.planEntityLeft = this.contentLeft[0] + 5;
-                this.planEntityTop = this.contentTop + 10;
-                this.planEntityRight = this.contentLeft[0] + (int) (contentWidth * 0.3F);
-                this.planEntityBottom = this.planEntityTop + (int) (this.contentHeight * 0.75F);
+                this.planEntityLeft = 5;
+                this.planEntityTop = 0;
+                this.planEntityRight = (int) (contentWidth * 0.3F);
+                this.planEntityBottom = (int) (this.contentHeight * 0.75F);
                 break;
             default: break;
         }
@@ -128,27 +133,40 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
                 x0, y0, this.width >> 1, y1, u0, v0, u1, v1);
         drawTextureNormally(matrices, 256, 256, this.getZOffset(),
                 this.width >> 1, y0, x1, y1, u0, v0, u1, v1);
-        if (mouseX < 5 && mouseY < 5) {
-            drawRegionDebug(matrices);
+        this.debugMode = mouseX < 5 && mouseY < 5;
+        if (this.debugMode) {
+            final float r = 0.3F;
+            final int c = 0x66dd001b;
+            drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentTop, this.contentRight[0], this.contentBottom);
+            drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentTop, this.contentRight[1], this.contentBottom);
         }
-        this.textRenderer.drawWithShadow(matrices, this.title, this.contentLeft[0], this.contentTop, 0xff666666);
+        this.textRenderer.drawWithShadow(matrices, this.title, this.contentLeft[0], this.contentTop - 10, 0xff666666);
+        RenderSystem.translatef(this.contentLeft[0], this.contentTop, 0.0F);
+        drawLeftContent(matrices, delta, mouseX, mouseY);
+        RenderSystem.translatef(this.contentLeft[1] - this.contentLeft[0], 0, 0.0F);
+        drawRightContent(matrices, delta, mouseX, mouseY);
+        RenderSystem.translatef(-this.contentLeft[1], 0, 0.0F);
     }
+
+    /**
+     * Draw the content of the left page.
+     */
+    protected abstract void drawLeftContent(MatrixStack matrices, float delta, int mouseX, int mouseY);
+
+    /**
+     * Draw the content of the right page.
+     */
+    protected abstract void drawRightContent(MatrixStack matrices, float delta, int mouseX, int mouseY);
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {}
 
-    private void drawRegionDebug(MatrixStack matrices) {
-        final float r = 0.3F;
-        int c = 0x66dd001b;
-        drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentTop, this.contentRight[0], this.contentBottom);
-        drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentTop, this.contentRight[1], this.contentBottom);
-        c = 0x66287bde;
-        drawRectangle(matrices, c, r, getZOffset(), this.planEntityLeft, this.planEntityTop, this.planEntityRight, this.planEntityBottom);
-    }
-
-    protected void drawPlanEntity(int mouseX, int mouseY) {
+    protected void drawPlanEntity(MatrixStack matrices, int mouseX, int mouseY) {
+        if (this.debugMode) {
+            drawRectangle(matrices, 0x66287bde, 0.3F, getZOffset(), this.planEntityLeft, this.planEntityTop, this.planEntityRight, this.planEntityBottom);
+        }
         drawEntityAuto(this.displayedEntity, this.planEntityLeft, this.planEntityTop, this.planEntityRight, this.planEntityBottom,
-                (mouseX) / -33.0F, mouseY / -55.0F - 10);
+                (mouseX) / 33.0F + 0.0001F, (mouseY) / 53.0F + 5.0F);
     }
 
     public static void drawEntityAuto(Entity entity, int x0, int y0, int x1, int y1, float mouseX, float mouseY) {
@@ -176,20 +194,26 @@ public abstract class AbstractBoleScreen<E extends Entity, T extends AbstractBol
     }
 
     /**
+     * Draw an entity.
+     * This method is similar to InventoryScreen.drawEntity(), but there are some differences:
+     * 1. It can draw any Entity, not only LivingEntity.
+     * 2. The entity it renders is brighter (but it brings some bugs...).
+     * 3. It can't recognize the yaw of LivingEntity, so don’t use it to render a rotating LivingEntity.
      * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
      */
     public static void drawEntity(Entity entity, int x, int y, int size, float mouseX, float mouseY) {
         float f = (float)Math.atan(mouseX / 40.0F);
         float g = (float)Math.atan(mouseY / 40.0F);
+        float fSize = -size;
         RenderSystem.pushMatrix();
         RenderSystem.translatef((float)x, (float)y, 1050.0F);
         RenderSystem.scalef(1.0F, 1.0F, -1.0F);
         MatrixStack matrixStack = new MatrixStack();
         matrixStack.translate(0.0D, 0.0D, 1000.0D);
-        matrixStack.scale((float)size, (float)size, (float)size);
-        Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
+        matrixStack.scale(fSize, fSize, fSize);
+        Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(0.0F);
         Quaternion quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(g * 20.0F);
-        Quaternion quaternion3 = Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.getYaw(0.0F) + 180 - f * 40.0F);
+        Quaternion quaternion3 = Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.getYaw(0.0F) - f * 40.0F);
         quaternion.hamiltonProduct(quaternion2);
         quaternion.hamiltonProduct(quaternion3);
         matrixStack.multiply(quaternion);
