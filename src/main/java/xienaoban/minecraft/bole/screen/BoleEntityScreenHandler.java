@@ -26,4 +26,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     public BoleEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
     }
+
+    @Override
+    protected void initCustom() {}
 }

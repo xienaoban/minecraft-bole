@@ -3,5 +3,7 @@
   "key.category.xienaoban.bole": "伯乐",
   "key.xienaoban.bole.open_bole_gui": "打开伯乐界面",
   "title.xienaoban.bole.bole_handbook": "伯乐手册",
-  "xienaoban.bole.unsupported_entity": "不支持的实体"
+  "text.xienaoban.bole.unsupported_entity": "不支持的实体",
+  "text.xienaoban.bole.bounding_box": "碰撞箱",
+  "text.xienaoban.bole.entity_uuid": "UUID"
 }

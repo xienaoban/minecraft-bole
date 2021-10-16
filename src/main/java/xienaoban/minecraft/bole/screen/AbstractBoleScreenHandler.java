@@ -18,7 +18,10 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         super(type, syncId);
         this.player = playerInventor.player;
         this.entity = (E) entity;
+        initCustom();
     }
+
+    protected abstract void initCustom();
 
     protected static Entity clientEntity() {
         return BoleClient.boleTarget;

@@ -14,6 +14,9 @@ public class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookS
     }
 
     @Override
+    protected void initCustom() {}
+
+    @Override
     protected void drawLeftContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
 
     }

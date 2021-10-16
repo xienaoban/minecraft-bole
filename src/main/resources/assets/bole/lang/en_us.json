@@ -3,5 +3,7 @@
   "key.category.xienaoban.bole": "Bole",
   "key.xienaoban.bole.open_bole_gui": "Open Bole GUI",
   "title.xienaoban.bole.bole_handbook": "Bole Handbook",
-  "xienaoban.bole.unsupported_entity": "Unsupported entity"
+  "text.xienaoban.bole.unsupported_entity": "Unsupported entity",
+  "text.xienaoban.bole.bounding_box": "Box",
+  "text.xienaoban.bole.entity_uuid": "UUID"
 }

@@ -17,108 +17,129 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
+import org.lwjgl.glfw.GLFW;
+import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
+import xienaoban.minecraft.bole.util.Textures;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBoleScreenHandler<E>> extends HandledScreen<H> {
-    private static final Identifier BOOK_TEXTURE = new Identifier("textures/gui/book.png");
     private static final int BOOK_TEXTURE_CUT = 29;
 
-    protected final int bodyWidth, bodyHeight;
-    protected int bodyLeft, bodyRight, bodyTop, bodyBottom;
+    public static final int BODY_WIDTH = (192 - BOOK_TEXTURE_CUT) * 2;
+    public static final int BODY_HEIGHT = 192;
+    public static final int CONTENT_WIDTH = 110;
+    public static final int CONTENT_HEIGHT = 130;
+    public static final int CONTENT_SPACING_WIDTH = 20;
 
-    protected final int contentWidth, contentHeight, contentSpacingWidth;
+    protected int bodyLeft, bodyRight, bodyTop, bodyBottom;
     protected int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
 
     protected int plan;
     protected int planEntityLeft, planEntityRight, planEntityTop, planEntityBottom;
     protected E displayedEntity;
+    protected ContentWidgets widgetsWithEntity;
+
+    protected int CONTENT_TEXT_COLOR = 0xd0484848;
 
     protected boolean debugMode;
 
+    @SuppressWarnings("unchecked")
     public AbstractBoleScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
-        this.bodyWidth = (192 - BOOK_TEXTURE_CUT) * 2;
-        this.bodyHeight = 192;
-        this.contentWidth = 110;
-        this.contentHeight = 130;
-        this.contentSpacingWidth = 20;
+        this.debugMode = false;
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
-        this.debugMode = false;
+        if (this.handler.entity != null) {
+            this.displayedEntity = (E) this.handler.entity.getType().create(MinecraftClient.getInstance().world);
+            this.updateDisplayedEntity();
+            this.widgetsWithEntity = new ContentWidgets();
+            this.plan = this.calEntityDisplayRegion();
+        }
+        initCustom();
     }
+
+    protected abstract void initCustom();
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (KeyBindingManager.KEY_BOLE_SCREEN.matchesKey(keyCode, scanCode)) {
-            this.onClose();
+            onClose();
+            return true;
+        }
+        if (keyCode == GLFW.GLFW_KEY_DELETE) {
+            this.debugMode = !this.debugMode;
             return true;
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected void init() {
         super.init();
-        this.bodyLeft = (this.width - this.bodyWidth) / 2;
-        this.bodyRight = this.bodyLeft + this.bodyWidth;
-        this.bodyTop = this.height / 2 - this.bodyHeight / 2 + 10;
-        this.bodyBottom = this.bodyTop + this.bodyHeight;
-        this.contentLeft[0] = (this.width - this.contentSpacingWidth) / 2 - this.contentWidth;
-        this.contentRight[0] = this.contentLeft[0] + this.contentWidth;
-        this.contentLeft[1] = (this.width + this.contentSpacingWidth) / 2;
-        this.contentRight[1] = this.contentLeft[1] + this.contentWidth;
+        this.bodyLeft = (this.width - BODY_WIDTH) / 2;
+        this.bodyRight = this.bodyLeft + BODY_WIDTH;
+        this.bodyTop = this.height / 2 - BODY_HEIGHT / 2 + 10;
+        this.bodyBottom = this.bodyTop + BODY_HEIGHT;
+        this.contentLeft[0] = (this.width - CONTENT_SPACING_WIDTH) / 2 - CONTENT_WIDTH;
+        this.contentRight[0] = this.contentLeft[0] + CONTENT_WIDTH;
+        this.contentLeft[1] = (this.width + CONTENT_SPACING_WIDTH) / 2;
+        this.contentRight[1] = this.contentLeft[1] + CONTENT_WIDTH;
         this.contentTop = this.bodyTop + 25;
-        this.contentBottom = this.contentTop + this.contentHeight;
-        this.plan = this.calEntityDisplayRegion();
-        this.displayedEntity = (E) this.handler.entity.getType().create(this.client.world);
-        this.updateDisplayedEntity();
+        this.contentBottom = this.contentTop + CONTENT_HEIGHT;
     }
 
     protected int calEntityDisplayRegion() {
-        if (this.handler.entity == null) return 0;
         Box box = this.handler.entity.getVisibilityBoundingBox();
         double x = box.getXLength(), y = box.getYLength();
         double area = x * y, ratio = y / x;
         int plan;
-        if (ratio > 2.5) plan = 4;
+        if (ratio > 2.5) plan = 4;      // tall
         else if (ratio < 1 / 2.2) {
-            if (area < 0.4) plan = 1;
-            else plan = 3;
+            if (area < 0.4) plan = 1;   // small
+            else plan = 3;              // flat
         }
         else {
-            if (area < 0.5) plan = 1;
-            else plan = 2;
+            if (area < 0.5) plan = 1;   // small
+            else plan = 2;              // median
         }
         switch (plan) {
             case 1:
-                this.planEntityLeft = this.contentWidth >> 1 ;
+                this.planEntityLeft = CONTENT_WIDTH >> 1 ;
                 this.planEntityTop = 0;
-                this.planEntityRight = this.contentWidth;
-                this.planEntityBottom = this.contentHeight / 3;
+                this.planEntityRight = CONTENT_WIDTH;
+                this.planEntityBottom = CONTENT_HEIGHT / 3;
                 break;
             case 2:
                 this.planEntityLeft = 0;
                 this.planEntityTop = 0;
-                this.planEntityRight = this.contentWidth >> 1;
-                this.planEntityBottom = (int) (this.contentHeight * 0.45F);
+                this.planEntityRight = CONTENT_WIDTH >> 1;
+                this.planEntityBottom = (int) (CONTENT_HEIGHT * 0.45F);
                 break;
             case 3:
                 this.planEntityLeft = 25;
-                this.planEntityTop = 40;
-                this.planEntityRight = this.contentWidth - 25;
-                this.planEntityBottom = this.planEntityTop + (int) (this.contentHeight * 0.2F);
+                this.planEntityTop = 42;
+                this.planEntityRight = CONTENT_WIDTH - 25;
+                this.planEntityBottom = this.planEntityTop + (int) (CONTENT_HEIGHT * 0.2F);
                 break;
             case 4:
                 this.planEntityLeft = 5;
                 this.planEntityTop = 0;
-                this.planEntityRight = (int) (contentWidth * 0.3F);
-                this.planEntityBottom = (int) (this.contentHeight * 0.75F);
+                this.planEntityRight = (int) (CONTENT_WIDTH * 0.3F);
+                this.planEntityBottom = (int) (CONTENT_HEIGHT * 0.73F);
                 break;
             default: break;
         }
+        final int ww = ContentWidgets.CONTENT_WIDGET_WIDTH + (ContentWidgets.CONTENT_WIDGET_MARGIN_WIDTH >> 1);
+        final int hh = ContentWidgets.CONTENT_WIDGET_HEIGHT + ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT;
+        this.widgetsWithEntity.setSlot(new EmptyContentWidget(
+                (this.planEntityBottom - this.planEntityTop) / hh + 1,
+                (this.planEntityRight - this.planEntityLeft) > ww ? 2 : 1),
+                this.planEntityTop / hh, this.planEntityLeft / ww);
         return plan;
     }
 
@@ -126,26 +147,26 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         this.renderBackground(matrices);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        setTexture(BOOK_TEXTURE);
+        setTexture(Textures.BOOK);
         int x0 = this.bodyLeft, x1 = this.bodyRight, y0 = this.bodyTop, y1 = this.bodyBottom;
-        int u0 = BOOK_TEXTURE_CUT, u1 = u0 + this.bodyWidth / 2, v0 = 0, v1 = v0 + this.bodyHeight;
+        int u0 = BOOK_TEXTURE_CUT, u1 = u0 + BODY_WIDTH / 2, v0 = 0, v1 = v0 + BODY_HEIGHT;
         drawTextureFlippedHorizontally(matrices, 256, 256, this.getZOffset(),
                 x0, y0, this.width >> 1, y1, u0, v0, u1, v1);
         drawTextureNormally(matrices, 256, 256, this.getZOffset(),
                 this.width >> 1, y0, x1, y1, u0, v0, u1, v1);
-        this.debugMode = mouseX < 5 && mouseY < 5;
         if (this.debugMode) {
             final float r = 0.3F;
             final int c = 0x66dd001b;
             drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentTop, this.contentRight[0], this.contentBottom);
             drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentTop, this.contentRight[1], this.contentBottom);
         }
-        this.textRenderer.drawWithShadow(matrices, this.title, this.contentLeft[0], this.contentTop - 10, 0xff666666);
+        this.textRenderer.draw(matrices, this.title, this.contentLeft[0] + 0.7F, this.contentTop - 12 + 0.7F, 0x99888888);
+        this.textRenderer.draw(matrices, this.title, this.contentLeft[0], this.contentTop - 12, 0xff444444);
         RenderSystem.translatef(this.contentLeft[0], this.contentTop, 0.0F);
         drawLeftContent(matrices, delta, mouseX, mouseY);
         RenderSystem.translatef(this.contentLeft[1] - this.contentLeft[0], 0, 0.0F);
         drawRightContent(matrices, delta, mouseX, mouseY);
-        RenderSystem.translatef(-this.contentLeft[1], 0, 0.0F);
+        RenderSystem.translatef(-this.contentLeft[1], -this.contentTop, 0.0F);
     }
 
     /**
@@ -167,6 +188,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
         drawEntityAuto(this.displayedEntity, this.planEntityLeft, this.planEntityTop, this.planEntityRight, this.planEntityBottom,
                 (mouseX) / 33.0F + 0.0001F, (mouseY) / 53.0F + 5.0F);
+    }
+
+    protected void drawPlanWidgets(MatrixStack matrices, int mouseX, int mouseY) {
+        this.widgetsWithEntity.draw(matrices, mouseX, mouseY);
     }
 
     public static void drawEntityAuto(Entity entity, int x0, int y0, int x1, int y1, float mouseX, float mouseY) {
@@ -226,6 +251,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         immediate.draw();
         entityRenderDispatcher.setRenderShadows(true);
         RenderSystem.popMatrix();
+    }
+
+    public static void drawRectangle(MatrixStack matrices, int color, float z, float x0, float y0, float x1, float y1) {
+        drawQuadrilateral(matrices, color, z, x0, y0, x1, y0, x0, y1, x1, y1);
     }
 
     public static void drawRectangle(MatrixStack matrices, int color, float radius, float z, float x0, float y0, float x1, float y1) {
@@ -386,6 +415,143 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         nbt.remove("Rotation");
         nbt.remove("CustomName");
         nbt.remove("CustomNameVisible");
-        this.displayedEntity.readNbt(nbt);
+        nbt.remove("AngryAt");
+        try {
+            this.displayedEntity.readNbt(nbt);
+        }
+        catch (Exception e) {
+            Bole.LOGGER.warn(e);
+        }
+    }
+
+    public class ContentWidgets {
+        public static final int CONTENT_WIDGET_MARGIN_WIDTH = 4;
+        public static final int CONTENT_WIDGET_MARGIN_HEIGHT = 3;
+        public static final int CONTENT_WIDGET_WIDTH = (CONTENT_WIDTH - CONTENT_WIDGET_MARGIN_WIDTH >> 1);
+        public static final int CONTENT_WIDGET_HEIGHT = 10;
+        private static final int ROWS = CONTENT_HEIGHT / (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT);
+        private static final int COLS = 2;
+        private final List<List<AbstractContentWidget>> widgets;
+
+        public ContentWidgets() {
+            List<List<AbstractContentWidget>> l1 = new ArrayList<>();
+            for (int i = ROWS; i > 0; --i) {
+                List<AbstractContentWidget> l2 = new ArrayList<>();
+                for (int j = 0; j < COLS; ++j) {
+                    l2.add(null);
+                }
+                l1.add(l2);
+            }
+            this.widgets = l1;
+        }
+
+        public void draw(MatrixStack matrices, int mouseX, int mouseY) {
+            for (int i = 0; i < ROWS; ++i) {
+                for (int j = 0; j < COLS; ++j) {
+                    AbstractContentWidget w = this.widgets.get(i).get(j);
+                    if (w != null) {
+                        w.draw(matrices,
+                                j * (CONTENT_WIDGET_WIDTH + CONTENT_WIDGET_MARGIN_WIDTH),
+                                i * (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT),
+                                mouseX, mouseY);
+                    }
+                }
+            }
+        }
+
+        public boolean setSlot(AbstractContentWidget widget, int row, int col) {
+            if (row + widget.getRowSlots() > ROWS || col + widget.getColSlots() > COLS) {
+                Bole.LOGGER.error("Widget cannot be set here! " + widget.getRowSlots() + ", " + widget.getColSlots() + ", " + row + ", " + col);
+                return false;
+            }
+            EmptyContentWidget empty = new EmptyContentWidget(1, 1, widget);
+            for (int i = 0; i < widget.getRowSlots(); ++i) {
+                for (int j = 0; j < widget.getColSlots(); ++j) {
+                    this.widgets.get(row + i).set(col + j, empty);
+                }
+            }
+            this.widgets.get(row).set(col, widget);
+            return true;
+        }
+
+        public boolean addSlot(AbstractContentWidget widget) {
+            for (int i = 0; i < ROWS; ++i) {
+                if (i + widget.getRowSlots() > ROWS) break;
+                BAD:
+                for (int j = 0; j < COLS; ++j) {
+                    if (j + widget.getColSlots() > COLS) break;
+                    for (int p = 0; p < widget.getRowSlots(); ++p) {
+                        for (int q = 0; q < widget.getColSlots(); ++q) {
+                            if (this.widgets.get(i + p).get(j + q) != null) {
+                                continue BAD;
+                            }
+                        }
+                    }
+                    return setSlot(widget, i, j);
+                }
+            }
+            Bole.LOGGER.error("Widget cannot be added here!");
+            return false;
+        }
+    }
+
+    public abstract class AbstractContentWidget {
+        protected final int rowSlots, colSlots;
+        protected final int widgetWidth, widgetHeight;
+
+        public AbstractContentWidget(int rowSlots, int colSlots) {
+            if (colSlots != 1 && colSlots != 2) {
+                throw new RuntimeException("`colSlots` should be 1 or 2.");
+            }
+            this.rowSlots = rowSlots;
+            this.colSlots = colSlots;
+            this.widgetWidth = colSlots == 1 ? ContentWidgets.CONTENT_WIDGET_WIDTH : CONTENT_WIDTH;
+            this.widgetHeight = rowSlots * (ContentWidgets.CONTENT_WIDGET_HEIGHT + ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT) - ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT;
+        }
+
+        public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            if (debugMode) {
+                drawRectangle(matrices, 0x66c55c2d, 0.3F, 0, x, y, x + widgetWidth, y + widgetHeight);
+            }
+            drawContent(matrices, x, y, mouseX, mouseY);
+        }
+
+        protected abstract void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY);
+
+        public final int getRowSlots() {
+            return this.rowSlots;
+        }
+
+        public final int getColSlots() {
+            return this.colSlots;
+        }
+    }
+
+    public class EmptyContentWidget extends AbstractContentWidget {
+        private final AbstractContentWidget father;
+
+        public EmptyContentWidget(int rowSlots, int colSlots) {
+            super(rowSlots, colSlots);
+            this.father = null;
+        }
+
+        public EmptyContentWidget(int widthSlots, int heightSlots, AbstractContentWidget father) {
+            super(widthSlots, heightSlots);
+            this.father = father;
+        }
+
+        @Override
+        public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            if (debugMode && this.father == null) {
+                drawRectangle(matrices, 0x66c55c2d, 0.3F, getZOffset(), x, y, x + widgetWidth, y + widgetHeight);
+            }
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {}
+
+        public AbstractContentWidget getFather() {
+            return this.father;
+        }
     }
 }

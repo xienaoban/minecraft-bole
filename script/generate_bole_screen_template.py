@@ -9,15 +9,26 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 
 @Environment(EnvType.CLIENT)
-public class Bole{#0}Screen extends AbstractBoleScreen<{#0}, Bole{#0}ScreenHandler> {
-    public Bole{#0}Screen(Bole{#0}ScreenHandler handler, PlayerInventory inventory, Text title) {
+public class Bole{#0}Screen<E extends {#0}, H extends Bole{#0}ScreenHandler<E>> extends AbstractBoleScreen<E, H> {
+    public Bole{#0}Screen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+        // code here
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        super.drawBackground(matrices, delta, mouseX, mouseY);
-        drawEntityPlan(mouseX, mouseY);
+    protected void initCustom() {
+        // code here
+    }
+
+    @Override
+    protected void drawLeftContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+        drawPlanEntity(matrices, mouseX, mouseY);
+        // code here
+    }
+
+    @Override
+    protected void drawRightContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+        // code here
     }
 }
 '''
@@ -30,23 +41,34 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class Bole{#0}ScreenHandler extends AbstractBoleScreenHandler<{#0}> {
-    public static final ScreenHandlerType<Bole{#0}ScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
+public class Bole{#0}ScreenHandler<E extends {#0}> extends AbstractBoleScreenHandler<E> {
+    public static final ScreenHandlerType<Bole{#0}ScreenHandler<{#0}>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "{#1}"), Bole{#0}ScreenHandler::new);
 
     public Bole{#0}ScreenHandler(int syncId, PlayerInventory playerInventory) {
-        super(HANDLER, syncId, playerInventory);
+        this(HANDLER, syncId, playerInventory);
     }
 
     public Bole{#0}ScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
-        super(HANDLER, syncId, playerInventory, entity);
+        this(HANDLER, syncId, playerInventory, entity);
+    }
+
+    public Bole{#0}ScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
+        this(handler, syncId, playerInventory, clientEntity());
+    }
+
+    public Bole{#0}ScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
+        super(handler, syncId, playerInventory, entity);
+        // code here
     }
 
     @Override
-    protected void init() {}
+    protected void initCustom() {
+        // code here
+    }
 }
 '''
-bole_screen_register_template = 'ScreenRegistry.register(Bole{#0}ScreenHandler.HANDLER, Bole{#0}Screen::new);'
+bole_screen_register_template = 'ScreenRegistry.register(Bole{#0}ScreenHandler.HANDLER, Bole{#0}Screen<{#0}, Bole{#0}ScreenHandler<{#0}>>::new);'
 bole_screen_name_template = 'Bole{#0}Screen'
 bole_screen_handler_name_template = 'Bole{#0}ScreenHandler'
 key1 = '{#0}'

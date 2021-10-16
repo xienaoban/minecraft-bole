@@ -14,4 +14,7 @@ public class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<Entity>
     public BoleHandbookScreenHandler(int syncId, PlayerInventory playerInventory) {
         super(HANDLER, syncId, playerInventory, null);
     }
+
+    @Override
+    protected void initCustom() {}
 }
