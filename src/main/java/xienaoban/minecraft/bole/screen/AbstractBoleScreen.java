@@ -160,8 +160,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentTop, this.contentRight[0], this.contentBottom);
             drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentTop, this.contentRight[1], this.contentBottom);
         }
-        this.textRenderer.draw(matrices, this.title, this.contentLeft[0] + 0.7F, this.contentTop - 12 + 0.7F, 0x99888888);
-        this.textRenderer.draw(matrices, this.title, this.contentLeft[0], this.contentTop - 12, 0xff444444);
+        drawText(matrices, this.title, 0x99888888, this.contentLeft[0] + 0.7F, this.contentTop - 12 + 0.7F);
+        drawText(matrices, this.title, 0xff444444, this.contentLeft[0], this.contentTop - 12);
         RenderSystem.translatef(this.contentLeft[0], this.contentTop, 0.0F);
         drawLeftContent(matrices, delta, mouseX, mouseY);
         RenderSystem.translatef(this.contentLeft[1] - this.contentLeft[0], 0, 0.0F);
@@ -205,17 +205,17 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
         int rw = x1 - x0, rh = y1 - y0;
         int size = (int) (Math.min(rw / ew, rh / eh) * 0.85);
-        drawEntity(entity, x0 + x1 >> 1, y1, size, mouseX, mouseY);
+        drawEntity(entity, size, x0 + x1 >> 1, y1, mouseX, mouseY);
     }
 
-    public static void drawEntityByWidth(Entity entity, int x, int y, int width, float mouseX, float mouseY) {
+    public static void drawEntityByWidth(Entity entity, int width, int x, int y, float mouseX, float mouseY) {
         Box box = entity.getVisibilityBoundingBox();
-        drawEntity(entity, x, y, (int) (width / box.getXLength()), mouseX, mouseY);
+        drawEntity(entity, (int) (width / box.getXLength()), x, y, mouseX, mouseY);
     }
 
-    public static void drawEntityByHeight(Entity entity, int x, int y, int height, float mouseX, float mouseY) {
+    public static void drawEntityByHeight(Entity entity, int height, int x, int y, float mouseX, float mouseY) {
         Box box = entity.getVisibilityBoundingBox();
-        drawEntity(entity, x, y, (int) (height / box.getYLength()), mouseX, mouseY);
+        drawEntity(entity, (int) (height / box.getYLength()), x, y, mouseX, mouseY);
     }
 
     /**
@@ -226,7 +226,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
      * 3. It can't recognize the yaw of LivingEntity, so don’t use it to render a rotating LivingEntity.
      * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
      */
-    public static void drawEntity(Entity entity, int x, int y, int size, float mouseX, float mouseY) {
+    public static void drawEntity(Entity entity, int size, int x, int y, float mouseX, float mouseY) {
         float f = (float)Math.atan(mouseX / 40.0F);
         float g = (float)Math.atan(mouseY / 40.0F);
         float fSize = -size;
@@ -292,6 +292,23 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         BufferRenderer.draw(bufferBuilder);
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
+    }
+
+    /**
+     *
+     * @param matrices the matrix stack used for rendering
+     * @param tw the width of the entire texture
+     * @param th the height of the entire texture
+     * @param w the width of the quadrilateral and the texture region
+     * @param h the height of the quadrilateral and the texture region
+     * @param z the Z coordinate of the quadrilateral
+     * @param x the left-most coordinate of the quadrilateral
+     * @param y the top-most coordinate of the quadrilateral
+     * @param u the left-most coordinate of the texture region
+     * @param v the top-most coordinate of the texture region
+     */
+    public static void drawTextureNormally(MatrixStack matrices, float tw, float th, float w, float h, float z, float x, float y, float u, float v) {
+        drawTextureQuadrilateral(matrices, tw, th, z, x, y, x + w, y, x, y + h, x + w, y + h, u, v, u + w, v, u, v + h, u + w, v + h);
     }
 
     /**
@@ -402,6 +419,28 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         bufferBuilder.end();
         RenderSystem.enableAlphaTest();
         BufferRenderer.draw(bufferBuilder);
+    }
+
+    public void drawText(MatrixStack matrices, String text, int color, float x, float y) {
+        this.textRenderer.draw(matrices, text, x, y, color);
+    }
+
+    public void drawText(MatrixStack matrices, Text text, int color, float x, float y) {
+        this.textRenderer.draw(matrices, text, x, y, color);
+    }
+
+    public void drawText(MatrixStack matrices, String text, int color, float size, float x, float y) {
+        RenderSystem.pushMatrix();
+        RenderSystem.scalef(size, size, size);
+        this.textRenderer.draw(matrices, text, x / size, y / size, color);
+        RenderSystem.popMatrix();
+    }
+
+    public void drawText(MatrixStack matrices, Text text, int color, float size, float x, float y) {
+        RenderSystem.pushMatrix();
+        RenderSystem.scalef(size, size, size);
+        this.textRenderer.draw(matrices, text, x / size, y / size, color);
+        RenderSystem.popMatrix();
     }
 
     public void setTexture(Identifier id) {

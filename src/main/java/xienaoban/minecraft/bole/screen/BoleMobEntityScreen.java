@@ -17,12 +17,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
     protected void initCustom() {
         this.widgetsWithEntity.addSlot(new HealthContentWidget());
         this.widgetsWithEntity.addSlot(new EmptyContentWidget(2, 1));
-        this.widgetsWithEntity.addSlot(new HealthContentWidget());
-        this.widgetsWithEntity.addSlot(new EmptyContentWidget(2, 1));
         this.widgetsWithEntity.addSlot(new EmptyContentWidget(2, 2));
-        this.widgetsWithEntity.addSlot(new EmptyContentWidget(1, 1));
-        this.widgetsWithEntity.addSlot(new EmptyContentWidget(1, 1));
-        this.widgetsWithEntity.addSlot(new EmptyContentWidget(1, 1));
     }
 
     @Override

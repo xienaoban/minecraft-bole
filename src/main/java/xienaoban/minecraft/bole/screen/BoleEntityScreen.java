@@ -24,14 +24,12 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         drawEntityAuto(this.displayedEntity, 26, 8, CONTENT_WIDTH - 26, (CONTENT_HEIGHT >> 1) + 12, mouseX + 0.001F, mouseY + 0.001F);
         Box box = this.handler.entity.getBoundingBox();
         Text boxText = new TranslatableText(Keys.TEXT_BOUNDING_BOX).append(": " + String.format("%.1f", box.getXLength()) + ", " + String.format("%.1f", box.getYLength()) + ", " + String.format("%.1f", box.getZLength()));
-        this.textRenderer.draw(matrices, boxText, CONTENT_WIDTH - this.textRenderer.getWidth(boxText) >> 1, CONTENT_HEIGHT - (CONTENT_HEIGHT >> 2), 0xff444444);
+        drawText(matrices, boxText, 0xff444444, CONTENT_WIDTH - this.textRenderer.getWidth(boxText) >> 1, CONTENT_HEIGHT - (CONTENT_HEIGHT >> 2));
     }
 
     @Override
     protected void drawRightContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         Text unsupported = new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY);
-        this.textRenderer.draw(matrices, unsupported, CONTENT_WIDTH - this.textRenderer.getWidth(unsupported) >> 1, CONTENT_HEIGHT >> 1, 0xaa666666);
+        drawText(matrices, unsupported, 0xaa666666, CONTENT_WIDTH - this.textRenderer.getWidth(unsupported) >> 1, CONTENT_HEIGHT >> 1);
     }
-
-
 }
