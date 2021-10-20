@@ -9,7 +9,7 @@ import net.minecraft.text.Text;
 import xienaoban.minecraft.bole.util.Textures;
 
 @Environment(EnvType.CLIENT)
-public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLivingEntityScreenHandler<E>> extends AbstractBoleScreen<E, H> {
+public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLivingEntityScreenHandler<E>> extends BoleEntityScreen<E, H> {
     public BoleLivingEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }

@@ -98,14 +98,14 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         double x = box.getXLength(), y = box.getYLength();
         double area = x * y, ratio = y / x;
         int plan;
-        if (ratio > 2.5) plan = 4;      // tall
-        else if (ratio < 1 / 2.2) {
-            if (area < 0.4) plan = 1;   // small
-            else plan = 3;              // flat
+        if (ratio < 1 / 2.2) {
+            if (area < 0.4) plan = 1;       // small
+            else plan = 3;                  // flat
         }
         else {
-            if (area < 0.5) plan = 1;   // small
-            else plan = 2;              // median
+            if (area < 0.5) plan = 1;       // small
+            else if (ratio > 2.5) plan = 4; // tall
+            else plan = 2;                  // median
         }
         switch (plan) {
             case 1:

@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import xienaoban.minecraft.bole.util.Keys;
+import xienaoban.minecraft.bole.util.Textures;
 
 @Environment(EnvType.CLIENT)
 public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandler<E>> extends AbstractBoleScreen<E, H> {
@@ -31,5 +32,26 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     protected void drawRightContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         Text unsupported = new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY);
         drawText(matrices, unsupported, 0xaa666666, CONTENT_WIDTH - this.textRenderer.getWidth(unsupported) >> 1, CONTENT_HEIGHT >> 1);
+    }
+
+    public class BoundingBoxContentWidget extends AbstractContentWidget {
+
+        public BoundingBoxContentWidget() {
+            super(1, 1);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            E entity = handler.entity;
+            Box box = entity.getBoundingBox();
+            setTexture(Textures.ICONS);
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 90, 0);
+            if (box.getXLength() == box.getZLength()) {
+                drawText(matrices, String.format("X/Z:%.2f Y:%.2f", box.getXLength(), box.getYLength()), 0xbb000000, 0.5F, x + 12, y + 3);
+            } else {
+                drawText(matrices, String.format("X:%.2f Y:%.2f", box.getXLength(), box.getYLength()), 0xbb000000, 0.5F, x + 12, y + 1);
+                drawText(matrices, String.format("Z:%.2f", box.getZLength()), 0xbb000000, 0.5F, x + 12, y + 5);
+            }
+        }
     }
 }

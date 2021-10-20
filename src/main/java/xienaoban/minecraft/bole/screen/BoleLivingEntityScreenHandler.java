@@ -8,7 +8,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends AbstractBoleScreenHandler<E> {
+public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleEntityScreenHandler<E> {
     public static final ScreenHandlerType<BoleLivingEntityScreenHandler<LivingEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "living_entity"), BoleLivingEntityScreenHandler::new);
 
