@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.screen;
+package xienaoban.minecraft.bole.gui;
 
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;

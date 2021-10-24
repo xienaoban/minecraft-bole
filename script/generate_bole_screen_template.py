@@ -1,6 +1,6 @@
 import re, os
 
-bole_screen_template = '''package xienaoban.minecraft.bole.screen;
+bole_screen_template = '''package xienaoban.minecraft.bole.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -32,7 +32,7 @@ public class Bole{#0}Screen<E extends {#0}, H extends Bole{#0}ScreenHandler<E>> 
     }
 }
 '''
-bole_screen_handler_template = '''package xienaoban.minecraft.bole.screen;
+bole_screen_handler_template = '''package xienaoban.minecraft.bole.gui;
 
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;

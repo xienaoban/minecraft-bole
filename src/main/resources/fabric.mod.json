@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "xienaoban.minecraft.bole.BoleClient"
+      "xienaoban.minecraft.bole.client.BoleClient"
     ],
     "main": [
       "xienaoban.minecraft.bole.Bole"

@@ -1,8 +1,9 @@
-package xienaoban.minecraft.bole.screen;
+package xienaoban.minecraft.bole.gui;
 
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
@@ -17,4 +18,13 @@ public class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<Entity>
 
     @Override
     protected void initCustom() {}
+
+    @Override
+    public void writeServerEntityToBuf(PacketByteBuf buf) {}
+
+    @Override
+    public void readServerEntityFromBuf(PacketByteBuf buf) {}
+
+    @Override
+    public void clientTick(int ticks) {}
 }

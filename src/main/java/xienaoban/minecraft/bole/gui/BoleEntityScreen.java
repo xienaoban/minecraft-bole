@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.screen;
+package xienaoban.minecraft.bole.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -8,9 +8,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
-import xienaoban.minecraft.bole.mixin.MixinEntity;
+import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
-import xienaoban.minecraft.bole.util.Textures;
 
 @Environment(EnvType.CLIENT)
 public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandler<E>> extends AbstractBoleScreen<E, H> {
@@ -65,7 +64,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 100, 0);
-            drawText(matrices, ((MixinEntity)handler.entity).getNetherPortalCooldown() + "ms", CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3);
+            drawText(matrices, (((IMixinEntity)handler.entity).getNetherPortalCooldown() / 20) + "s", CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3);
         }
     }
 }

@@ -4,7 +4,8 @@
   "package": "xienaoban.minecraft.bole.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinEntity"
+    "IMixinEntity",
+    "MixinMinecraftClient"
   ],
   "client": [
   ],

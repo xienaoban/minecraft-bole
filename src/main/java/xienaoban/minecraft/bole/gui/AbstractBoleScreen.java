@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.screen;
+package xienaoban.minecraft.bole.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
@@ -19,8 +19,8 @@ import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
+import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
-import xienaoban.minecraft.bole.util.Textures;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,6 +159,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             final int c = 0x66dd001b;
             drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentTop, this.contentRight[0], this.contentBottom);
             drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentTop, this.contentRight[1], this.contentBottom);
+            drawText(matrices, String.valueOf(BoleClient.getInstance().getTicks()), 0xbbffffff, 0.5F, 1, this.height - 5);
         }
         drawText(matrices, this.title, 0x99888888, this.contentLeft[0] + 0.7F, this.contentTop - 12 + 0.7F);
         drawText(matrices, this.title, 0xff444444, this.contentLeft[0], this.contentTop - 12);
@@ -221,9 +222,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     /**
      * Draw an entity.
      * This method is similar to InventoryScreen.drawEntity(), but there are some differences:
-     * 1. It can draw any Entity, not only LivingEntity.
-     * 2. The entity it renders is brighter (but it brings some bugs...).
-     * 3. It can't recognize the yaw of LivingEntity, so don’t use it to render a rotating LivingEntity.
+     * <p>1. It can draw any Entity, not only LivingEntity. </p>
+     * <p>2. The entity it renders is brighter (but it brings some bugs...). </p>
+     * <p>3. It can't recognize the yaw of LivingEntity, so don’t use it to render a rotating LivingEntity. </p>
      * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
      */
     public static void drawEntity(Entity entity, int size, int x, int y, float mouseX, float mouseY) {
