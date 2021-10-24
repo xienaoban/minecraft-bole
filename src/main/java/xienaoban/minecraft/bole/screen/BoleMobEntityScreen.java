@@ -16,6 +16,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
     @Override
     protected void initCustom() {
         this.widgetsWithEntity.addSlot(new HealthContentWidget());
+        this.widgetsWithEntity.addSlot(new NetherPortalCooldownContentWidget());
         this.widgetsWithEntity.addSlot(new BoundingBoxContentWidget());
     }
 

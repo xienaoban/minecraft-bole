@@ -6,6 +6,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import xienaoban.minecraft.bole.mixin.MixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingEntityScreenHandler<E> {
@@ -29,5 +30,7 @@ public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingE
     }
 
     @Override
-    protected void initCustom() {}
+    protected void initCustom() {
+        System.out.println(((MixinEntity) entity).getNetherPortalCooldown());
+    }
 }

@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
+import xienaoban.minecraft.bole.mixin.MixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.Textures;
 
@@ -47,11 +48,24 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 90, 0);
             if (box.getXLength() == box.getZLength()) {
-                drawText(matrices, String.format("X/Z:%.2f Y:%.2f", box.getXLength(), box.getYLength()), 0xbb000000, 0.5F, x + 12, y + 3);
+                drawText(matrices, String.format("X/Z:%.2f Y:%.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3);
             } else {
-                drawText(matrices, String.format("X:%.2f Y:%.2f", box.getXLength(), box.getYLength()), 0xbb000000, 0.5F, x + 12, y + 1);
-                drawText(matrices, String.format("Z:%.2f", box.getZLength()), 0xbb000000, 0.5F, x + 12, y + 5);
+                drawText(matrices, String.format("X:%.2f Y:%.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 1);
+                drawText(matrices, String.format("Z:%.2f", box.getZLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 5);
             }
+        }
+    }
+
+    public class NetherPortalCooldownContentWidget extends AbstractContentWidget {
+        public NetherPortalCooldownContentWidget() {
+            super(1, 1);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            setTexture(Textures.ICONS);
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 100, 0);
+            drawText(matrices, ((MixinEntity)handler.entity).getNetherPortalCooldown() + "ms", CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3);
         }
     }
 }

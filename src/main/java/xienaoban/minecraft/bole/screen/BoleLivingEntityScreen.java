@@ -44,10 +44,10 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 0, this.lineCnt > 2 ? 10 : 0);
             calBars(1, health);
             float textOffset = 2.25F + this.lineCnt;
-            int barOffset = 1 + this.lineCnt;
+            int barOffset = -1 + this.lineCnt;
             if (maxHealth <= 8) {
-                drawCustomLengthHealthBar(matrices, 8, x + 11, y + 2, 10, 0, true);
-                drawCustomLengthHealthBar(matrices, 8 * health / maxHealth, x + 11, y + 2, 50, 0, health == maxHealth);
+                drawCustomLengthHealthBar(matrices, 8, x + 11, y, 10, 0, true);
+                drawCustomLengthHealthBar(matrices, 8 * health / maxHealth, x + 11, y, 50, 0, health == maxHealth);
             }
             else if (maxHealth <= 60) {
                 for (int i = this.lineCnt - 1; i >= 0; --i) {
@@ -71,9 +71,9 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
          */
         protected void drawCustomLengthHealthBar(MatrixStack matrices, int health, int x, int y, int u, int v, boolean close) {
             int w = health << 1;
-            drawTextureNormally(matrices, 256, 256, w, 6, getZOffset(), x, y, u, v);
+            drawTextureNormally(matrices, 256, 256, w, 10, getZOffset(), x, y, u, v);
             if (close && health < 20) {
-                drawTextureNormally(matrices, 256, 256, 1, 6, getZOffset(), x + w, y, u + 39, v);
+                drawTextureNormally(matrices, 256, 256, 1, 10, getZOffset(), x + w, y, u + 39, v);
             }
         }
 

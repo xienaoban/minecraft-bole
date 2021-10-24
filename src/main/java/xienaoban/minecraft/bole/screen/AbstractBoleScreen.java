@@ -44,7 +44,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     protected E displayedEntity;
     protected ContentWidgets widgetsWithEntity;
 
-    protected int CONTENT_TEXT_COLOR = 0xd0484848;
+    protected int CONTENT_TEXT_COLOR = 0xd0121212;
 
     protected boolean debugMode;
 

@@ -16,6 +16,10 @@ import xienaoban.minecraft.bole.util.Keys;
 
 public class ServerNetworkManager {
     public static void init() {
+        registerOpenBoleGui();
+    }
+
+    private static void registerOpenBoleGui() {
         ServerPlayNetworking.registerGlobalReceiver(Channels.OPEN_BOLE_GUI, (server, player, handler, buf, responseSender) -> {
             final Entity entity = buf.isReadable() ? player.world.getEntityById(buf.readInt()) : null;
             if (entity == null) {

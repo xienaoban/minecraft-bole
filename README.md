@@ -3,6 +3,8 @@
   - `UUID`
   - `Bounding Box`
   - `Custom Name`
+  - `Nether Portal Cooldown`
+  - `Set Nether Portal Cooldown`
   - `Set Custom Name Visible`
 - LivingEntity:
   - `Health`
