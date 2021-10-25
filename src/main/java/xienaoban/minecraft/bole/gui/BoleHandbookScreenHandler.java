@@ -26,5 +26,8 @@ public class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<Entity>
     public void readServerEntityFromBuf(PacketByteBuf buf) {}
 
     @Override
+    protected void resetClientEntityServerProperties() {}
+
+    @Override
     public void clientTick(int ticks) {}
 }

@@ -32,15 +32,26 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
 
     /**
      * Write the server-side entity data to the buf. <br/>
-     * So always invoke <code>super.writeServerEntityBuf()</code> on the first line.
+     * Always invoke <code>super.writeServerEntityBuf()</code> on the first line.
      */
     public abstract void writeServerEntityToBuf(PacketByteBuf buf);
 
     /**
      * Read the server-side entity data from the buf. <br/>
-     * So always invoke <code>super.readServerEntityBuf()</code> on the first line.
+     * Always invoke <code>super.readServerEntityBuf()</code> on the first line.
      */
+    @Environment(EnvType.CLIENT)
     public abstract void readServerEntityFromBuf(PacketByteBuf buf);
+
+    /**
+     * Reset some properties of the client-side entity when closing the screen. <br/>
+     * It is because some properties of the entity only work on the server side, but we use them in the method
+     * <code>writeServerEntityBuf()</code>. So it is better to reset them to their initial values when closing
+     * the window (although these properties may not be accessed by other codes on the client side). <br/>
+     * Always invoke <code>super.resetClientEntityServerState()</code> on the first line.
+     */
+    @Environment(EnvType.CLIENT)
+    protected abstract void resetClientEntityServerProperties();
 
     @Environment(EnvType.CLIENT)
     public abstract void clientTick(int ticks);

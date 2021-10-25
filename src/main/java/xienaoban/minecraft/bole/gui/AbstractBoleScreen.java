@@ -93,6 +93,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.contentBottom = this.contentTop + CONTENT_HEIGHT;
     }
 
+    @Override
+    public void onClose() {
+        this.handler.resetClientEntityServerProperties();
+        super.onClose();
+    }
+
     protected int calEntityDisplayRegion() {
         Box box = this.handler.entity.getVisibilityBoundingBox();
         double x = box.getXLength(), y = box.getYLength();

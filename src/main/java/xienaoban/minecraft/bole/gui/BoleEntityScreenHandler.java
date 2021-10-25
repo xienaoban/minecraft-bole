@@ -51,6 +51,11 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     }
 
     @Override
+    protected void resetClientEntityServerProperties() {
+        ((IMixinEntity)this.entity).setNetherPortalCooldown(0);
+    }
+
+    @Override
     public void clientTick(int ticks) {
         if (ticks % 20 == 0) {
             ClientNetworkManager.requestServerEntityData();
@@ -60,19 +65,21 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
 
     @Environment(EnvType.CLIENT)
     private void calculateClientEntityNetherPortalCooldown() {
-        if (isClientEntityInNetherPortal()) {
-            this.entity.resetNetherPortalCooldown();
-        }
-        else {
-            ((IMixinEntity) this.entity).callTickNetherPortalCooldown();
+        switch (isClientEntityInNetherPortal()) {
+            case -1: ((IMixinEntity) this.entity).callTickNetherPortalCooldown(); break;
+            case 1: this.entity.resetNetherPortalCooldown(); break;
+            default: break;
         }
     }
 
+    /**
+     * @return 1: in portal; -1: not in portal; 0: I don't know
+     */
     @Environment(EnvType.CLIENT)
-    private boolean isClientEntityInNetherPortal() {
+    private int isClientEntityInNetherPortal() {
         World world = MinecraftClient.getInstance().world;
         if (world == null || world.getEntityById(this.entity.getEntityId()) == null) {
-            return true;
+            return 0;
         }
         Vec3d pos = this.entity.getPos();
         double x = pos.getX(), y = pos.getY(), z = pos.getZ();
@@ -81,6 +88,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
                 || world.getBlockState(new BlockPos(x - r, y, z)).getBlock() == Blocks.NETHER_PORTAL
                 || world.getBlockState(new BlockPos(x + r, y, z)).getBlock() == Blocks.NETHER_PORTAL
                 || world.getBlockState(new BlockPos(x, y, z - r)).getBlock() == Blocks.NETHER_PORTAL
-                || world.getBlockState(new BlockPos(x, y, z + r)).getBlock() == Blocks.NETHER_PORTAL;
+                || world.getBlockState(new BlockPos(x, y, z + r)).getBlock() == Blocks.NETHER_PORTAL
+                ? 1 : -1;
     }
 }
