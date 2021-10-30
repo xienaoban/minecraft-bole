@@ -8,7 +8,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<Entity> {
+public final class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<Entity> {
     public static final ScreenHandlerType<BoleHandbookScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "handbook"), BoleHandbookScreenHandler::new);
 

@@ -37,4 +37,8 @@ public class ClientNetworkManager {
     public static void requestServerEntityData() {
         ClientPlayNetworking.send(Channels.REQUEST_SERVER_ENTITY_DATA, PacketByteBufs.empty());
     }
+
+    public static void sendClientEntitySettings(PacketByteBuf buf) {
+        ClientPlayNetworking.send(Channels.SEND_CLIENT_ENTITY_SETTINGS, buf);
+    }
 }

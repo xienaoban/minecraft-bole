@@ -7,4 +7,5 @@ public interface Channels {
     Identifier REQUEST_BOLE_SCREEN = new Identifier(Keys.NAMESPACE, "request_bole_screen");
     Identifier REQUEST_SERVER_ENTITY_DATA = new Identifier(Keys.NAMESPACE, "request_server_entity_data");
     Identifier SEND_SERVER_ENTITY_DATA = new Identifier(Keys.NAMESPACE, "send_server_entity_data");
+    Identifier SEND_CLIENT_ENTITY_SETTINGS = new Identifier(Keys.NAMESPACE, "send_client_entity_settings");
 }

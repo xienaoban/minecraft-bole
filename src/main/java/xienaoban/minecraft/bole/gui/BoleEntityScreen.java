@@ -64,7 +64,14 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 100, 0);
-            drawText(matrices, (((IMixinEntity)handler.entity).getNetherPortalCooldown() / 20) + "s", CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3);
+            String text;
+            if (debugMode) {
+                text = ((IMixinEntity)handler.entity).getNetherPortalCooldown() + "ticks";
+            }
+            else {
+                text = (((IMixinEntity)handler.entity).getNetherPortalCooldown() / 20) + "s";
+            }
+            drawText(matrices, text, CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3);
         }
     }
 }

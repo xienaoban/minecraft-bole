@@ -35,6 +35,23 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
 
     public BoleEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
+        registerEntitySettingsBufHandlers();
+    }
+
+    private void registerEntitySettingsBufHandlers() {
+        // todo 回头挪到 Widget 里去
+        registerEntitySettingsBufHandler("nether_portal_cooldown", new EntitySettingsBufHandler() {
+            @Override
+            public void readFromBuf(PacketByteBuf buf) {
+                ((IMixinEntity)entity).setNetherPortalCooldown(buf.readInt());
+            }
+
+            @Override
+            public void writeToBuf(PacketByteBuf buf) {
+                ((IMixinEntity)entity).setNetherPortalCooldown(20 * 10);
+                buf.writeInt(((IMixinEntity)entity).getNetherPortalCooldown());
+            }
+        });
     }
 
     @Override
@@ -59,6 +76,9 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     public void clientTick(int ticks) {
         if (ticks % 20 == 0) {
             ClientNetworkManager.requestServerEntityData();
+        }
+        if (ticks % 80 == 10) {
+            sendClientEntitySettings("nether_portal_cooldown");
         }
         calculateClientEntityNetherPortalCooldown();
     }
