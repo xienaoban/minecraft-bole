@@ -302,6 +302,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     /**
+     * Draws a textured quadrilateral from a region in a texture.
      *
      * @param matrices the matrix stack used for rendering
      * @param tw the width of the entire texture
@@ -470,6 +471,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
     }
 
+    /**
+     * Manages all widgets on a page.
+     */
     public class ContentWidgets {
         public static final int CONTENT_WIDGET_MARGIN_WIDTH = 4;
         public static final int CONTENT_WIDGET_MARGIN_HEIGHT = 3;

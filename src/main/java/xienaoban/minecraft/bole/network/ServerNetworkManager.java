@@ -81,7 +81,9 @@ public class ServerNetworkManager {
             if (boleScreenHandler == null) {
                 return;
             }
-            boleScreenHandler.setServerEntitySettings(buf);
+            // The buf will expire in server.execute(). So I make a copy.
+            PacketByteBuf bufCopy = PacketByteBufs.copy(buf);
+            server.execute(() -> boleScreenHandler.setServerEntitySettings(bufCopy));
         });
     }
 

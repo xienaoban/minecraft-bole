@@ -32,26 +32,25 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         initCustom();
     }
 
-    @Override
-    public boolean canUse(PlayerEntity player) {
-        return true;
-    }
-
     /**
-     * Initialize some custom content (which should not be inherited by subclasses) of the handler. <br/>
+     * Initializes some custom content (which should not be inherited by subclasses) of the handler. <br/>
      * So never invoke <code>super.initCustom()</code>.
      */
     protected abstract void initCustom();
 
     /**
-     * Write the server-side entity data to the buf. <br/>
+     * Writes the server-side entity data to the buf. <br/>
      * Always invoke <code>super.writeServerEntityBuf()</code> on the first line.
+     *
+     * @param buf buf to send to the client
      */
     public abstract void writeServerEntityToBuf(PacketByteBuf buf);
 
     /**
-     * Read the server-side entity data from the buf. <br/>
+     * Reads the server-side entity data from the buf. <br/>
      * Always invoke <code>super.readServerEntityBuf()</code> on the first line.
+     *
+     * @param buf buf sent from the server
      */
     @Environment(EnvType.CLIENT)
     public abstract void readServerEntityFromBuf(PacketByteBuf buf);
@@ -66,47 +65,71 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     @Environment(EnvType.CLIENT)
     protected abstract void resetClientEntityServerProperties();
 
+    @Override
+    public boolean canUse(PlayerEntity player) {
+        return true;
+    }
+
+    /**
+     * Invoked at the beginning of each client tick.
+     *
+     * @param ticks tick count
+     */
     @Environment(EnvType.CLIENT)
     public abstract void clientTick(int ticks);
 
-    public final void registerEntitySettingsBufHandler(String attr, EntitySettingsBufHandler bufHandler) {
-        this.entitySettingsBufHandlers.put(attr, bufHandler);
+    /**
+     * Gets the entity the client-side player is aiming at.
+     */
+    @Environment(EnvType.CLIENT)
+    protected static Entity clientEntity() {
+        return BoleClient.getInstance().getBoleTarget();
     }
 
+    /**
+     * Registers an EntitySettingsBufHandler to handle the specific buf sent from the client to the server.
+     *
+     * @param settingId Setting ID, to identity the buf
+     */
+    public final void registerEntitySettingsBufHandler(String settingId, EntitySettingsBufHandler bufHandler) {
+        this.entitySettingsBufHandlers.put(settingId, bufHandler);
+    }
+
+    /**
+     * Sends settings of the entity to the server.
+     *
+     * @param settingId Setting ID, to identity the buf
+     */
     @Environment(EnvType.CLIENT)
-    public final void sendClientEntitySettings(String attr) {
+    public final void sendClientEntitySettings(String settingId) {
         PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeString(attr);
+        buf.writeString(settingId);
         try {
-            this.entitySettingsBufHandlers.get(attr).writeToBuf(buf);
+            this.entitySettingsBufHandlers.get(settingId).writeToBuf(buf);
             ClientNetworkManager.sendClientEntitySettings(buf);
         }
         catch (Exception e) {
-            Bole.LOGGER.error("No EntitySettingsBufHandler is registered for attr \"" + attr + "\"");
+            Bole.LOGGER.error("No EntitySettingsBufHandler is registered for settingId \"" + settingId + "\"");
         }
     }
 
     /**
-     * Handle the buf sent by the client.
-     * @param buf buf sent by the client
+     * Receives settings of the entity from the client and sets to the server-side entity.
+     *
+     * @param buf buf sent from the client
      */
     public final void setServerEntitySettings(PacketByteBuf buf) {
-        String attr = buf.readString();
+        String settingId = buf.readString();
         try {
-            this.entitySettingsBufHandlers.get(attr).readFromBuf(buf);
+            this.entitySettingsBufHandlers.get(settingId).readFromBuf(buf);
         }
         catch (Exception e) {
-            Bole.LOGGER.error("No EntitySettingsBufHandler is registered for attr \"" + attr + "\"");
+            Bole.LOGGER.error("No EntitySettingsBufHandler is registered for settingId \"" + settingId + "\"");
         }
     }
 
     public interface EntitySettingsBufHandler {
         void readFromBuf(PacketByteBuf buf);
         void writeToBuf(PacketByteBuf buf);
-    }
-
-    @Environment(EnvType.CLIENT)
-    protected static Entity clientEntity() {
-        return BoleClient.getInstance().getBoleTarget();
     }
 }
