@@ -101,11 +101,11 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
      * @param settingId Setting ID, to identity the buf
      */
     @Environment(EnvType.CLIENT)
-    public final void sendClientEntitySettings(String settingId) {
+    public final void sendClientEntitySettings(String settingId, Object... args) {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeString(settingId);
         try {
-            this.entitySettingsBufHandlers.get(settingId).writeToBuf(buf);
+            this.entitySettingsBufHandlers.get(settingId).writeToBuf(buf, args);
             ClientNetworkManager.sendClientEntitySettings(buf);
         }
         catch (Exception e) {
@@ -130,6 +130,6 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
 
     public interface EntitySettingsBufHandler {
         void readFromBuf(PacketByteBuf buf);
-        void writeToBuf(PacketByteBuf buf);
+        void writeToBuf(PacketByteBuf buf, Object... args);
     }
 }

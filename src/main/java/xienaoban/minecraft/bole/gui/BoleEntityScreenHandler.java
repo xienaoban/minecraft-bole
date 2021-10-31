@@ -48,8 +48,8 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
             }
 
             @Override
-            public void writeToBuf(PacketByteBuf buf) {
-                ((IMixinEntity)entity).setNetherPortalCooldown(20 * 10);
+            public void writeToBuf(PacketByteBuf buf, Object... args) {
+                ((IMixinEntity)entity).setNetherPortalCooldown((Integer) args[0]);
                 buf.writeInt(((IMixinEntity)entity).getNetherPortalCooldown());
             }
         });
@@ -82,7 +82,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
             ClientNetworkManager.requestServerEntityData();
         }
         if (ticks % 80 == 10) {
-            sendClientEntitySettings(ENTITY_SETTING_NETHER_PORTAL_COOLDOWN);
+            sendClientEntitySettings(ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, 20 * 8);
         }
         calculateClientEntityNetherPortalCooldown();
     }
