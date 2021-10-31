@@ -1,5 +1,7 @@
 package xienaoban.minecraft.bole.gui;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -22,12 +24,15 @@ public final class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<E
     @Override
     public void writeServerEntityToBuf(PacketByteBuf buf) {}
 
+    @Environment(EnvType.CLIENT)
     @Override
     public void readServerEntityFromBuf(PacketByteBuf buf) {}
 
+    @Environment(EnvType.CLIENT)
     @Override
     protected void resetClientEntityServerProperties() {}
 
+    @Environment(EnvType.CLIENT)
     @Override
     public void clientTick(int ticks) {}
 }

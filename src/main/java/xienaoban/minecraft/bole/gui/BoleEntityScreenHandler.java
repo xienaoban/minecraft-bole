@@ -21,6 +21,8 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     public static final ScreenHandlerType<BoleEntityScreenHandler<Entity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "entity"), BoleEntityScreenHandler::new);
 
+    public static final String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN = "nether_portal_cooldown";
+
     public BoleEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }
@@ -39,8 +41,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     }
 
     private void registerEntitySettingsBufHandlers() {
-        // todo 回头挪到 Widget 里去
-        registerEntitySettingsBufHandler("nether_portal_cooldown", new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, new EntitySettingsBufHandler() {
             @Override
             public void readFromBuf(PacketByteBuf buf) {
                 ((IMixinEntity)entity).setNetherPortalCooldown(buf.readInt());
@@ -62,23 +63,26 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
         buf.writeInt(((IMixinEntity)this.entity).getNetherPortalCooldown());
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     public void readServerEntityFromBuf(PacketByteBuf buf) {
         ((IMixinEntity)this.entity).setNetherPortalCooldown(buf.readInt());
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     protected void resetClientEntityServerProperties() {
         ((IMixinEntity)this.entity).setNetherPortalCooldown(0);
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     public void clientTick(int ticks) {
         if (ticks % 20 == 0) {
             ClientNetworkManager.requestServerEntityData();
         }
         if (ticks % 80 == 10) {
-            sendClientEntitySettings("nether_portal_cooldown");
+            sendClientEntitySettings(ENTITY_SETTING_NETHER_PORTAL_COOLDOWN);
         }
         calculateClientEntityNetherPortalCooldown();
     }
