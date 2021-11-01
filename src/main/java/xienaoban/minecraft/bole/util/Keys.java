@@ -4,6 +4,9 @@ public interface Keys {
     // ID
     String BOLE = "bole";
     String NAMESPACE = "bole";
+
+    // Entity Setting Channels
+    String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN = "nether_portal_cooldown";
     
     // Translation Keys
     String MOD_NAME = "xienaoban.bole";
@@ -13,4 +16,7 @@ public interface Keys {
     String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
     String TEXT_BOUNDING_BOX = "text.xienaoban.bole.bounding_box";
     String TEXT_ENTITY_UUID = "text.xienaoban.bole.entity_uuid";
+
+    // Other
+    int NETHER_PORTAL_LOCK = 0x7fffffff;
 }

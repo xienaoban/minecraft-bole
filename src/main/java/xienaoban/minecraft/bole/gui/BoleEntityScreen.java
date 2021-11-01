@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
+import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -23,17 +24,17 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     protected void initCustom() {}
 
     @Override
-    protected void drawLeftContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        drawEntityAuto(this.handler.entity, 26, 8, CONTENT_WIDTH - 26, (CONTENT_HEIGHT >> 1) + 12, mouseX + 0.001F, mouseY + 0.001F);
+    protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        drawEntityAuto(this.handler.entity, x + 26, y + 8, x + CONTENT_WIDTH - 26, y + (CONTENT_HEIGHT >> 1) + 12, mouseX + 0.001F, mouseY + 0.001F);
         Box box = this.handler.entity.getBoundingBox();
         Text boxText = new TranslatableText(Keys.TEXT_BOUNDING_BOX).append(": " + String.format("%.1f", box.getXLength()) + ", " + String.format("%.1f", box.getYLength()) + ", " + String.format("%.1f", box.getZLength()));
-        drawText(matrices, boxText, 0xff444444, CONTENT_WIDTH - this.textRenderer.getWidth(boxText) >> 1, CONTENT_HEIGHT - (CONTENT_HEIGHT >> 2));
+        drawText(matrices, boxText, 0xff444444, x + CONTENT_WIDTH - this.textRenderer.getWidth(boxText) >> 1, y + CONTENT_HEIGHT - (CONTENT_HEIGHT >> 2));
     }
 
     @Override
-    protected void drawRightContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
         Text unsupported = new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY);
-        drawText(matrices, unsupported, 0xaa666666, CONTENT_WIDTH - this.textRenderer.getWidth(unsupported) >> 1, CONTENT_HEIGHT >> 1);
+        drawText(matrices, unsupported, 0xaa666666, x + CONTENT_WIDTH - this.textRenderer.getWidth(unsupported) >> 1, y + CONTENT_HEIGHT >> 1);
     }
 
     protected int chooseEntityDisplayPlan(ContentWidgets widgets) {
@@ -74,7 +75,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             Box box = entity.getBoundingBox();
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 90, 0);
-            if (box.getXLength() == box.getZLength()) {
+            if (Math.abs(box.getXLength() - box.getZLength()) < 0.01) {
                 drawText(matrices, String.format("X/Z:%.2f Y:%.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3);
             } else {
                 drawText(matrices, String.format("X:%.2f Y:%.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 1);
@@ -90,18 +91,39 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            int cooldown = ((IMixinEntity)handler.entity).getNetherPortalCooldown();
+            boolean lock = cooldown == Keys.NETHER_PORTAL_LOCK;
+            float p = Math.min(1.0F, (float)cooldown / handler.entity.getDefaultNetherPortalCooldown());
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 100, 0);
-            drawTextureNormally(matrices, 256, 256, 40, 10, getZOffset(), x + 11, y, 110, 0);
-            drawTextureNormally(matrices, 256, 256, 40.0F * ((IMixinEntity)handler.entity).getNetherPortalCooldown() / handler.entity.getDefaultNetherPortalCooldown(), 10, getZOffset(), x + 11, y, 150, 0);
+            drawTextureNormally(matrices, 256, 256, 32, 10, getZOffset(), x + 11, y, 110, 0);
+            drawTextureNormally(matrices, 256, 256, 33.0F * p, 10, getZOffset(), x + 11, y, 150, 0);
+            drawTextureNormally(matrices, 256, 256, 8, 10, getZOffset(), x + 43, y, 142 + (lock ? 40 : 0), 0);
             String text;
-            if (debugMode) {
+            if (lock) {
+                text = "∞";
+            }
+            else if (debugMode) {
                 text = ((IMixinEntity)handler.entity).getNetherPortalCooldown() + "ticks";
             }
             else {
                 text = (((IMixinEntity)handler.entity).getNetherPortalCooldown() / 20) + "s";
             }
             drawText(matrices, text, 0xbbffffff, 0.5F, x + 13, y + 3.25F);
+        }
+
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (mouseX > 43 && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                int cooldown;
+                if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == Keys.NETHER_PORTAL_LOCK) {
+                    cooldown = 0;
+                }
+                else {
+                    cooldown = Keys.NETHER_PORTAL_LOCK;
+                }
+                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, cooldown);
+            }
+            return true;
         }
     }
 }

@@ -15,20 +15,22 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
 
     @Override
     protected void initCustom() {
-        ContentWidgets page = this.pages.get(0);
+        ContentWidgets page;
+        page = this.pages.get(0);
         this.entityDisplayPlan = chooseEntityDisplayPlan(page);
         page.addSlot(new HealthContentWidget());
-        page.addSlot(new NetherPortalCooldownContentWidget());
         page.addSlot(new BoundingBoxContentWidget());
+        page = this.pages.get(1);
+        page.addSlot(new NetherPortalCooldownContentWidget());
     }
 
     @Override
-    protected void drawLeftContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        this.curLeftPage.draw(matrices, mouseX, mouseY);
+    protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        this.curLeftPage.draw(matrices, x, y, mouseX, mouseY);
     }
 
     @Override
-    protected void drawRightContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        this.curRightPage.draw(matrices, mouseX, mouseY);
+    protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        this.curRightPage.draw(matrices, x, y, mouseX, mouseY);
     }
 }

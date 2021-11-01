@@ -17,12 +17,8 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
     protected void initCustom() {}
 
     @Override
-    protected void drawLeftContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-
-    }
+    protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {}
 
     @Override
-    protected void drawRightContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-
-    }
+    protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {}
 }

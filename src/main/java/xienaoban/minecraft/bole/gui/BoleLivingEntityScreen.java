@@ -17,13 +17,13 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
     protected void initCustom() {}
 
     @Override
-    protected void drawLeftContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        super.drawLeftContent(matrices, delta, mouseX, mouseY);
+    protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        super.drawLeftContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
     @Override
-    protected void drawRightContent(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        super.drawRightContent(matrices, delta, mouseX, mouseY);
+    protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
     public class HealthContentWidget extends AbstractContentWidget {

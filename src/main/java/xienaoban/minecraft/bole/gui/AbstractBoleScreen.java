@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -43,6 +44,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     protected final List<ContentWidgets> pages;
     protected ContentWidgets curLeftPage, curRightPage;
+    protected Element focusElement;
 
     protected boolean debugMode;
 
@@ -56,23 +58,11 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.pages = new ArrayList<>();
         this.pages.add(this.curLeftPage);
         this.pages.add(this.curRightPage);
+        this.focusElement = null;
         initCustom();
     }
 
     protected abstract void initCustom();
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (KeyBindingManager.KEY_BOLE_SCREEN.matchesKey(keyCode, scanCode)) {
-            onClose();
-            return true;
-        }
-        if (keyCode == GLFW.GLFW_KEY_DELETE) {
-            this.debugMode = !this.debugMode;
-            return true;
-        }
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
 
     @Override
     protected void init() {
@@ -90,9 +80,51 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (KeyBindingManager.KEY_BOLE_SCREEN.matchesKey(keyCode, scanCode)) {
+            onClose();
+            return true;
+        }
+        if (keyCode == GLFW.GLFW_KEY_DELETE) {
+            this.debugMode = !this.debugMode;
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        boolean success = false;
+        if (mouseY >= this.contentTop && mouseY <= this.contentBottom) {
+            if (mouseX >= this.contentLeft[0] && mouseX <= this.contentRight[0]) {
+                success = this.curLeftPage.mouseClicked(mouseX, mouseY, button);
+            }
+            else if (mouseX >= this.contentLeft[1] && mouseX <= this.contentRight[1]) {
+                success = this.curRightPage.mouseClicked(mouseX, mouseY, button);
+            }
+        }
+        return success || super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
     public void onClose() {
         this.handler.resetClientEntityServerProperties();
         super.onClose();
+    }
+
+    public void setPageIndex(int pageIndex) {
+        this.curLeftPage = this.pages.get(pageIndex);
+        this.curRightPage = this.pages.get(pageIndex + 1);
     }
 
     @Override
@@ -107,30 +139,23 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawTextureNormally(matrices, 256, 256, this.getZOffset(),
                 this.width >> 1, y0, x1, y1, u0, v0, u1, v1);
         if (this.debugMode) {
-            final float r = 0.3F;
-            final int c = 0x66dd001b;
-            drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[0], this.contentTop, this.contentRight[0], this.contentBottom);
-            drawRectangle(matrices, c, r, getZOffset(), this.contentLeft[1], this.contentTop, this.contentRight[1], this.contentBottom);
             drawText(matrices, String.valueOf(BoleClient.getInstance().getTicks()), 0xbbffffff, 0.5F, 1, this.height - 5);
         }
         drawText(matrices, this.title, 0x99888888, this.contentLeft[0] + 0.7F, this.contentTop - 12 + 0.7F);
         drawText(matrices, this.title, 0xff444444, this.contentLeft[0], this.contentTop - 12);
-        RenderSystem.translatef(this.contentLeft[0], this.contentTop, 0.0F);
-        drawLeftContent(matrices, delta, mouseX, mouseY);
-        RenderSystem.translatef(this.contentLeft[1] - this.contentLeft[0], 0, 0.0F);
-        drawRightContent(matrices, delta, mouseX, mouseY);
-        RenderSystem.translatef(-this.contentLeft[1], -this.contentTop, 0.0F);
+        drawLeftContent(matrices, delta, this.contentLeft[0], this.contentTop, mouseX, mouseY);
+        drawRightContent(matrices, delta, this.contentLeft[1], this.contentTop, mouseX, mouseY);
     }
 
     /**
      * Draw the content of the left page.
      */
-    protected abstract void drawLeftContent(MatrixStack matrices, float delta, int mouseX, int mouseY);
+    protected abstract void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY);
 
     /**
      * Draw the content of the right page.
      */
-    protected abstract void drawRightContent(MatrixStack matrices, float delta, int mouseX, int mouseY);
+    protected abstract void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY);
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {}
@@ -385,6 +410,13 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         RenderSystem.popMatrix();
     }
 
+    public void drawDebugBox(MatrixStack matrices, ElementBox box, int color) {
+        if (!this.debugMode) {
+            return;
+        }
+        drawRectangle(matrices, color, 0.3F, 0, box.left(), box.top(), box.right(), box.bottom());
+    }
+
     public void setTexture(Identifier id) {
         assert this.client != null;
         this.client.getTextureManager().bindTexture(id);
@@ -393,16 +425,20 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     /**
      * Manages all widgets on a page.
      */
-    public class ContentWidgets {
+    public class ContentWidgets implements Element {
         public static final int CONTENT_WIDGET_MARGIN_WIDTH = 4;
         public static final int CONTENT_WIDGET_MARGIN_HEIGHT = 3;
         public static final int CONTENT_WIDGET_WIDTH = (CONTENT_WIDTH - CONTENT_WIDGET_MARGIN_WIDTH >> 1);
         public static final int CONTENT_WIDGET_HEIGHT = 10;
         private static final int ROWS = CONTENT_HEIGHT / (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT);
         private static final int COLS = 2;
+
+        protected final ElementBox elementBox;
+
         private final List<List<AbstractContentWidget>> widgets;
 
         public ContentWidgets() {
+            this.elementBox = new ElementBox(CONTENT_WIDTH, CONTENT_HEIGHT);
             List<List<AbstractContentWidget>> l1 = new ArrayList<>();
             for (int i = ROWS; i > 0; --i) {
                 List<AbstractContentWidget> l2 = new ArrayList<>();
@@ -414,18 +450,20 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             this.widgets = l1;
         }
 
-        public void draw(MatrixStack matrices, int mouseX, int mouseY) {
+        public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            this.elementBox.position(x, y, true);
             for (int i = 0; i < ROWS; ++i) {
                 for (int j = 0; j < COLS; ++j) {
                     AbstractContentWidget w = this.widgets.get(i).get(j);
                     if (w != null) {
                         w.draw(matrices,
-                                j * (CONTENT_WIDGET_WIDTH + CONTENT_WIDGET_MARGIN_WIDTH),
-                                i * (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT),
+                                x + j * (CONTENT_WIDGET_WIDTH + CONTENT_WIDGET_MARGIN_WIDTH),
+                                y + i * (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT),
                                 mouseX, mouseY);
                     }
                 }
             }
+            drawDebugBox(matrices, this.elementBox, 0x66dd001b);
         }
 
         public boolean setSlot(AbstractContentWidget widget, int row, int col) {
@@ -462,9 +500,29 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             Bole.LOGGER.error("Widget cannot be added here!");
             return false;
         }
+
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            int x = (int) mouseX - this.elementBox.left(), y = (int) mouseY - this.elementBox.top();
+            int w = CONTENT_WIDGET_WIDTH + CONTENT_WIDGET_MARGIN_WIDTH, h = CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT;
+            int col = x / w;
+            int row = y / h;
+            if (col >= COLS || row >= ROWS) {
+                return false;
+            }
+            AbstractContentWidget widget = this.widgets.get(row).get(col);
+            if (widget instanceof AbstractBoleScreen.EmptyContentWidget) {
+                widget = ((EmptyContentWidget) widget).father;
+            }
+            if (widget == null || x > w * (widget.getColSlots() + col) - CONTENT_WIDGET_MARGIN_WIDTH || y > h * (widget.getRowSlots() + row) - CONTENT_WIDGET_MARGIN_HEIGHT) {
+                return false;
+            }
+            return widget.mouseClicked(mouseX, mouseY, button);
+        }
     }
 
-    public abstract class AbstractContentWidget {
+    public abstract class AbstractContentWidget implements Element {
+        protected final ElementBox elementBox;
+
         protected final int rowSlots, colSlots;
         protected final int widgetWidth, widgetHeight;
 
@@ -476,13 +534,13 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             this.colSlots = colSlots;
             this.widgetWidth = colSlots == 1 ? ContentWidgets.CONTENT_WIDGET_WIDTH : CONTENT_WIDTH;
             this.widgetHeight = rowSlots * (ContentWidgets.CONTENT_WIDGET_HEIGHT + ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT) - ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT;
+            this.elementBox = new ElementBox(this.widgetWidth, this.widgetHeight);
         }
 
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            this.elementBox.position(x, y, true);
             drawContent(matrices, x, y, mouseX, mouseY);
-            if (debugMode) {
-                drawRectangle(matrices, 0x66c55c2d, 0.3F, 0, x, y, x + widgetWidth, y + widgetHeight);
-            }
+            drawDebugBox(matrices, this.elementBox, 0x88c55c2d);
         }
 
         protected abstract void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY);
@@ -510,8 +568,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            if (debugMode && this.father == null) {
-                drawRectangle(matrices, 0x66c55c2d, 0.3F, getZOffset(), x, y, x + widgetWidth, y + widgetHeight);
+            this.elementBox.position(x, y, true);
+            if (this.father == null) {
+                drawDebugBox(matrices, this.elementBox, 0x88c55c2d);
             }
         }
 
@@ -548,7 +607,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                 this.displayedEntity.readNbt(nbt);
             }
             catch (Exception e) {
-                Bole.LOGGER.warn(e);
+                Bole.LOGGER.warn("Cannot copy nbt of [" + this.targetEntity.getType().getTranslationKey() + "]: " + e);
             }
         }
 
