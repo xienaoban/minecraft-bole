@@ -3,6 +3,7 @@ package xienaoban.minecraft.bole.network;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,10 +14,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.gui.AbstractBoleScreenHandler;
-import xienaoban.minecraft.bole.gui.BoleEntityScreenHandler;
-import xienaoban.minecraft.bole.gui.BoleHandbookScreenHandler;
-import xienaoban.minecraft.bole.gui.BoleMobEntityScreenHandler;
+import xienaoban.minecraft.bole.gui.*;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class ServerNetworkManager {
@@ -50,6 +48,7 @@ public class ServerNetworkManager {
                         @Override
                         public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
                             if (entity instanceof MobEntity) return new BoleMobEntityScreenHandler<>(syncId, inv, entity);
+                            if (entity instanceof LivingEntity) return new BoleLivingEntityScreenHandler<>(syncId, inv, entity);
                             return new BoleEntityScreenHandler<>(syncId, inv, entity);
                         }
 

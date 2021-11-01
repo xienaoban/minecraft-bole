@@ -35,31 +35,27 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public static final int CONTENT_HEIGHT = 130;
     public static final int CONTENT_SPACING_WIDTH = 20;
 
+    public static final int CONTENT_TEXT_COLOR = 0xd0121212;
+
     protected int bodyLeft, bodyRight, bodyTop, bodyBottom;
     protected int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
 
-    protected int plan;
-    protected int planEntityLeft, planEntityRight, planEntityTop, planEntityBottom;
-    protected E displayedEntity;
-    protected ContentWidgets widgetsWithEntity;
-
-    protected int CONTENT_TEXT_COLOR = 0xd0121212;
+    protected final List<ContentWidgets> pages;
+    protected ContentWidgets curLeftPage, curRightPage;
 
     protected boolean debugMode;
 
-    @SuppressWarnings("unchecked")
     public AbstractBoleScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.debugMode = false;
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
-        if (this.handler.entity != null) {
-            this.displayedEntity = (E) this.handler.entity.getType().create(MinecraftClient.getInstance().world);
-            this.updateDisplayedEntity();
-            this.widgetsWithEntity = new ContentWidgets();
-            this.plan = this.calEntityDisplayRegion();
-        }
+        this.curLeftPage = new ContentWidgets();
+        this.curRightPage = new ContentWidgets();
+        this.pages = new ArrayList<>();
+        this.pages.add(this.curLeftPage);
+        this.pages.add(this.curRightPage);
         initCustom();
     }
 
@@ -97,56 +93,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public void onClose() {
         this.handler.resetClientEntityServerProperties();
         super.onClose();
-    }
-
-    protected int calEntityDisplayRegion() {
-        Box box = this.handler.entity.getVisibilityBoundingBox();
-        double x = box.getXLength(), y = box.getYLength();
-        double area = x * y, ratio = y / x;
-        int plan;
-        if (ratio < 1 / 2.2) {
-            if (area < 0.4) plan = 1;       // small
-            else plan = 3;                  // flat
-        }
-        else {
-            if (area < 0.5) plan = 1;       // small
-            else if (ratio > 2.5) plan = 4; // tall
-            else plan = 2;                  // median
-        }
-        switch (plan) {
-            case 1:
-                this.planEntityLeft = CONTENT_WIDTH >> 1 ;
-                this.planEntityTop = 0;
-                this.planEntityRight = CONTENT_WIDTH;
-                this.planEntityBottom = CONTENT_HEIGHT / 3;
-                break;
-            case 2:
-                this.planEntityLeft = 0;
-                this.planEntityTop = 0;
-                this.planEntityRight = CONTENT_WIDTH >> 1;
-                this.planEntityBottom = (int) (CONTENT_HEIGHT * 0.45F);
-                break;
-            case 3:
-                this.planEntityLeft = 25;
-                this.planEntityTop = 42;
-                this.planEntityRight = CONTENT_WIDTH - 25;
-                this.planEntityBottom = this.planEntityTop + (int) (CONTENT_HEIGHT * 0.2F);
-                break;
-            case 4:
-                this.planEntityLeft = 5;
-                this.planEntityTop = 0;
-                this.planEntityRight = (int) (CONTENT_WIDTH * 0.3F);
-                this.planEntityBottom = (int) (CONTENT_HEIGHT * 0.73F);
-                break;
-            default: break;
-        }
-        final int ww = ContentWidgets.CONTENT_WIDGET_WIDTH + (ContentWidgets.CONTENT_WIDGET_MARGIN_WIDTH >> 1);
-        final int hh = ContentWidgets.CONTENT_WIDGET_HEIGHT + ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT;
-        this.widgetsWithEntity.setSlot(new EmptyContentWidget(
-                (this.planEntityBottom - this.planEntityTop) / hh + 1,
-                (this.planEntityRight - this.planEntityLeft) > ww ? 2 : 1),
-                this.planEntityTop / hh, this.planEntityLeft / ww);
-        return plan;
     }
 
     @Override
@@ -188,18 +134,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {}
-
-    protected void drawPlanEntity(MatrixStack matrices, int mouseX, int mouseY) {
-        if (this.debugMode) {
-            drawRectangle(matrices, 0x66287bde, 0.3F, getZOffset(), this.planEntityLeft, this.planEntityTop, this.planEntityRight, this.planEntityBottom);
-        }
-        drawEntityAuto(this.displayedEntity, this.planEntityLeft, this.planEntityTop, this.planEntityRight, this.planEntityBottom,
-                (mouseX) / 33.0F + 0.0001F, (mouseY) / 53.0F + 5.0F);
-    }
-
-    protected void drawPlanWidgets(MatrixStack matrices, int mouseX, int mouseY) {
-        this.widgetsWithEntity.draw(matrices, mouseX, mouseY);
-    }
 
     public static void drawEntityAuto(Entity entity, int x0, int y0, int x1, int y1, float mouseX, float mouseY) {
         Box box = entity.getVisibilityBoundingBox();
@@ -456,21 +390,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.client.getTextureManager().bindTexture(id);
     }
 
-    public void updateDisplayedEntity() {
-        NbtCompound nbt = this.handler.entity.writeNbt(new NbtCompound());
-        nbt.remove("Dimension");
-        nbt.remove("Rotation");
-        nbt.remove("CustomName");
-        nbt.remove("CustomNameVisible");
-        nbt.remove("AngryAt");
-        try {
-            this.displayedEntity.readNbt(nbt);
-        }
-        catch (Exception e) {
-            Bole.LOGGER.warn(e);
-        }
-    }
-
     /**
      * Manages all widgets on a page.
      */
@@ -560,10 +479,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawContent(matrices, x, y, mouseX, mouseY);
             if (debugMode) {
                 drawRectangle(matrices, 0x66c55c2d, 0.3F, 0, x, y, x + widgetWidth, y + widgetHeight);
             }
-            drawContent(matrices, x, y, mouseX, mouseY);
         }
 
         protected abstract void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY);
@@ -581,8 +500,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         private final AbstractContentWidget father;
 
         public EmptyContentWidget(int rowSlots, int colSlots) {
-            super(rowSlots, colSlots);
-            this.father = null;
+            this(rowSlots, colSlots, null);
         }
 
         public EmptyContentWidget(int widthSlots, int heightSlots, AbstractContentWidget father) {
@@ -602,6 +520,42 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         public AbstractContentWidget getFather() {
             return this.father;
+        }
+    }
+
+    public class DisplayedEntityContentWidget extends AbstractContentWidget {
+        private Entity displayedEntity, targetEntity;
+
+        public DisplayedEntityContentWidget(int rowSlots, int colSlots, Entity targetEntity) {
+            super(rowSlots, colSlots);
+            setTargetEntity(targetEntity);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawEntityAuto(this.displayedEntity, x + 2, y, x + this.widgetWidth - 2, y + this.widgetHeight - 4,
+                    (mouseX) / 33.0F + 0.0001F, (mouseY) / 53.0F + 5.0F);
+        }
+
+        public void updateDisplayedEntity() {
+            NbtCompound nbt = this.targetEntity.writeNbt(new NbtCompound());
+            nbt.remove("Dimension");
+            nbt.remove("Rotation");
+            nbt.remove("CustomName");
+            nbt.remove("CustomNameVisible");
+            nbt.remove("AngryAt");
+            try {
+                this.displayedEntity.readNbt(nbt);
+            }
+            catch (Exception e) {
+                Bole.LOGGER.warn(e);
+            }
+        }
+
+        public void setTargetEntity(Entity targetEntity) {
+            this.targetEntity = targetEntity;
+            this.displayedEntity = targetEntity.getType().create(MinecraftClient.getInstance().world);
+            updateDisplayedEntity();
         }
     }
 }
