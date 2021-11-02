@@ -4,7 +4,7 @@ Toto List:
   - [X] `Bounding Box`
   - [ ] `Custom Name`
   - [X] `Nether Portal Cooldown`
-  - [ ] `Set Nether Portal Cooldown`
+  - [X] `Set Nether Portal Cooldown`
   - [ ] `Set Custom Name Visible`
   - LivingEntity:
     - [X] `Health`
@@ -16,6 +16,7 @@ Toto List:
       - [ ] `Hand Item`
       - [ ] `Holding Entity`
       - [ ] `Is Baby`
+      - [ ] `Never Grow Up`
       - SheepEntity:
         - [ ] `Force Eat Grass`
       - HorseEntity:

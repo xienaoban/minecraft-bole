@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui;
+package xienaoban.minecraft.bole.gui.screen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

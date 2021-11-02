@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
-import xienaoban.minecraft.bole.gui.AbstractBoleScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 
 @Environment(EnvType.CLIENT)
 public class ClientNetworkManager {

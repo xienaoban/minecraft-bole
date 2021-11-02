@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui;
+package xienaoban.minecraft.bole.gui.screen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
+import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
 

@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
+import xienaoban.minecraft.bole.gui.screen.*;
 
 @Environment(EnvType.CLIENT)
 public class ScreenRegistryManager {

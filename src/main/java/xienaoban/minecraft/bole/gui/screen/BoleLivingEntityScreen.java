@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui;
+package xienaoban.minecraft.bole.gui.screen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -6,6 +6,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
+import xienaoban.minecraft.bole.gui.Textures;
 
 @Environment(EnvType.CLIENT)
 public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLivingEntityScreenHandler<E>> extends BoleEntityScreen<E, H> {

@@ -14,7 +14,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.gui.*;
+import xienaoban.minecraft.bole.gui.screen.*;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class ServerNetworkManager {

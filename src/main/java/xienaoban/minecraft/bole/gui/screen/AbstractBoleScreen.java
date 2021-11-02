@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui;
+package xienaoban.minecraft.bole.gui.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
@@ -22,6 +22,8 @@ import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
+import xienaoban.minecraft.bole.gui.ElementBox;
+import xienaoban.minecraft.bole.gui.Textures;
 
 import java.util.ArrayList;
 import java.util.List;

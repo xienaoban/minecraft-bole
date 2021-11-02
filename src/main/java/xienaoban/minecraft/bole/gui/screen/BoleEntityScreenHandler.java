@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui;
+package xienaoban.minecraft.bole.gui.screen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -102,7 +102,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
         }
         Vec3d pos = this.entity.getPos();
         double x = pos.getX(), y = pos.getY(), z = pos.getZ();
-        final double r = 0.25;
+        final double r = 0.3;
         return world.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.NETHER_PORTAL
                 || world.getBlockState(new BlockPos(x - r, y, z)).getBlock() == Blocks.NETHER_PORTAL
                 || world.getBlockState(new BlockPos(x + r, y, z)).getBlock() == Blocks.NETHER_PORTAL

@@ -6,7 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import xienaoban.minecraft.bole.gui.AbstractBoleScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 
