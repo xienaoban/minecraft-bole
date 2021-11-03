@@ -16,6 +16,7 @@ public interface Keys {
     String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
     String TEXT_BOUNDING_BOX = "text.xienaoban.bole.bounding_box";
     String TEXT_ENTITY_UUID = "text.xienaoban.bole.entity_uuid";
+    String TEXT_UNNAMED = "text.xienaoban.bole.unnamed";
 
     // Other
     int NETHER_PORTAL_LOCK = 0x7fffffff;

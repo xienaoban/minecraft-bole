@@ -5,5 +5,6 @@
   "title.xienaoban.bole.bole_handbook": "伯乐手册",
   "text.xienaoban.bole.unsupported_entity": "不支持的实体",
   "text.xienaoban.bole.bounding_box": "碰撞箱",
-  "text.xienaoban.bole.entity_uuid": "UUID"
+  "text.xienaoban.bole.entity_uuid": "UUID",
+  "text.xienaoban.bole.unnamed": "未命名"
 }

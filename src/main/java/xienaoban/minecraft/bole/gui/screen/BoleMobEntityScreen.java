@@ -21,6 +21,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
         page.addSlot(new HealthContentWidget());
         page.addSlot(new BoundingBoxContentWidget());
         page = this.pages.get(1);
+        page.addSlot(new CustomNameContentWidget());
         page.addSlot(new NetherPortalCooldownContentWidget());
     }
 

@@ -7,6 +7,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
@@ -26,6 +27,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
     @Override
     protected void initCustom() {
+        this.curRightPage.addSlot(new CustomNameContentWidget());
         this.curRightPage.addSlot(new BoundingBoxContentWidget());
         this.curRightPage.addSlot(new NetherPortalCooldownContentWidget());
         this.curRightPage.setSlot(5, 0, new CenteredTextContentWidget(2, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
@@ -116,10 +118,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 90, 0);
             if (Math.abs(box.getXLength() - box.getZLength()) < 0.01) {
-                drawText(matrices, String.format("X/Z:%.2f Y:%.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3);
+                drawText(matrices, String.format("X/Z:%.2f Y:%.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3.25F);
             } else {
-                drawText(matrices, String.format("X:%.2f Y:%.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 1);
-                drawText(matrices, String.format("Z:%.2f", box.getZLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 5);
+                drawText(matrices, String.format("X:%.2f Y:%.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 1.25F);
+                drawText(matrices, String.format("Z:%.2f", box.getZLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 5.25F);
             }
         }
     }
@@ -135,10 +137,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             boolean lock = cooldown == Keys.NETHER_PORTAL_LOCK;
             float p = Math.min(1.0F, (float)cooldown / handler.entity.getDefaultNetherPortalCooldown());
             setTexture(Textures.ICONS);
-            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 100, 0);
-            drawTextureNormally(matrices, 256, 256, 33, 10, getZOffset(), x + 11, y, 110, 0);
-            drawTextureNormally(matrices, 256, 256, 33.0F * p, 10, getZOffset(), x + 11, y, 150, 0);
-            drawTextureNormally(matrices, 256, 256, 7, 10, getZOffset(), x + 44, y, 143 + (lock ? 40 : 0), 0);
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 0, 30);
+            drawTextureNormally(matrices, 256, 256, 33, 10, getZOffset(), x + 11, y, 10, 30);
+            drawTextureNormally(matrices, 256, 256, 33.0F * p, 10, getZOffset(), x + 11, y, 50, 30);
+            drawTextureNormally(matrices, 256, 256, 7, 10, getZOffset(), x + 44, y, 43 + (lock ? 40 : 0), 30);
             String text;
             if (lock) {
                 text = "∞";
@@ -165,6 +167,53 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                 handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, cooldown);
             }
             return true;
+        }
+    }
+
+    public class CustomNameContentWidget extends AbstractContentWidget {
+        private Text lastCustomName;
+        private Text cacheText;
+        private int cacheColor;
+
+        public CustomNameContentWidget() {
+            super(1, 1);
+            this.lastCustomName = new LiteralText(""); // not null
+            this.cacheText = null;
+            this.cacheColor = 0xff000000;
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            setTexture(Textures.ICONS);
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 0, 40);
+            drawTextureNormally(matrices, 256, 256, 33, 10, getZOffset(), x + 11, y, 10, 40);
+            setCacheText();
+            drawText(matrices, this.cacheText, this.cacheColor, 0.5F, x + 13, y + 3.25F);
+        }
+
+        public void setCacheText() {
+            Text customName = handler.entity.getCustomName();
+            if (customName == this.lastCustomName) {
+                return;
+            }
+            else {
+                this.lastCustomName = customName;
+            }
+            if (customName == null) {
+                this.cacheColor = 0xffccb65d;
+                this.cacheText = new TranslatableText(Keys.TEXT_UNNAMED);
+            }
+            else {
+                this.cacheColor = 0xff997617;
+                final int maxWidth = 2 * (33 - 2 * 2);
+                if (textRenderer.getWidth(customName) > maxWidth) {
+                    String trimmed = textRenderer.trimToWidth(customName.asString(), maxWidth - 6, false) + "...";
+                    this.cacheText = new LiteralText(trimmed);
+                }
+                else {
+                    this.cacheText = customName;
+                }
+            }
         }
     }
 }
