@@ -14,6 +14,7 @@ import xienaoban.minecraft.bole.network.ClientNetworkManager;
 public class BoleClient implements ClientModInitializer {
     private static BoleClient instance;
 
+    private boolean isScreenOpen;
     private Entity boleTarget;
     private int ticks;
 
@@ -24,7 +25,8 @@ public class BoleClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         instance = this;
-        this.ticks = 0;
+        this.isScreenOpen = false;
+        this.ticks = -1;
         ScreenRegistryManager.init();
         ClientNetworkManager.init();
         KeyBindingManager.init();
@@ -34,19 +36,23 @@ public class BoleClient implements ClientModInitializer {
      * @see xienaoban.minecraft.bole.mixin.MixinMinecraftClient#tick
      */
     public void clientTick() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        ClientPlayerEntity player = client.player;
-        if (player != null && player.currentScreenHandler instanceof AbstractBoleScreenHandler) {
-            ++ticks;
-            ((AbstractBoleScreenHandler<?>) player.currentScreenHandler).clientTick(ticks);
-        }
-        else {
-            ticks = -1;
+        if (this.isScreenOpen) {
+            MinecraftClient client = MinecraftClient.getInstance();
+            ClientPlayerEntity player = client.player;
+            if (player != null && player.currentScreenHandler instanceof AbstractBoleScreenHandler) {
+                ++ticks;
+                ((AbstractBoleScreenHandler<?>) player.currentScreenHandler).clientTick(ticks);
+            }
         }
     }
 
     public Entity getBoleTarget() {
         return this.boleTarget;
+    }
+
+    public void setScreenOpen(boolean isScreenOpen) {
+        this.isScreenOpen = isScreenOpen;
+        this.ticks = -1;
     }
 
     public void setBoleTarget(Entity boleTarget) {

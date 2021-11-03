@@ -11,7 +11,6 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
@@ -46,7 +45,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     protected final List<ContentWidgets> pages;
     protected ContentWidgets curLeftPage, curRightPage;
-    protected Element focusElement;
 
     protected boolean debugMode;
 
@@ -60,7 +58,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.pages = new ArrayList<>();
         this.pages.add(this.curLeftPage);
         this.pages.add(this.curRightPage);
-        this.focusElement = null;
         initCustom();
     }
 
@@ -79,6 +76,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.contentRight[1] = this.contentLeft[1] + CONTENT_WIDTH;
         this.contentTop = this.bodyTop + 25;
         this.contentBottom = this.contentTop + CONTENT_HEIGHT;
+        BoleClient.getInstance().setScreenOpen(true);
     }
 
     @Override
@@ -122,6 +120,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public void onClose() {
         this.handler.resetClientEntityServerProperties();
         super.onClose();
+        BoleClient.getInstance().setScreenOpen(false);
     }
 
     public void setPageIndex(int pageIndex) {
@@ -468,7 +467,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             drawDebugBox(matrices, this.elementBox, 0x66dd001b);
         }
 
-        public boolean setSlot(AbstractContentWidget widget, int row, int col) {
+        public boolean setSlot(int row, int col, AbstractContentWidget widget) {
             if (row + widget.getRowSlots() > ROWS || col + widget.getColSlots() > COLS) {
                 Bole.LOGGER.error("Widget cannot be set here! " + widget.getRowSlots() + ", " + widget.getColSlots() + ", " + row + ", " + col);
                 return false;
@@ -496,7 +495,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                             }
                         }
                     }
-                    return setSlot(widget, i, j);
+                    return setSlot(i, j, widget);
                 }
             }
             Bole.LOGGER.error("Widget cannot be added here!");
@@ -584,39 +583,36 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
     }
 
-    public class DisplayedEntityContentWidget extends AbstractContentWidget {
-        private Entity displayedEntity, targetEntity;
+    public class CenteredTextContentWidget extends AbstractContentWidget {
+        private static final int DEFAULT_LINE_HEIGHT = 8;
+        private Text text;
+        private int color;
+        private float size;
 
-        public DisplayedEntityContentWidget(int rowSlots, int colSlots, Entity targetEntity) {
+        public CenteredTextContentWidget(int rowSlots, int colSlots, Text text, int color, float size) {
             super(rowSlots, colSlots);
-            setTargetEntity(targetEntity);
+            setText(text);
+            setColor(color);
+            setSize(size);
         }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawEntityAuto(this.displayedEntity, x + 2, y, x + this.widgetWidth - 2, y + this.widgetHeight - 4,
-                    (mouseX) / 33.0F + 0.0001F, (mouseY) / 53.0F + 5.0F);
+            drawText(matrices, text, color, size,
+                    x + (this.widgetWidth - textRenderer.getWidth(text) >> 1),
+                    y + (this.widgetHeight - (int)(DEFAULT_LINE_HEIGHT * this.size) >> 1));
         }
 
-        public void updateDisplayedEntity() {
-            NbtCompound nbt = this.targetEntity.writeNbt(new NbtCompound());
-            nbt.remove("Dimension");
-            nbt.remove("Rotation");
-            nbt.remove("CustomName");
-            nbt.remove("CustomNameVisible");
-            nbt.remove("AngryAt");
-            try {
-                this.displayedEntity.readNbt(nbt);
-            }
-            catch (Exception e) {
-                Bole.LOGGER.warn("Cannot copy nbt of [" + this.targetEntity.getType().getTranslationKey() + "]: " + e);
-            }
+        public void setText(Text text) {
+            this.text = text;
         }
 
-        public void setTargetEntity(Entity targetEntity) {
-            this.targetEntity = targetEntity;
-            this.displayedEntity = targetEntity.getType().create(MinecraftClient.getInstance().world);
-            updateDisplayedEntity();
+        public void setColor(int color) {
+            this.color = color;
+        }
+
+        public void setSize(float size) {
+            this.size = size;
         }
     }
 }

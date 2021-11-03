@@ -2,13 +2,16 @@ package xienaoban.minecraft.bole.gui.screen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
+import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
@@ -22,20 +25,20 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     }
 
     @Override
-    protected void initCustom() {}
+    protected void initCustom() {
+        this.curRightPage.addSlot(new BoundingBoxContentWidget());
+        this.curRightPage.addSlot(new NetherPortalCooldownContentWidget());
+        this.curRightPage.setSlot(5, 0, new CenteredTextContentWidget(2, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
+    }
 
     @Override
     protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
         drawEntityAuto(this.handler.entity, x + 26, y + 8, x + CONTENT_WIDTH - 26, y + (CONTENT_HEIGHT >> 1) + 12, mouseX + 0.001F, mouseY + 0.001F);
-        Box box = this.handler.entity.getBoundingBox();
-        Text boxText = new TranslatableText(Keys.TEXT_BOUNDING_BOX).append(": " + String.format("%.1f", box.getXLength()) + ", " + String.format("%.1f", box.getYLength()) + ", " + String.format("%.1f", box.getZLength()));
-        drawText(matrices, boxText, 0xff444444, x + CONTENT_WIDTH - this.textRenderer.getWidth(boxText) >> 1, y + CONTENT_HEIGHT - (CONTENT_HEIGHT >> 2));
     }
 
     @Override
     protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
-        Text unsupported = new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY);
-        drawText(matrices, unsupported, 0xaa666666, x + CONTENT_WIDTH - this.textRenderer.getWidth(unsupported) >> 1, y + CONTENT_HEIGHT >> 1);
+        this.curRightPage.draw(matrices, x, y, mouseX, mouseY);
     }
 
     protected int chooseEntityDisplayPlan(ContentWidgets widgets) {
@@ -60,8 +63,44 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             case 4: left = 0; top = 0; width = 1; height = 8; break;
             default: left = 0; top = 0; width = 2; height = 6; break;
         }
-        widgets.setSlot(new DisplayedEntityContentWidget(height, width, this.handler.entity), top, left);
+        widgets.setSlot(top, left, new DisplayedEntityContentWidget(height, width, this.handler.entity));
         return plan;
+    }
+
+    public class DisplayedEntityContentWidget extends AbstractContentWidget {
+        private Entity displayedEntity, targetEntity;
+
+        public DisplayedEntityContentWidget(int rowSlots, int colSlots, Entity targetEntity) {
+            super(rowSlots, colSlots);
+            setTargetEntity(targetEntity);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawEntityAuto(this.displayedEntity, x + 2, y, x + this.widgetWidth - 2, y + this.widgetHeight - 4,
+                    (mouseX) / 33.0F + 0.0001F, (mouseY) / 53.0F + 5.0F);
+        }
+
+        public void updateDisplayedEntity() {
+            NbtCompound nbt = this.targetEntity.writeNbt(new NbtCompound());
+            nbt.remove("Dimension");
+            nbt.remove("Rotation");
+            nbt.remove("CustomName");
+            nbt.remove("CustomNameVisible");
+            nbt.remove("AngryAt");
+            try {
+                this.displayedEntity.readNbt(nbt);
+            }
+            catch (Exception e) {
+                Bole.LOGGER.warn("Cannot copy nbt of [" + this.targetEntity.getType().getTranslationKey() + "]: " + e);
+            }
+        }
+
+        public void setTargetEntity(Entity targetEntity) {
+            this.targetEntity = targetEntity;
+            this.displayedEntity = targetEntity.getType().create(MinecraftClient.getInstance().world);
+            updateDisplayedEntity();
+        }
     }
 
     public class BoundingBoxContentWidget extends AbstractContentWidget {
@@ -97,9 +136,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             float p = Math.min(1.0F, (float)cooldown / handler.entity.getDefaultNetherPortalCooldown());
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 100, 0);
-            drawTextureNormally(matrices, 256, 256, 32, 10, getZOffset(), x + 11, y, 110, 0);
+            drawTextureNormally(matrices, 256, 256, 33, 10, getZOffset(), x + 11, y, 110, 0);
             drawTextureNormally(matrices, 256, 256, 33.0F * p, 10, getZOffset(), x + 11, y, 150, 0);
-            drawTextureNormally(matrices, 256, 256, 8, 10, getZOffset(), x + 43, y, 142 + (lock ? 40 : 0), 0);
+            drawTextureNormally(matrices, 256, 256, 7, 10, getZOffset(), x + 44, y, 143 + (lock ? 40 : 0), 0);
             String text;
             if (lock) {
                 text = "∞";
@@ -114,7 +153,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
 
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (mouseX > 43 && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+            double offsetX = mouseX - this.elementBox.left();
+            if (offsetX >= 44 && offsetX <= 51 && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 int cooldown;
                 if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == Keys.NETHER_PORTAL_LOCK) {
                     cooldown = 0;

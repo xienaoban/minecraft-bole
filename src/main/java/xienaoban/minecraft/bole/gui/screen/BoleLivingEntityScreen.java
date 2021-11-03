@@ -15,7 +15,9 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
     }
 
     @Override
-    protected void initCustom() {}
+    protected void initCustom() {
+        super.initCustom();
+    }
 
     @Override
     protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {

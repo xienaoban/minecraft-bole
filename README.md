@@ -17,6 +17,7 @@ Toto List:
       - [ ] `Holding Entity`
       - [ ] `Is Baby`
       - [ ] `Never Grow Up`
+      - [ ] `Shut Up` (never play ambient sound)
       - SheepEntity:
         - [ ] `Force Eat Grass`
       - HorseEntity:
