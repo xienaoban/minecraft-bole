@@ -39,6 +39,14 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     protected abstract void initCustom();
 
     /**
+     * Invoked at the beginning of each client tick.
+     *
+     * @param ticks tick count
+     */
+    @Environment(EnvType.CLIENT)
+    public abstract void clientTick(int ticks);
+
+    /**
      * Writes the server-side entity data to the buf. <br/>
      * Always invoke <code>super.writeServerEntityBuf()</code> on the first line.
      *
@@ -69,14 +77,6 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     public boolean canUse(PlayerEntity player) {
         return true;
     }
-
-    /**
-     * Invoked at the beginning of each client tick.
-     *
-     * @param ticks tick count
-     */
-    @Environment(EnvType.CLIENT)
-    public abstract void clientTick(int ticks);
 
     /**
      * Gets the entity the client-side player is aiming at.

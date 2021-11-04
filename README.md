@@ -2,10 +2,10 @@ Toto List:
 - Entity:
   - [ ] `UUID`
   - [X] `Bounding Box`
-  - [ ] `Custom Name`
+  - [X] `Custom Name`
   - [X] `Nether Portal Cooldown`
   - [X] `Set Nether Portal Cooldown`
-  - [ ] `Set Custom Name Visible`
+  - [X] `Set Custom Name Visible`
   - LivingEntity:
     - [X] `Health`
     - [X] `Max Health`

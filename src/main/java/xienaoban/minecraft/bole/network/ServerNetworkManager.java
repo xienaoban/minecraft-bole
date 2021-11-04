@@ -5,6 +5,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
@@ -47,6 +49,9 @@ public class ServerNetworkManager {
                     player.openHandledScreen(new NamedScreenHandlerFactory() {
                         @Override
                         public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+                            // use hashmap later
+                            if (entity instanceof PassiveEntity) return new BolePassiveEntityScreenHandler<>(syncId, inv, entity);
+                            if (entity instanceof PathAwareEntity) return new BolePathAwareEntityScreenHandler<>(syncId, inv, entity);
                             if (entity instanceof MobEntity) return new BoleMobEntityScreenHandler<>(syncId, inv, entity);
                             if (entity instanceof LivingEntity) return new BoleLivingEntityScreenHandler<>(syncId, inv, entity);
                             return new BoleEntityScreenHandler<>(syncId, inv, entity);
