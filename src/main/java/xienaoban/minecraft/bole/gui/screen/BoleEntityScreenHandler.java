@@ -40,15 +40,23 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
 
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, new EntitySettingsBufHandler() {
-            @Override
-            public void readFromBuf(PacketByteBuf buf) {
+            @Override public void readFromBuf(PacketByteBuf buf) {
                 ((IMixinEntity)entity).setNetherPortalCooldown(buf.readInt());
             }
-
-            @Override
-            public void writeToBuf(PacketByteBuf buf, Object... args) {
-                ((IMixinEntity)entity).setNetherPortalCooldown((Integer) args[0]);
-                buf.writeInt(((IMixinEntity)entity).getNetherPortalCooldown());
+            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
+                int cooldown = (Integer) args[0];
+                ((IMixinEntity)entity).setNetherPortalCooldown(cooldown);
+                buf.writeInt(cooldown);
+            }
+        });
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_CUSTOM_NAME_VISIBLE, new EntitySettingsBufHandler() {
+            @Override public void readFromBuf(PacketByteBuf buf) {
+                entity.setCustomNameVisible(buf.readBoolean());
+            }
+            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
+                boolean visible = (Boolean) args[0];
+                entity.setCustomNameVisible(visible);
+                buf.writeBoolean(visible);
             }
         });
     }

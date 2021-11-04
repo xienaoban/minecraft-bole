@@ -7,6 +7,7 @@ public interface Keys {
 
     // Entity Setting Channels
     String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN = "nether_portal_cooldown";
+    String ENTITY_SETTING_CUSTOM_NAME_VISIBLE = "custom_name_visible";
     
     // Translation Keys
     String MOD_NAME = "xienaoban.bole";

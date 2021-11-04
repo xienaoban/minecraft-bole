@@ -140,7 +140,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 0, 30);
             drawTextureNormally(matrices, 256, 256, 33, 10, getZOffset(), x + 11, y, 10, 30);
             drawTextureNormally(matrices, 256, 256, 33.0F * p, 10, getZOffset(), x + 11, y, 50, 30);
-            drawTextureNormally(matrices, 256, 256, 7, 10, getZOffset(), x + 44, y, 43 + (lock ? 40 : 0), 30);
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x + 43, y, 200 + (lock ? 10 : 0), 0);
             String text;
             if (lock) {
                 text = "∞";
@@ -154,6 +154,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             drawText(matrices, text, 0xbbffffff, 0.5F, x + 13, y + 3.25F);
         }
 
+        @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             double offsetX = mouseX - this.elementBox.left();
             if (offsetX >= 44 && offsetX <= 51 && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
@@ -187,11 +188,23 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 0, 40);
             drawTextureNormally(matrices, 256, 256, 33, 10, getZOffset(), x + 11, y, 10, 40);
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x + 43, y, 220 + (handler.entity.isCustomNameVisible() ? 0 : 10), 0);
             setCacheText();
             drawText(matrices, this.cacheText, this.cacheColor, 0.5F, x + 13, y + 3.25F);
         }
 
-        public void setCacheText() {
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            double offsetX = mouseX - this.elementBox.left();
+            if (offsetX >= 44 && offsetX <= 51 && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                Entity entity = handler.entity;
+                boolean visible = entity.isCustomNameVisible();
+                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CUSTOM_NAME_VISIBLE, !visible);
+            }
+            return true;
+        }
+
+        private void setCacheText() {
             Text customName = handler.entity.getCustomName();
             if (customName == this.lastCustomName) {
                 return;
