@@ -25,6 +25,7 @@ import xienaoban.minecraft.bole.gui.ScreenElement;
 import xienaoban.minecraft.bole.gui.Textures;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
@@ -140,7 +141,19 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawTextureNormally(matrices, 256, 256, this.getZOffset(),
                 this.width >> 1, y0, x1, y1, u0, v0, u1, v1);
         if (this.debugMode) {
-            drawText(matrices, String.valueOf(BoleClient.getInstance().getTicks()), 0xbbffffff, 0.5F, 1, this.height - 5);
+            drawText(matrices, "Tick: " + BoleClient.getInstance().getTicks(), 0xbbffffff, 0.5F, 1, 10);
+            if (this.handler.entity != null) {
+                List<String> entitySuperclasses = new ArrayList<>();
+                Class<?> clazz = this.handler.entity.getClass();
+                while (!Entity.class.equals(clazz)) {
+                    entitySuperclasses.add(clazz.getSimpleName());
+                    clazz = clazz.getSuperclass();
+                }
+                entitySuperclasses.add(clazz.getSimpleName());
+                Collections.reverse(entitySuperclasses);
+                drawText(matrices, "Entity: " + String.join(" > ", entitySuperclasses), 0xbbffffff, 0.5F, 1, 15);
+                drawText(matrices, "Screen: " + this.getClass().getSimpleName(), 0xbbffffff, 0.5F, 1, 20);
+            }
         }
         drawText(matrices, this.title, 0x99888888, this.contentLeft[0] + 0.7F, this.contentTop - 12 + 0.7F);
         drawText(matrices, this.title, 0xff444444, this.contentLeft[0], this.contentTop - 12);

@@ -118,10 +118,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 90, 0);
             if (Math.abs(box.getXLength() - box.getZLength()) < 0.01) {
-                drawText(matrices, String.format("X/Z:%.2f Y:%.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3.25F);
+                drawText(matrices, String.format("XZ: %.2f  Y: %.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3.25F);
             } else {
-                drawText(matrices, String.format("X:%.2f Y:%.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 1.25F);
-                drawText(matrices, String.format("Z:%.2f", box.getZLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 5.25F);
+                drawText(matrices, String.format("X: %.2f  Y: %.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 1.25F);
+                drawText(matrices, String.format("Z: %.2f", box.getZLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 5.25F);
             }
         }
     }

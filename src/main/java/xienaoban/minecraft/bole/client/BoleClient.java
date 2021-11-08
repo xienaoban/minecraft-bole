@@ -6,8 +6,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
+import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 
 @Environment(EnvType.CLIENT)
@@ -27,7 +27,7 @@ public class BoleClient implements ClientModInitializer {
         instance = this;
         this.isScreenOpen = false;
         this.ticks = -1;
-        ScreenRegistryManager.init();
+        ScreenRegistryManager.initClient();
         ClientNetworkManager.init();
         KeyBindingManager.init();
     }

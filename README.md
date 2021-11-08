@@ -1,6 +1,6 @@
 Toto List:
 - Entity:
-  - [ ] `UUID`
+  - [ ] ~~`UUID`~~
   - [X] `Bounding Box`
   - [X] `Custom Name`
   - [X] `Nether Portal Cooldown`
@@ -14,18 +14,26 @@ Toto List:
       - [ ] `Food` (from goalSelector)
       - [ ] `Loot Table`
       - [ ] `Hand Item`
-      - [ ] `Holding Entity`
+      - [ ] `Grab Hand Item`
       - [ ] `Is Baby`
       - [ ] `Never Grow Up`
       - [ ] `Shut Up` (never play ambient sound)
-      - SheepEntity:
-        - [ ] `Force Eat Grass`
-      - HorseEntity:
-        - [ ] `Running Speed`
-        - [ ] `Jump Height`
-      - VillagerEntity:
-        - [ ] `Reset Job Site`
-        - [ ] `Reset Level 0`
-        - [ ] `Set Inventory`
-        - [ ] `Force Restock`
-        - [ ] `Change Clothes`
+      - PathAwareEntity:
+        - PassiveEntity:
+          - AnimalEntity:
+            - HorseBaseEntity:
+              - HorseEntity:
+                - [ ] `Running Speed`
+                - [ ] `Jump Height`
+            - BeeEntity:
+              - [ ] `Beehive Position`
+            - SheepEntity:
+              - [ ] `Force Eat Grass`
+          - MerchantEntity:
+            - VillagerEntity:
+              - [ ] `Reset Job Site`
+              - [ ] `Reset Level 0`
+              - [ ] `Set Inventory`
+              - [ ] `Force Restock`
+              - [ ] `Change Clothes`
+        - HostileEntity:
