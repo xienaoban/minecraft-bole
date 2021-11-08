@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -22,6 +21,7 @@ import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.gui.ElementBox;
+import xienaoban.minecraft.bole.gui.ScreenElement;
 import xienaoban.minecraft.bole.gui.Textures;
 
 import java.util.ArrayList;
@@ -426,7 +426,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     /**
      * Manages all widgets on a page.
      */
-    public class ContentWidgets implements Element {
+    public class ContentWidgets extends ScreenElement {
         public static final int CONTENT_WIDGET_MARGIN_WIDTH = 4;
         public static final int CONTENT_WIDGET_MARGIN_HEIGHT = 3;
         public static final int CONTENT_WIDGET_WIDTH = (CONTENT_WIDTH - CONTENT_WIDGET_MARGIN_WIDTH >> 1);
@@ -434,12 +434,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         private static final int ROWS = CONTENT_HEIGHT / (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT);
         private static final int COLS = 2;
 
-        protected final ElementBox elementBox;
-
         private final List<List<AbstractContentWidget>> widgets;
 
         public ContentWidgets() {
-            this.elementBox = new ElementBox(CONTENT_WIDTH, CONTENT_HEIGHT);
+            super(CONTENT_WIDTH, CONTENT_HEIGHT);
             List<List<AbstractContentWidget>> l1 = new ArrayList<>();
             for (int i = ROWS; i > 0; --i) {
                 List<AbstractContentWidget> l2 = new ArrayList<>();
@@ -451,8 +449,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             this.widgets = l1;
         }
 
+        @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            this.elementBox.position(x, y, true);
+            super.draw(matrices, x, y, mouseX, mouseY);
             for (int i = 0; i < ROWS; ++i) {
                 for (int j = 0; j < COLS; ++j) {
                     AbstractContentWidget w = this.widgets.get(i).get(j);
@@ -464,7 +463,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                     }
                 }
             }
-            drawDebugBox(matrices, this.elementBox, 0x66dd001b);
+            drawDebugBox(matrices, this.box, 0x66dd001b);
         }
 
         public boolean setSlot(int row, int col, AbstractContentWidget widget) {
@@ -502,8 +501,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             return false;
         }
 
+        @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            int x = (int) mouseX - this.elementBox.left(), y = (int) mouseY - this.elementBox.top();
+            int x = (int) mouseX - this.box.left(), y = (int) mouseY - this.box.top();
             int w = CONTENT_WIDGET_WIDTH + CONTENT_WIDGET_MARGIN_WIDTH, h = CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT;
             int col = x / w;
             int row = y / h;
@@ -521,11 +521,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
     }
 
-    public abstract class AbstractContentWidget implements Element {
-        protected final ElementBox elementBox;
-
+    public abstract class AbstractContentWidget extends ScreenElement {
         protected final int rowSlots, colSlots;
-        protected final int widgetWidth, widgetHeight;
 
         public AbstractContentWidget(int rowSlots, int colSlots) {
             if (colSlots != 1 && colSlots != 2) {
@@ -533,15 +530,16 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             }
             this.rowSlots = rowSlots;
             this.colSlots = colSlots;
-            this.widgetWidth = colSlots == 1 ? ContentWidgets.CONTENT_WIDGET_WIDTH : CONTENT_WIDTH;
-            this.widgetHeight = rowSlots * (ContentWidgets.CONTENT_WIDGET_HEIGHT + ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT) - ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT;
-            this.elementBox = new ElementBox(this.widgetWidth, this.widgetHeight);
+            int widgetWidth = colSlots == 1 ? ContentWidgets.CONTENT_WIDGET_WIDTH : CONTENT_WIDTH;
+            int widgetHeight = rowSlots * (ContentWidgets.CONTENT_WIDGET_HEIGHT + ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT) - ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT;
+            this.box.size(widgetWidth, widgetHeight);
         }
 
+        @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            this.elementBox.position(x, y, true);
+            super.draw(matrices, x, y, mouseX, mouseY);
             drawContent(matrices, x, y, mouseX, mouseY);
-            drawDebugBox(matrices, this.elementBox, 0x88c55c2d);
+            drawDebugBox(matrices, this.box, 0x88c55c2d);
         }
 
         protected abstract void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY);
@@ -569,9 +567,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            this.elementBox.position(x, y, true);
+            this.box.position(x, y, true);
             if (this.father == null) {
-                drawDebugBox(matrices, this.elementBox, 0x88c55c2d);
+                drawDebugBox(matrices, this.box, 0x88c55c2d);
             }
         }
 
@@ -599,8 +597,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawText(matrices, text, color, size,
-                    x + (this.widgetWidth - textRenderer.getWidth(text) >> 1),
-                    y + (this.widgetHeight - (int)(DEFAULT_LINE_HEIGHT * this.size) >> 1));
+                    x + (this.box.width() - textRenderer.getWidth(text) >> 1),
+                    y + (this.box.height() - (int)(DEFAULT_LINE_HEIGHT * this.size) >> 1));
         }
 
         public void setText(Text text) {

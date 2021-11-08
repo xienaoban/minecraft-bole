@@ -79,7 +79,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawEntityAuto(this.displayedEntity, x + 2, y, x + this.widgetWidth - 2, y + this.widgetHeight - 4,
+            drawEntityAuto(this.displayedEntity, x + 2, y, x + this.box.width() - 2, y + this.box.height() - 4,
                     (mouseX) / 33.0F + 0.0001F, (mouseY) / 53.0F + 5.0F);
         }
 
@@ -156,7 +156,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            double offsetX = mouseX - this.elementBox.left();
+            double offsetX = mouseX - this.box.left();
             if (offsetX >= 44 && offsetX <= 51 && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 int cooldown;
                 if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == Keys.NETHER_PORTAL_LOCK) {
@@ -195,7 +195,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            double offsetX = mouseX - this.elementBox.left();
+            double offsetX = mouseX - this.box.left();
             if (offsetX >= 44 && offsetX <= 51 && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 Entity entity = handler.entity;
                 boolean visible = entity.isCustomNameVisible();
