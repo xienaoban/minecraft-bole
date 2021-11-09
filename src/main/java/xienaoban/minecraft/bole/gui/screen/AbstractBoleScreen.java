@@ -44,8 +44,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     protected int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
 
-    protected final List<ContentWidgets> pages;
-    protected ContentWidgets curLeftPage, curRightPage;
+    protected final List<Page> pages;
+    protected Page curLeftPage, curRightPage;
 
     protected boolean debugMode;
 
@@ -54,8 +54,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.debugMode = false;
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
-        this.curLeftPage = new ContentWidgets();
-        this.curRightPage = new ContentWidgets();
+        this.curLeftPage = new Page();
+        this.curRightPage = new Page();
         this.pages = new ArrayList<>();
         this.pages.add(this.curLeftPage);
         this.pages.add(this.curRightPage);
@@ -439,7 +439,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     /**
      * Manages all widgets on a page.
      */
-    public class ContentWidgets extends ScreenElement {
+    public class Page extends ScreenElement {
         public static final int CONTENT_WIDGET_MARGIN_WIDTH = 4;
         public static final int CONTENT_WIDGET_MARGIN_HEIGHT = 3;
         public static final int CONTENT_WIDGET_WIDTH = (CONTENT_WIDTH - CONTENT_WIDGET_MARGIN_WIDTH >> 1);
@@ -449,7 +449,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         private final List<List<AbstractContentWidget>> widgets;
 
-        public ContentWidgets() {
+        public Page() {
             super(CONTENT_WIDTH, CONTENT_HEIGHT);
             List<List<AbstractContentWidget>> l1 = new ArrayList<>();
             for (int i = ROWS; i > 0; --i) {
@@ -543,8 +543,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             }
             this.rowSlots = rowSlots;
             this.colSlots = colSlots;
-            int widgetWidth = colSlots == 1 ? ContentWidgets.CONTENT_WIDGET_WIDTH : CONTENT_WIDTH;
-            int widgetHeight = rowSlots * (ContentWidgets.CONTENT_WIDGET_HEIGHT + ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT) - ContentWidgets.CONTENT_WIDGET_MARGIN_HEIGHT;
+            int widgetWidth = colSlots == 1 ? Page.CONTENT_WIDGET_WIDTH : CONTENT_WIDTH;
+            int widgetHeight = rowSlots * (Page.CONTENT_WIDGET_HEIGHT + Page.CONTENT_WIDGET_MARGIN_HEIGHT) - Page.CONTENT_WIDGET_MARGIN_HEIGHT;
             this.box.size(widgetWidth, widgetHeight);
         }
 

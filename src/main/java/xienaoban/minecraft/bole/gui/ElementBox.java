@@ -86,6 +86,9 @@ public class ElementBox {
     }
 
     public void position(int x0, int y0, boolean lockWidthAndHeight) {
+        if (x0 == this.x0 && y0 == this.y0) {
+            return;
+        }
         left(x0, lockWidthAndHeight);
         top(y0, lockWidthAndHeight);
     }

@@ -15,7 +15,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
 
     @Override
     protected void initCustom() {
-        ContentWidgets page;
+        Page page;
         page = this.pages.get(0);
         this.entityDisplayPlan = chooseEntityDisplayPlan(page);
         page.addSlot(new HealthContentWidget());

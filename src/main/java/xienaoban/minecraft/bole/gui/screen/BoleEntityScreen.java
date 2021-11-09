@@ -43,7 +43,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         this.curRightPage.draw(matrices, x, y, mouseX, mouseY);
     }
 
-    protected int chooseEntityDisplayPlan(ContentWidgets widgets) {
+    protected int chooseEntityDisplayPlan(Page page) {
         Box box = this.handler.entity.getVisibilityBoundingBox();
         double x = box.getXLength(), y = box.getYLength();
         double area = x * y, ratio = y / x;
@@ -65,7 +65,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             case 4: left = 0; top = 0; width = 1; height = 8; break;
             default: left = 0; top = 0; width = 2; height = 6; break;
         }
-        widgets.setSlot(top, left, new DisplayedEntityContentWidget(height, width, this.handler.entity));
+        page.setSlot(top, left, new DisplayedEntityContentWidget(height, width, this.handler.entity));
         return plan;
     }
 
