@@ -59,13 +59,13 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
         int left, top, width, height;
         switch (plan) {
-            case 1: left = 1; top = 0; width = 1; height = 4; break;
-            case 2: left = 0; top = 0; width = 1; height = 5; break;
-            case 3: left = 0; top = 3; width = 2; height = 2; break;
-            case 4: left = 0; top = 0; width = 1; height = 8; break;
-            default: left = 0; top = 0; width = 2; height = 6; break;
+            case 1: left = 2; top = 0; width = 2; height = 4; break;
+            case 2: left = 0; top = 0; width = 2; height = 5; break;
+            case 3: left = 0; top = 3; width = 4; height = 2; break;
+            case 4: left = 0; top = 0; width = 2; height = 8; break;
+            default: left = 0; top = 0; width = 4; height = 6; break;
         }
-        page.setSlot(top, left, new DisplayedEntityContentWidget(height, width, this.handler.entity));
+        page.setSlot(left, top, new DisplayedEntityContentWidget(width, height, this.handler.entity));
         return plan;
     }
 
@@ -76,8 +76,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     public class DisplayedEntityContentWidget extends AbstractContentWidget {
         private Entity displayedEntity, targetEntity;
 
-        public DisplayedEntityContentWidget(int rowSlots, int colSlots, Entity targetEntity) {
-            super(rowSlots, colSlots);
+        public DisplayedEntityContentWidget(int colSlots, int rowSlots, Entity targetEntity) {
+            super(colSlots, rowSlots);
             setTargetEntity(targetEntity);
         }
 
@@ -115,7 +115,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     public class BoundingBoxContentWidget extends AbstractContentWidget {
 
         public BoundingBoxContentWidget() {
-            super(1, 1);
+            super(2, 1);
         }
 
         @Override
@@ -139,7 +139,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
      */
     public class NetherPortalCooldownContentWidget extends AbstractContentWidget {
         public NetherPortalCooldownContentWidget() {
-            super(1, 1);
+            super(2, 1);
         }
 
         @Override
@@ -192,7 +192,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         private int cacheColor;
 
         public CustomNameContentWidget() {
-            super(1, 1);
+            super(2, 1);
             this.lastCustomName = new LiteralText(""); // not null
             this.cacheText = null;
             this.cacheColor = 0xff000000;

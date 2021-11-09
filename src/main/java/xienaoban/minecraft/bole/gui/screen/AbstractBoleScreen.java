@@ -34,7 +34,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     public static final int BODY_WIDTH = (192 - BOOK_TEXTURE_CUT) * 2;
     public static final int BODY_HEIGHT = 192;
-    public static final int CONTENT_WIDTH = 110;
+    public static final int CONTENT_WIDTH = 108;
     public static final int CONTENT_HEIGHT = 130;
     public static final int CONTENT_SPACING_WIDTH = 20;
 
@@ -202,7 +202,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
      * Draw an entity.
      * This method is similar to InventoryScreen.drawEntity(), but there are some differences:
      * <p>1. It can draw any Entity, not only LivingEntity. </p>
-     * <p>2. The entity it renders is brighter (but it brings some bugs...). </p>
+     * <p>2. The entity it renders is brighter (but it brings some lighting bugs...). </p>
      * <p>3. It can't recognize the yaw of LivingEntity, so don’t use it to render a rotating LivingEntity. </p>
      * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
      */
@@ -442,19 +442,19 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public class Page extends ScreenElement {
         public static final int CONTENT_WIDGET_MARGIN_WIDTH = 4;
         public static final int CONTENT_WIDGET_MARGIN_HEIGHT = 3;
-        public static final int CONTENT_WIDGET_WIDTH = (CONTENT_WIDTH - CONTENT_WIDGET_MARGIN_WIDTH >> 1);
+        private static final int COLS = 4;
+        public static final int CONTENT_WIDGET_WIDTH = (CONTENT_WIDTH - CONTENT_WIDGET_MARGIN_WIDTH * (COLS - 1)) / COLS;
         public static final int CONTENT_WIDGET_HEIGHT = 10;
         private static final int ROWS = CONTENT_HEIGHT / (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT);
-        private static final int COLS = 2;
 
         private final List<List<AbstractContentWidget>> widgets;    // 10 * 2 widgets per page
 
         public Page() {
             super(CONTENT_WIDTH, CONTENT_HEIGHT);
             List<List<AbstractContentWidget>> l1 = new ArrayList<>();
-            for (int i = ROWS; i > 0; --i) {
+            for (int i = COLS; i > 0; --i) {
                 List<AbstractContentWidget> l2 = new ArrayList<>();
-                for (int j = 0; j < COLS; ++j) {
+                for (int j = 0; j < ROWS; ++j) {
                     l2.add(null);
                 }
                 l1.add(l2);
@@ -465,13 +465,13 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             super.draw(matrices, x, y, mouseX, mouseY);
-            for (int i = 0; i < ROWS; ++i) {
-                for (int j = 0; j < COLS; ++j) {
+            for (int i = 0; i < COLS; ++i) {
+                for (int j = 0; j < ROWS; ++j) {
                     AbstractContentWidget w = this.widgets.get(i).get(j);
                     if (w != null) {
                         w.draw(matrices,
-                                x + j * (CONTENT_WIDGET_WIDTH + CONTENT_WIDGET_MARGIN_WIDTH),
-                                y + i * (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT),
+                                x + i * (CONTENT_WIDGET_WIDTH + CONTENT_WIDGET_MARGIN_WIDTH),
+                                y + j * (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT),
                                 mouseX, mouseY);
                     }
                 }
@@ -479,18 +479,18 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             drawDebugBox(matrices, this.box, 0x66dd001b);
         }
 
-        public boolean setSlot(int row, int col, AbstractContentWidget widget) {
-            if (row + widget.getRowSlots() > ROWS || col + widget.getColSlots() > COLS) {
-                Bole.LOGGER.error("Widget cannot be set here! " + widget.getRowSlots() + ", " + widget.getColSlots() + ", " + row + ", " + col);
+        public boolean setSlot(int col, int row, AbstractContentWidget widget) {
+            if (col + widget.getColSlots() > COLS || row + widget.getRowSlots() > ROWS) {
+                Bole.LOGGER.error("Widget cannot be set here! " + widget.getColSlots() + ", " + widget.getRowSlots() + ", " + col + ", " + row);
                 return false;
             }
             EmptyContentWidget empty = new EmptyContentWidget(1, 1, widget);
-            for (int i = 0; i < widget.getRowSlots(); ++i) {
-                for (int j = 0; j < widget.getColSlots(); ++j) {
-                    this.widgets.get(row + i).set(col + j, empty);
+            for (int i = 0; i < widget.getColSlots(); ++i) {
+                for (int j = 0; j < widget.getRowSlots(); ++j) {
+                    this.widgets.get(col + i).set(row + j, empty);
                 }
             }
-            this.widgets.get(row).set(col, widget);
+            this.widgets.get(col).set(row, widget);
             return true;
         }
 
@@ -502,12 +502,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                     if (j + widget.getColSlots() > COLS) break;
                     for (int p = 0; p < widget.getRowSlots(); ++p) {
                         for (int q = 0; q < widget.getColSlots(); ++q) {
-                            if (this.widgets.get(i + p).get(j + q) != null) {
+                            if (this.widgets.get(j + q).get(i + p) != null) {
                                 continue BAD;
                             }
                         }
                     }
-                    return setSlot(i, j, widget);
+                    return setSlot(j, i, widget);
                 }
             }
             Bole.LOGGER.error("Widget cannot be added here!");
@@ -523,7 +523,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             if (col >= COLS || row >= ROWS) {
                 return false;
             }
-            AbstractContentWidget widget = this.widgets.get(row).get(col);
+            AbstractContentWidget widget = this.widgets.get(col).get(row);
             if (widget instanceof AbstractBoleScreen.EmptyContentWidget) {
                 widget = ((EmptyContentWidget) widget).father;
             }
@@ -539,17 +539,13 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
      * Widgets can have different sizes.
      */
     public abstract class AbstractContentWidget extends ScreenElement {
-        protected final int rowSlots, colSlots;
+        protected final int colSlots, rowSlots;
 
-        public AbstractContentWidget(int rowSlots, int colSlots) {
-            if (colSlots != 1 && colSlots != 2) {
-                throw new RuntimeException("`colSlots` should be 1 or 2.");
-            }
-            this.rowSlots = rowSlots;
+        public AbstractContentWidget(int colSlots, int rowSlots) {
+            super(colSlots * (Page.CONTENT_WIDGET_WIDTH + Page.CONTENT_WIDGET_MARGIN_WIDTH) - Page.CONTENT_WIDGET_MARGIN_WIDTH,
+                    rowSlots * (Page.CONTENT_WIDGET_HEIGHT + Page.CONTENT_WIDGET_MARGIN_HEIGHT) - Page.CONTENT_WIDGET_MARGIN_HEIGHT);
             this.colSlots = colSlots;
-            int widgetWidth = colSlots == 1 ? Page.CONTENT_WIDGET_WIDTH : CONTENT_WIDTH;
-            int widgetHeight = rowSlots * (Page.CONTENT_WIDGET_HEIGHT + Page.CONTENT_WIDGET_MARGIN_HEIGHT) - Page.CONTENT_WIDGET_MARGIN_HEIGHT;
-            this.box.size(widgetWidth, widgetHeight);
+            this.rowSlots = rowSlots;
         }
 
         @Override
@@ -577,12 +573,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public final class EmptyContentWidget extends AbstractContentWidget {
         private final AbstractContentWidget father;
 
-        public EmptyContentWidget(int rowSlots, int colSlots) {
-            this(rowSlots, colSlots, null);
+        public EmptyContentWidget(int colSlots, int rowSlots) {
+            this(colSlots, rowSlots, null);
         }
 
-        public EmptyContentWidget(int widthSlots, int heightSlots, AbstractContentWidget father) {
-            super(widthSlots, heightSlots);
+        public EmptyContentWidget(int colSlots, int rowSlots, AbstractContentWidget father) {
+            super(colSlots, rowSlots);
             this.father = father;
         }
 
@@ -611,11 +607,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         private int color;
         private float size;
 
-        public CenteredTextContentWidget(int rowSlots, int colSlots, Text text, int color, float size) {
-            super(rowSlots, colSlots);
-            setText(text);
-            setColor(color);
-            setSize(size);
+        public CenteredTextContentWidget(int colSlots, int rowSlots, Text text, int color, float size) {
+            super(colSlots, rowSlots);
+            setText(text); setColor(color); setSize(size);
         }
 
         @Override

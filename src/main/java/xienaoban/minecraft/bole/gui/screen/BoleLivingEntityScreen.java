@@ -38,7 +38,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         private final int lineCnt;
 
         public HealthContentWidget() {
-            super(1, 1);
+            super(2, 1);
             this.barCache = new int[3][2];
             int mh = (int) handler.entity.getMaxHealth();
             this.lineCnt = (int) Math.min(Math.ceil(mh / 20.0), 3);
