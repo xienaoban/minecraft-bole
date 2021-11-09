@@ -69,6 +69,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         return plan;
     }
 
+    /**
+     * A widget that displays the target entity. <br/>
+     * The entity can be rotated according to the mouse.
+     */
     public class DisplayedEntityContentWidget extends AbstractContentWidget {
         private Entity displayedEntity, targetEntity;
 
@@ -105,6 +109,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
     }
 
+    /**
+     * A widget that displays the bounding box of the target entity.
+     */
     public class BoundingBoxContentWidget extends AbstractContentWidget {
 
         public BoundingBoxContentWidget() {
@@ -126,6 +133,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
     }
 
+    /**
+     * A widget that displays the cooldown of the target entity to the nether portals. <br/>
+     * You can set the cooldown to zero or infinity.
+     */
     public class NetherPortalCooldownContentWidget extends AbstractContentWidget {
         public NetherPortalCooldownContentWidget() {
             super(1, 1);
@@ -171,6 +182,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
     }
 
+    /**
+     * A widget that displays the custom name of the target entity. <br/>
+     * You can set the custom name to always be displayed.
+     */
     public class CustomNameContentWidget extends AbstractContentWidget {
         private Text lastCustomName;
         private Text cacheText;

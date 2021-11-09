@@ -447,7 +447,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         private static final int ROWS = CONTENT_HEIGHT / (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT);
         private static final int COLS = 2;
 
-        private final List<List<AbstractContentWidget>> widgets;
+        private final List<List<AbstractContentWidget>> widgets;    // 10 * 2 widgets per page
 
         public Page() {
             super(CONTENT_WIDTH, CONTENT_HEIGHT);
@@ -534,6 +534,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
     }
 
+    /**
+     * Many widgets can be placed on one page.
+     * Widgets can have different sizes.
+     */
     public abstract class AbstractContentWidget extends ScreenElement {
         protected final int rowSlots, colSlots;
 
@@ -566,7 +570,11 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
     }
 
-    public class EmptyContentWidget extends AbstractContentWidget {
+    /**
+     * A widget that displays nothing.
+     * It can also be used as a placeholder for large widgets.
+     */
+    public final class EmptyContentWidget extends AbstractContentWidget {
         private final AbstractContentWidget father;
 
         public EmptyContentWidget(int rowSlots, int colSlots) {
@@ -594,7 +602,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
     }
 
-    public class CenteredTextContentWidget extends AbstractContentWidget {
+    /**
+     * A widget that displays text in the center.
+     */
+    public final class CenteredTextContentWidget extends AbstractContentWidget {
         private static final int DEFAULT_LINE_HEIGHT = 8;
         private Text text;
         private int color;

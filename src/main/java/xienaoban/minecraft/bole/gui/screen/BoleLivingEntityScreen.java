@@ -29,6 +29,10 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
+    /**
+     * A widget that displays the health (and the max default health) of the target entity. <br/>
+     * Each red bar represents 20 blood, and the golden bar represents more than 20 blood.
+     */
     public class HealthContentWidget extends AbstractContentWidget {
         private final int[][] barCache;
         private final int lineCnt;
