@@ -567,6 +567,122 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     /**
+     * A template widget composed of three parts: icon, bar and buttons.
+     */
+    protected abstract class ContentWidgetTemplate1 extends AbstractContentWidget {
+        private static final int GAP = 1, ICON_LEFT = 0, ICON_WIDTH = 10;
+        private static final int BAR_LEFT = ICON_LEFT + ICON_WIDTH + GAP;
+        private static final int BAR_TEXT_LEFT = BAR_LEFT + 2;
+        private static final int BUTTON_WIDTH = 6, BUTTON_TEXTURE_OFFSET = 10 - BUTTON_WIDTH >> 1;
+        private static final float TEXT_HEIGHT = 3.25F, TEXT_SIZE = 0.5F;
+
+        private MatrixStack matrices;
+        private int x, y;
+
+        private final int barWidth;
+        protected final int[] buttons;
+
+        public ContentWidgetTemplate1(int colSlots, boolean hasBar, int buttonCnt) {
+            super(colSlots, 1);
+            this.buttons = new int[buttonCnt];
+            if (hasBar) {
+                barWidth = this.box.width() - BAR_LEFT - GAP - buttonCnt * (BUTTON_WIDTH + GAP);
+            }
+            else {
+                barWidth = -1;
+            }
+            int buttonLeft = BAR_LEFT + barWidth + GAP;
+            for (int i = 0; i < buttonCnt; ++i) {
+                this.buttons[i] = buttonLeft + i * (BUTTON_WIDTH + GAP);
+            }
+        }
+
+        @Override
+        public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            this.matrices = matrices;
+            this.x = x;
+            this.y = y;
+            setTexture(Textures.ICONS);
+            super.draw(matrices, x, y, mouseX, mouseY);
+        }
+
+        protected void drawIcon(int u, int v) {
+            drawTextureNormally(this.matrices, 256, 256, 10, 10, getZOffset(), this.x + ICON_LEFT, this.y, u, v);
+        }
+
+        protected void drawBar(int u, int v, float p) {
+            drawTextureNormally(this.matrices, 256, 256, this.barWidth * p, 10, getZOffset(), this.x + BAR_LEFT, this.y, u, v);
+        }
+
+        protected void drawBarText(String text, int color) {
+            drawText(matrices, text, color, TEXT_SIZE, x + BAR_TEXT_LEFT, y + TEXT_HEIGHT);
+        }
+
+        protected void drawBarText(Text text, int color) {
+            drawText(matrices, text, color, TEXT_SIZE, x + BAR_TEXT_LEFT, y + TEXT_HEIGHT);
+        }
+
+        protected void drawButton(int u, int v, int index) {
+            drawTextureNormally(this.matrices, 256, 256, 10, 10, getZOffset(), this.x + this.buttons[index] - BUTTON_TEXTURE_OFFSET, this.y, u, v);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            double offsetX = mouseX - this.box.left(), offsetY = mouseY - this.box.top();
+            int index = -1;
+            if (offsetX < ICON_LEFT + ICON_WIDTH) {
+                if (offsetX > ICON_LEFT + 1 && offsetX < ICON_LEFT + ICON_WIDTH - 1
+                        && offsetY > 1 && offsetY < 9) {
+                    index = 0;
+                }
+            }
+            else if (offsetX < BAR_LEFT + this.barWidth) {
+                if (offsetX > BAR_LEFT && offsetY > 2 && offsetY < 8) {
+                    index = 1;
+                }
+            }
+            else {
+                for (int i = this.buttons.length - 1; i >= 0; --i) {
+                    if (offsetX > this.buttons[i]) {
+                        if (offsetX < this.buttons[i] + BUTTON_WIDTH && offsetY > 2 && offsetY < 8) {
+                            index = 2 + i;
+                        }
+                        break;
+                    }
+                }
+            }
+            return mouseClicked(index, mouseX, mouseY, button);
+        }
+
+        public abstract boolean mouseClicked(int index, double mouseX, double mouseY, int button);
+    }
+
+    /**
+     * Just a demo. Delete it later.
+     */
+    public final class ContentWidgetTemplate1Demo extends ContentWidgetTemplate1 {
+
+        public ContentWidgetTemplate1Demo(int colSlots, boolean hasBar, int buttonCnt) {
+            super(colSlots, hasBar, buttonCnt);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawIcon(0, 0); drawBar(10, 30, 1.0F); drawBar(50, 10, 0.35F);
+            for (int i = 0; i < this.buttons.length; ++i) {
+                drawButton(220, 0, i);
+            }
+            drawBarText("123", 0xff00ff00);
+        }
+
+        @Override
+        public boolean mouseClicked(int index, double mouseX, double mouseY, int button) {
+            Bole.LOGGER.info(index);
+            return false;
+        }
+    }
+
+    /**
      * A widget that displays nothing.
      * It can also be used as a placeholder for large widgets.
      */

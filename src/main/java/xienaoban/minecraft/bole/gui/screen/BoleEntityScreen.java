@@ -30,7 +30,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         this.curRightPage.addSlot(new CustomNameContentWidget());
         this.curRightPage.addSlot(new BoundingBoxContentWidget());
         this.curRightPage.addSlot(new NetherPortalCooldownContentWidget());
-        this.curRightPage.setSlot(5, 0, new CenteredTextContentWidget(2, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
+        this.curRightPage.setSlot(0, 5, new CenteredTextContentWidget(4, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
     }
 
     @Override
