@@ -13,7 +13,6 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -112,24 +111,25 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     /**
      * A widget that displays the bounding box of the target entity.
      */
-    public class BoundingBoxContentWidget extends AbstractContentWidget {
-
+    public class BoundingBoxContentWidget extends TemplateContentWidget1 {
         public BoundingBoxContentWidget() {
-            super(2, 1);
+            super(2, true, 0);
         }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            E entity = handler.entity;
+            Entity entity = handler.entity;
             Box box = entity.getBoundingBox();
-            setTexture(Textures.ICONS);
-            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 90, 0);
-            if (Math.abs(box.getXLength() - box.getZLength()) < 0.01) {
-                drawText(matrices, String.format("XZ: %.2f  Y: %.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 3.25F);
-            } else {
-                drawText(matrices, String.format("X: %.2f  Y: %.2f", box.getXLength(), box.getYLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 1.25F);
-                drawText(matrices, String.format("Z: %.2f", box.getZLength()), CONTENT_TEXT_COLOR, 0.5F, x + 12, y + 5.25F);
-            }
+            drawIcon(0, 50);
+            drawBar(10, 50, 1.0F);
+            drawText(matrices, String.format("%.2f", box.getXLength()), 0xffee3d3d, 0.5F, x + BAR_LEFT + 2, y + TEXT_HEIGHT);
+            drawText(matrices, String.format("%.2f", box.getYLength()), 0xff04b904, 0.5F, x + BAR_LEFT + 2 + 13, y + TEXT_HEIGHT);
+            drawText(matrices, String.format("%.2f", box.getZLength()), 0xff175fe4, 0.5F, x + BAR_LEFT + 2 + 26, y + TEXT_HEIGHT);
+        }
+
+        @Override
+        public boolean elementClicked(int index, double mouseX, double mouseY, int button) {
+            return false;
         }
     }
 
@@ -137,9 +137,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
      * A widget that displays the cooldown of the target entity to the nether portals. <br/>
      * You can set the cooldown to zero or infinity.
      */
-    public class NetherPortalCooldownContentWidget extends AbstractContentWidget {
+    public class NetherPortalCooldownContentWidget extends TemplateContentWidget1 {
         public NetherPortalCooldownContentWidget() {
-            super(2, 1);
+            super(2, true, 1);
         }
 
         @Override
@@ -147,11 +147,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             int cooldown = ((IMixinEntity)handler.entity).getNetherPortalCooldown();
             boolean lock = cooldown == Keys.NETHER_PORTAL_LOCK;
             float p = Math.min(1.0F, (float)cooldown / handler.entity.getDefaultNetherPortalCooldown());
-            setTexture(Textures.ICONS);
-            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 0, 30);
-            drawTextureNormally(matrices, 256, 256, 33, 10, getZOffset(), x + 11, y, 10, 30);
-            drawTextureNormally(matrices, 256, 256, 33.0F * p, 10, getZOffset(), x + 11, y, 50, 30);
-            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x + 43, y, 200 + (lock ? 10 : 0), 0);
+            drawIcon(0, 30);
+            drawBar(10, 30, 1.0F);
+            drawBar(50, 30, p);
+            drawButton(200 + (lock ? 10 : 0), 0, 0);
             String text;
             if (lock) {
                 text = "∞";
@@ -162,22 +161,22 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             else {
                 text = (((IMixinEntity)handler.entity).getNetherPortalCooldown() / 20) + "s";
             }
-            drawText(matrices, text, 0xbbffffff, 0.5F, x + 13, y + 3.25F);
+            drawBarText(text, 0xbbffffff);
         }
 
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            double offsetX = mouseX - this.box.left();
-            if (offsetX >= 44 && offsetX <= 51 && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                int cooldown;
-                if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == Keys.NETHER_PORTAL_LOCK) {
-                    cooldown = 0;
-                }
-                else {
-                    cooldown = Keys.NETHER_PORTAL_LOCK;
-                }
-                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, cooldown);
+        public boolean elementClicked(int index, double mouseX, double mouseY, int button) {
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                return false;
             }
+            int cooldown;
+            if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == Keys.NETHER_PORTAL_LOCK) {
+                cooldown = 0;
+            }
+            else {
+                cooldown = Keys.NETHER_PORTAL_LOCK;
+            }
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, cooldown);
             return true;
         }
     }
@@ -186,13 +185,13 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
      * A widget that displays the custom name of the target entity. <br/>
      * You can set the custom name to always be displayed.
      */
-    public class CustomNameContentWidget extends AbstractContentWidget {
+    public class CustomNameContentWidget extends TemplateContentWidget1 {
         private Text lastCustomName;
         private Text cacheText;
         private int cacheColor;
 
         public CustomNameContentWidget() {
-            super(2, 1);
+            super(2, true, 1);
             this.lastCustomName = new LiteralText(""); // not null
             this.cacheText = null;
             this.cacheColor = 0xff000000;
@@ -200,22 +199,21 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            setTexture(Textures.ICONS);
-            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 0, 40);
-            drawTextureNormally(matrices, 256, 256, 33, 10, getZOffset(), x + 11, y, 10, 40);
-            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x + 43, y, 220 + (handler.entity.isCustomNameVisible() ? 0 : 10), 0);
+            drawIcon(0, 40);
+            drawBar(10, 40, 1.0F);
+            drawButton(220 + (handler.entity.isCustomNameVisible() ? 0 : 10), 0, 0);
             setCacheText();
-            drawText(matrices, this.cacheText, this.cacheColor, 0.5F, x + 13, y + 3.25F);
+            drawBarText(this.cacheText, this.cacheColor);
         }
 
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            double offsetX = mouseX - this.box.left();
-            if (offsetX >= 44 && offsetX <= 51 && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                Entity entity = handler.entity;
-                boolean visible = entity.isCustomNameVisible();
-                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CUSTOM_NAME_VISIBLE, !visible);
+        public boolean elementClicked(int index, double mouseX, double mouseY, int button) {
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                return false;
             }
+            Entity entity = handler.entity;
+            boolean visible = entity.isCustomNameVisible();
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CUSTOM_NAME_VISIBLE, !visible);
             return true;
         }
 

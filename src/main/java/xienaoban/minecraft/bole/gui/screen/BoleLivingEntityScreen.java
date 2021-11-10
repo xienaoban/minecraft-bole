@@ -18,17 +18,6 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
     protected void initCustom() {
         super.initCustom();
         this.curRightPage.addSlot(new HealthContentWidget());
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(1, true, 0));
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(1, true, 1));
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(1, true, 2));
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(1, false, 2));
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(2, true, 0));
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(2, true, 1));
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(2, true, 2));
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(2, true, 3));
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(2, false, 3));
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(3, true, 3));
-        this.curRightPage.addSlot(new ContentWidgetTemplate1Demo(4, true, 3));
     }
 
     @Override
@@ -59,7 +48,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            E entity = handler.entity;
+            LivingEntity entity = handler.entity;
             int health = (int)entity.getHealth();
             int maxHealth = (int)entity.getMaxHealth();
             setTexture(Textures.ICONS);

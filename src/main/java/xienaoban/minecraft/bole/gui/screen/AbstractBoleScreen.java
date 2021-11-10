@@ -569,20 +569,22 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     /**
      * A template widget composed of three parts: icon, bar and buttons.
      */
-    protected abstract class ContentWidgetTemplate1 extends AbstractContentWidget {
-        private static final int GAP = 1, ICON_LEFT = 0, ICON_WIDTH = 10;
-        private static final int BAR_LEFT = ICON_LEFT + ICON_WIDTH + GAP;
-        private static final int BAR_TEXT_LEFT = BAR_LEFT + 2;
-        private static final int BUTTON_WIDTH = 6, BUTTON_TEXTURE_OFFSET = 10 - BUTTON_WIDTH >> 1;
-        private static final float TEXT_HEIGHT = 3.25F, TEXT_SIZE = 0.5F;
+    protected abstract class TemplateContentWidget1 extends AbstractContentWidget {
+        protected static final int GAP = 1, ICON_LEFT = 0, ICON_WIDTH = 10;
+        protected static final int BAR_LEFT = ICON_LEFT + ICON_WIDTH + GAP;
+        protected static final int BAR_TEXT_LEFT = BAR_LEFT + 2;
+        protected static final int BUTTON_WIDTH = 6, BUTTON_TEXTURE_OFFSET = 10 - BUTTON_WIDTH >> 1;
+        protected static final float TEXT_HEIGHT = 3.25F, TEXT_SIZE = 0.5F;
+
+        protected static final int IDX_ICON = 0, IDX_BAR = 1, IDX_BUTTON_BEGIN = 2;
 
         private MatrixStack matrices;
         private int x, y;
 
-        private final int barWidth;
+        protected final int barWidth;
         protected final int[] buttons;
 
-        public ContentWidgetTemplate1(int colSlots, boolean hasBar, int buttonCnt) {
+        public TemplateContentWidget1(int colSlots, boolean hasBar, int buttonCnt) {
             super(colSlots, 1);
             this.buttons = new int[buttonCnt];
             if (hasBar) {
@@ -651,18 +653,18 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                     }
                 }
             }
-            return mouseClicked(index, mouseX, mouseY, button);
+            return elementClicked(index, mouseX, mouseY, button);
         }
 
-        public abstract boolean mouseClicked(int index, double mouseX, double mouseY, int button);
+        public abstract boolean elementClicked(int index, double mouseX, double mouseY, int button);
     }
 
     /**
      * Just a demo. Delete it later.
      */
-    public final class ContentWidgetTemplate1Demo extends ContentWidgetTemplate1 {
+    public final class TemplateContentWidget1Demo extends TemplateContentWidget1 {
 
-        public ContentWidgetTemplate1Demo(int colSlots, boolean hasBar, int buttonCnt) {
+        public TemplateContentWidget1Demo(int colSlots, boolean hasBar, int buttonCnt) {
             super(colSlots, hasBar, buttonCnt);
         }
 
@@ -676,7 +678,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         @Override
-        public boolean mouseClicked(int index, double mouseX, double mouseY, int button) {
+        public boolean elementClicked(int index, double mouseX, double mouseY, int button) {
             Bole.LOGGER.info(index);
             return false;
         }
