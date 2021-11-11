@@ -9,18 +9,20 @@ Toto List:
   - LivingEntity:
     - [X] `Health`
     - [X] `Max Health`
+    - [X] `Is Baby`
     - MobEntity:
-      - [ ] `Speed` (from goalSelector)
-      - [ ] `Food` (from goalSelector)
-      - [ ] `Loot Table`
+      - [ ] `Speed` (goalSelector)
+      - [ ] `Food` (goalSelector - TemptGoal)
+      - [ ] ~~`Loot Table`~~
       - [ ] `Hand Item`
       - [ ] `Grab Hand Item`
-      - [ ] `Is Baby`
       - [ ] `Never Grow Up`
       - [ ] `Shut Up` (never play ambient sound)
       - PathAwareEntity:
         - PassiveEntity:
+          - [X] `Set Baby` (BreedingAge)
           - AnimalEntity:
+            - [ ] `Breeding Item` (isBreedingItem)
             - HorseBaseEntity:
               - HorseEntity:
                 - [ ] `Running Speed`

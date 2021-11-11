@@ -61,7 +61,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             case 1: left = 2; top = 0; width = 2; height = 4; break;
             case 2: left = 0; top = 0; width = 2; height = 5; break;
             case 3: left = 0; top = 3; width = 4; height = 2; break;
-            case 4: left = 0; top = 0; width = 2; height = 8; break;
+            case 4: left = 0; top = 0; width = 2; height = 7; break;
             default: left = 0; top = 0; width = 4; height = 6; break;
         }
         page.setSlot(left, top, new DisplayedEntityContentWidget(width, height, this.handler.entity));

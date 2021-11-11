@@ -8,6 +8,7 @@ public interface Keys {
     // Entity Setting Channels
     String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN = "nether_portal_cooldown";
     String ENTITY_SETTING_CUSTOM_NAME_VISIBLE = "custom_name_visible";
+    String ENTITY_SETTING_BABY = "baby";
     
     // Translation Keys
     String MOD_NAME = "xienaoban.bole";
@@ -18,6 +19,8 @@ public interface Keys {
     String TEXT_BOUNDING_BOX = "text.xienaoban.bole.bounding_box";
     String TEXT_ENTITY_UUID = "text.xienaoban.bole.entity_uuid";
     String TEXT_UNNAMED = "text.xienaoban.bole.unnamed";
+    String TEXT_GROWN_UP = "text.xienaoban.bole.grown_up";
+    String TEXT_NEVER_GROW_UP = "text.xienaoban.bole.never_grow_up";
 
     // Other
     int NETHER_PORTAL_LOCK = 0x7fffffff;

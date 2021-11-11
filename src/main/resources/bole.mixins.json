@@ -6,7 +6,8 @@
   "mixins": [
     "IMixinEntity",
     "MixinEntity",
-    "MixinMinecraftClient"
+    "MixinMinecraftClient",
+    "MixinPassiveEntity"
   ],
   "client": [
   ],

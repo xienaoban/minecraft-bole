@@ -6,5 +6,7 @@
   "text.xienaoban.bole.unsupported_entity": "Unsupported entity",
   "text.xienaoban.bole.bounding_box": "Box",
   "text.xienaoban.bole.entity_uuid": "UUID",
-  "text.xienaoban.bole.unnamed": "Unnamed"
+  "text.xienaoban.bole.unnamed": "Unnamed",
+  "text.xienaoban.bole.grown_up": "Grown up",
+  "text.xienaoban.bole.never_grow_up": "Never grow up"
 }

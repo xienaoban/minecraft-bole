@@ -6,5 +6,7 @@
   "text.xienaoban.bole.unsupported_entity": "不支持的实体",
   "text.xienaoban.bole.bounding_box": "碰撞箱",
   "text.xienaoban.bole.entity_uuid": "UUID",
-  "text.xienaoban.bole.unnamed": "未命名"
+  "text.xienaoban.bole.unnamed": "未命名",
+  "text.xienaoban.bole.grown_up": "已成年",
+  "text.xienaoban.bole.never_grow_up": "永不成长"
 }
