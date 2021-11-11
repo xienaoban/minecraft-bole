@@ -6,6 +6,7 @@ Toto List:
   - [X] `Nether Portal Cooldown`
   - [X] `Set Nether Portal Cooldown`
   - [X] `Set Custom Name Visible`
+  - [ ] `Shut Up` (never play ambient sound)
   - LivingEntity:
     - [X] `Health`
     - [X] `Max Health`
@@ -16,7 +17,6 @@ Toto List:
       - [ ] ~~`Loot Table`~~
       - [ ] `Hand Item`
       - [ ] `Grab Hand Item`
-      - [ ] `Shut Up` (never play ambient sound)
       - PathAwareEntity:
         - PassiveEntity:
           - [X] `Set Baby / Never Grow Up` (BreedingAge)

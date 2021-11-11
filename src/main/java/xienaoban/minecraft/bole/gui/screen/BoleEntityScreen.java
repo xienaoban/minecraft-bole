@@ -13,6 +13,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
+import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -242,6 +243,41 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                     this.cacheText = customName;
                 }
             }
+        }
+    }
+
+    public class SilentContentWidget extends TemplateContentWidget1 {
+        private boolean silentCache;
+        private int silentSwitchCacheTicks;
+
+        public SilentContentWidget() {
+            super(1, false, 1);
+            this.silentCache = false;
+            this.silentSwitchCacheTicks = -233;
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawIcon(100, 0);
+            drawButton(200 + (isCurrentSilent() ? 10 : 0), 10, 0);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            int index = calMousePosition(mouseX, mouseY);
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                return false;
+            }
+            boolean newState = !isCurrentSilent();
+            this.silentCache = newState;
+            this.silentSwitchCacheTicks = BoleClient.getInstance().getTicks() + 8;
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_SILENT, newState);
+            return true;
+        }
+
+        private boolean isCurrentSilent() {
+            return this.silentSwitchCacheTicks > BoleClient.getInstance().getTicks()
+                    ? this.silentCache : handler.entity.isSilent();
         }
     }
 }

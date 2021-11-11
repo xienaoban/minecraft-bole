@@ -23,6 +23,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
         page = this.pages.get(1);
         page.addSlot(new CustomNameContentWidget());
         page.addSlot(new NetherPortalCooldownContentWidget());
+        page.addSlot(new SilentContentWidget());
     }
 
     @Override

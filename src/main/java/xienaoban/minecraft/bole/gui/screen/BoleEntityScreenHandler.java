@@ -59,6 +59,15 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
                 buf.writeBoolean(visible);
             }
         });
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_SILENT, new EntitySettingsBufHandler() {
+            @Override public void readFromBuf(PacketByteBuf buf) {
+                entity.setSilent(buf.readBoolean());
+            }
+            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
+                boolean silent = (Boolean) args[0];
+                buf.writeBoolean(silent);
+            }
+        });
     }
 
     @Override
