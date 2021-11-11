@@ -66,7 +66,8 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
         }
 
         @Override
-        public boolean elementClicked(int index, double mouseX, double mouseY, int button) {
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            int index = calMousePosition(mouseX, mouseY);
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 return false;
             }

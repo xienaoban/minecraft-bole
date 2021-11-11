@@ -16,11 +16,10 @@ Toto List:
       - [ ] ~~`Loot Table`~~
       - [ ] `Hand Item`
       - [ ] `Grab Hand Item`
-      - [ ] `Never Grow Up`
       - [ ] `Shut Up` (never play ambient sound)
       - PathAwareEntity:
         - PassiveEntity:
-          - [X] `Set Baby` (BreedingAge)
+          - [X] `Set Baby / Never Grow Up` (BreedingAge)
           - AnimalEntity:
             - [ ] `Breeding Item` (isBreedingItem)
             - HorseBaseEntity:

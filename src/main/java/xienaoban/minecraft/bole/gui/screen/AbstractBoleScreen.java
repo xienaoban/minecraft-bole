@@ -634,8 +634,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             drawTextureNormally(this.matrices, 256, 256, 10, 10, getZOffset(), this.x + this.buttons[index] - BUTTON_TEXTURE_OFFSET, this.y, u, v);
         }
 
-        @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        protected int calMousePosition(double mouseX, double mouseY) {
             double offsetX = mouseX - this.box.left(), offsetY = mouseY - this.box.top();
             int index = -1;
             if (offsetX < ICON_LEFT + ICON_WIDTH) {
@@ -659,34 +658,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                     }
                 }
             }
-            return elementClicked(index, mouseX, mouseY, button);
-        }
-
-        public abstract boolean elementClicked(int index, double mouseX, double mouseY, int button);
-    }
-
-    /**
-     * Just a demo. Delete it later.
-     */
-    public final class TemplateContentWidget1Demo extends TemplateContentWidget1 {
-
-        public TemplateContentWidget1Demo(int colSlots, boolean hasBar, int buttonCnt) {
-            super(colSlots, hasBar, buttonCnt);
-        }
-
-        @Override
-        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawIcon(0, 0); drawBar(10, 30, 1.0F); drawBar(50, 10, 0.35F);
-            for (int i = 0; i < this.buttons.length; ++i) {
-                drawButton(220, 0, i);
-            }
-            drawBarText("123", 0xff00ff00);
-        }
-
-        @Override
-        public boolean elementClicked(int index, double mouseX, double mouseY, int button) {
-            Bole.LOGGER.info(index);
-            return false;
+            return index;
         }
     }
 
