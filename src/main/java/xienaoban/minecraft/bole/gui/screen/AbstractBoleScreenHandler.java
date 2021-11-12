@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
+import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,11 +23,10 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     protected final PlayerEntity player;
     private final Map<String, EntitySettingsBufHandler> entitySettingsBufHandlers;
 
-    @SuppressWarnings("unchecked")
     public AbstractBoleScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId,
                                       PlayerInventory playerInventor, Entity entity) {
         super(type, syncId);
-        this.entity = (E) entity;
+        this.entity = MiscUtil.cast(entity);
         this.player = playerInventor.player;
         this.entitySettingsBufHandlers = new HashMap<>();
         initCustom();

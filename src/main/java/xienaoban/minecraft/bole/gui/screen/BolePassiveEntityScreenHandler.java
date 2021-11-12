@@ -12,22 +12,9 @@ import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.mixin.IMixinPassiveEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
-import java.lang.reflect.Field;
-
 public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends BolePathAwareEntityScreenHandler<E> {
     public static final ScreenHandlerType<BolePassiveEntityScreenHandler<PassiveEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "passive_entity"), BolePassiveEntityScreenHandler::new);
-
-    private static final Field breedingAgeField;
-
-    static {
-        try {
-            breedingAgeField = PassiveEntity.class.getDeclaredField("breedingAge");
-            breedingAgeField.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public BolePassiveEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

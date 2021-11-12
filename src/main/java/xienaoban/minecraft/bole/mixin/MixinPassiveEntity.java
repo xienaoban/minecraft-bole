@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xienaoban.minecraft.bole.gui.screen.BolePassiveEntityScreen;
-import xienaoban.minecraft.bole.gui.screen.BolePassiveEntityScreenHandler;
 
 @Mixin(PassiveEntity.class)
 public class MixinPassiveEntity {
@@ -18,5 +17,4 @@ public class MixinPassiveEntity {
             entity.setBreedingAgeValue(BolePassiveEntityScreen.BabyContentWidget.LOCK);
         }
     }
-
 }

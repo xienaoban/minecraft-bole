@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "IMixinEntity",
-    "IMixinGoalSelector",
+    "IMixinMobEntity",
     "IMixinPassiveEntity",
     "MixinEntity",
     "MixinMinecraftClient",

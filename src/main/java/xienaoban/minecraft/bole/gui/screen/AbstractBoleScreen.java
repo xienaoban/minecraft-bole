@@ -697,7 +697,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     /**
      * A widget that displays text in the center.
      */
-    public final class CenteredTextContentWidget extends AbstractContentWidget {
+    public class CenteredTextContentWidget extends AbstractContentWidget {
         private static final int DEFAULT_LINE_HEIGHT = 8;
         private Text text;
         private int color;
