@@ -6,7 +6,7 @@ Toto List:
   - [X] `Nether Portal Cooldown`
   - [X] `Set Nether Portal Cooldown`
   - [X] `Set Custom Name Visible`
-  - [ ] `Shut Up` (never play ambient sound)
+  - [X] `Shut Up` (never play ambient sound)
   - LivingEntity:
     - [X] `Health`
     - [X] `Max Health`

@@ -246,9 +246,12 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
     }
 
+    /**
+     * Allows you to make the entity shut up forever.
+     */
     public class SilentContentWidget extends TemplateContentWidget1 {
-        private boolean silentCache;
-        private int silentSwitchCacheTicks;
+        private boolean silentCache;            // to ensure that the button pattern responds in the first time
+        private int silentSwitchCacheTicks;     // (rather than waiting for the response of the server)
 
         public SilentContentWidget() {
             super(1, false, 1);
