@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import xienaoban.minecraft.bole.mixin.IMixinPassiveEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.lang.reflect.Field;
@@ -52,7 +53,7 @@ public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends Bol
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 int age = (Integer) args[0];
-                setOnlyBreedingAge(entity, age);
+                ((IMixinPassiveEntity)entity).setBreedingAgeValue(age);
                 buf.writeInt(age);
             }
         });
@@ -71,59 +72,30 @@ public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends Bol
     @Override
     public void writeServerEntityToBuf(PacketByteBuf buf) {
         super.writeServerEntityToBuf(buf);
-        buf.writeInt(getRealBreedingAge(this.entity));
+        buf.writeInt(((IMixinPassiveEntity)this.entity).getBreedingAgeValue());
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     public void readServerEntityFromBuf(PacketByteBuf buf) {
         super.readServerEntityFromBuf(buf);
-        setOnlyBreedingAge(entity, buf.readInt());
+        ((IMixinPassiveEntity)this.entity).setBreedingAgeValue(buf.readInt());
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     protected void resetClientEntityServerProperties() {
         super.resetClientEntityServerProperties();
-        setOnlyBreedingAge(entity, 0);
+        ((IMixinPassiveEntity)this.entity).setBreedingAgeValue(0);
     }
 
     @Environment(EnvType.CLIENT)
     private void calculateClientEntityBreedingAge() {
-        int age = getRealBreedingAge(this.entity);
+        IMixinPassiveEntity entity = (IMixinPassiveEntity)this.entity;
+        int age = entity.getBreedingAgeValue();
         if (age == 0x80000000 || age >= 0) {
             return;
         }
-        setOnlyBreedingAge(this.entity, age + 1);
-    }
-
-    /**
-     * <code>getBreedingAge()</code> is already in PassiveEntity.
-     * So I can't use mixin to access the filed. That's why I use reflection here.
-     * @see net.minecraft.entity.passive.PassiveEntity#getBreedingAge
-     */
-    public static int getRealBreedingAge(PassiveEntity entity) {
-        try {
-            return breedingAgeField.getInt(entity);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Calling <code>setBreedingAge()</code> of PassiveEntity on the client side brings a problem:
-     * it makes the client-side entity look like it has grown up (because it also modifies <code>dataTracker</code>).
-     * In fact <code>breedingAge</code> is not used on the client side.
-     * So use this method to modify the value of <code>breedingAge</code>.
-     * @see net.minecraft.entity.passive.PassiveEntity#setBreedingAge
-     */
-    public static void setOnlyBreedingAge(PassiveEntity entity, int age) {
-        try {
-            breedingAgeField.setInt(entity, age);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        entity.setBreedingAgeValue(age + 1);
     }
 }

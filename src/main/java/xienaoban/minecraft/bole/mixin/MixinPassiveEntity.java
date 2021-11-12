@@ -12,10 +12,10 @@ import xienaoban.minecraft.bole.gui.screen.BolePassiveEntityScreenHandler;
 public class MixinPassiveEntity {
     @Inject(method = "tickMovement()V", at = @At("TAIL"))
     private void tickMovement(CallbackInfo callbackInfo) {
-        PassiveEntity entity = (PassiveEntity)(Object)this;
-        int age = BolePassiveEntityScreenHandler.getRealBreedingAge(entity);
+        IMixinPassiveEntity entity = (IMixinPassiveEntity)this;
+        int age = entity.getBreedingAgeValue();
         if (age < BolePassiveEntityScreen.BabyContentWidget.BABY_MIN_AGE) {
-            BolePassiveEntityScreenHandler.setOnlyBreedingAge(entity, BolePassiveEntityScreen.BabyContentWidget.LOCK);
+            entity.setBreedingAgeValue(BolePassiveEntityScreen.BabyContentWidget.LOCK);
         }
     }
 
