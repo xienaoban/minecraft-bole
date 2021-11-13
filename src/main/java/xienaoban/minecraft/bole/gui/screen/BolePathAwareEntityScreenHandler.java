@@ -22,6 +22,7 @@ import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Set;
 
 public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends BoleMobEntityScreenHandler<E> {
@@ -98,7 +99,8 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
             }
             Ingredient foods = MiscUtil.getField(goal, TemptGoal.class, "food");
             ItemStack[] itemStacks = foods.getMatchingStacksClient();
-            items = Arrays.stream(itemStacks).map(ItemStack::getItem).toArray(Item[]::new);
+            items = Arrays.stream(itemStacks).map(ItemStack::getItem)
+                    .sorted(Comparator.comparing(Registry.ITEM::getId)).toArray(Item[]::new);
             break;
         }
         if (items == null) {

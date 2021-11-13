@@ -13,7 +13,7 @@ Toto List:
     - [X] `Is Baby`
     - MobEntity:
       - [ ] `Speed` (goalSelector)
-      - [X] `Interested` (goalSelector - TemptGoal)
+      - [X] `Attractive Food` (goalSelector - TemptGoal)
       - [ ] ~~`Loot Table`~~
       - [ ] `Hand Item`
       - [ ] `Grab Hand Item`
@@ -21,7 +21,7 @@ Toto List:
         - PassiveEntity:
           - [X] `Set Baby / Never Grow Up` (breedingAge)
           - AnimalEntity:
-            - [ ] `Breeding Item` (isBreedingItem)
+            - [X] `Breeding Item` (isBreedingItem)
             - HorseBaseEntity:
               - HorseEntity:
                 - [ ] `Running Speed`
