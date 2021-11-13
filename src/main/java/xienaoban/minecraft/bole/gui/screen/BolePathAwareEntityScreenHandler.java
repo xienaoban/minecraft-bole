@@ -28,7 +28,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
     public static final ScreenHandlerType<BolePathAwareEntityScreenHandler<PathAwareEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "path_aware_entity"), BolePathAwareEntityScreenHandler::new);
 
-    protected Item[] entityInterestedItems = null;
+    protected Item[] entityAttractedFood = null;
 
     public BolePathAwareEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
@@ -58,7 +58,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
     @Override
     public void writeServerEntityToBuf(PacketByteBuf buf) {
         super.writeServerEntityToBuf(buf);
-        Item[] items = getEntityInterestedItems();
+        Item[] items = getEntityAttractedFood();
         buf.writeInt(items.length);
         Arrays.stream(items).forEach(item -> buf.writeString(Registry.ITEM.getId(item).toString()));
     }
@@ -72,7 +72,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
         for (int i = 0; i < len; ++i) {
             items[i] = Registry.ITEM.get(new Identifier(buf.readString()));
         }
-        this.entityInterestedItems = items;
+        this.entityAttractedFood = items;
     }
 
     @Environment(EnvType.CLIENT)
@@ -81,9 +81,12 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
         super.resetClientEntityServerProperties();
     }
 
-    public Item[] getEntityInterestedItems() {
-        if (this.entityInterestedItems != null) {
-            return this.entityInterestedItems;
+    /**
+     * Only works on server side.
+     */
+    private Item[] getEntityAttractedFood() {
+        if (this.entityAttractedFood != null) {
+            return this.entityAttractedFood;
         }
         Item[] items = null;
         GoalSelector goalSelector = ((IMixinMobEntity)this.entity).getGoalSelector();
@@ -101,7 +104,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
         if (items == null) {
             items = new Item[0];
         }
-        this.entityInterestedItems = items;
+        this.entityAttractedFood = items;
         return items;
     }
 }

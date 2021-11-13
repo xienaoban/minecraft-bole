@@ -53,7 +53,7 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
             drawBar(50, 60, 1.0F * (age - BABY_MIN_AGE) / (-BABY_MIN_AGE));
             drawButton(200 + (age < BABY_MIN_AGE ? 10 : 0), 0, 0);
             if (debugMode) {
-                drawBarText(age + "ticks", 0xbbffffff);
+                drawBarText(age + "t", 0xbbffffff);
             }
             else if (age >= 0) {
                 drawBarText(new TranslatableText(Keys.TEXT_GROWN_UP), 0xbbffffff);

@@ -1,13 +1,17 @@
 package xienaoban.minecraft.bole.gui.screen;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-
-import java.util.Arrays;
+import net.minecraft.text.TranslatableText;
+import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
 public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends BolePathAwareEntityScreenHandler<E>> extends BoleMobEntityScreen<E, H> {
@@ -18,7 +22,7 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
     @Override
     protected void initCustom() {
         super.initCustom();
-        this.pages.get(0).addSlot(new InterestedItemContentWidget());
+        this.pages.get(0).addSlot(new AttractedFoodContentWidget());
     }
 
     @Override
@@ -31,14 +35,34 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class InterestedItemContentWidget extends AbstractContentWidget {
-        public InterestedItemContentWidget() {
-            super(2, 1);
+    public class AttractedFoodContentWidget extends TemplateContentWidget1 {
+        public AttractedFoodContentWidget() {
+            super(2, false, 0);
         }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawText(matrices, Arrays.toString(handler.entityInterestedItems), 0xff000000, 0.5F, x, y);
+            drawIcon(110, 0);
+            if (handler.entityAttractedFood == null) {
+                drawBarText(new TranslatableText(Keys.TEXT_LOADING), CONTENT_TEXT_COLOR);
+            }
+            else if (handler.entityAttractedFood.length > 0) {
+                Item[] items = handler.entityAttractedFood;
+                float w = Math.min(9.0F, (this.box.width() - 20.0F) / Math.max(1, items.length - 1));
+                for (int i = items.length - 1; i >= 0; --i) {
+                    Item item = items[i];
+                    final float size = 8.0F / 16.0F;
+                    setTexture(Textures.ICONS);
+                    drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x + i * w + 10, y, 220, 10);
+                    RenderSystem.pushMatrix();
+                    RenderSystem.scalef(size, size, size);
+                    itemRenderer.renderInGuiWithOverrides(new ItemStack(item, 1), (int)((x + i * w + 11) / size), (int)((y + 1) / size));
+                    RenderSystem.popMatrix();
+                }
+            }
+            else {
+                drawBarText(new TranslatableText(Keys.TEXT_NO_ATTRACTED_FOOD), CONTENT_TEXT_COLOR);
+            }
         }
     }
 }

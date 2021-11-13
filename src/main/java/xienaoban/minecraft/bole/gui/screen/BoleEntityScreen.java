@@ -157,7 +157,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                 text = "∞";
             }
             else if (debugMode) {
-                text = ((IMixinEntity)handler.entity).getNetherPortalCooldown() + "ticks";
+                text = ((IMixinEntity)handler.entity).getNetherPortalCooldown() + "t";
             }
             else {
                 text = (((IMixinEntity)handler.entity).getNetherPortalCooldown() / 20) + "s";
