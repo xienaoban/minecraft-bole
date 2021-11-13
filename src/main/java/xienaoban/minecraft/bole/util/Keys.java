@@ -23,7 +23,7 @@ public interface Keys {
     String TEXT_GROWN_UP = "text.xienaoban.bole.grown_up";
     String TEXT_NEVER_GROW_UP = "text.xienaoban.bole.never_grow_up";
     String TEXT_LOADING = "text.xienaoban.bole.loading";
-    String TEXT_NO_ATTRACTED_FOOD = "text.xienaoban.bole.no_attracted_food";
+    String TEXT_NO_ATTRACTIVE_FOOD = "text.xienaoban.bole.no_attractive_food";
 
     // Other
     int NETHER_PORTAL_LOCK = 0x7fffffff;

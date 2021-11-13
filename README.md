@@ -13,7 +13,7 @@ Toto List:
     - [X] `Is Baby`
     - MobEntity:
       - [ ] `Speed` (goalSelector)
-      - [ ] `Interested` (goalSelector - TemptGoal)
+      - [X] `Interested` (goalSelector - TemptGoal)
       - [ ] ~~`Loot Table`~~
       - [ ] `Hand Item`
       - [ ] `Grab Hand Item`

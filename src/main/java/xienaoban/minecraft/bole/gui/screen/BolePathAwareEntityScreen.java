@@ -22,7 +22,7 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
     @Override
     protected void initCustom() {
         super.initCustom();
-        this.pages.get(0).addSlot(new AttractedFoodContentWidget());
+        this.pages.get(0).addSlot(new AttractiveFoodContentWidget());
     }
 
     @Override
@@ -35,19 +35,19 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class AttractedFoodContentWidget extends TemplateContentWidget1 {
-        public AttractedFoodContentWidget() {
+    public class AttractiveFoodContentWidget extends TemplateContentWidget1 {
+        public AttractiveFoodContentWidget() {
             super(2, false, 0);
         }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(110, 0);
-            if (handler.entityAttractedFood == null) {
+            if (handler.entityAttractiveFood == null) {
                 drawBarText(new TranslatableText(Keys.TEXT_LOADING), CONTENT_TEXT_COLOR);
             }
-            else if (handler.entityAttractedFood.length > 0) {
-                Item[] items = handler.entityAttractedFood;
+            else if (handler.entityAttractiveFood.length > 0) {
+                Item[] items = handler.entityAttractiveFood;
                 float w = Math.min(9.0F, (this.box.width() - 20.0F) / Math.max(1, items.length - 1));
                 for (int i = items.length - 1; i >= 0; --i) {
                     Item item = items[i];
@@ -61,7 +61,7 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
                 }
             }
             else {
-                drawBarText(new TranslatableText(Keys.TEXT_NO_ATTRACTED_FOOD), CONTENT_TEXT_COLOR);
+                drawBarText(new TranslatableText(Keys.TEXT_NO_ATTRACTIVE_FOOD), CONTENT_TEXT_COLOR);
             }
         }
     }
