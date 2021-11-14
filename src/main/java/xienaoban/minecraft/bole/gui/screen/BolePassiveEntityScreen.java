@@ -18,10 +18,13 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
     }
 
     @Override
-    protected void initCustom() {
-        super.initCustom();
-        this.pages.get(1).addSlot(new BabyContentWidget());
+    protected void initPages() {
+        super.initPages();
+        this.pages.get(1).addSlotLazyBefore(new BabyContentWidget(), SilentContentWidget.class);
     }
+
+    @Override
+    protected void initCustom() {}
 
     @Override
     protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {

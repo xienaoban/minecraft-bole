@@ -15,10 +15,13 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
     }
 
     @Override
-    protected void initCustom() {
-        super.initCustom();
-        this.curRightPage.addSlot(new HealthContentWidget());
+    protected void initPages() {
+        super.initPages();
+        this.pages.get(0).addSlotLazyAfter(new HealthContentWidget(), null);
     }
+
+    @Override
+    protected void initCustom() {}
 
     @Override
     protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {

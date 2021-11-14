@@ -40,8 +40,7 @@ public class BoleAnimalEntityScreenHandler<E extends AnimalEntity> extends BoleP
     }
 
     @Override
-    protected void initCustom() {
-    }
+    protected void initCustom() {}
 
     @Environment(EnvType.CLIENT)
     @Override

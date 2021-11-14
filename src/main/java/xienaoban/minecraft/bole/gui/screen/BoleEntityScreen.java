@@ -26,21 +26,17 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     }
 
     @Override
+    protected void initPages() {
+        this.entityDisplayPlan = chooseEntityDisplayPlan(this.pages.get(0));
+        this.pages.get(0).addSlotLazy(new BoundingBoxContentWidget());
+        this.pages.get(1).addSlotLazy(new CustomNameContentWidget())
+                .addSlotLazy(new NetherPortalCooldownContentWidget())
+                .addSlotLazy(new SilentContentWidget());
+    }
+
+    @Override
     protected void initCustom() {
-        this.curRightPage.addSlot(new CustomNameContentWidget());
-        this.curRightPage.addSlot(new BoundingBoxContentWidget());
-        this.curRightPage.addSlot(new NetherPortalCooldownContentWidget());
-        this.curRightPage.setSlot(0, 5, new CenteredTextContentWidget(4, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
-    }
-
-    @Override
-    protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
-        drawEntityAuto(this.handler.entity, x + 26, y + 8, x + CONTENT_WIDTH - 26, y + (CONTENT_HEIGHT >> 1) + 12, mouseX + 0.001F, mouseY + 0.001F);
-    }
-
-    @Override
-    protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
-        this.curRightPage.draw(matrices, x, y, mouseX, mouseY);
+        this.pages.get(1).setSlot(0, 5, new CenteredTextContentWidget(4, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
     }
 
     protected int chooseEntityDisplayPlan(Page page) {

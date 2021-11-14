@@ -60,7 +60,13 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.pages.add(this.curLeftPage);
         this.pages.add(this.curRightPage);
         initCustom();
+        initPages();
+        for (Page page : this.pages) {
+            page.addSlotsFromLazyList();
+        }
     }
+
+    protected abstract void initPages();
 
     protected abstract void initCustom();
 
@@ -164,12 +170,16 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     /**
      * Draw the content of the left page.
      */
-    protected abstract void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY);
+    protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        this.curLeftPage.draw(matrices, x, y, mouseX, mouseY);
+    }
 
     /**
      * Draw the content of the right page.
      */
-    protected abstract void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY);
+    protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        this.curRightPage.draw(matrices, x, y, mouseX, mouseY);
+    }
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {}
@@ -448,6 +458,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         private static final int ROWS = CONTENT_HEIGHT / (CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT);
 
         private final List<List<AbstractContentWidget>> widgets;    // 10 * 2 widgets per page
+        private List<AbstractContentWidget> lazyList;
 
         public Page() {
             super(CONTENT_WIDTH, CONTENT_HEIGHT);
@@ -460,6 +471,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                 l1.add(l2);
             }
             this.widgets = l1;
+            this.lazyList = new ArrayList<>();
         }
 
         @Override
@@ -481,7 +493,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         public boolean setSlot(int col, int row, AbstractContentWidget widget) {
             if (col + widget.getColSlots() > COLS || row + widget.getRowSlots() > ROWS) {
-                Bole.LOGGER.error("Widget cannot be set here! " + widget.getColSlots() + ", " + widget.getRowSlots() + ", " + col + ", " + row);
+                Bole.LOGGER.error(widget.getClass().getSimpleName() + " cannot be set here! " + widget.getColSlots() + ", " + widget.getRowSlots() + ", " + col + ", " + row);
                 return false;
             }
             EmptyContentWidget empty = new EmptyContentWidget(1, 1, widget);
@@ -510,8 +522,52 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                     return setSlot(j, i, widget);
                 }
             }
-            Bole.LOGGER.error("Widget cannot be added here!");
+            Bole.LOGGER.error(widget.getClass().getSimpleName() + " cannot be added here! " + widget.getColSlots() + ", " + widget.getRowSlots());
             return false;
+        }
+
+        public Page addSlotLazy(AbstractContentWidget widget) {
+            this.lazyList.add(widget);
+            return this;
+        }
+
+        public Page addSlotLazyBefore(AbstractContentWidget widget, Class<?>  before) {
+            int size = this.lazyList.size();
+            for (int i = 0; i < size; ++i) {
+                if (this.lazyList.get(i).getClass() == before) {
+                    this.lazyList.add(i, widget);
+                    return this;
+                }
+            }
+            throw new RuntimeException("No " + before.getSimpleName() + " in the lazy list.");
+        }
+
+        public Page addSlotLazyAfter(AbstractContentWidget widget, Class<?> after) {
+            if (after == null) {
+                this.lazyList.add(0, widget);
+                return this;
+            }
+            int size = this.lazyList.size();
+            for (int i = 0; i < size; ++i) {
+                if (this.lazyList.get(i).getClass() == after) {
+                    this.lazyList.add(i + 1, widget);
+                    return this;
+                }
+            }
+            throw new RuntimeException("No " + after.getSimpleName() + " in the lazy list.");
+        }
+
+        protected void addSlotsFromLazyList() {
+            int cnt = 0;
+            for (AbstractContentWidget widget : this.lazyList) {
+                if (!addSlot(widget)) {
+                    ++cnt;
+                }
+            }
+            this.lazyList = new ArrayList<>();
+            if (cnt > 0) {
+                Bole.LOGGER.error(cnt + " widgets failed to be added.");
+            }
         }
 
         @Override

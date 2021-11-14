@@ -14,6 +14,9 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
     }
 
     @Override
+    protected void initPages() {}
+
+    @Override
     protected void initCustom() {}
 
     @Override

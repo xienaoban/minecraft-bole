@@ -16,11 +16,13 @@ public class Bole{#0}Screen<E extends {#0}, H extends Bole{#0}ScreenHandler<E>> 
     }
 
     @Override
+    protected void initPages() {
+        super.initPages();
+        // code here
+    }
+
+    @Override
     protected void initCustom() {
-        this.entityDisplayPlan = chooseEntityDisplayPlan(this.curLeftPage);
-        this.curRightPage.addSlot(new CustomNameContentWidget());
-        this.curRightPage.addSlot(new BoundingBoxContentWidget());
-        this.curRightPage.addSlot(new NetherPortalCooldownContentWidget());
         // code here
     }
 

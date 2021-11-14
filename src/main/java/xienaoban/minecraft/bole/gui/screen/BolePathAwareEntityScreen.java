@@ -20,10 +20,13 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
     }
 
     @Override
-    protected void initCustom() {
-        super.initCustom();
-        this.pages.get(0).addSlot(new AttractiveFoodContentWidget());
+    protected void initPages() {
+        super.initPages();
+        this.pages.get(0).addSlotLazy(new AttractiveFoodContentWidget());
     }
+
+    @Override
+    protected void initCustom() {}
 
     @Override
     protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
