@@ -9,7 +9,8 @@
     "IMixinPassiveEntity",
     "MixinEntity",
     "MixinMinecraftClient",
-    "MixinPassiveEntity"
+    "MixinPassiveEntity",
+    "MixinPolarBearEntity"
   ],
   "client": [
   ],
