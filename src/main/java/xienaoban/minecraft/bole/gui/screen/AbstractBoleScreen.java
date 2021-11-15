@@ -40,6 +40,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     public static final int CONTENT_TEXT_COLOR = 0xd0121212;
 
+    // private Element focused; (in AbstractParentElement)
+    private ScreenElement hovered;
+
     protected int bodyLeft, bodyRight, bodyTop, bodyBottom;
     protected int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
@@ -100,15 +103,25 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     @Override
+    public void mouseMoved(double mouseX, double mouseY) {
+        super.mouseMoved(mouseX, mouseY);
+        ScreenElement pre = null, cur = getScreenElement(mouseX, mouseY);
+        while (cur != null) {
+            pre = cur;
+            cur = cur.getSubScreenElement(mouseX, mouseY);
+        }
+        setHovered(pre);
+    }
+
+    @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        boolean success = false;
-        if (mouseY >= this.contentTop && mouseY <= this.contentBottom) {
-            if (mouseX >= this.contentLeft[0] && mouseX <= this.contentRight[0]) {
-                success = this.curLeftPage.mouseClicked(mouseX, mouseY, button);
-            }
-            else if (mouseX >= this.contentLeft[1] && mouseX <= this.contentRight[1]) {
-                success = this.curRightPage.mouseClicked(mouseX, mouseY, button);
-            }
+        boolean success;
+        ScreenElement ele = getScreenElement(mouseX, mouseY);
+        if (ele != null) {
+            success = ele.mouseClicked(mouseX, mouseY, button);
+        }
+        else {
+            success = false;
         }
         return success || super.mouseClicked(mouseX, mouseY, button);
     }
@@ -121,6 +134,18 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    public ScreenElement getScreenElement(double mouseX, double mouseY) {
+        if (mouseY >= this.contentTop && mouseY <= this.contentBottom) {
+            if (mouseX >= this.contentLeft[0] && mouseX <= this.contentRight[0]) {
+                return this.curLeftPage;
+            }
+            else if (mouseX >= this.contentLeft[1] && mouseX <= this.contentRight[1]) {
+                return this.curRightPage;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -182,7 +207,13 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     @Override
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {}
+    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+        RenderSystem.translatef(-super.x, -super.y, 0.0F);
+        if (this.hovered != null) {
+            this.hovered.drawHovered(matrices, mouseX, mouseY);
+        }
+        RenderSystem.translatef(super.x, super.y, 0.0F);
+    }
 
     public static void drawEntityAuto(Entity entity, int x0, int y0, int x1, int y1, float mouseX, float mouseY) {
         Box box = entity.getVisibilityBoundingBox();
@@ -446,6 +477,14 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.client.getTextureManager().bindTexture(id);
     }
 
+    public ScreenElement getHovered() {
+        return hovered;
+    }
+
+    public void setHovered(ScreenElement hovered) {
+        this.hovered = hovered;
+    }
+
     /**
      * Manages all widgets on a page.
      */
@@ -571,22 +610,31 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        public ScreenElement getSubScreenElement(double mouseX, double mouseY) {
             int x = (int) mouseX - this.box.left(), y = (int) mouseY - this.box.top();
             int w = CONTENT_WIDGET_WIDTH + CONTENT_WIDGET_MARGIN_WIDTH, h = CONTENT_WIDGET_HEIGHT + CONTENT_WIDGET_MARGIN_HEIGHT;
             int col = x / w;
             int row = y / h;
             if (col >= COLS || row >= ROWS) {
-                return false;
+                return null;
             }
             AbstractContentWidget widget = this.widgets.get(col).get(row);
             if (widget instanceof AbstractBoleScreen.EmptyContentWidget) {
                 widget = ((EmptyContentWidget) widget).father;
             }
             if (widget == null || x > w * (widget.getColSlots() + col) - CONTENT_WIDGET_MARGIN_WIDTH || y > h * (widget.getRowSlots() + row) - CONTENT_WIDGET_MARGIN_HEIGHT) {
-                return false;
+                return null;
             }
-            return widget.mouseClicked(mouseX, mouseY, button);
+            return widget;
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            ScreenElement widget = getSubScreenElement(mouseX, mouseY);
+            if (widget != null) {
+                return widget.mouseClicked(mouseX, mouseY, button);
+            }
+            return false;
         }
     }
 
@@ -596,22 +644,41 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
      */
     public abstract class AbstractContentWidget extends ScreenElement {
         protected final int colSlots, rowSlots;
+        protected final List<Text> tooltipLines;
 
         public AbstractContentWidget(int colSlots, int rowSlots) {
             super(colSlots * (Page.CONTENT_WIDGET_WIDTH + Page.CONTENT_WIDGET_MARGIN_WIDTH) - Page.CONTENT_WIDGET_MARGIN_WIDTH,
                     rowSlots * (Page.CONTENT_WIDGET_HEIGHT + Page.CONTENT_WIDGET_MARGIN_HEIGHT) - Page.CONTENT_WIDGET_MARGIN_HEIGHT);
             this.colSlots = colSlots;
             this.rowSlots = rowSlots;
+            this.tooltipLines = new ArrayList<>();
+            initTooltipLines();
         }
+
+        protected abstract void initTooltipLines();
 
         @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             super.draw(matrices, x, y, mouseX, mouseY);
             drawContent(matrices, x, y, mouseX, mouseY);
-            drawDebugBox(matrices, this.box, 0x88c55c2d);
+            drawDebugBox(matrices, this.box, this == getHovered() ? 0x88b9ac67 : 0x88c55c2d);
         }
 
         protected abstract void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY);
+
+        @Override
+        public void drawHovered(MatrixStack matrices, int mouseX, int mouseY) {
+            drawTooltip(matrices);
+        }
+
+        private void drawTooltip(MatrixStack matrices) {
+            renderTooltip(matrices, this.tooltipLines, this.box.left(), this.box.bottom());
+        }
+
+        @Override
+        public ScreenElement getSubScreenElement(double mouseX, double mouseY) {
+            return null;
+        }
 
         public final int getRowSlots() {
             return this.rowSlots;
@@ -743,6 +810,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         @Override
+        protected void initTooltipLines() {}
+
+        @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {}
 
         public AbstractContentWidget getFather() {
@@ -763,6 +833,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             super(colSlots, rowSlots);
             setText(text); setColor(color); setSize(size);
         }
+
+        @Override
+        protected void initTooltipLines() {}
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {

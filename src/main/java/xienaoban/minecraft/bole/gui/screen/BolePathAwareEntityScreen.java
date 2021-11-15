@@ -48,6 +48,9 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
         }
 
         @Override
+        protected void initTooltipLines() {}
+
+        @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(110, 0);
             if (handler.entityAttractiveFood == null) {

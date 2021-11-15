@@ -49,6 +49,9 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
         }
 
         @Override
+        protected void initTooltipLines() {}
+
+        @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             int age = ((IMixinPassiveEntity)handler.entity).getBreedingAgeValue();
             drawIcon(0, 60);

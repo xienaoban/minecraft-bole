@@ -50,6 +50,9 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         }
 
         @Override
+        protected void initTooltipLines() {}
+
+        @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             LivingEntity entity = handler.entity;
             int health = (int)entity.getHealth();

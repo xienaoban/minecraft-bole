@@ -1,11 +1,7 @@
 package xienaoban.minecraft.bole.gui;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
-import org.jetbrains.annotations.Nullable;
-import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 
 public abstract class ScreenElement implements Element {
     protected final ElementBox box;
@@ -18,19 +14,9 @@ public abstract class ScreenElement implements Element {
         this.box.position(x, y, true);
     }
 
-    public void focus() {
-        focus(this);
-    }
+    public void drawHovered(MatrixStack matrices, int mouseX, int mouseY) {}
 
-    public void unfocus() {
-        focus(null);
-    }
-
-    private void focus(@Nullable ScreenElement element) {
-        Screen currentScreen = MinecraftClient.getInstance().currentScreen;
-        if (!(currentScreen instanceof AbstractBoleScreen)) {
-            return;
-        }
-        currentScreen.setFocused(element);
+    public ScreenElement getSubScreenElement(double mouseX, double mouseY) {
+        return null;
     }
 }

@@ -78,6 +78,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
 
         @Override
+        protected void initTooltipLines() {}
+
+        @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawEntityAuto(this.displayedEntity, x + 2, y, x + this.box.width() - 2, y + this.box.height() - 4,
                     (mouseX) / 33.0F + 0.0001F, (mouseY) / 53.0F + 5.0F);
@@ -114,6 +117,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
 
         @Override
+        protected void initTooltipLines() {}
+
+        @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             Entity entity = handler.entity;
             Box box = entity.getBoundingBox();
@@ -138,6 +144,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         public NetherPortalCooldownContentWidget() {
             super(2, true, 1);
         }
+
+        @Override
+        protected void initTooltipLines() {}
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
@@ -194,6 +203,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             this.cacheText = null;
             this.cacheColor = 0xff000000;
         }
+
+        @Override
+        protected void initTooltipLines() {}
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
@@ -254,6 +266,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             this.silentCache = false;
             this.silentSwitchCacheTicks = -233;
         }
+
+        @Override
+        protected void initTooltipLines() {}
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
