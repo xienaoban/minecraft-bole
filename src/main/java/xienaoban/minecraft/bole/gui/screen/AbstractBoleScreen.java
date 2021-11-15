@@ -672,7 +672,11 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         private void drawTooltip(MatrixStack matrices) {
-            renderTooltip(matrices, this.tooltipLines, this.box.left(), this.box.bottom());
+            final float size = 0.5F;
+            RenderSystem.pushMatrix();
+            RenderSystem.scalef(size, size, size);
+            renderTooltip(matrices, this.tooltipLines, (int)((this.box.left() - 4) / size), (int)((this.box.bottom() + 8) / size));
+            RenderSystem.popMatrix();
         }
 
         @Override
@@ -746,11 +750,11 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         protected void drawBarText(String text, int color) {
-            drawText(matrices, text, color, TEXT_SIZE, x + BAR_TEXT_LEFT, y + TEXT_HEIGHT);
+            drawText(this.matrices, text, color, TEXT_SIZE, this.x + BAR_TEXT_LEFT, this.y + TEXT_HEIGHT);
         }
 
         protected void drawBarText(Text text, int color) {
-            drawText(matrices, text, color, TEXT_SIZE, x + BAR_TEXT_LEFT, y + TEXT_HEIGHT);
+            drawText(this.matrices, text, color, TEXT_SIZE, this.x + BAR_TEXT_LEFT, this.y + TEXT_HEIGHT);
         }
 
         protected void drawButton(int u, int v, int index) {
