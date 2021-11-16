@@ -20,7 +20,7 @@ public class BoleAnimalEntityScreen<E extends AnimalEntity, H extends BoleAnimal
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazy(new BreedingItemsContentWidget());
+        this.pages.get(0).addSlotLazy(new BreedingItemsPropertyWidget());
     }
 
     @Override
@@ -36,8 +36,8 @@ public class BoleAnimalEntityScreen<E extends AnimalEntity, H extends BoleAnimal
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class BreedingItemsContentWidget extends AttractiveFoodContentWidget {
-        public BreedingItemsContentWidget() {
+    public class BreedingItemsPropertyWidget extends AttractiveFoodPropertyWidget {
+        public BreedingItemsPropertyWidget() {
             super(2, false, 0);
         }
 

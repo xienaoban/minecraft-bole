@@ -17,7 +17,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazyAfter(new HealthContentWidget(), null);
+        this.pages.get(0).addSlotLazyAfter(new HealthPropertyWidget(), null);
     }
 
     @Override
@@ -37,11 +37,11 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
      * A widget that displays the health (and the max default health) of the target entity. <br/>
      * Each red bar represents 20 blood, and the golden bar represents more than 20 blood.
      */
-    public class HealthContentWidget extends AbstractContentWidget {
+    public class HealthPropertyWidget extends AbstractPropertyWidget {
         private final int[][] barCache;
         private final int lineCnt;
 
-        public HealthContentWidget() {
+        public HealthPropertyWidget() {
             super(2, 1);
             this.barCache = new int[3][2];
             int mh = (int) handler.entity.getMaxHealth();

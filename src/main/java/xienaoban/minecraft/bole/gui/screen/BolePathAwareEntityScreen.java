@@ -22,7 +22,7 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazy(new AttractiveFoodContentWidget());
+        this.pages.get(0).addSlotLazy(new AttractiveFoodPropertyWidget());
     }
 
     @Override
@@ -38,12 +38,12 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class AttractiveFoodContentWidget extends TemplateContentWidget1 {
-        public AttractiveFoodContentWidget() {
+    public class AttractiveFoodPropertyWidget extends TemplatePropertyWidget1 {
+        public AttractiveFoodPropertyWidget() {
             super(2, false, 0);
         }
 
-        protected AttractiveFoodContentWidget(int colSlots, boolean hasBar, int buttonCnt) {
+        protected AttractiveFoodPropertyWidget(int colSlots, boolean hasBar, int buttonCnt) {
             super(colSlots, hasBar, buttonCnt);
         }
 

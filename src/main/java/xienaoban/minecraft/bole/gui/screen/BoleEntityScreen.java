@@ -28,15 +28,15 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     @Override
     protected void initPages() {
         this.entityDisplayPlan = chooseEntityDisplayPlan(this.pages.get(0));
-        this.pages.get(0).addSlotLazy(new BoundingBoxContentWidget());
-        this.pages.get(1).addSlotLazy(new CustomNameContentWidget())
-                .addSlotLazy(new NetherPortalCooldownContentWidget())
-                .addSlotLazy(new SilentContentWidget());
+        this.pages.get(0).addSlotLazy(new BoundingBoxPropertyWidget());
+        this.pages.get(1).addSlotLazy(new CustomNamePropertyWidget())
+                .addSlotLazy(new NetherPortalCooldownPropertyWidget())
+                .addSlotLazy(new SilentPropertyWidget());
     }
 
     @Override
     protected void initCustom() {
-        this.pages.get(1).setSlot(0, 5, new CenteredTextContentWidget(4, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
+        this.pages.get(1).setSlot(0, 5, new CenteredTextPropertyWidget(4, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
     }
 
     protected int chooseEntityDisplayPlan(Page page) {
@@ -61,7 +61,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             case 4: left = 0; top = 0; width = 2; height = 7; break;
             default: left = 0; top = 0; width = 4; height = 6; break;
         }
-        page.setSlot(left, top, new DisplayedEntityContentWidget(width, height, this.handler.entity));
+        page.setSlot(left, top, new DisplayedEntityPropertyWidget(width, height, this.handler.entity));
         return plan;
     }
 
@@ -69,10 +69,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
      * A widget that displays the target entity. <br/>
      * The entity can be rotated according to the mouse.
      */
-    public class DisplayedEntityContentWidget extends AbstractContentWidget {
+    public class DisplayedEntityPropertyWidget extends AbstractPropertyWidget {
         private Entity displayedEntity, targetEntity;
 
-        public DisplayedEntityContentWidget(int colSlots, int rowSlots, Entity targetEntity) {
+        public DisplayedEntityPropertyWidget(int colSlots, int rowSlots, Entity targetEntity) {
             super(colSlots, rowSlots);
             setTargetEntity(targetEntity);
         }
@@ -111,8 +111,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     /**
      * A widget that displays the bounding box of the target entity.
      */
-    public class BoundingBoxContentWidget extends TemplateContentWidget1 {
-        public BoundingBoxContentWidget() {
+    public class BoundingBoxPropertyWidget extends TemplatePropertyWidget1 {
+        public BoundingBoxPropertyWidget() {
             super(2, true, 0);
         }
 
@@ -140,8 +140,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
      * A widget that displays the cooldown of the target entity to the nether portals. <br/>
      * You can set the cooldown to zero or infinity.
      */
-    public class NetherPortalCooldownContentWidget extends TemplateContentWidget1 {
-        public NetherPortalCooldownContentWidget() {
+    public class NetherPortalCooldownPropertyWidget extends TemplatePropertyWidget1 {
+        public NetherPortalCooldownPropertyWidget() {
             super(2, true, 1);
         }
 
@@ -192,12 +192,12 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
      * A widget that displays the custom name of the target entity. <br/>
      * You can set the custom name to always be displayed.
      */
-    public class CustomNameContentWidget extends TemplateContentWidget1 {
+    public class CustomNamePropertyWidget extends TemplatePropertyWidget1 {
         private Text lastCustomName;
         private Text cacheText;
         private int cacheColor;
 
-        public CustomNameContentWidget() {
+        public CustomNamePropertyWidget() {
             super(2, true, 1);
             this.lastCustomName = new LiteralText(""); // not null
             this.cacheText = null;
@@ -257,11 +257,11 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     /**
      * Allows you to make the entity shut up forever.
      */
-    public class SilentContentWidget extends TemplateContentWidget1 {
+    public class SilentPropertyWidget extends TemplatePropertyWidget1 {
         private boolean silentCache;            // to ensure that the button pattern responds in the first time
         private int silentSwitchCacheTicks;     // (rather than waiting for the response of the server)
 
-        public SilentContentWidget() {
+        public SilentPropertyWidget() {
             super(1, false, 1);
             this.silentCache = false;
             this.silentSwitchCacheTicks = -233;

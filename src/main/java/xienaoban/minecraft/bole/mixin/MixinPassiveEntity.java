@@ -13,8 +13,8 @@ public class MixinPassiveEntity {
     private void tickMovement(CallbackInfo callbackInfo) {
         IMixinPassiveEntity entity = (IMixinPassiveEntity)this;
         int age = entity.getBreedingAgeValue();
-        if (age < BolePassiveEntityScreen.BabyContentWidget.BABY_MIN_AGE) {
-            entity.setBreedingAgeValue(BolePassiveEntityScreen.BabyContentWidget.LOCK);
+        if (age < BolePassiveEntityScreen.BabyPropertyWidget.BABY_MIN_AGE) {
+            entity.setBreedingAgeValue(BolePassiveEntityScreen.BabyPropertyWidget.LOCK);
         }
     }
 }

@@ -20,7 +20,7 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(1).addSlotLazyBefore(new BabyContentWidget(), SilentContentWidget.class);
+        this.pages.get(1).addSlotLazyBefore(new BabyPropertyWidget(), SilentPropertyWidget.class);
     }
 
     @Override
@@ -40,11 +40,11 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
      * A widget that displays the child's growth progress.
      * You can set the child to never grow up.
      */
-    public class BabyContentWidget extends TemplateContentWidget1 {
+    public class BabyPropertyWidget extends TemplatePropertyWidget1 {
         public static final int BABY_MIN_AGE = -24000;
         public static final int LOCK = -0x70000000; // Do not use 0x80000000, as it may overflow into positive.
 
-        public BabyContentWidget() {
+        public BabyPropertyWidget() {
             super(2, true, 1);
         }
 
