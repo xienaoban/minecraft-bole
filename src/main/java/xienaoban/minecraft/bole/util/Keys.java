@@ -16,6 +16,27 @@ public interface Keys {
     String TITLE_BOLE_OVERVIEW = "title.xienaoban.bole.bole_handbook";
     String KEY_CATEGORY_BOLE = "key.category.xienaoban.bole";
     String KEY_OPEN_BOLE_GUI = "key.xienaoban.bole.open_bole_gui";
+
+    String PROPERTY_WIDGET_BOUNDING_BOX = "property_widget.xienaoban.bole.bounding_box";
+    String PROPERTY_WIDGET_BOUNDING_BOX_DESCRIPTION = "property_widget.xienaoban.bole.bounding_box.description";
+    String PROPERTY_WIDGET_NETHER_PORTAL_COOLDOWN = "property_widget.xienaoban.bole.nether_portal_cooldown";
+    String PROPERTY_WIDGET_NETHER_PORTAL_COOLDOWN_DESCRIPTION = "property_widget.xienaoban.bole.nether_portal_cooldown.description";
+    String PROPERTY_WIDGET_NETHER_PORTAL_COOLDOWN_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.nether_portal_cooldown.description.button1";
+    String PROPERTY_WIDGET_CUSTOM_NAME = "property_widget.xienaoban.bole.custom_name";
+    String PROPERTY_WIDGET_CUSTOM_NAME_DESCRIPTION = "property_widget.xienaoban.bole.custom_name.description";
+    String PROPERTY_WIDGET_CUSTOM_NAME_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.custom_name.description.button1";
+    String PROPERTY_WIDGET_SILENT = "property_widget.xienaoban.bole.silent";
+    String PROPERTY_WIDGET_SILENT_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.silent.description.button1";
+    String PROPERTY_WIDGET_HEALTH = "property_widget.xienaoban.bole.health";
+    String PROPERTY_WIDGET_HEALTH_DESCRIPTION = "property_widget.xienaoban.bole.health.description";
+    String PROPERTY_WIDGET_BABY = "property_widget.xienaoban.bole.baby";
+    String PROPERTY_WIDGET_BABY_DESCRIPTION = "property_widget.xienaoban.bole.baby.description";
+    String PROPERTY_WIDGET_BABY_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.baby.description.button1";
+    String PROPERTY_WIDGET_ATTRACTIVE_ITEMS = "property_widget.xienaoban.bole.attractive_items";
+    String PROPERTY_WIDGET_ATTRACTIVE_ITEMS_DESCRIPTION = "property_widget.xienaoban.bole.attractive_items.description";
+    String PROPERTY_WIDGET_BREEDING_ITEMS = "property_widget.xienaoban.bole.breeding_items";
+    String PROPERTY_WIDGET_BREEDING_ITEMS_DESCRIPTION = "property_widget.xienaoban.bole.breeding_items.description";
+
     String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
     String TEXT_BOUNDING_BOX = "text.xienaoban.bole.bounding_box";
     String TEXT_ENTITY_UUID = "text.xienaoban.bole.entity_uuid";

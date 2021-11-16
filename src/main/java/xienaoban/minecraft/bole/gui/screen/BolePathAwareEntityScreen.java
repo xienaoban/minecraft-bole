@@ -22,7 +22,7 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazy(new AttractiveFoodPropertyWidget());
+        this.pages.get(0).addSlotLazy(new AttractiveItemsPropertyWidget());
     }
 
     @Override
@@ -38,26 +38,29 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class AttractiveFoodPropertyWidget extends TemplatePropertyWidget1 {
-        public AttractiveFoodPropertyWidget() {
+    public class AttractiveItemsPropertyWidget extends TemplatePropertyWidget1 {
+        public AttractiveItemsPropertyWidget() {
             super(2, false, 0);
         }
 
-        protected AttractiveFoodPropertyWidget(int colSlots, boolean hasBar, int buttonCnt) {
+        protected AttractiveItemsPropertyWidget(int colSlots, boolean hasBar, int buttonCnt) {
             super(colSlots, hasBar, buttonCnt);
         }
 
         @Override
-        protected void initTooltipLines() {}
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_ATTRACTIVE_ITEMS);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_ATTRACTIVE_ITEMS_DESCRIPTION);
+        }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(110, 0);
-            if (handler.entityAttractiveFood == null) {
+            if (handler.entityAttractiveItems == null) {
                 drawBarText(new TranslatableText(Keys.TEXT_LOADING), CONTENT_TEXT_COLOR);
             }
-            else if (handler.entityAttractiveFood.length > 0) {
-                drawItems(matrices, x, y, handler.entityAttractiveFood);
+            else if (handler.entityAttractiveItems.length > 0) {
+                drawItems(matrices, x, y, handler.entityAttractiveItems);
             }
             else {
                 drawBarText(new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), CONTENT_TEXT_COLOR);

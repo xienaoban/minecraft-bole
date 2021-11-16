@@ -6,7 +6,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.util.Keys;
@@ -36,14 +35,15 @@ public class BoleAnimalEntityScreen<E extends AnimalEntity, H extends BoleAnimal
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class BreedingItemsPropertyWidget extends AttractiveFoodPropertyWidget {
+    public class BreedingItemsPropertyWidget extends AttractiveItemsPropertyWidget {
         public BreedingItemsPropertyWidget() {
             super(2, false, 0);
         }
 
         @Override
         protected void initTooltipLines() {
-            this.tooltipLines.add(new LiteralText("abcdefg"));
+            initTooltipTitle(Keys.PROPERTY_WIDGET_BREEDING_ITEMS);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_BREEDING_ITEMS_DESCRIPTION);
         }
 
         @Override

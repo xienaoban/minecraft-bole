@@ -7,6 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
 public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLivingEntityScreenHandler<E>> extends BoleEntityScreen<E, H> {
@@ -50,7 +51,10 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         }
 
         @Override
-        protected void initTooltipLines() {}
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_HEALTH);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_HEALTH_DESCRIPTION);
+        }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {

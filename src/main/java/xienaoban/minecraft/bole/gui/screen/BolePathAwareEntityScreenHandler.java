@@ -29,7 +29,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
     public static final ScreenHandlerType<BolePathAwareEntityScreenHandler<PathAwareEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "path_aware_entity"), BolePathAwareEntityScreenHandler::new);
 
-    protected Item[] entityAttractiveFood = null;
+    protected Item[] entityAttractiveItems = null;
 
     public BolePathAwareEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
@@ -59,7 +59,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
     @Override
     public void writeServerEntityToBuf(PacketByteBuf buf) {
         super.writeServerEntityToBuf(buf);
-        Item[] items = getEntityAttractiveFood();
+        Item[] items = getEntityAttractiveItems();
         buf.writeInt(items.length);
         Arrays.stream(items).forEach(item -> buf.writeString(Registry.ITEM.getId(item).toString()));
     }
@@ -73,7 +73,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
         for (int i = 0; i < len; ++i) {
             items[i] = Registry.ITEM.get(new Identifier(buf.readString()));
         }
-        this.entityAttractiveFood = items;
+        this.entityAttractiveItems = items;
     }
 
     @Environment(EnvType.CLIENT)
@@ -85,9 +85,9 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
     /**
      * Only works on server side.
      */
-    private Item[] getEntityAttractiveFood() {
-        if (this.entityAttractiveFood != null) {
-            return this.entityAttractiveFood;
+    private Item[] getEntityAttractiveItems() {
+        if (this.entityAttractiveItems != null) {
+            return this.entityAttractiveItems;
         }
         Item[] items = null;
         GoalSelector goalSelector = ((IMixinMobEntity)this.entity).getGoalSelector();
@@ -106,7 +106,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
         if (items == null) {
             items = new Item[0];
         }
-        this.entityAttractiveFood = items;
+        this.entityAttractiveItems = items;
         return items;
     }
 }

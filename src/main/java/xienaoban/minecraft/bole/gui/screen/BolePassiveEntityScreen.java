@@ -20,7 +20,7 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(1).addSlotLazyBefore(new BabyPropertyWidget(), SilentPropertyWidget.class);
+        this.pages.get(1).addSlotLazyAfter(new BabyPropertyWidget(), SilentPropertyWidget.class);
     }
 
     @Override
@@ -49,7 +49,12 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
         }
 
         @Override
-        protected void initTooltipLines() {}
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_BABY);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_BABY_DESCRIPTION);
+            initTooltipEmptyLine();
+            initTooltipButtonDescription(Keys.PROPERTY_WIDGET_BABY_DESCRIPTION_BUTTON1);
+        }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {

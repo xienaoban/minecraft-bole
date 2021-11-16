@@ -10,12 +10,17 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.BoleClient;
@@ -465,6 +470,75 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         RenderSystem.popMatrix();
     }
 
+    public void renderTooltip(MatrixStack matrices, @NotNull List<Text> textLines, float size, int x, int y) {
+        if (textLines.isEmpty()) { return; }
+        RenderSystem.pushMatrix();
+        RenderSystem.scalef(size, size, size);
+        List<OrderedText> lines = new ArrayList<>();
+        for (Text line : textLines) {
+            lines.addAll(this.textRenderer.wrapLines(line, 250));
+        }
+        int i = 0;
+        for (OrderedText line : lines) {
+            int j = this.textRenderer.getWidth(line);
+            if (j > i) { i = j; }
+        }
+        int xx = (int)((x + 2) / size), yy = (int)((y + 2) / size);
+        int n = 8;
+        if (lines.size() > 1) {
+            n += 2 + (lines.size() - 1) * 10;
+        }
+        int screenWidth = (int)(this.width / size);
+        if (xx + i > screenWidth) {
+            xx = screenWidth - i;
+        }
+        matrices.push();
+        int o = -267386864;
+        int p = 1347420415;
+        int q = 1344798847;
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        bufferBuilder.begin(7, VertexFormats.POSITION_COLOR);
+        Matrix4f matrix4f = matrices.peek().getModel();
+        fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 4, xx + i + 3, yy - 3, 400, o, o);
+        fillGradient(matrix4f, bufferBuilder, xx - 3, yy + n + 3, xx + i + 3, yy + n + 4, 400, o, o);
+        fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 3, xx + i + 3, yy + n + 3, 400, o, o);
+        fillGradient(matrix4f, bufferBuilder, xx - 4, yy - 3, xx - 3, yy + n + 3, 400, o, o);
+        fillGradient(matrix4f, bufferBuilder, xx + i + 3, yy - 3, xx + i + 4, yy + n + 3, 400, o, o);
+        fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 3 + 1, xx - 3 + 1, yy + n + 3 - 1, 400, p, q);
+        fillGradient(matrix4f, bufferBuilder, xx + i + 2, yy - 3 + 1, xx + i + 3, yy + n + 3 - 1, 400, p, q);
+        fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 3, xx + i + 3, yy - 3 + 1, 400, p, p);
+        fillGradient(matrix4f, bufferBuilder, xx - 3, yy + n + 2, xx + i + 3, yy + n + 3, 400, q, q);
+        RenderSystem.enableDepthTest();
+        RenderSystem.disableTexture();
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.shadeModel(7425);
+        bufferBuilder.end();
+        BufferRenderer.draw(bufferBuilder);
+        RenderSystem.shadeModel(7424);
+        RenderSystem.disableBlend();
+        RenderSystem.enableTexture();
+        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+        matrices.translate(0.0D, 0.0D, 400.0D);
+
+        for(int s = 0; s < lines.size(); ++s) {
+            OrderedText orderedText2 = lines.get(s);
+            if (orderedText2 != null) {
+                this.textRenderer.draw(orderedText2, (float)xx, (float)yy, -1, true, matrix4f, immediate, false, 0, 15728880);
+            }
+
+            if (s == 0) {
+                yy += 2;
+            }
+
+            yy += 10;
+        }
+        immediate.draw();
+        matrices.pop();
+        RenderSystem.popMatrix();
+    }
+
     public void drawDebugBox(MatrixStack matrices, ElementBox box, int color) {
         if (!this.debugMode) {
             return;
@@ -657,6 +731,22 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         protected abstract void initTooltipLines();
 
+        protected void initTooltipTitle(String translateKey) {
+            this.tooltipLines.add(new TranslatableText(translateKey).formatted(Formatting.YELLOW));
+        }
+
+        protected void initTooltipDescription(String translateKey) {
+            this.tooltipLines.add(new TranslatableText(translateKey).formatted(Formatting.GRAY));
+        }
+
+        protected void initTooltipEmptyLine() {
+            this.tooltipLines.add(new LiteralText(" "));
+        }
+
+        protected void initTooltipButtonDescription(String translateKey) {
+            this.tooltipLines.add(new TranslatableText(translateKey).formatted(Formatting.WHITE));
+        }
+
         @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             super.draw(matrices, x, y, mouseX, mouseY);
@@ -672,11 +762,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         private void drawTooltip(MatrixStack matrices) {
-            final float size = 0.5F;
-            RenderSystem.pushMatrix();
-            RenderSystem.scalef(size, size, size);
-            renderTooltip(matrices, this.tooltipLines, (int)((this.box.left() - 4) / size), (int)((this.box.bottom() + 8) / size));
-            RenderSystem.popMatrix();
+            renderTooltip(matrices, this.tooltipLines, 0.5F, this.box.left(), this.box.bottom());
         }
 
         @Override

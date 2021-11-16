@@ -30,8 +30,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         this.entityDisplayPlan = chooseEntityDisplayPlan(this.pages.get(0));
         this.pages.get(0).addSlotLazy(new BoundingBoxPropertyWidget());
         this.pages.get(1).addSlotLazy(new CustomNamePropertyWidget())
-                .addSlotLazy(new NetherPortalCooldownPropertyWidget())
-                .addSlotLazy(new SilentPropertyWidget());
+                .addSlotLazy(new SilentPropertyWidget())
+                .addSlotLazy(new NetherPortalCooldownPropertyWidget());
     }
 
     @Override
@@ -117,7 +117,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
 
         @Override
-        protected void initTooltipLines() {}
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_BOUNDING_BOX);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_BOUNDING_BOX_DESCRIPTION);
+        }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
@@ -146,7 +149,12 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
 
         @Override
-        protected void initTooltipLines() {}
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_NETHER_PORTAL_COOLDOWN);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_NETHER_PORTAL_COOLDOWN_DESCRIPTION);
+            initTooltipEmptyLine();
+            initTooltipButtonDescription(Keys.PROPERTY_WIDGET_NETHER_PORTAL_COOLDOWN_DESCRIPTION_BUTTON1);
+        }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
@@ -205,7 +213,12 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
 
         @Override
-        protected void initTooltipLines() {}
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_CUSTOM_NAME);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_CUSTOM_NAME_DESCRIPTION);
+            initTooltipEmptyLine();
+            initTooltipButtonDescription(Keys.PROPERTY_WIDGET_CUSTOM_NAME_DESCRIPTION_BUTTON1);
+        }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
@@ -268,7 +281,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
 
         @Override
-        protected void initTooltipLines() {}
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_SILENT);
+            initTooltipButtonDescription(Keys.PROPERTY_WIDGET_SILENT_DESCRIPTION_BUTTON1);
+        }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
