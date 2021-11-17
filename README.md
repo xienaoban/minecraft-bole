@@ -11,6 +11,7 @@ Toto List:
     - [X] `Health`
     - [X] `Max Health`
     - [X] `Is Baby`
+    - [X] `Status Effects`
     - MobEntity:
       - [ ] `Speed` (goalSelector)
       - [X] `Attractive Items` (goalSelector - TemptGoal)

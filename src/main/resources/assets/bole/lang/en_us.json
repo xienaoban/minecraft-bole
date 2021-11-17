@@ -16,6 +16,7 @@
   "property_widget.xienaoban.bole.silent.description.button1": "Button1: set whether to keep the entity quiet.",
   "property_widget.xienaoban.bole.health": "Health Points",
   "property_widget.xienaoban.bole.health.description": "Each red bar represents up to 20 points.\nA golden bar represents more than 20 points.",
+  "property_widget.xienaoban.bole.status_effects": "Status Effects",
   "property_widget.xienaoban.bole.baby": "Growth Stage",
   "property_widget.xienaoban.bole.baby.description": "The growth stage of the baby entity.",
   "property_widget.xienaoban.bole.baby.description.button1": "Button1: set whether the baby will never grow up.",

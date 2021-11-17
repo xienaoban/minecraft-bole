@@ -43,10 +43,6 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
             super(2, false, 0);
         }
 
-        protected AttractiveItemsPropertyWidget(int colSlots, boolean hasBar, int buttonCnt) {
-            super(colSlots, hasBar, buttonCnt);
-        }
-
         @Override
         protected void initTooltipLines() {
             initTooltipTitle(Keys.PROPERTY_WIDGET_ATTRACTIVE_ITEMS);
@@ -60,23 +56,23 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
                 drawBarText(new TranslatableText(Keys.TEXT_LOADING), CONTENT_TEXT_COLOR);
             }
             else if (handler.entityAttractiveItems.length > 0) {
-                drawItems(matrices, x, y, handler.entityAttractiveItems);
+                drawItems(matrices, handler.entityAttractiveItems);
             }
             else {
                 drawBarText(new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), CONTENT_TEXT_COLOR);
             }
         }
 
-        protected void drawItems(MatrixStack matrices, int x, int y, Item[] items) {
+        protected void drawItems(MatrixStack matrices, Item[] items) {
             float w = Math.min(9.0F, (this.box.width() - 20.0F) / Math.max(1, items.length - 1));
             for (int i = items.length - 1; i >= 0; --i) {
                 Item item = items[i];
                 final float size = 8.0F / 16.0F;
                 setTexture(Textures.ICONS);
-                drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x + i * w + 10, y, 220, 10);
+                drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), this.box.left() + i * w + 10, this.box.top(), 220, 10);
                 RenderSystem.pushMatrix();
                 RenderSystem.scalef(size, size, size);
-                itemRenderer.renderInGuiWithOverrides(new ItemStack(item), (int)((x + i * w + 11) / size), (int)((y + 1) / size));
+                itemRenderer.renderInGuiWithOverrides(new ItemStack(item), (int)((this.box.left() + i * w + 11) / size), (int)((this.box.top() + 1) / size));
                 RenderSystem.popMatrix();
             }
         }

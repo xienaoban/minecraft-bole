@@ -91,13 +91,13 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
         }
         Item[] items = null;
         GoalSelector goalSelector = ((IMixinMobEntity)this.entity).getGoalSelector();
-        Set<PrioritizedGoal> goals = MiscUtil.getField(goalSelector, GoalSelector.class, "goals");
+        Set<PrioritizedGoal> goals = MiscUtil.getFieldValue(goalSelector, GoalSelector.class, "goals");
         for (PrioritizedGoal prioritizedGoal : goals) {
             Goal goal = prioritizedGoal.getGoal();
             if (!(goal instanceof TemptGoal)) {
                 continue;
             }
-            Ingredient foods = MiscUtil.getField(goal, TemptGoal.class, "food");
+            Ingredient foods = MiscUtil.getFieldValue(goal, TemptGoal.class, "food");
             ItemStack[] itemStacks = foods.getMatchingStacksClient();
             items = Arrays.stream(itemStacks).map(ItemStack::getItem)
                     .sorted(Comparator.comparing(Registry.ITEM::getId)).toArray(Item[]::new);

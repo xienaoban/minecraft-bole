@@ -36,10 +36,6 @@ public class BoleAnimalEntityScreen<E extends AnimalEntity, H extends BoleAnimal
     }
 
     public class BreedingItemsPropertyWidget extends AttractiveItemsPropertyWidget {
-        public BreedingItemsPropertyWidget() {
-            super(2, false, 0);
-        }
-
         @Override
         protected void initTooltipLines() {
             initTooltipTitle(Keys.PROPERTY_WIDGET_BREEDING_ITEMS);
@@ -54,7 +50,7 @@ public class BoleAnimalEntityScreen<E extends AnimalEntity, H extends BoleAnimal
                 drawBarText(new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), CONTENT_TEXT_COLOR);
             }
             else {
-                drawItems(matrices, x, y, items);
+                drawItems(matrices, items);
             }
         }
     }

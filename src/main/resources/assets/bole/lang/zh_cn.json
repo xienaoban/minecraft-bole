@@ -16,6 +16,7 @@
   "property_widget.xienaoban.bole.silent.description.button1": "按钮1：设置是否让实体保持闭嘴。",
   "property_widget.xienaoban.bole.health": "血量",
   "property_widget.xienaoban.bole.health.description": "每个红色血条最高代表20血。\n黄色血条表示20以上的血。",
+  "property_widget.xienaoban.bole.status_effects": "状态效果",
   "property_widget.xienaoban.bole.baby": "成长阶段",
   "property_widget.xienaoban.bole.baby.description": "幼儿状态的实体的成长阶段。",
   "property_widget.xienaoban.bole.baby.description.button1": "按钮1：设置是否禁止幼儿成长。",
