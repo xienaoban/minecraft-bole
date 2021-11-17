@@ -19,7 +19,7 @@ public class BoleAnimalEntityScreen<E extends AnimalEntity, H extends BoleAnimal
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazy(new BreedingItemsPropertyWidget());
+        this.pages.get(0).addSlotLazyAfter(new BreedingItemsPropertyWidget(), AttractiveItemsPropertyWidget.class);
     }
 
     @Override

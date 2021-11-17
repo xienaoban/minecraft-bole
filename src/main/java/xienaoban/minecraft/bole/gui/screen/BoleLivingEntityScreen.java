@@ -12,6 +12,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -141,17 +142,25 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
 
         @Override
         protected void drawTooltip(MatrixStack matrices) {
-            Collection<StatusEffectInstance> effects = handler.entity.getStatusEffects();
-            if (effects.isEmpty()) {
-                effects = handler.entityStatusEffects;
-            }
+            Collection<StatusEffectInstance> effects = handler.entityStatusEffects;
             if (effects.isEmpty()) {
                 this.tooltipLines.add(new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS).formatted(Formatting.GRAY));
             }
             else {
+                int maxWidth = 0;
                 for (StatusEffectInstance effect : effects) {
-                    this.tooltipLines.add(new TranslatableText(effect.getEffectType().getTranslationKey()).append((effect.getAmplifier() + 1) + "    ")
-                            .append(new LiteralText((effect.getDuration() / 20) + "s").formatted(Formatting.GRAY)));
+                    Text text = new TranslatableText(effect.getEffectType().getTranslationKey());
+                    maxWidth = Math.max(textRenderer.getWidth(text), maxWidth);
+                }
+                for (StatusEffectInstance effect : effects) {
+                    MutableText text1 = new TranslatableText(effect.getEffectType().getTranslationKey()).append(String.valueOf(effect.getAmplifier() + 1)).formatted(Formatting.WHITE);
+                    MutableText text2 = new LiteralText((effect.getDuration() / 20) + "s").formatted(Formatting.GRAY);
+                    int w = textRenderer.getWidth(text1) + textRenderer.getWidth(text2);
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = (maxWidth + 40 - w) / 2; i > 0; --i) {
+                        sb.append('.');
+                    }
+                    this.tooltipLines.add(text1.append(new LiteralText(sb.toString()).formatted(Formatting.DARK_GRAY)).append(text2));
                 }
             }
             super.drawTooltip(matrices);
@@ -160,10 +169,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         }
 
         protected void drawEffects(MatrixStack matrices) {
-            Collection<StatusEffectInstance> effects = handler.entity.getStatusEffects();
-            if (effects.isEmpty()) {
-                effects = handler.entityStatusEffects;
-            }
+            Collection<StatusEffectInstance> effects = handler.entityStatusEffects;
             if (effects.isEmpty()) {
                 drawBarText(new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), CONTENT_TEXT_COLOR);
                 return;
