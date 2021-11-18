@@ -16,17 +16,19 @@ Toto List:
       - [ ] `Speed` (goalSelector)
       - [X] `Attractive Items` (goalSelector - TemptGoal)
       - [ ] ~~`Loot Table`~~
-      - [ ] `Hand Item`
-      - [ ] `Grab Hand Item`
+      - [ ] ~~`Hand Item`~~
+      - [ ] ~~`Grab Hand Item`~~
       - PathAwareEntity:
         - PassiveEntity:
           - [X] `Set Baby / Never Grow Up` (breedingAge)
           - AnimalEntity:
             - [X] `Breeding Item` (isBreedingItem)
+            - TameableEntity:
+              - [ ] `Set Owner`
             - HorseBaseEntity:
               - HorseEntity:
-                - [ ] `Running Speed`
-                - [ ] `Jump Height`
+                - [X] `Running Speed`
+                - [X] `Jump Height`
             - BeeEntity:
               - [ ] `Beehive Position`
             - SheepEntity:

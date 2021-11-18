@@ -7,7 +7,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 
 public abstract class ScreenElement implements Element {
-    protected final ElementBox box;
+    public final ElementBox box;
 
     public ScreenElement(int elementWidth, int elementHeight) {
         this.box = new ElementBox(elementWidth, elementHeight);

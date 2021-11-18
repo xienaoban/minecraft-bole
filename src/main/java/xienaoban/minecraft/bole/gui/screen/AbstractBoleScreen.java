@@ -696,7 +696,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             if (widget instanceof AbstractBoleScreen.EmptyPropertyWidget) {
                 widget = ((EmptyPropertyWidget) widget).father;
             }
-            if (widget == null || x > w * (widget.getColSlots() + col) - PROPERTY_WIDGET_MARGIN_WIDTH || y > h * (widget.getRowSlots() + row) - PROPERTY_WIDGET_MARGIN_HEIGHT) {
+            if (widget == null || mouseX > widget.box.right() || mouseY > widget.box.bottom()) {
                 return null;
             }
             return widget;

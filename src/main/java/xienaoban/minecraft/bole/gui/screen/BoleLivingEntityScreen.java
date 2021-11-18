@@ -10,6 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
@@ -67,6 +68,9 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         protected void initTooltipLines() {
             initTooltipTitle(Keys.PROPERTY_WIDGET_HEALTH);
             initTooltipDescription(Keys.PROPERTY_WIDGET_HEALTH_DESCRIPTION);
+            if (handler.entity instanceof HorseBaseEntity) {
+                initTooltipDescription(Keys.PROPERTY_WIDGET_HEALTH_DESCRIPTION_HORSE_BASE);
+            }
         }
 
         @Override

@@ -29,6 +29,7 @@ public interface Keys {
     String PROPERTY_WIDGET_SILENT_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.silent.description.button1";
     String PROPERTY_WIDGET_HEALTH = "property_widget.xienaoban.bole.health";
     String PROPERTY_WIDGET_HEALTH_DESCRIPTION = "property_widget.xienaoban.bole.health.description";
+    String PROPERTY_WIDGET_HEALTH_DESCRIPTION_HORSE_BASE = "property_widget.xienaoban.bole.health.description.horse_base";
     String PROPERTY_WIDGET_STATUS_EFFECTS = "property_widget.xienaoban.bole.status_effects";
     String PROPERTY_WIDGET_BABY = "property_widget.xienaoban.bole.baby";
     String PROPERTY_WIDGET_BABY_DESCRIPTION = "property_widget.xienaoban.bole.baby.description";
@@ -37,10 +38,10 @@ public interface Keys {
     String PROPERTY_WIDGET_ATTRACTIVE_ITEMS_DESCRIPTION = "property_widget.xienaoban.bole.attractive_items.description";
     String PROPERTY_WIDGET_BREEDING_ITEMS = "property_widget.xienaoban.bole.breeding_items";
     String PROPERTY_WIDGET_BREEDING_ITEMS_DESCRIPTION = "property_widget.xienaoban.bole.breeding_items.description";
+    String PROPERTY_WIDGET_HORSE_RUN_AND_JUMP = "property_widget.xienaoban.bole.horse_run_and_jump";
+    String PROPERTY_WIDGET_HORSE_RUN_AND_JUMP_DESCRIPTION = "property_widget.xienaoban.bole.horse_run_and_jump.description";
 
     String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
-    String TEXT_BOUNDING_BOX = "text.xienaoban.bole.bounding_box";
-    String TEXT_ENTITY_UUID = "text.xienaoban.bole.entity_uuid";
     String TEXT_UNNAMED = "text.xienaoban.bole.unnamed";
     String TEXT_GROWN_UP = "text.xienaoban.bole.grown_up";
     String TEXT_NEVER_GROW_UP = "text.xienaoban.bole.never_grow_up";
