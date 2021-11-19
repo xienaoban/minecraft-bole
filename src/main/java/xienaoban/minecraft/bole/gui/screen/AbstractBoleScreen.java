@@ -43,7 +43,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public static final int CONTENT_HEIGHT = 130;
     public static final int CONTENT_SPACING_WIDTH = 20;
 
-    public static final int CONTENT_TEXT_COLOR = 0xd0121212;
+    public static final int CONTENT_TEXT_COLOR = 0xc0121212;
 
     // private Element focused; (in AbstractParentElement)
     private ScreenElement hovered;

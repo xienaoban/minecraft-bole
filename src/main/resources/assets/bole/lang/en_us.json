@@ -27,6 +27,8 @@
   "property_widget.xienaoban.bole.breeding_items.description": "The food you can use to breed the entity.",
   "property_widget.xienaoban.bole.horse_run_and_jump": "Jump Height & Running Speed",
   "property_widget.xienaoban.bole.horse_run_and_jump.description": "Running speed is usually between 4.74m/s and 14.23m/s.\nJump height is usually between 1.09m and 5.29m.",
+  "property_widget.xienaoban.bole.donkey_chest": "Inventory Size of the Chest",
+  "property_widget.xienaoban.bole.donkey_chest.description": "Max size: 15.",
 
   "text.xienaoban.bole.unsupported_entity": "Unsupported entity",
   "text.xienaoban.bole.unnamed": "Unnamed",

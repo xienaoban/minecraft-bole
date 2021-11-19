@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.PassiveEntity;
@@ -62,6 +63,7 @@ public class ScreenRegistryManager {
         registerEntityToHandler(PassiveEntity.class, BolePassiveEntityScreenHandler::new);
         registerEntityToHandler(AnimalEntity.class, BoleAnimalEntityScreenHandler::new);
         registerEntityToHandler(HorseBaseEntity.class, BoleHorseBaseEntityScreenHandler::new);
+        registerEntityToHandler(AbstractDonkeyEntity.class, BoleAbstractDonkeyEntityScreenHandler::new);
     }
 
     @Environment(EnvType.CLIENT)
@@ -75,5 +77,6 @@ public class ScreenRegistryManager {
         ScreenRegistry.register(BolePassiveEntityScreenHandler.HANDLER, BolePassiveEntityScreen<PassiveEntity, BolePassiveEntityScreenHandler<PassiveEntity>>::new);
         ScreenRegistry.register(BoleAnimalEntityScreenHandler.HANDLER, BoleAnimalEntityScreen<AnimalEntity, BoleAnimalEntityScreenHandler<AnimalEntity>>::new);
         ScreenRegistry.register(BoleHorseBaseEntityScreenHandler.HANDLER, BoleHorseBaseEntityScreen<HorseBaseEntity, BoleHorseBaseEntityScreenHandler<HorseBaseEntity>>::new);
+        ScreenRegistry.register(BoleAbstractDonkeyEntityScreenHandler.HANDLER, BoleAbstractDonkeyEntityScreen<AbstractDonkeyEntity, BoleAbstractDonkeyEntityScreenHandler<AbstractDonkeyEntity>>::new);
     }
 }

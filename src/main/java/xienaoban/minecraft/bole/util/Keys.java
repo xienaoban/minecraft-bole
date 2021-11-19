@@ -40,6 +40,8 @@ public interface Keys {
     String PROPERTY_WIDGET_BREEDING_ITEMS_DESCRIPTION = "property_widget.xienaoban.bole.breeding_items.description";
     String PROPERTY_WIDGET_HORSE_RUN_AND_JUMP = "property_widget.xienaoban.bole.horse_run_and_jump";
     String PROPERTY_WIDGET_HORSE_RUN_AND_JUMP_DESCRIPTION = "property_widget.xienaoban.bole.horse_run_and_jump.description";
+    String PROPERTY_WIDGET_DONKEY_CHEST = "property_widget.xienaoban.bole.donkey_chest";
+    String PROPERTY_WIDGET_DONKEY_CHEST_DESCRIPTION = "property_widget.xienaoban.bole.donkey_chest.description";
 
     String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
     String TEXT_UNNAMED = "text.xienaoban.bole.unnamed";

@@ -105,7 +105,8 @@ public class Bole{#0}ScreenHandler<E extends {#0}> extends Bole{#2}ScreenHandler
     }
 }
 '''
-bole_screen_register_template = 'ScreenRegistry.register(Bole{#0}ScreenHandler.HANDLER, Bole{#0}Screen<{#0}, Bole{#0}ScreenHandler<{#0}>>::new);'
+bole_screen_server_register_template = 'registerEntityToHandler({#0}.class, Bole{#0}ScreenHandler::new);'
+bole_screen_client_register_template = 'ScreenRegistry.register(Bole{#0}ScreenHandler.HANDLER, Bole{#0}Screen<{#0}, Bole{#0}ScreenHandler<{#0}>>::new);'
 bole_screen_name_template = 'Bole{#0}Screen'
 bole_screen_handler_name_template = 'Bole{#0}ScreenHandler'
 key1 = '{#0}'
@@ -142,7 +143,8 @@ with open('out/' + screen_handler_class_name + '.java', 'w') as f:
 print('Files has been exported. Check them in folder "./out".')
 print()
 
-print('Dont\'t forget to register them in method "onInitializeClient()":')
+print('Dont\'t forget to register them in method "onInitialize()" and "onInitializeClient()":')
 print()
-print(' -> ' + bole_screen_register_template.replace(key1, camel))
+print(' -> ' + bole_screen_server_register_template.replace(key1, camel))
+print(' -> ' + bole_screen_client_register_template.replace(key1, camel))
 print()
