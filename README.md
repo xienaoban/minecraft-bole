@@ -26,6 +26,8 @@ Toto List:
             - TameableEntity:
               - [ ] `Set Owner`
             - HorseBaseEntity:
+              - AbstractDonkeyEntity
+                - [X] `Chest Size`
               - HorseEntity:
                 - [X] `Running Speed`
                 - [X] `Jump Height`

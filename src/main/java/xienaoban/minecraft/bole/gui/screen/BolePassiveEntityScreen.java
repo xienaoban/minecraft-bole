@@ -59,21 +59,21 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             int age = ((IMixinPassiveEntity)handler.entity).getBreedingAgeValue();
-            drawIcon(0, 60);
-            drawBar(10, 60, 1.0F);
-            drawBar(50, 60, 1.0F * (age - BABY_MIN_AGE) / (-BABY_MIN_AGE));
-            drawButton(200 + (age < BABY_MIN_AGE ? 10 : 0), 0, 0);
+            drawIcon(matrices, 0, 60);
+            drawBar(matrices, 10, 60, 1.0F);
+            drawBar(matrices, 50, 60, 1.0F * (age - BABY_MIN_AGE) / (-BABY_MIN_AGE));
+            drawButton(matrices, 200 + (age < BABY_MIN_AGE ? 10 : 0), 0, 0);
             if (debugMode) {
-                drawBarText(age + "t", 0xbbffffff);
+                drawBarText(matrices, age + "t", 0xbbffffff);
             }
             else if (age >= 0) {
-                drawBarText(new TranslatableText(Keys.TEXT_GROWN_UP), 0xbbffffff);
+                drawBarText(matrices, new TranslatableText(Keys.TEXT_GROWN_UP), 0xbbffffff);
             }
             else if (age < BABY_MIN_AGE) {
-                drawBarText(new TranslatableText(Keys.TEXT_NEVER_GROW_UP), 0xbbffffff);
+                drawBarText(matrices, new TranslatableText(Keys.TEXT_NEVER_GROW_UP), 0xbbffffff);
             }
             else {
-                drawBarText(String.format("%.2f%%", 100.0F - 100.0F * age / BABY_MIN_AGE), 0xbbffffff);
+                drawBarText(matrices, String.format("%.2f%%", 100.0F - 100.0F * age / BABY_MIN_AGE), 0xbbffffff);
             }
         }
 

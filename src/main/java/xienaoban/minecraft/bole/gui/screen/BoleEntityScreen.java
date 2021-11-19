@@ -126,8 +126,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             Entity entity = handler.entity;
             Box box = entity.getBoundingBox();
-            drawIcon(0, 50);
-            drawBar(10, 50, 1.0F);
+            drawIcon(matrices, 0, 50);
+            drawBar(matrices, 10, 50, 1.0F);
             drawText(matrices, String.format("%.2f", box.getXLength()), 0xffee3d3d, 0.5F, x + BAR_LEFT + 2, y + TEXT_HEIGHT);
             drawText(matrices, String.format("%.2f", box.getYLength()), 0xff04b904, 0.5F, x + BAR_LEFT + 2 + 13, y + TEXT_HEIGHT);
             drawText(matrices, String.format("%.2f", box.getZLength()), 0xff175fe4, 0.5F, x + BAR_LEFT + 2 + 26, y + TEXT_HEIGHT);
@@ -161,10 +161,10 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             int cooldown = ((IMixinEntity)handler.entity).getNetherPortalCooldown();
             boolean lock = cooldown == Keys.NETHER_PORTAL_LOCK;
             float p = Math.min(1.0F, (float)cooldown / handler.entity.getDefaultNetherPortalCooldown());
-            drawIcon(0, 30);
-            drawBar(10, 30, 1.0F);
-            drawBar(50, 30, p);
-            drawButton(200 + (lock ? 10 : 0), 0, 0);
+            drawIcon(matrices, 0, 30);
+            drawBar(matrices, 10, 30, 1.0F);
+            drawBar(matrices, 50, 30, p);
+            drawButton(matrices, 200 + (lock ? 10 : 0), 0, 0);
             String text;
             if (lock) {
                 text = "∞";
@@ -175,7 +175,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             else {
                 text = (((IMixinEntity)handler.entity).getNetherPortalCooldown() / 20) + "s";
             }
-            drawBarText(text, 0xbbffffff);
+            drawBarText(matrices, text, 0xbbffffff);
         }
 
         @Override
@@ -222,11 +222,11 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawIcon(0, 40);
-            drawBar(10, 40, 1.0F);
-            drawButton(220 + (handler.entity.isCustomNameVisible() ? 0 : 10), 0, 0);
+            drawIcon(matrices, 0, 40);
+            drawBar(matrices, 10, 40, 1.0F);
+            drawButton(matrices, 220 + (handler.entity.isCustomNameVisible() ? 0 : 10), 0, 0);
             setCacheText();
-            drawBarText(this.cacheText, this.cacheColor);
+            drawBarText(matrices, this.cacheText, this.cacheColor);
         }
 
         @Override
@@ -288,8 +288,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawIcon(100, 0);
-            drawButton(200 + (isCurrentSilent() ? 10 : 0), 10, 0);
+            drawIcon(matrices, 100, 0);
+            drawButton(matrices, 200 + (isCurrentSilent() ? 10 : 0), 10, 0);
         }
 
         @Override

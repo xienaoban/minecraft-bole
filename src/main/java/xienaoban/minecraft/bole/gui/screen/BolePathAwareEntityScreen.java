@@ -51,15 +51,15 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawIcon(110, 0);
+            drawIcon(matrices, 110, 0);
             if (handler.entityAttractiveItems == null) {
-                drawBarText(new TranslatableText(Keys.TEXT_LOADING), CONTENT_TEXT_COLOR);
+                drawBarText(matrices, new TranslatableText(Keys.TEXT_LOADING), CONTENT_TEXT_COLOR);
             }
             else if (handler.entityAttractiveItems.length > 0) {
                 drawItems(matrices, handler.entityAttractiveItems);
             }
             else {
-                drawBarText(new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), CONTENT_TEXT_COLOR);
+                drawBarText(matrices, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), CONTENT_TEXT_COLOR);
             }
         }
 

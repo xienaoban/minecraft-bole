@@ -47,8 +47,8 @@ public class BoleAbstractDonkeyEntityScreen<E extends AbstractDonkeyEntity, H ex
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawIcon(140, 0);
-            drawBarText(String.valueOf(handler.entity.getInventoryColumns() * 3), CONTENT_TEXT_COLOR);
+            drawIcon(matrices, 140, 0);
+            drawBarText(matrices, String.valueOf(handler.entity.getInventoryColumns() * 3), CONTENT_TEXT_COLOR);
         }
     }
 }

@@ -791,8 +791,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         protected static final int IDX_ICON = 0, IDX_BAR = 1, IDX_BUTTON_BEGIN = 2;
 
-        private MatrixStack matrices;
-
         protected final int barWidth;
         protected final int[] buttons;
 
@@ -813,35 +811,34 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            this.matrices = matrices;
             setTexture(Textures.ICONS);
             super.draw(matrices, x, y, mouseX, mouseY);
         }
 
-        protected void drawIcon(int u, int v) {
-            drawTextureNormally(this.matrices, 256, 256, 10, 10, getZOffset(), this.box.left() + ICON_LEFT, this.box.top(), u, v);
+        protected void drawIcon(MatrixStack matrices, int u, int v) {
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), this.box.left() + ICON_LEFT, this.box.top(), u, v);
         }
 
-        protected void drawBar(int u, int v, float p) {
+        protected void drawBar(MatrixStack matrices, int u, int v, float p) {
             if (p < 0.0F) {
                 p = 0.0F;
             }
             else if (p > 1.0F) {
                 p = 1.0F;
             }
-            drawTextureNormally(this.matrices, 256, 256, this.barWidth * p, 10, getZOffset(), this.box.left() + BAR_LEFT, this.box.top(), u, v);
+            drawTextureNormally(matrices, 256, 256, this.barWidth * p, 10, getZOffset(), this.box.left() + BAR_LEFT, this.box.top(), u, v);
         }
 
-        protected void drawBarText(String text, int color) {
-            drawText(this.matrices, text, color, TEXT_SIZE, this.box.left() + BAR_TEXT_LEFT, this.box.top() + TEXT_HEIGHT);
+        protected void drawBarText(MatrixStack matrices, String text, int color) {
+            drawText(matrices, text, color, TEXT_SIZE, this.box.left() + BAR_TEXT_LEFT, this.box.top() + TEXT_HEIGHT);
         }
 
-        protected void drawBarText(Text text, int color) {
-            drawText(this.matrices, text, color, TEXT_SIZE, this.box.left() + BAR_TEXT_LEFT, this.box.top() + TEXT_HEIGHT);
+        protected void drawBarText(MatrixStack matrices, Text text, int color) {
+            drawText(matrices, text, color, TEXT_SIZE, this.box.left() + BAR_TEXT_LEFT, this.box.top() + TEXT_HEIGHT);
         }
 
-        protected void drawButton(int u, int v, int index) {
-            drawTextureNormally(this.matrices, 256, 256, 10, 10, getZOffset(), this.box.left() + this.buttons[index] - BUTTON_TEXTURE_OFFSET, this.box.top(), u, v);
+        protected void drawButton(MatrixStack matrices, int u, int v, int index) {
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), this.box.left() + this.buttons[index] - BUTTON_TEXTURE_OFFSET, this.box.top(), u, v);
         }
 
         protected int calMousePosition(double mouseX, double mouseY) {
