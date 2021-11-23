@@ -36,10 +36,11 @@ Toto List:
             - SheepEntity:
               - [ ] `Force Eat Grass`
           - MerchantEntity:
+            - [X] `Get Inventory`
+            - [ ] `Set Inventory`
             - VillagerEntity:
               - [ ] `Reset Job Site`
               - [ ] `Reset Level 0`
-              - [ ] `Set Inventory`
               - [ ] `Force Restock`
               - [ ] `Change Clothes`
         - HostileEntity:

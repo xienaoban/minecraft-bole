@@ -29,6 +29,8 @@
   "property_widget.xienaoban.bole.horse_run_and_jump.description": "Running speed is usually between 4.74m/s and 14.23m/s.\nJump height is usually between 1.09m and 5.29m.",
   "property_widget.xienaoban.bole.donkey_chest": "Inventory Size of the Chest",
   "property_widget.xienaoban.bole.donkey_chest.description": "Max size: 15.",
+  "property_widget.xienaoban.bole.merchant_inventory": "The inventory of the Merchant",
+  "property_widget.xienaoban.bole.merchant_inventory.description": "Interaction with the inventory will be supported in the future.",
 
   "text.xienaoban.bole.unsupported_entity": "Unsupported entity",
   "text.xienaoban.bole.unnamed": "Unnamed",

@@ -29,6 +29,8 @@
   "property_widget.xienaoban.bole.horse_run_and_jump.description": "跑步速度通常介于 4.74m/s 与 14.23m/s 之间。\n跳跃高度通常介于 1.09m 与 5.29m 之间。",
   "property_widget.xienaoban.bole.donkey_chest": "挂载箱子的容量",
   "property_widget.xienaoban.bole.donkey_chest.description": "最大容量 15 格。",
+  "property_widget.xienaoban.bole.merchant_inventory": "商人的背包",
+  "property_widget.xienaoban.bole.merchant_inventory.description": "未来会支持与商人背包的交互。",
 
   "text.xienaoban.bole.unsupported_entity": "不支持的实体",
   "text.xienaoban.bole.unnamed": "未命名",

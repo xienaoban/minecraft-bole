@@ -72,7 +72,7 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
                 drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), this.box.left() + i * w + 10, this.box.top(), 220, 10);
                 RenderSystem.pushMatrix();
                 RenderSystem.scalef(size, size, size);
-                itemRenderer.renderInGuiWithOverrides(new ItemStack(item), (int)((this.box.left() + i * w + 11) / size), (int)((this.box.top() + 1) / size));
+                itemRenderer.renderInGui(new ItemStack(item), (int)((this.box.left() + i * w + 11) / size), (int)((this.box.top() + 1) / size));
                 RenderSystem.popMatrix();
             }
         }
