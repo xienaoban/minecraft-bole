@@ -21,6 +21,9 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     public static final ScreenHandlerType<BoleEntityScreenHandler<Entity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "entity"), BoleEntityScreenHandler::new);
 
+    // I didn't define a local variable "protected int entityNetherPortalCooldown" in this handler,
+    // because the calculation logic of this value is inside Entity (and my mixin).
+
     public BoleEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }

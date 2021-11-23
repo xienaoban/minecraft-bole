@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import org.lwjgl.glfw.GLFW;
-import xienaoban.minecraft.bole.mixin.IMixinPassiveEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
@@ -58,7 +57,7 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            int age = ((IMixinPassiveEntity)handler.entity).getBreedingAgeValue();
+            int age = handler.entityBreedingAge;
             drawIcon(matrices, 0, 60);
             drawBar(matrices, 10, 60, 1.0F);
             drawBar(matrices, 50, 60, 1.0F * (age - BABY_MIN_AGE) / (-BABY_MIN_AGE));
@@ -83,7 +82,7 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 return false;
             }
-            int age = ((IMixinPassiveEntity)handler.entity).getBreedingAgeValue();
+            int age = handler.entityBreedingAge;
             if (age >= 0) {
                 return false;
             }

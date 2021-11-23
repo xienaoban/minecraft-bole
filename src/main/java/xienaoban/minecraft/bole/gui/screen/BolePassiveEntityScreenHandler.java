@@ -16,6 +16,8 @@ public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends Bol
     public static final ScreenHandlerType<BolePassiveEntityScreenHandler<PassiveEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "passive_entity"), BolePassiveEntityScreenHandler::new);
 
+    protected int entityBreedingAge = 0;
+
     public BolePassiveEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }
@@ -40,7 +42,7 @@ public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends Bol
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 int age = (Integer) args[0];
-                ((IMixinPassiveEntity)entity).setBreedingAgeValue(age);
+                entityBreedingAge = age;
                 buf.writeInt(age);
             }
         });
@@ -66,23 +68,21 @@ public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends Bol
     @Override
     public void readServerEntityFromBuf(PacketByteBuf buf) {
         super.readServerEntityFromBuf(buf);
-        ((IMixinPassiveEntity)this.entity).setBreedingAgeValue(buf.readInt());
+        this.entityBreedingAge = buf.readInt();
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     protected void resetClientEntityServerProperties() {
         super.resetClientEntityServerProperties();
-        ((IMixinPassiveEntity)this.entity).setBreedingAgeValue(0);
     }
 
     @Environment(EnvType.CLIENT)
     private void calculateClientEntityBreedingAge() {
-        IMixinPassiveEntity entity = (IMixinPassiveEntity)this.entity;
-        int age = entity.getBreedingAgeValue();
+        int age = this.entityBreedingAge;
         if (age == 0x80000000 || age >= 0) {
             return;
         }
-        entity.setBreedingAgeValue(age + 1);
+        this.entityBreedingAge = age + 1;
     }
 }
