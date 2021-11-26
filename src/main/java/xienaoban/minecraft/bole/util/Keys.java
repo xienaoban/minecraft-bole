@@ -10,6 +10,7 @@ public interface Keys {
     String ENTITY_SETTING_CUSTOM_NAME_VISIBLE = "custom_name_visible";
     String ENTITY_SETTING_SILENT = "silent";
     String ENTITY_SETTING_BABY = "baby";
+    String ENTITY_SETTING_RESTOCK = "restock";
 
     // Translation Keys
     String MOD_NAME = "xienaoban.bole";
@@ -44,6 +45,9 @@ public interface Keys {
     String PROPERTY_WIDGET_DONKEY_CHEST_DESCRIPTION = "property_widget.xienaoban.bole.donkey_chest.description";
     String PROPERTY_WIDGET_MERCHANT_INVENTORY = "property_widget.xienaoban.bole.merchant_inventory";
     String PROPERTY_WIDGET_MERCHANT_INVENTORY_DESCRIPTION = "property_widget.xienaoban.bole.merchant_inventory.description";
+    String PROPERTY_WIDGET_VILLAGER_RESTOCK = "property_widget.xienaoban.bole.villager_restock";
+    String PROPERTY_WIDGET_VILLAGER_RESTOCK_DESCRIPTION = "property_widget.xienaoban.bole.villager_restock.description";
+    String PROPERTY_WIDGET_VILLAGER_RESTOCK_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.villager_restock.description.button1";
 
     String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
     String TEXT_UNNAMED = "text.xienaoban.bole.unnamed";

@@ -43,7 +43,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public static final int CONTENT_HEIGHT = 130;
     public static final int CONTENT_SPACING_WIDTH = 20;
 
-    public static final int CONTENT_TEXT_COLOR = 0xc0121212;
+    public static final int DARK_TEXT_COLOR = 0xc0121212;
+    public static final int LIGHT_TEXT_COLOR = 0xbbffffff;
 
     // private Element focused; (in AbstractParentElement)
     private ScreenElement hovered;
@@ -177,7 +178,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawTextureNormally(matrices, 256, 256, this.getZOffset(),
                 this.width >> 1, y0, x1, y1, u0, v0, u1, v1);
         if (this.debugMode) {
-            drawText(matrices, "Tick: " + BoleClient.getInstance().getTicks(), 0xbbffffff, 0.5F, 1, 10);
+            drawText(matrices, "Tick: " + BoleClient.getInstance().getTicks(), LIGHT_TEXT_COLOR, 0.5F, 1, 10);
             if (this.handler.entity != null) {
                 List<String> entitySuperclasses = new ArrayList<>();
                 Class<?> clazz = this.handler.entity.getClass();
@@ -187,8 +188,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                 }
                 entitySuperclasses.add(clazz.getSimpleName());
                 Collections.reverse(entitySuperclasses);
-                drawText(matrices, "Entity: " + String.join(" > ", entitySuperclasses), 0xbbffffff, 0.5F, 1, 15);
-                drawText(matrices, "Screen: " + this.getClass().getSimpleName(), 0xbbffffff, 0.5F, 1, 20);
+                drawText(matrices, "Entity: " + String.join(" > ", entitySuperclasses), LIGHT_TEXT_COLOR, 0.5F, 1, 15);
+                drawText(matrices, "Screen: " + this.getClass().getSimpleName(), LIGHT_TEXT_COLOR, 0.5F, 1, 20);
             }
         }
         drawText(matrices, this.title, 0x99888888, this.contentLeft[0] + 0.7F, this.contentTop - 12 + 0.7F);

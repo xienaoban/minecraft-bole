@@ -175,7 +175,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             else {
                 text = (((IMixinEntity)handler.entity).getNetherPortalCooldown() / 20) + "s";
             }
-            drawBarText(matrices, text, 0xbbffffff);
+            drawBarText(matrices, text, LIGHT_TEXT_COLOR);
         }
 
         @Override

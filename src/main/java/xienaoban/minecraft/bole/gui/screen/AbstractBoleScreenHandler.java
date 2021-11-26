@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractBoleScreenHandler<E extends Entity> extends ScreenHandler {
-    protected final E entity;
-    protected final PlayerEntity player;
+    public final E entity;
+    public final PlayerEntity player;
     private final Map<String, EntitySettingsBufHandler> entitySettingsBufHandlers;
 
     public AbstractBoleScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId,

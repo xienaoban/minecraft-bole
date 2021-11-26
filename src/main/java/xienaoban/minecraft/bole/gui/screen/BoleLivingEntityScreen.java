@@ -101,7 +101,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
                     drawCustomLengthHealthBar(matrices, this.barCache[i][1], x + 11, y + barOffset - (i << 1), 50, 0, health >= maxHealth);
                 }
             }
-            drawText(matrices, maxHealth + "/" + health, 0xbbffffff, 0.5F, x + 13, y + textOffset);
+            drawText(matrices, maxHealth + "/" + health, LIGHT_TEXT_COLOR, 0.5F, x + 13, y + textOffset);
         }
 
         /**
@@ -175,7 +175,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         protected void drawEffects(MatrixStack matrices) {
             Collection<StatusEffectInstance> effects = handler.entityStatusEffects;
             if (effects.isEmpty()) {
-                drawBarText(matrices, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), CONTENT_TEXT_COLOR);
+                drawBarText(matrices, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), DARK_TEXT_COLOR);
                 return;
             }
             float w = Math.min(9.0F, (this.box.width() - 20.0F) / Math.max(1, effects.size() - 1));

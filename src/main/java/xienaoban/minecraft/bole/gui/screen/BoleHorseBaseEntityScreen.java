@@ -112,8 +112,8 @@ public class BoleHorseBaseEntityScreen<E extends HorseBaseEntity, H extends Bole
                     : String.format("%.2fm/s", this.runningSpeed);
             String jump = debugMode ? String.format("%.3f", handler.entity.getJumpStrength())
                     : String.format("%.2fm", this.jumpHeight);
-            drawText(matrices, run, 0xbbffffff, 0.5F, x + 13, y + 3.25F);
-            drawText(matrices, jump, 0xbbffffff, 0.5F, x + 13, y + hhh + 3.25F);
+            drawText(matrices, run, LIGHT_TEXT_COLOR, 0.5F, x + 13, y + 3.25F);
+            drawText(matrices, jump, LIGHT_TEXT_COLOR, 0.5F, x + 13, y + hhh + 3.25F);
         }
     }
 }

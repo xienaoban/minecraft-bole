@@ -63,16 +63,16 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
             drawBar(matrices, 50, 60, 1.0F * (age - BABY_MIN_AGE) / (-BABY_MIN_AGE));
             drawButton(matrices, 200 + (age < BABY_MIN_AGE ? 10 : 0), 0, 0);
             if (debugMode) {
-                drawBarText(matrices, age + "t", 0xbbffffff);
+                drawBarText(matrices, age + "t", LIGHT_TEXT_COLOR);
             }
             else if (age >= 0) {
-                drawBarText(matrices, new TranslatableText(Keys.TEXT_GROWN_UP), 0xbbffffff);
+                drawBarText(matrices, new TranslatableText(Keys.TEXT_GROWN_UP), LIGHT_TEXT_COLOR);
             }
             else if (age < BABY_MIN_AGE) {
-                drawBarText(matrices, new TranslatableText(Keys.TEXT_NEVER_GROW_UP), 0xbbffffff);
+                drawBarText(matrices, new TranslatableText(Keys.TEXT_NEVER_GROW_UP), LIGHT_TEXT_COLOR);
             }
             else {
-                drawBarText(matrices, String.format("%.2f%%", 100.0F - 100.0F * age / BABY_MIN_AGE), 0xbbffffff);
+                drawBarText(matrices, String.format("%.2f%%", 100.0F - 100.0F * age / BABY_MIN_AGE), LIGHT_TEXT_COLOR);
             }
         }
 

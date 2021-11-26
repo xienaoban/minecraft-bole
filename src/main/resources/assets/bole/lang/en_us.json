@@ -31,6 +31,9 @@
   "property_widget.xienaoban.bole.donkey_chest.description": "Max size: 15.",
   "property_widget.xienaoban.bole.merchant_inventory": "The inventory of the Merchant",
   "property_widget.xienaoban.bole.merchant_inventory.description": "Interaction with the inventory will be supported in the future.",
+  "property_widget.xienaoban.bole.villager_restock": "Restock",
+  "property_widget.xienaoban.bole.villager_restock.description": "Show the villager's restocks today.",
+  "property_widget.xienaoban.bole.villager_restock.description.button1": "Button1: force the villager to restock.",
 
   "text.xienaoban.bole.unsupported_entity": "Unsupported entity",
   "text.xienaoban.bole.unnamed": "Unnamed",
