@@ -9,10 +9,12 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
+import xienaoban.minecraft.bole.network.ServerNetworkManager;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.HashMap;
@@ -30,6 +32,7 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         this.player = playerInventor.player;
         this.entitySettingsBufHandlers = new HashMap<>();
         initCustom();
+        sendOrReceiveInitServerEntityData();
     }
 
     /**
@@ -125,6 +128,38 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         }
         catch (Exception e) {
             Bole.LOGGER.error("No EntitySettingsBufHandler is registered for settingId \"" + settingId + "\"");
+        }
+    }
+
+    public final void tryWriteServerEntityFromBuf(PacketByteBuf buf) {
+        try {
+            writeServerEntityToBuf(buf);
+        }
+        catch (Exception e) {
+            Bole.LOGGER.warn(e);
+        }
+    }
+
+    public final void tryReadServerEntityFromBuf(PacketByteBuf buf) {
+        try {
+            readServerEntityFromBuf(buf);
+        }
+        catch (Exception e) {
+            Bole.LOGGER.warn(e);
+        }
+    }
+
+    private void sendOrReceiveInitServerEntityData() {
+        if (this.player instanceof ServerPlayerEntity) {
+            ServerPlayerEntity p = (ServerPlayerEntity) this.player;
+            ServerNetworkManager.sendServerEntityData(this, p.server, p);
+        }
+        else {
+            PacketByteBuf buf = BoleClient.getInstance().getHandlerBufCache();
+            if (buf != null) {
+                tryReadServerEntityFromBuf(buf);
+                BoleClient.getInstance().setHandlerBufCache(null);
+            }
         }
     }
 

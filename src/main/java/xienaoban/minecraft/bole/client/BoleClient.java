@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.network.PacketByteBuf;
 import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
@@ -17,6 +18,7 @@ public class BoleClient implements ClientModInitializer {
     private boolean isScreenOpen;
     private Entity boleTarget;
     private int ticks;
+    private PacketByteBuf handlerBufCache = null;
 
     public static BoleClient getInstance() {
         return instance;
@@ -61,5 +63,13 @@ public class BoleClient implements ClientModInitializer {
 
     public int getTicks() {
         return ticks;
+    }
+
+    public PacketByteBuf getHandlerBufCache() {
+        return handlerBufCache;
+    }
+
+    public void setHandlerBufCache(PacketByteBuf buf) {
+        this.handlerBufCache = buf;
     }
 }

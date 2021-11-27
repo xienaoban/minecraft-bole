@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
-import xienaoban.minecraft.bole.Bole;
+import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 
 @Environment(EnvType.CLIENT)
@@ -18,13 +18,14 @@ public class ClientNetworkManager {
 
     private static void registerSendServerEntityData() {
         ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_SERVER_ENTITY_DATA, (client, handler, buf, responseSender) -> {
+            PacketByteBuf bufCopy = PacketByteBufs.copy(buf);
             AbstractBoleScreenHandler<?> boleScreenHandler = getBoleScreenHandler(client);
             if (boleScreenHandler == null) {
+                BoleClient.getInstance().setHandlerBufCache(bufCopy);
                 return;
             }
             // The buf will expire in server.execute(). So I make a copy.
-            PacketByteBuf bufCopy = PacketByteBufs.copy(buf);
-            client.execute(() -> boleScreenHandler.readServerEntityFromBuf(bufCopy));
+            client.execute(() -> boleScreenHandler.tryReadServerEntityFromBuf(bufCopy));
         });
     }
 
@@ -49,7 +50,6 @@ public class ClientNetworkManager {
 
     public static AbstractBoleScreenHandler<?> getBoleScreenHandler(MinecraftClient client) {
         if (client.player == null || !(client.player.currentScreenHandler instanceof AbstractBoleScreenHandler)) {
-            Bole.LOGGER.warn("The bole screen may have been closed. Buf ignored.");
             return null;
         }
         return (AbstractBoleScreenHandler<?>) client.player.currentScreenHandler;
