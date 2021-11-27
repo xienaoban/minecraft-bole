@@ -55,7 +55,7 @@ public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleE
     }
 
     @Override
-    public void writeServerEntityToBuf(PacketByteBuf buf) {
+    protected void writeServerEntityToBuf(PacketByteBuf buf) {
         super.writeServerEntityToBuf(buf);
         Collection<StatusEffectInstance> effects = this.entity.getStatusEffects();
         buf.writeInt(effects.size());
@@ -70,7 +70,7 @@ public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleE
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void readServerEntityFromBuf(PacketByteBuf buf) {
+    protected void readServerEntityFromBuf(PacketByteBuf buf) {
         super.readServerEntityFromBuf(buf);
         int size = buf.readInt();
         List<StatusEffectInstance> effects = new ArrayList<>();

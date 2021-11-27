@@ -57,14 +57,14 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
     }
 
     @Override
-    public void writeServerEntityToBuf(PacketByteBuf buf) {
+    protected void writeServerEntityToBuf(PacketByteBuf buf) {
         super.writeServerEntityToBuf(buf);
         buf.writeInt(((IMixinVillagerEntity)this.entity).getRestocksToday());
     }
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void readServerEntityFromBuf(PacketByteBuf buf) {
+    protected void readServerEntityFromBuf(PacketByteBuf buf) {
         super.readServerEntityFromBuf(buf);
         this.entityRestocksToday = buf.readInt();
     }

@@ -55,7 +55,7 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
      *
      * @param buf buf to send to the client
      */
-    public abstract void writeServerEntityToBuf(PacketByteBuf buf);
+    protected abstract void writeServerEntityToBuf(PacketByteBuf buf);
 
     /**
      * Reads the server-side entity data from the buf. <br/>
@@ -64,7 +64,7 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
      * @param buf buf sent from the server
      */
     @Environment(EnvType.CLIENT)
-    public abstract void readServerEntityFromBuf(PacketByteBuf buf);
+    protected abstract void readServerEntityFromBuf(PacketByteBuf buf);
 
     /**
      * Reset some properties of the client-side entity when closing the screen. <br/>

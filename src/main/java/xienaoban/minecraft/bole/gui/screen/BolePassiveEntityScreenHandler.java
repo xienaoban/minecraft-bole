@@ -59,14 +59,14 @@ public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends Bol
     }
 
     @Override
-    public void writeServerEntityToBuf(PacketByteBuf buf) {
+    protected void writeServerEntityToBuf(PacketByteBuf buf) {
         super.writeServerEntityToBuf(buf);
         buf.writeInt(((IMixinPassiveEntity)this.entity).getBreedingAgeValue());
     }
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void readServerEntityFromBuf(PacketByteBuf buf) {
+    protected void readServerEntityFromBuf(PacketByteBuf buf) {
         super.readServerEntityFromBuf(buf);
         this.entityBreedingAge = buf.readInt();
     }

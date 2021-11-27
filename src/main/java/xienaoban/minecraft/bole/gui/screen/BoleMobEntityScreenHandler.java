@@ -41,13 +41,13 @@ public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingE
     }
 
     @Override
-    public void writeServerEntityToBuf(PacketByteBuf buf) {
+    protected void writeServerEntityToBuf(PacketByteBuf buf) {
         super.writeServerEntityToBuf(buf);
     }
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void readServerEntityFromBuf(PacketByteBuf buf) {
+    protected void readServerEntityFromBuf(PacketByteBuf buf) {
         super.readServerEntityFromBuf(buf);
     }
 

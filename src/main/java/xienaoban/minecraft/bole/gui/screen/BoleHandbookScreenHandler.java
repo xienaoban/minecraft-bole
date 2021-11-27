@@ -22,11 +22,11 @@ public final class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<E
     protected void initCustom() {}
 
     @Override
-    public void writeServerEntityToBuf(PacketByteBuf buf) {}
+    protected void writeServerEntityToBuf(PacketByteBuf buf) {}
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void readServerEntityFromBuf(PacketByteBuf buf) {}
+    protected void readServerEntityFromBuf(PacketByteBuf buf) {}
 
     @Environment(EnvType.CLIENT)
     @Override

@@ -57,7 +57,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
     }
 
     @Override
-    public void writeServerEntityToBuf(PacketByteBuf buf) {
+    protected void writeServerEntityToBuf(PacketByteBuf buf) {
         super.writeServerEntityToBuf(buf);
         Item[] items = getEntityAttractiveItems();
         buf.writeInt(items.length);
@@ -66,7 +66,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void readServerEntityFromBuf(PacketByteBuf buf) {
+    protected void readServerEntityFromBuf(PacketByteBuf buf) {
         super.readServerEntityFromBuf(buf);
         int len = buf.readInt();
         Item[] items = new Item[len];

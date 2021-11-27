@@ -47,7 +47,7 @@ public class BoleMerchantEntityScreenHandler<E extends MerchantEntity> extends B
     }
 
     @Override
-    public void writeServerEntityToBuf(PacketByteBuf buf) {
+    protected void writeServerEntityToBuf(PacketByteBuf buf) {
         super.writeServerEntityToBuf(buf);
         SimpleInventory inventory = this.entity.getInventory();
         int size = inventory.size();
@@ -61,7 +61,7 @@ public class BoleMerchantEntityScreenHandler<E extends MerchantEntity> extends B
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void readServerEntityFromBuf(PacketByteBuf buf) {
+    protected void readServerEntityFromBuf(PacketByteBuf buf) {
         super.readServerEntityFromBuf(buf);
         int size = buf.readInt();
         SimpleInventory inventory = new SimpleInventory(size);
