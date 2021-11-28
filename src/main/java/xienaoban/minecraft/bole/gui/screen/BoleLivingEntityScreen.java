@@ -174,6 +174,10 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
 
         protected void drawEffects(MatrixStack matrices) {
             Collection<StatusEffectInstance> effects = handler.entityStatusEffects;
+            if (effects == null) {
+                drawBarText(matrices, new TranslatableText(Keys.TEXT_LOADING), DARK_TEXT_COLOR);
+                return;
+            }
             if (effects.isEmpty()) {
                 drawBarText(matrices, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), DARK_TEXT_COLOR);
                 return;

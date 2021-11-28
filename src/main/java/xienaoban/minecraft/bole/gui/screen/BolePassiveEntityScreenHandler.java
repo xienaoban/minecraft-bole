@@ -16,7 +16,8 @@ public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends Bol
     public static final ScreenHandlerType<BolePassiveEntityScreenHandler<PassiveEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "passive_entity"), BolePassiveEntityScreenHandler::new);
 
-    protected int entityBreedingAge = 0;
+    @Environment(EnvType.CLIENT)
+    protected int entityBreedingAge;
 
     public BolePassiveEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
@@ -46,6 +47,17 @@ public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends Bol
                 buf.writeInt(age);
             }
         });
+    }
+
+    @Override
+    protected void initServer() {
+        super.initServer();
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    protected void initClient() {
+        super.initClient();
     }
 
     @Override

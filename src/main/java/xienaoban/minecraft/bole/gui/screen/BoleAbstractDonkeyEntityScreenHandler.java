@@ -32,6 +32,17 @@ public class BoleAbstractDonkeyEntityScreenHandler<E extends AbstractDonkeyEntit
     }
 
     @Override
+    protected void initServer() {
+        super.initServer();
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    protected void initClient() {
+        super.initClient();
+    }
+
+    @Override
     protected void initCustom() {}
 
     @Environment(EnvType.CLIENT)

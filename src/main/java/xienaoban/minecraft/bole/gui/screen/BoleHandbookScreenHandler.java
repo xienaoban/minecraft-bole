@@ -19,6 +19,17 @@ public final class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<E
     }
 
     @Override
+    protected void initServer() {
+        super.initServer();
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    protected void initClient() {
+        super.initClient();
+    }
+
+    @Override
     protected void initCustom() {}
 
     @Override

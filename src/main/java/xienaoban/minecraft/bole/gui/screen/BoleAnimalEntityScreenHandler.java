@@ -21,7 +21,7 @@ public class BoleAnimalEntityScreenHandler<E extends AnimalEntity> extends BoleP
             new Identifier(Keys.NAMESPACE, "animal_entity"), BoleAnimalEntityScreenHandler::new);
 
     @Environment(EnvType.CLIENT)
-    private Item[] entityBreedingItems = null;
+    protected Item[] entityBreedingItems;
 
     public BoleAnimalEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
@@ -37,6 +37,18 @@ public class BoleAnimalEntityScreenHandler<E extends AnimalEntity> extends BoleP
 
     public BoleAnimalEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
+    }
+
+    @Override
+    protected void initServer() {
+        super.initServer();
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    protected void initClient() {
+        super.initClient();
+        this.entityBreedingItems = getBreedingItems();
     }
 
     @Override
@@ -66,13 +78,8 @@ public class BoleAnimalEntityScreenHandler<E extends AnimalEntity> extends BoleP
     }
 
     @Environment(EnvType.CLIENT)
-    public Item[] getBreedingItems() {
-        Item[] res = this.entityBreedingItems;
-        if (res == null) {
-            res = Registry.ITEM.stream().filter(item -> entity.isBreedingItem(new ItemStack(item)))
-                    .sorted(Comparator.comparing(Registry.ITEM::getId)).toArray(Item[]::new);
-            this.entityBreedingItems = res;
-        }
-        return res;
+    private Item[] getBreedingItems() {
+        return Registry.ITEM.stream().filter(item -> entity.isBreedingItem(new ItemStack(item)))
+                .sorted(Comparator.comparing(Registry.ITEM::getId)).toArray(Item[]::new);
     }
 }

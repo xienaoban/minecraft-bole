@@ -23,8 +23,9 @@ public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleE
     public static final ScreenHandlerType<BoleLivingEntityScreenHandler<LivingEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "living_entity"), BoleLivingEntityScreenHandler::new);
 
-    private static final Field EFFECT_DURATION_EFFECT = MiscUtil.getField(StatusEffectInstance.class, "duration");
+    private static final Field EFFECT_DURATION_FIELD = MiscUtil.getField(StatusEffectInstance.class, "duration");
 
+    @Environment(EnvType.CLIENT)
     protected List<StatusEffectInstance> entityStatusEffects;
 
     public BoleLivingEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
@@ -41,7 +42,17 @@ public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleE
 
     public BoleLivingEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
-        this.entityStatusEffects = new ArrayList<>();
+    }
+
+    @Override
+    protected void initServer() {
+        super.initServer();
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    protected void initClient() {
+        super.initClient();
     }
 
     @Override
@@ -89,8 +100,10 @@ public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleE
 
     @Environment(EnvType.CLIENT)
     private void calStatusEffectsDuration() {
-        for (StatusEffectInstance effect : this.entityStatusEffects) {
-            MiscUtil.setFieldValue(effect, EFFECT_DURATION_EFFECT, Math.max(effect.getDuration() - 1, 0));
+        if (this.entityStatusEffects != null) {
+            for (StatusEffectInstance effect : this.entityStatusEffects) {
+                MiscUtil.setFieldValue(effect, EFFECT_DURATION_FIELD, Math.max(effect.getDuration() - 1, 0));
+            }
         }
     }
 }

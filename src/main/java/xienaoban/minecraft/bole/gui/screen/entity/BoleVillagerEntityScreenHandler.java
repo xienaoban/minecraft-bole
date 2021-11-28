@@ -17,7 +17,8 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
     public static final ScreenHandlerType<BoleVillagerEntityScreenHandler<VillagerEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "villager_entity"), BoleVillagerEntityScreenHandler::new);
 
-    protected int entityRestocksToday = 0;
+    @Environment(EnvType.CLIENT)
+    protected int entityRestocksToday;
 
     public BoleVillagerEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
@@ -45,6 +46,17 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
                 ++entityRestocksToday;
             }
         });
+    }
+
+    @Override
+    protected void initServer() {
+        super.initServer();
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    protected void initClient() {
+        super.initClient();
     }
 
     @Override

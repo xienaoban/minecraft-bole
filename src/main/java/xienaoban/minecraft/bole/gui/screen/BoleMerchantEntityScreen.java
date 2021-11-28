@@ -8,6 +8,7 @@ import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -54,12 +55,16 @@ public class BoleMerchantEntityScreen<E extends MerchantEntity, H extends BoleMe
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 0, 90);
             drawTextureNormally(matrices, 256, 256, 40, 20, getZOffset(), x + 11, y + 1, 10, 90);
             SimpleInventory inventory = handler.entityInventory;
+            if (inventory == null) {
+                drawText(matrices, new TranslatableText(Keys.TEXT_LOADING), DARK_TEXT_COLOR, 0.5F, this.box.left() + 13, this.box.top() + 3.25F);
+                return;
+            }
             for (int i = 0; i < inventory.size(); ++i) {
                 int xx = i % 4, yy = i / 4;
                 final float size = 8.0F / 16.0F;
                 RenderSystem.pushMatrix();
                 RenderSystem.scalef(size, size, size);
-                int px = (int)((x + 12 + xx * 10) / size), py = (int)((y + 2 + yy * 10) / size);
+                int px = (int) ((x + 12 + xx * 10) / size), py = (int) ((y + 2 + yy * 10) / size);
                 itemRenderer.renderInGui(inventory.getStack(i), px, py);
                 itemRenderer.renderGuiItemOverlay(textRenderer, inventory.getStack(i), px, py);
                 RenderSystem.popMatrix();

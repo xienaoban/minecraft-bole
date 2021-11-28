@@ -3,6 +3,7 @@ package xienaoban.minecraft.bole.gui.screen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -31,8 +32,27 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         this.entity = MiscUtil.cast(entity);
         this.player = playerInventor.player;
         this.entitySettingsBufHandlers = new HashMap<>();
+        if (this.player instanceof ServerPlayerEntity) {
+            initServer();
+        }
+        else if (this.player instanceof ClientPlayerEntity) {
+            initClient();
+        }
         initCustom();
-        sendOrReceiveInitServerEntityData();
+    }
+
+    protected void initServer() {
+        ServerPlayerEntity p = (ServerPlayerEntity) this.player;
+        ServerNetworkManager.sendServerEntityData(this, p.server, p);
+    }
+
+    @Environment(EnvType.CLIENT)
+    protected void initClient() {
+        PacketByteBuf buf = BoleClient.getInstance().getHandlerBufCache();
+        if (buf != null) {
+            tryReadServerEntityFromBuf(buf);
+            BoleClient.getInstance().setHandlerBufCache(null);
+        }
     }
 
     /**
@@ -146,20 +166,6 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         }
         catch (Exception e) {
             Bole.LOGGER.warn(e);
-        }
-    }
-
-    private void sendOrReceiveInitServerEntityData() {
-        if (this.player instanceof ServerPlayerEntity) {
-            ServerPlayerEntity p = (ServerPlayerEntity) this.player;
-            ServerNetworkManager.sendServerEntityData(this, p.server, p);
-        }
-        else {
-            PacketByteBuf buf = BoleClient.getInstance().getHandlerBufCache();
-            if (buf != null) {
-                tryReadServerEntityFromBuf(buf);
-                BoleClient.getInstance().setHandlerBufCache(null);
-            }
         }
     }
 

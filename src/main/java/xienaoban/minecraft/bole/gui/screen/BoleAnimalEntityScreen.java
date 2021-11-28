@@ -45,7 +45,7 @@ public class BoleAnimalEntityScreen<E extends AnimalEntity, H extends BoleAnimal
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(matrices, 120, 0);
-            Item[] items = handler.getBreedingItems();
+            Item[] items = handler.entityBreedingItems;
             if (items.length == 0) {
                 drawBarText(matrices, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), DARK_TEXT_COLOR);
             }

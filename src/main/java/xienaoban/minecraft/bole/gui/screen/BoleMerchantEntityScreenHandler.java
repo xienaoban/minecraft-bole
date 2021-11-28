@@ -19,7 +19,8 @@ public class BoleMerchantEntityScreenHandler<E extends MerchantEntity> extends B
     public static final ScreenHandlerType<BoleMerchantEntityScreenHandler<MerchantEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "merchant_entity"), BoleMerchantEntityScreenHandler::new);
 
-    protected SimpleInventory entityInventory = new SimpleInventory(8);
+    @Environment(EnvType.CLIENT)
+    protected SimpleInventory entityInventory; // do not init it here as it may be initialized in super()
 
     public BoleMerchantEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
@@ -35,6 +36,17 @@ public class BoleMerchantEntityScreenHandler<E extends MerchantEntity> extends B
 
     public BoleMerchantEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
+    }
+
+    @Override
+    protected void initServer() {
+        super.initServer();
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    protected void initClient() {
+        super.initClient();
     }
 
     @Override

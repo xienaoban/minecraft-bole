@@ -74,6 +74,17 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     }
 
     @Override
+    protected void initServer() {
+        super.initServer();
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    protected void initClient() {
+        super.initClient();
+    }
+
+    @Override
     protected void initCustom() {}
 
     @Override
@@ -87,7 +98,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     protected void readServerEntityFromBuf(PacketByteBuf buf) {
         String uuid = buf.readString();
         if (!this.entity.getUuidAsString().equals(uuid)) {
-            throw new RuntimeException("Expired package of the server entity.");
+            throw new RuntimeException("Expired packet of the server entity.");
         }
         ((IMixinEntity)this.entity).setNetherPortalCooldown(buf.readInt());
     }

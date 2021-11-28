@@ -29,7 +29,8 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
     public static final ScreenHandlerType<BolePathAwareEntityScreenHandler<PathAwareEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "path_aware_entity"), BolePathAwareEntityScreenHandler::new);
 
-    protected Item[] entityAttractiveItems = null;
+    @Environment(EnvType.CLIENT)
+    protected Item[] entityAttractiveItems;
 
     public BolePathAwareEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
@@ -45,6 +46,17 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
 
     public BolePathAwareEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
+    }
+
+    @Override
+    protected void initServer() {
+        super.initServer();
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    protected void initClient() {
+        super.initClient();
     }
 
     @Override
