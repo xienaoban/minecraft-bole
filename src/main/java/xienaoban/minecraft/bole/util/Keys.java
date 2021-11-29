@@ -18,6 +18,10 @@ public interface Keys {
     String KEY_CATEGORY_BOLE = "key.category.xienaoban.bole";
     String KEY_OPEN_BOLE_GUI = "key.xienaoban.bole.open_bole_gui";
 
+    String TAG_GROUP_CLASS = "tag_group.xienaoban.bole.class";
+    String TAG_GROUP_INTERFACE = "tag_group.xienaoban.bole.interface";
+    String TAG_GROUP_NAMESPACE = "tag_group.xienaoban.bole.namespace";
+
     String PROPERTY_WIDGET_BOUNDING_BOX = "property_widget.xienaoban.bole.bounding_box";
     String PROPERTY_WIDGET_BOUNDING_BOX_DESCRIPTION = "property_widget.xienaoban.bole.bounding_box.description";
     String PROPERTY_WIDGET_NETHER_PORTAL_COOLDOWN = "property_widget.xienaoban.bole.nether_portal_cooldown";
