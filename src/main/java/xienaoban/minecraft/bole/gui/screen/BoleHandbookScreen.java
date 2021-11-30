@@ -78,11 +78,11 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawEntity(matrices);
+            drawEntity();
             drawTextCenteredX(matrices, this.entityName, DARK_TEXT_COLOR, 0.5F, this.box.left() + (this.box.width() >> 1), this.box.bottom() - (Page.PROPERTY_WIDGET_HEIGHT >> 1));
         }
 
-        private void drawEntity(MatrixStack matrices) {
+        private void drawEntity() {
             float size = entitySize;
             int t = ((int) System.currentTimeMillis()) % 8000;
             t = t > 4000 ? 6000 - t : t - 2000;
@@ -115,7 +115,6 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             immediate.draw();
             entityRenderDispatcher.setRenderShadows(true);
             RenderSystem.popMatrix();
-
         }
     }
 }

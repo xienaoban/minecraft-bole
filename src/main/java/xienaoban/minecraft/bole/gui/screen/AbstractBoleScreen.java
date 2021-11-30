@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
@@ -28,6 +29,7 @@ import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.gui.ElementBox;
 import xienaoban.minecraft.bole.gui.ScreenElement;
 import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,6 +48,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public static final int DARK_TEXT_COLOR = 0xc0121212;
     public static final int LIGHT_TEXT_COLOR = 0xbbffffff;
 
+    private final Page emptyPage;
+
     // private Element focused; (in AbstractParentElement)
     private ScreenElement hovered;
 
@@ -55,6 +59,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     protected final List<Page> pages;
     protected Page curLeftPage, curRightPage;
+    protected int pageIndex;
 
     protected boolean debugMode;
 
@@ -63,16 +68,18 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.debugMode = false;
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
-        this.curLeftPage = new Page();
-        this.curRightPage = new Page();
+        initButtons();
+        this.emptyPage = new Page();
+        this.emptyPage.setSlot(0, 4, new CenteredTextPropertyWidget(4, 2, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), 0xaa666666, 1.0F));
         this.pages = new ArrayList<>();
-        this.pages.add(this.curLeftPage);
-        this.pages.add(this.curRightPage);
-        initCustom();
+        this.pages.add(new Page());
+        this.pages.add(new Page());
+        setPageIndex(0);
         initPages();
         for (Page page : this.pages) {
             page.addSlotsFromLazyList();
         }
+        initCustom();
     }
 
     protected abstract void initPages();
@@ -92,7 +99,13 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.contentRight[1] = this.contentLeft[1] + CONTENT_WIDTH;
         this.contentTop = this.bodyTop + 25;
         this.contentBottom = this.contentTop + CONTENT_HEIGHT;
+        initButtons();
         BoleClient.getInstance().setScreenOpen(true);
+    }
+
+    protected void initButtons() {
+        addButton(new PageTurnWidget(this.contentLeft[0] + 1, this.contentBottom, false, (buttonWidget) -> this.setPageIndex(this.pageIndex - 2), true));
+        addButton(new PageTurnWidget(this.contentRight[1] - 25, this.contentBottom, true, (buttonWidget) -> this.setPageIndex(this.pageIndex + 2), true));
     }
 
     @Override
@@ -162,8 +175,17 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     public void setPageIndex(int pageIndex) {
-        this.curLeftPage = this.pages.get(pageIndex);
-        this.curRightPage = this.pages.get(pageIndex + 1);
+        pageIndex = pageIndex & 0xfffffffe;
+        int size = this.pages.size() - 1;
+        if (pageIndex < 0) {
+            pageIndex = 0;
+        }
+        else if (pageIndex > size) {
+            pageIndex = size & 0xfffffffe;
+        }
+        this.curLeftPage = pageIndex <= size ? this.pages.get(pageIndex) : this.emptyPage;
+        this.curRightPage = pageIndex + 1 <= size ? this.pages.get(pageIndex + 1) : this.emptyPage;
+        this.pageIndex = pageIndex;
     }
 
     @Override
@@ -196,6 +218,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawText(matrices, this.title, 0xff444444, this.contentLeft[0], this.contentTop - 12);
         drawLeftContent(matrices, delta, this.contentLeft[0], this.contentTop, mouseX, mouseY);
         drawRightContent(matrices, delta, this.contentLeft[1], this.contentTop, mouseX, mouseY);
+        if (this.pageIndex < this.pages.size()) {
+            drawTextCenteredX(matrices, "- " + this.pageIndex + " -", 0x80000000, 0.75F, this.contentLeft[0] + this.contentRight[0] >> 1, this.contentBottom + 4);
+        }
+        if (this.pageIndex + 1 < this.pages.size()) {
+            drawTextCenteredX(matrices, "- " + (this.pageIndex + 1) + " -", 0x80000000, 0.75F, this.contentLeft[1] + this.contentRight[1] >> 1, this.contentBottom + 4);
+        }
     }
 
     /**
