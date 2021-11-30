@@ -471,6 +471,16 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         RenderSystem.popMatrix();
     }
 
+    public void drawTextCenteredX(MatrixStack matrices, String text, int color, float size, float xMid, float y) {
+        float w2 = (this.textRenderer.getWidth(text) >> 1) * size;
+        this.drawText(matrices, text, color, size, xMid - w2, y);
+    }
+
+    public void drawTextCenteredX(MatrixStack matrices, Text text, int color, float size, float xMid, float y) {
+        float w2 = (this.textRenderer.getWidth(text) >> 1) * size;
+        this.drawText(matrices, text, color, size, xMid - w2, y);
+    }
+
     public void renderTooltip(MatrixStack matrices, @NotNull List<Text> textLines, float size, int x, int y) {
         if (textLines.isEmpty()) { return; }
         RenderSystem.pushMatrix();

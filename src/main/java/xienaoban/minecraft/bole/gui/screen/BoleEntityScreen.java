@@ -39,6 +39,16 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         this.pages.get(1).setSlot(0, 5, new CenteredTextPropertyWidget(4, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
     }
 
+    @Override
+    protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        super.drawLeftContent(matrices, delta, x, y, mouseX, mouseY);
+    }
+
+    @Override
+    protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
+    }
+
     protected int chooseEntityDisplayPlan(Page page) {
         Box box = this.handler.entity.getVisibilityBoundingBox();
         double x = box.getXLength(), y = box.getYLength();

@@ -57,11 +57,11 @@ public class EntityManager {
                 clazz = clazz.getSuperclass();
             }
         }));
-        this.tree.values().forEach(node -> System.out.println("1 " + node.getClazz().getSimpleName() + " " + node.getSons()));
-        this.infos.values().forEach(info -> System.out.println("2 " + info.getType().toString()));
-        this.classTags.getTags().forEach(tag -> System.out.println("3 " + tag.getName() + " " + tag.getEntities()));
-        this.interfaceTags.getTags().forEach(tag -> System.out.println("4 " + tag.getName() + " " + tag.getEntities()));
-        this.namespaceTags.getTags().forEach(tag -> System.out.println("5 " + tag.getName() + " " + tag.getEntities()));
+        // this.tree.values().forEach(node -> System.out.println("1 " + node.getClazz().getSimpleName() + " " + node.getSons()));
+        // this.infos.values().forEach(info -> System.out.println("2 " + info.getType().toString()));
+        // this.classTags.getTags().forEach(tag -> System.out.println("3 " + tag.getName() + " " + tag.getEntities()));
+        // this.interfaceTags.getTags().forEach(tag -> System.out.println("4 " + tag.getName() + " " + tag.getEntities()));
+        // this.namespaceTags.getTags().forEach(tag -> System.out.println("5 " + tag.getName() + " " + tag.getEntities()));
     }
 
     public EntityTreeNode getEntityTreeNode(Class<?> clazz) {
@@ -195,7 +195,7 @@ public class EntityManager {
             if (!(instance instanceof LivingEntity)) {
                 throw new RuntimeException();
             }
-            this.clazz = Objects.requireNonNull(instance).getClass();
+            this.clazz = instance.getClass();
             this.tags = new ArrayList<>();
             System.out.println("V");
         }

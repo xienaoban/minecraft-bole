@@ -21,7 +21,7 @@ public class BoleMerchantEntityScreen<E extends MerchantEntity, H extends BoleMe
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazy(new MerchantInventoryPropertyWidget());
+        this.pages.get(0).addSlotLazyBefore(new MerchantInventoryPropertyWidget(), BoundingBoxPropertyWidget.class);
     }
 
     @Override
