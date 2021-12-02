@@ -1,6 +1,5 @@
 package xienaoban.minecraft.bole.gui.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -148,7 +147,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         protected void drawTooltip(MatrixStack matrices) {
             Collection<StatusEffectInstance> effects = handler.entityStatusEffects;
             if (effects.isEmpty()) {
-                this.tooltipLines.add(new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS).formatted(Formatting.GRAY));
+                addTooltipLine(Keys.TEXT_EMPTY_WITH_BRACKETS, Formatting.GRAY);
             }
             else {
                 int maxWidth = 0;
@@ -164,7 +163,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
                     for (int i = (maxWidth + 40 - w) / 2; i > 0; --i) {
                         sb.append('.');
                     }
-                    this.tooltipLines.add(text1.append(new LiteralText(sb.toString()).formatted(Formatting.DARK_GRAY)).append(text2));
+                    this.tooltipLines.add(text1.append(new LiteralText(sb.toString()).formatted(Formatting.DARK_GRAY)).append(text2).asOrderedText());
                 }
             }
             super.drawTooltip(matrices);
@@ -186,17 +185,16 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
             MinecraftClient client = MinecraftClient.getInstance();
             StatusEffectSpriteManager statusEffectSpriteManager = client.getStatusEffectSpriteManager();
             int i = effects.size() - 1;
+            final float size = 8.0F / 18.0F;
+            MatrixStack matrixStack = matrixScaleOn(size, size, size);
             for (StatusEffectInstance effectInstance : effects) {
                 StatusEffect effect = effectInstance.getEffectType();
-                final float size = 8.0F / 18.0F;
-                RenderSystem.pushMatrix();
-                RenderSystem.scalef(size, size, size);
                 Sprite sprite = statusEffectSpriteManager.getSprite(effect);
-                client.getTextureManager().bindTexture(sprite.getAtlas().getId());
+                setTexture(sprite.getAtlas().getId());
                 drawSprite(matrices, (int)((this.box.left() + i * w + 11) / size), (int)((this.box.top() + 1) / size), getZOffset(), 18, 18, sprite);
-                RenderSystem.popMatrix();
                 --i;
             }
+            matrixScaleOff(matrixStack);
         }
     }
 }

@@ -1,6 +1,5 @@
 package xienaoban.minecraft.bole.gui.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
@@ -65,16 +64,16 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
 
         protected void drawItems(MatrixStack matrices, Item[] items) {
             float w = Math.min(9.0F, (this.box.width() - 20.0F) / Math.max(1, items.length - 1));
+            final float size = 8.0F / 16.0F;
+            setTexture(Textures.ICONS);
             for (int i = items.length - 1; i >= 0; --i) {
-                Item item = items[i];
-                final float size = 8.0F / 16.0F;
-                setTexture(Textures.ICONS);
                 drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), this.box.left() + i * w + 10, this.box.top(), 220, 10);
-                RenderSystem.pushMatrix();
-                RenderSystem.scalef(size, size, size);
-                itemRenderer.renderInGui(new ItemStack(item), (int)((this.box.left() + i * w + 11) / size), (int)((this.box.top() + 1) / size));
-                RenderSystem.popMatrix();
             }
+            MatrixStack matrixStack = matrixScaleOn(size, size, size);
+            for (int i = items.length - 1; i >= 0; --i) {
+                itemRenderer.renderInGui(new ItemStack(items[i]), (int)((this.box.left() + i * w + 11) / size), (int)((this.box.top() + 1) / size));
+            }
+            matrixScaleOff(matrixStack);
         }
     }
 }

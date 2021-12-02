@@ -4,7 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -34,6 +36,7 @@ import xienaoban.minecraft.bole.util.Keys;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBoleScreenHandler<E>> extends HandledScreen<H> {
@@ -104,8 +107,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     protected void initButtons() {
-        addButton(new PageTurnWidget(this.contentLeft[0] + 1, this.contentBottom, false, (buttonWidget) -> this.setPageIndex(this.pageIndex - 2), true));
-        addButton(new PageTurnWidget(this.contentRight[1] - 25, this.contentBottom, true, (buttonWidget) -> this.setPageIndex(this.pageIndex + 2), true));
+        addDrawableChild(new PageTurnWidget(this.contentLeft[0] + 1, this.contentBottom, false, (buttonWidget) -> this.setPageIndex(this.pageIndex - 2), true));
+        addDrawableChild(new PageTurnWidget(this.contentRight[1] - 25, this.contentBottom, true, (buttonWidget) -> this.setPageIndex(this.pageIndex + 2), true));
     }
 
     @Override
@@ -191,7 +194,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         this.renderBackground(matrices);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         setTexture(Textures.BOOK);
         int x0 = this.bodyLeft, x1 = this.bodyRight, y0 = this.bodyTop, y1 = this.bodyBottom;
         int u0 = BOOK_TEXTURE_CUT, u1 = u0 + BODY_WIDTH / 2, v0 = 0, v1 = v0 + BODY_HEIGHT;
@@ -242,11 +246,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        RenderSystem.translatef(-super.x, -super.y, 0.0F);
+        MatrixStack matrixStack = RenderSystem.getModelViewStack();
+        matrixStack.translate(-super.x, -super.y, 0.0F);
         if (this.hovered != null) {
             this.hovered.drawHovered(matrices, mouseX, mouseY);
         }
-        RenderSystem.translatef(super.x, super.y, 0.0F);
+        matrixStack.translate(super.x, super.y, 0.0F);
     }
 
     public static void drawEntityAuto(Entity entity, int x0, int y0, int x1, int y1, float mouseX, float mouseY) {
@@ -285,27 +290,32 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         float f = (float)Math.atan(mouseX / 40.0F);
         float g = (float)Math.atan(mouseY / 40.0F);
         float fSize = -size;
-        RenderSystem.pushMatrix();
-        RenderSystem.translatef((float)x, (float)y, 1050.0F);
-        RenderSystem.scalef(1.0F, 1.0F, -1.0F);
-        MatrixStack matrixStack = new MatrixStack();
-        matrixStack.translate(0.0D, 0.0D, 1000.0D);
-        matrixStack.scale(fSize, fSize, fSize);
+        MatrixStack matrixStack = RenderSystem.getModelViewStack();
+        matrixStack.push();
+        matrixStack.translate((float)x, (float)y, 1050.0F);
+        matrixStack.scale(1.0F, 1.0F, -1.0F);
+        RenderSystem.applyModelViewMatrix();
+        MatrixStack matrixStack2 = new MatrixStack();
+        matrixStack2.translate(0.0D, 0.0D, 1000.0D);
+        matrixStack2.scale(fSize, fSize, fSize);
         Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(0.0F);
         Quaternion quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(g * 20.0F);
         Quaternion quaternion3 = Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.getYaw(0.0F) - f * 40.0F);
         quaternion.hamiltonProduct(quaternion2);
         quaternion.hamiltonProduct(quaternion3);
-        matrixStack.multiply(quaternion);
+        matrixStack2.multiply(quaternion);
+        DiffuseLighting.method_34742();
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
         quaternion3.conjugate();
         entityRenderDispatcher.setRotation(quaternion3);
         entityRenderDispatcher.setRenderShadows(false);
         VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 180.0F, 1.0F, matrixStack, immediate, 0x00F000F0));   // 0x00F000F0
+        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 180.0F, 1.0F, matrixStack2, immediate, 0x00F000F0));   // 0x00F000F0
         immediate.draw();
         entityRenderDispatcher.setRenderShadows(true);
-        RenderSystem.popMatrix();
+        matrixStack.pop();
+        RenderSystem.applyModelViewMatrix();
+        DiffuseLighting.enableGuiDepthLighting();
     }
 
     public static void drawRectangle(MatrixStack matrices, int color, float z, float x0, float y0, float x1, float y1) {
@@ -327,9 +337,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawQuadrilateral(matrices, color, z, x - radius, y0, x + radius, y0, x - radius, y1, x + radius, y1);
     }
 
+    /**
+     * @see net.minecraft.client.gui.DrawableHelper#fill(Matrix4f, int, int, int, int, int)
+     */
     public static void drawQuadrilateral(MatrixStack matrices, int color, float z,
                                           float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3) {
-        Matrix4f model = matrices.peek().getModel();
+        Matrix4f model = matrices.peek().getPositionMatrix();
         int a = color >> 24 & 255;
         int r = color >> 16 & 255;
         int g = color >> 8 & 255;
@@ -338,7 +351,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
-        bufferBuilder.begin(7, VertexFormats.POSITION_COLOR);     // mode 7 means "Quadrilateral"
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(model, x0, y0, z).color(r, g, b, a).next();    // The four vertices must
         bufferBuilder.vertex(model, x2, y2, z).color(r, g, b, a).next();    // be added in clockwise
         bufferBuilder.vertex(model, x3, y3, z).color(r, g, b, a).next();    // or counterclockwise
@@ -465,15 +479,15 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         u1 /= textureWidth; v1 /= textureHeight;
         u2 /= textureWidth; v2 /= textureHeight;
         u3 /= textureWidth; v3 /= textureHeight;
-        Matrix4f model = matrices.peek().getModel();
+        Matrix4f model = matrices.peek().getPositionMatrix();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE);     // mode 7 means "Quadrilateral"
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         bufferBuilder.vertex(model, x0, y0, z).texture(u0, v0).next();      // The four vertices must
         bufferBuilder.vertex(model, x2, y2, z).texture(u2, v2).next();      // be added in clockwise
         bufferBuilder.vertex(model, x3, y3, z).texture(u3, v3).next();      // or counterclockwise
         bufferBuilder.vertex(model, x1, y1, z).texture(u1, v1).next();      // order.
         bufferBuilder.end();
-        RenderSystem.enableAlphaTest();
         BufferRenderer.draw(bufferBuilder);
     }
 
@@ -486,17 +500,15 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     public void drawText(MatrixStack matrices, String text, int color, float size, float x, float y) {
-        RenderSystem.pushMatrix();
-        RenderSystem.scalef(size, size, size);
+        MatrixStack matrixStack = matrixScaleOn(size, size, size);
         this.textRenderer.draw(matrices, text, x / size, y / size, color);
-        RenderSystem.popMatrix();
+        matrixScaleOff(matrixStack);
     }
 
     public void drawText(MatrixStack matrices, Text text, int color, float size, float x, float y) {
-        RenderSystem.pushMatrix();
-        RenderSystem.scalef(size, size, size);
+        MatrixStack matrixStack = matrixScaleOn(size, size, size);
         this.textRenderer.draw(matrices, text, x / size, y / size, color);
-        RenderSystem.popMatrix();
+        matrixScaleOff(matrixStack);
     }
 
     public void drawTextCenteredX(MatrixStack matrices, String text, int color, float size, float xMid, float y) {
@@ -509,73 +521,85 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.drawText(matrices, text, color, size, xMid - w2, y);
     }
 
-    public void renderTooltip(MatrixStack matrices, @NotNull List<Text> textLines, float size, int x, int y) {
-        if (textLines.isEmpty()) { return; }
-        RenderSystem.pushMatrix();
-        RenderSystem.scalef(size, size, size);
-        List<OrderedText> lines = new ArrayList<>();
-        for (Text line : textLines) {
-            lines.addAll(this.textRenderer.wrapLines(line, 250));
+    /**
+     * @see net.minecraft.client.gui.screen.Screen#renderTooltipFromComponents
+     */
+    public void renderTooltip(MatrixStack matrices, @NotNull List<OrderedText> lines, float size, int x, int y) {
+        List<TooltipComponent> components = lines.stream().map(TooltipComponent::of).collect(Collectors.toList());
+        TooltipComponent tooltipComponent2;
+        int s;
+        int k;
+        if (components.isEmpty()) {
+            return;
         }
         int i = 0;
-        for (OrderedText line : lines) {
-            int j = this.textRenderer.getWidth(line);
-            if (j > i) { i = j; }
+        int j = components.size() == 1 ? -2 : 0;
+        for (TooltipComponent tooltipComponent : components) {
+            k = tooltipComponent.getWidth(this.textRenderer);
+            if (k > i) {
+                i = k;
+            }
+            j += tooltipComponent.getHeight();
         }
-        int xx = (int)((x + 2) / size), yy = (int)((y + 2) / size);
-        int n = 8;
-        if (lines.size() > 1) {
-            n += 2 + (lines.size() - 1) * 10;
+        int xx = (int) ((x + 2) / size);
+        int yy = (int) ((y + 2) / size);
+        k = i;
+        int m = j;
+        int ww = (int) (this.width / size), hh = (int) (this.height / size);
+        if (xx + i > ww) {
+            xx -= 28 + i;
         }
-        int screenWidth = (int)(this.width / size);
-        if (xx + i > screenWidth) {
-            xx = screenWidth - i;
+        if (yy + m + 6 > hh) {
+            yy = hh - m - 6;
         }
+        MatrixStack matrixStack = matrixScaleOn(size, size, size);
         matrices.push();
-        int o = -267386864;
-        int p = 1347420415;
-        int q = 1344798847;
+        int n = -267386864;
+        int o = 0x505000FF;
+        int p = 1344798847;
+        int q = 400;
+        float f = this.itemRenderer.zOffset;
+        this.itemRenderer.zOffset = q;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
-        bufferBuilder.begin(7, VertexFormats.POSITION_COLOR);
-        Matrix4f matrix4f = matrices.peek().getModel();
-        fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 4, xx + i + 3, yy - 3, 400, o, o);
-        fillGradient(matrix4f, bufferBuilder, xx - 3, yy + n + 3, xx + i + 3, yy + n + 4, 400, o, o);
-        fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 3, xx + i + 3, yy + n + 3, 400, o, o);
-        fillGradient(matrix4f, bufferBuilder, xx - 4, yy - 3, xx - 3, yy + n + 3, 400, o, o);
-        fillGradient(matrix4f, bufferBuilder, xx + i + 3, yy - 3, xx + i + 4, yy + n + 3, 400, o, o);
-        fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 3 + 1, xx - 3 + 1, yy + n + 3 - 1, 400, p, q);
-        fillGradient(matrix4f, bufferBuilder, xx + i + 2, yy - 3 + 1, xx + i + 3, yy + n + 3 - 1, 400, p, q);
-        fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 3, xx + i + 3, yy - 3 + 1, 400, p, p);
-        fillGradient(matrix4f, bufferBuilder, xx - 3, yy + n + 2, xx + i + 3, yy + n + 3, 400, q, q);
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+        Screen.fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 4, xx + k + 3, yy - 3, q, n, n);
+        Screen.fillGradient(matrix4f, bufferBuilder, xx - 3, yy + m + 3, xx + k + 3, yy + m + 4, q, n, n);
+        Screen.fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 3, xx + k + 3, yy + m + 3, q, n, n);
+        Screen.fillGradient(matrix4f, bufferBuilder, xx - 4, yy - 3, xx - 3, yy + m + 3, q, n, n);
+        Screen.fillGradient(matrix4f, bufferBuilder, xx + k + 3, yy - 3, xx + k + 4, yy + m + 3, q, n, n);
+        Screen.fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 3 + 1, xx - 3 + 1, yy + m + 3 - 1, q, o, p);
+        Screen.fillGradient(matrix4f, bufferBuilder, xx + k + 2, yy - 3 + 1, xx + k + 3, yy + m + 3 - 1, q, o, p);
+        Screen.fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 3, xx + k + 3, yy - 3 + 1, q, o, o);
+        Screen.fillGradient(matrix4f, bufferBuilder, xx - 3, yy + m + 2, xx + k + 3, yy + m + 3, q, p, p);
         RenderSystem.enableDepthTest();
         RenderSystem.disableTexture();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.shadeModel(7425);
         bufferBuilder.end();
         BufferRenderer.draw(bufferBuilder);
-        RenderSystem.shadeModel(7424);
         RenderSystem.disableBlend();
         RenderSystem.enableTexture();
         VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-        matrices.translate(0.0D, 0.0D, 400.0D);
-
-        for(int s = 0; s < lines.size(); ++s) {
-            OrderedText orderedText2 = lines.get(s);
-            if (orderedText2 != null) {
-                this.textRenderer.draw(orderedText2, (float)xx, (float)yy, -1, true, matrix4f, immediate, false, 0, 15728880);
-            }
-
-            if (s == 0) {
-                yy += 2;
-            }
-
-            yy += 10;
+        matrices.translate(0.0, 0.0, q);
+        int r = yy;
+        for (s = 0; s < components.size(); ++s) {
+            tooltipComponent2 = components.get(s);
+            tooltipComponent2.drawText(this.textRenderer, xx, r, matrix4f, immediate);
+            r += tooltipComponent2.getHeight() + (s == 0 ? 2 : 0);
         }
         immediate.draw();
         matrices.pop();
-        RenderSystem.popMatrix();
+        r = yy;
+        for (s = 0; s < components.size(); ++s) {
+            tooltipComponent2 = components.get(s);
+            tooltipComponent2.drawItems(this.textRenderer, xx, r, matrices, this.itemRenderer, q);
+            r += tooltipComponent2.getHeight() + (s == 0 ? 2 : 0);
+        }
+        this.itemRenderer.zOffset = f;
+        matrixScaleOff(matrixStack);
     }
 
     public void drawDebugBox(MatrixStack matrices, ElementBox box, int color) {
@@ -586,8 +610,20 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     public void setTexture(Identifier id) {
-        assert this.client != null;
-        this.client.getTextureManager().bindTexture(id);
+        RenderSystem.setShaderTexture(0, id);
+    }
+
+    public MatrixStack matrixScaleOn(float x, float y, float z) {
+        MatrixStack matrixStack = RenderSystem.getModelViewStack();
+        matrixStack.push();
+        matrixStack.scale(x, y, z);
+        RenderSystem.applyModelViewMatrix();
+        return matrixStack;
+    }
+
+    public void matrixScaleOff(MatrixStack matrixStack) {
+        matrixStack.pop();
+        RenderSystem.applyModelViewMatrix();
     }
 
     public ScreenElement getHovered() {
@@ -757,7 +793,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
      */
     public abstract class AbstractPropertyWidget extends ScreenElement {
         protected final int colSlots, rowSlots;
-        protected final List<Text> tooltipLines;
+        protected final List<OrderedText> tooltipLines;
 
         public AbstractPropertyWidget(int colSlots, int rowSlots) {
             super(colSlots * (Page.PROPERTY_WIDGET_WIDTH + Page.PROPERTY_WIDGET_MARGIN_WIDTH) - Page.PROPERTY_WIDGET_MARGIN_WIDTH,
@@ -771,19 +807,28 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         protected abstract void initTooltipLines();
 
         protected void initTooltipTitle(String translateKey) {
-            this.tooltipLines.add(new TranslatableText(translateKey).formatted(Formatting.YELLOW));
+            addTooltipLines(translateKey, Formatting.YELLOW);
         }
 
         protected void initTooltipDescription(String translateKey) {
-            this.tooltipLines.add(new TranslatableText(translateKey).formatted(Formatting.GRAY));
+            addTooltipLines(translateKey, Formatting.GRAY);
         }
 
         protected void initTooltipEmptyLine() {
-            this.tooltipLines.add(new LiteralText(" "));
+            this.tooltipLines.add(new LiteralText(" ").asOrderedText());
         }
 
         protected void initTooltipButtonDescription(String translateKey) {
-            this.tooltipLines.add(new TranslatableText(translateKey).formatted(Formatting.WHITE));
+            addTooltipLine(translateKey, Formatting.WHITE);
+        }
+
+        protected final void addTooltipLine(String translateKey, Formatting color) {
+            this.tooltipLines.add(new TranslatableText(translateKey).formatted(color).asOrderedText());
+        }
+
+        protected final void addTooltipLines(String translateKey, Formatting color) {
+            List<OrderedText> lines = MinecraftClient.getInstance().textRenderer.wrapLines(new TranslatableText(translateKey).formatted(color), 250);
+            this.tooltipLines.addAll(lines);
         }
 
         @Override

@@ -1,6 +1,5 @@
 package xienaoban.minecraft.bole.gui.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
@@ -62,12 +61,11 @@ public class BoleMerchantEntityScreen<E extends MerchantEntity, H extends BoleMe
             for (int i = 0; i < inventory.size(); ++i) {
                 int xx = i % 4, yy = i / 4;
                 final float size = 8.0F / 16.0F;
-                RenderSystem.pushMatrix();
-                RenderSystem.scalef(size, size, size);
+                MatrixStack matrixStack = matrixScaleOn(size, size, size);
                 int px = (int) ((x + 12 + xx * 10) / size), py = (int) ((y + 2 + yy * 10) / size);
                 itemRenderer.renderInGui(inventory.getStack(i), px, py);
                 itemRenderer.renderGuiItemOverlay(textRenderer, inventory.getStack(i), px, py);
-                RenderSystem.popMatrix();
+                matrixScaleOff(matrixStack);
             }
         }
     }

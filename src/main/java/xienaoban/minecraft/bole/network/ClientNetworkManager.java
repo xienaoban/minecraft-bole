@@ -36,7 +36,7 @@ public class ClientNetworkManager {
 
     public static void requestBoleScreen(Entity entity) {
         PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(entity.getEntityId());
+        buf.writeInt(entity.getId());
         ClientPlayNetworking.send(Channels.REQUEST_BOLE_SCREEN, buf);
     }
 

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
@@ -82,39 +83,44 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             drawTextCenteredX(matrices, this.entityName, DARK_TEXT_COLOR, 0.5F, this.box.left() + (this.box.width() >> 1), this.box.bottom() - (Page.PROPERTY_WIDGET_HEIGHT >> 1));
         }
 
+        /**
+         * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
+         */
         private void drawEntity() {
             float size = entitySize;
             int t = ((int) System.currentTimeMillis()) % 8000;
             t = t > 4000 ? 6000 - t : t - 2000;
             float f = (float)Math.atan(t / 420.0F) * 6F;
             float g = -45;
-            RenderSystem.pushMatrix();
-            RenderSystem.translatef(this.box.left() + (this.box.width() >> 1), this.box.bottom() - Page.PROPERTY_WIDGET_MARGIN_HEIGHT - size * (float) this.entity.getBoundingBox().getXLength(), 1050.0F);
-            RenderSystem.scalef(1.0F, 1.0F, -1.0F);
-            RenderSystem.disableLighting();
-            MatrixStack matrixStack = new MatrixStack();
-            matrixStack.translate(0.0D, 0.0D, 1000.0D);
-            matrixStack.scale(size, size, size);
+            MatrixStack matrixStack = RenderSystem.getModelViewStack();
+            matrixStack.push();
+            matrixStack.translate(this.box.left() + (this.box.width() >> 1), this.box.bottom() - Page.PROPERTY_WIDGET_MARGIN_HEIGHT - size * (float) this.entity.getBoundingBox().getXLength(), 1050.0F);
+            matrixStack.scale(1.0F, 1.0F, -1.0F);
+            RenderSystem.applyModelViewMatrix();
+            MatrixStack matrixStack2 = new MatrixStack();
+            matrixStack2.translate(0.0, 0.0, 1000.0);
+            matrixStack2.scale(size, size, size);
             Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
             Quaternion quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(g);
             quaternion.hamiltonProduct(quaternion2);
-            matrixStack.multiply(quaternion);
-            this.entity.bodyYaw = 180.0F + f * 2;
-            this.entity.yaw = 180.0F - f;
-            this.entity.pitch = g;
-            this.entity.headYaw = this.entity.yaw;
-            this.entity.prevHeadYaw = this.entity.yaw;
+            matrixStack2.multiply(quaternion);
+            entity.bodyYaw = 180.0F + f * 2;
+            entity.setYaw(180.0F - f);
+            entity.setPitch(g);
+            entity.headYaw = entity.getYaw();
+            entity.prevHeadYaw = entity.getYaw();
+            DiffuseLighting.method_34742();
             EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
             quaternion2.conjugate();
             entityRenderDispatcher.setRotation(quaternion2);
             entityRenderDispatcher.setRenderShadows(false);
             VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-            RenderSystem.runAsFancy(() -> {
-                entityRenderDispatcher.render(this.entity, 0.0D, 0.0D, getZOffset(), 0.0F, 1.0F, matrixStack, immediate, 15728880);
-            });
+            RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0f, 1.0f, matrixStack2, immediate, 0xF000F0));
             immediate.draw();
             entityRenderDispatcher.setRenderShadows(true);
-            RenderSystem.popMatrix();
+            matrixStack.pop();
+            RenderSystem.applyModelViewMatrix();
+            DiffuseLighting.enableGuiDepthLighting();
         }
     }
 }

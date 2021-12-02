@@ -3,7 +3,7 @@
   "id": "bole",
   "version": "${version}",
   "name": "Bole",
-  "description": "Bole mod for Fabric.",
+  "description": "A mod to show info of entities.",
   "authors": [
     "XieNaoban"
   ],
@@ -26,8 +26,8 @@
     "bole.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.11.6",
+    "fabricloader": ">=0.12.8",
     "fabric": "*",
-    "minecraft": "1.16.5"
+    "minecraft": "1.18"
   }
 }
