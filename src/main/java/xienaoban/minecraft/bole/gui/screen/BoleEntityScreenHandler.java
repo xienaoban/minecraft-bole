@@ -89,15 +89,15 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
 
     @Override
     protected void writeServerEntityToBuf(PacketByteBuf buf) {
-        buf.writeString(this.entity.getUuidAsString());
+        buf.writeInt(this.entity.getId());
         buf.writeInt(((IMixinEntity)this.entity).getNetherPortalCooldown());
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     protected void readServerEntityFromBuf(PacketByteBuf buf) {
-        String uuid = buf.readString();
-        if (!this.entity.getUuidAsString().equals(uuid)) {
+        int id = buf.readInt();
+        if (this.entity.getId() != id) {
             throw new RuntimeException("Expired packet of the server entity.");
         }
         ((IMixinEntity)this.entity).setNetherPortalCooldown(buf.readInt());
@@ -121,9 +121,9 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     @Environment(EnvType.CLIENT)
     private void calculateClientEntityNetherPortalCooldown() {
         switch (isClientEntityInNetherPortal()) {
-            case -1: ((IMixinEntity) this.entity).callTickNetherPortalCooldown(); break;
-            case 1: this.entity.resetNetherPortalCooldown(); break;
-            default: break;
+            case -1 -> ((IMixinEntity) this.entity).callTickNetherPortalCooldown();
+            case 1 -> this.entity.resetNetherPortalCooldown();
+            default -> {}
         }
     }
 
@@ -133,7 +133,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     @Environment(EnvType.CLIENT)
     private int isClientEntityInNetherPortal() {
         World world = MinecraftClient.getInstance().world;
-        if (world == null || world.getEntityById(this.entity.getEntityId()) == null) {
+        if (world == null || world.getEntityById(this.entity.getId()) == null) {
             return 0;
         }
         Vec3d pos = this.entity.getPos();

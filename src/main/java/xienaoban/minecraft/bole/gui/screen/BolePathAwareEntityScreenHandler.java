@@ -110,7 +110,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
                 continue;
             }
             Ingredient foods = MiscUtil.getFieldValue(goal, TemptGoal.class, "food");
-            ItemStack[] itemStacks = foods.getMatchingStacksClient();
+            ItemStack[] itemStacks = foods.getMatchingStacks();
             items = Arrays.stream(itemStacks).map(ItemStack::getItem)
                     .sorted(Comparator.comparing(Registry.ITEM::getId)).toArray(Item[]::new);
             break;

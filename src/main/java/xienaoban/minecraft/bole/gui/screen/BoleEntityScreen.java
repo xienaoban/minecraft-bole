@@ -65,11 +65,11 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
         int left, top, width, height;
         switch (plan) {
-            case 1: left = 2; top = 0; width = 2; height = 4; break;
-            case 2: left = 0; top = 0; width = 2; height = 5; break;
-            case 3: left = 0; top = 3; width = 4; height = 2; break;
-            case 4: left = 0; top = 0; width = 2; height = 7; break;
-            default: left = 0; top = 0; width = 4; height = 6; break;
+            case 1 -> { left = 2; top = 0; width = 2; height = 4; }
+            case 2 -> { left = 0; top = 0; width = 2; height = 5; }
+            case 3 -> { left = 0; top = 3; width = 4; height = 2; }
+            case 4 -> { left = 0; top = 0; width = 2; height = 7; }
+            default -> { left = 0; top = 0; width = 4; height = 6; }
         }
         page.setSlot(left, top, new DisplayedEntityPropertyWidget(width, height, this.handler.entity));
         return plan;

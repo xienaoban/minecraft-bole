@@ -3,15 +3,6 @@ package xienaoban.minecraft.bole.gui;
 public class ElementBox {
     private int x0, y0, x1, y1, w, h;
 
-    public ElementBox() {
-        this.w = 0;
-        this.h = 0;
-        this.x0 = 0;
-        this.y0 = 0;
-        this.x1 = 0;
-        this.y1 = 0;
-    }
-
     public ElementBox(int w, int h) {
         this.w = w;
         this.h = h;

@@ -190,14 +190,12 @@ public class EntityManager {
 
         public EntityInfo(EntityType<?> type) {
             this.type = type;
-            System.out.println(type.toString());
             Entity instance = type.create(MinecraftClient.getInstance().world);
             if (!(instance instanceof LivingEntity)) {
                 throw new RuntimeException();
             }
             this.clazz = instance.getClass();
             this.tags = new ArrayList<>();
-            System.out.println("V");
         }
 
         public EntityType<?> getType() {
