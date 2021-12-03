@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreen;
+import xienaoban.minecraft.bole.mixin.IMixinSheepEntity;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
@@ -48,11 +49,11 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
     public class EatGrassPropertyWidget extends TemplatePropertyWidget1 {
         private static final Predicate<BlockState> GRASS_PREDICATE = MiscUtil.getFieldValue(null, EatGrassGoal.class, "GRASS_PREDICATE");
 
-        private int eatTicks;
+        private int interval;
 
         public EatGrassPropertyWidget() {
             super(1, false, 1);
-            this.eatTicks = -1;
+            this.interval = -1;
         }
 
         @Override
@@ -78,7 +79,7 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
             }
             if (!isEating() && canEat()) {
                 handler.sendClientEntitySettings(Keys.ENTITY_SETTING_EAT_GRASS);
-                this.eatTicks = BoleClient.getInstance().getTicks() + 40;
+                this.interval = BoleClient.getInstance().getTicks() + 10;
             }
             return true;
         }
@@ -93,7 +94,7 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
         }
 
         private boolean isEating() {
-            return this.eatTicks > BoleClient.getInstance().getTicks();
+            return ((IMixinSheepEntity) handler.entity).getEatGrassTimer() > 0 || this.interval > BoleClient.getInstance().getTicks();
         }
     }
 }

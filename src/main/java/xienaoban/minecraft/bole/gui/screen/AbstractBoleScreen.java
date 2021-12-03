@@ -834,7 +834,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         protected void initTooltipButtonDescription(String translateKey) {
-            addTooltipLine(translateKey, Formatting.WHITE);
+            addTooltipLines(translateKey, Formatting.WHITE);
         }
 
         protected final void addTooltipLine(String translateKey, Formatting color) {
