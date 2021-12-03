@@ -89,9 +89,9 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         @SuppressWarnings("deprecation")
         private void drawEntity() {
             float size = entitySize;
-            int t = ((int) System.currentTimeMillis()) % 8000;
+            int t = (int) (System.currentTimeMillis() % 8000);
             t = t > 4000 ? 6000 - t : t - 2000;
-            float f = (float)Math.atan(t / 420.0F) * 6F;
+            float f = (float) Math.atan(t / 420.0F) * 6F;
             float g = -45;
             MatrixStack matrixStack = RenderSystem.getModelViewStack();
             matrixStack.push();
