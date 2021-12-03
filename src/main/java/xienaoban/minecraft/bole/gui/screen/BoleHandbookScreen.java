@@ -86,6 +86,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         /**
          * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
          */
+        @SuppressWarnings("deprecation")
         private void drawEntity() {
             float size = entitySize;
             int t = ((int) System.currentTimeMillis()) % 8000;

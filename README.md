@@ -35,7 +35,7 @@ Toto List:
             - BeeEntity:
               - [ ] `Beehive Position`
             - SheepEntity:
-              - [ ] `Force Eat Grass`
+              - [X] `Force Eat Grass`
           - MerchantEntity:
             - [X] `Get Inventory`
             - [ ] `Set Inventory`

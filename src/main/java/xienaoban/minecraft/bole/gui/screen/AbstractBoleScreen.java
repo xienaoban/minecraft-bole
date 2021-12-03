@@ -287,6 +287,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
      * <p>3. It can't recognize the yaw of LivingEntity, so don’t use it to render a rotating LivingEntity. </p>
      * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
      */
+
+    @SuppressWarnings("deprecation")
     public static void drawEntity(Entity entity, int size, int x, int y, float mouseX, float mouseY) {
         float f = (float)Math.atan(mouseX / 40.0F);
         float g = (float)Math.atan(mouseY / 40.0F);
@@ -547,11 +549,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         k = i;
         int m = j;
         int ww = (int) (this.width / size), hh = (int) (this.height / size);
-        if (xx + i > ww) {
-            xx -= 28 + i;
-        }
-        if (yy + m + 6 > hh) {
-            yy = hh - m - 6;
+        if (xx + i + 6 > ww) {
+            xx = ww - i - 6;
         }
         MatrixStack matrixStack = matrixScaleOn(size, size, size);
         matrices.push();

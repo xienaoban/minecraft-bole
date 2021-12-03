@@ -8,6 +8,7 @@
     "IMixinMobEntity",
     "IMixinPassiveEntity",
     "IMixinVillagerEntity",
+    "MixinEatGrassGoal",
     "MixinEntity",
     "MixinMinecraftClient",
     "MixinPassiveEntity",

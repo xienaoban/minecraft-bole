@@ -12,6 +12,7 @@ public interface Keys {
     String ENTITY_SETTING_BABY = "baby";
     String ENTITY_SETTING_RESTOCK = "restock";
     String ENTITY_SETTING_CLOTHING = "clothing";
+    String ENTITY_SETTING_EAT_GRASS = "eat_grass";
 
     // Translation Keys
     String MOD_NAME = "xienaoban.bole";
@@ -46,6 +47,9 @@ public interface Keys {
     String PROPERTY_WIDGET_ATTRACTIVE_ITEMS_DESCRIPTION = "property_widget.xienaoban.bole.attractive_items.description";
     String PROPERTY_WIDGET_BREEDING_ITEMS = "property_widget.xienaoban.bole.breeding_items";
     String PROPERTY_WIDGET_BREEDING_ITEMS_DESCRIPTION = "property_widget.xienaoban.bole.breeding_items.description";
+    String PROPERTY_WIDGET_EAT_GRASS = "property_widget.xienaoban.bole.eat_grass";
+    String PROPERTY_WIDGET_EAT_GRASS_DESCRIPTION = "property_widget.xienaoban.bole.eat_grass.description";
+    String PROPERTY_WIDGET_EAT_GRASS_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.eat_grass.description.button1";
     String PROPERTY_WIDGET_HORSE_RUN_AND_JUMP = "property_widget.xienaoban.bole.horse_run_and_jump";
     String PROPERTY_WIDGET_HORSE_RUN_AND_JUMP_DESCRIPTION = "property_widget.xienaoban.bole.horse_run_and_jump.description";
     String PROPERTY_WIDGET_DONKEY_CHEST = "property_widget.xienaoban.bole.donkey_chest";
