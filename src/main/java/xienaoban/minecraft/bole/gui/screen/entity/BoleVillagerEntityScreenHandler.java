@@ -9,6 +9,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.village.VillagerType;
 import xienaoban.minecraft.bole.gui.screen.BoleMerchantEntityScreenHandler;
 import xienaoban.minecraft.bole.mixin.IMixinVillagerEntity;
 import xienaoban.minecraft.bole.util.Keys;
@@ -44,6 +46,17 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 ++entityRestocksToday;
+            }
+        });
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_CLOTHING, new EntitySettingsBufHandler() {
+            @Override public void readFromBuf(PacketByteBuf buf) {
+                VillagerType type = Registry.VILLAGER_TYPE.get(Identifier.tryParse(buf.readString()));
+                entity.setVillagerData(entity.getVillagerData().withType(type));
+            }
+            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
+                VillagerType type = (VillagerType) args[0];
+                buf.writeString(type.toString());
+                entity.setVillagerData(entity.getVillagerData().withType(type));
             }
         });
     }

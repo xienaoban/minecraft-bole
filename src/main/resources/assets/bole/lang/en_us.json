@@ -4,6 +4,14 @@
   "key.xienaoban.bole.open_bole_gui": "Open Bole GUI",
   "title.xienaoban.bole.bole_handbook": "Bole Handbook",
 
+  "desert": "Des...",
+  "jungle": "Jun...",
+  "plains": "Pla...",
+  "savanna": "Sav...",
+  "snow": "Snow",
+  "swamp": "Swamp",
+  "taiga": "Taiga",
+
   "property_widget.xienaoban.bole.bounding_box": "Bounding Box",
   "property_widget.xienaoban.bole.bounding_box.description": "Bounding box or hit box of the entity.\n\"Red\" and \"Blue\" means the width of it, and \"Green\" means the height of it (unit: meter).",
   "property_widget.xienaoban.bole.nether_portal_cooldown": "Nether Portal Cooldown",
@@ -34,6 +42,8 @@
   "property_widget.xienaoban.bole.villager_restock": "Restock",
   "property_widget.xienaoban.bole.villager_restock.description": "Show the villager's restocks today.",
   "property_widget.xienaoban.bole.villager_restock.description.button1": "Button1: force the villager to restock.",
+  "property_widget.xienaoban.bole.villager_clothing": "Clothing",
+  "property_widget.xienaoban.bole.villager_clothing.description": "Click to dress up.",
 
   "text.xienaoban.bole.unsupported_entity": "Unsupported entity",
   "text.xienaoban.bole.unnamed": "Unnamed",

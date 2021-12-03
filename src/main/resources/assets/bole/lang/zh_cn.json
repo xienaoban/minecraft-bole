@@ -4,6 +4,14 @@
   "key.xienaoban.bole.open_bole_gui": "打开伯乐界面",
   "title.xienaoban.bole.bole_handbook": "伯乐手册",
 
+  "desert": "沙漠",
+  "jungle": "丛林",
+  "plains": "平原",
+  "savanna": "热带",
+  "snow": "寒带",
+  "swamp": "沼泽",
+  "taiga": "针叶",
+
   "property_widget.xienaoban.bole.bounding_box": "碰撞箱",
   "property_widget.xienaoban.bole.bounding_box.description": "实体的碰撞箱或者说边界框。\n红色与蓝色为宽度，绿色为高度（单位：米）。",
   "property_widget.xienaoban.bole.nether_portal_cooldown": "下界传送冷却时间",
@@ -34,6 +42,8 @@
   "property_widget.xienaoban.bole.villager_restock": "补货",
   "property_widget.xienaoban.bole.villager_restock.description": "显示村民今日的补货次数与最大补货次数。",
   "property_widget.xienaoban.bole.villager_restock.description.button1": "按钮1：强制村民补货。",
+  "property_widget.xienaoban.bole.villager_clothing": "换装",
+  "property_widget.xienaoban.bole.villager_clothing.description": "点击以换装。",
 
   "text.xienaoban.bole.unsupported_entity": "不支持的实体",
   "text.xienaoban.bole.unnamed": "未命名",

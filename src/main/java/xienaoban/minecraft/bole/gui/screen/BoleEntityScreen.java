@@ -20,6 +20,7 @@ import xienaoban.minecraft.bole.util.Keys;
 @Environment(EnvType.CLIENT)
 public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandler<E>> extends AbstractBoleScreen<E, H> {
     protected int entityDisplayPlan;
+    protected DisplayedEntityPropertyWidget targetDisplayedEntityPropertyWidget;
 
     public BoleEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -71,7 +72,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             case 4 -> { left = 0; top = 0; width = 2; height = 7; }
             default -> { left = 0; top = 0; width = 4; height = 6; }
         }
-        page.setSlot(left, top, new DisplayedEntityPropertyWidget(width, height, this.handler.entity));
+        this.targetDisplayedEntityPropertyWidget = new DisplayedEntityPropertyWidget(width, height, this.handler.entity);
+        page.setSlot(left, top, this.targetDisplayedEntityPropertyWidget);
         return plan;
     }
 
@@ -97,18 +99,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         }
 
         public void updateDisplayedEntity() {
-            NbtCompound nbt = this.targetEntity.writeNbt(new NbtCompound());
-            nbt.remove("Dimension");
-            nbt.remove("Rotation");
-            nbt.remove("CustomName");
-            nbt.remove("CustomNameVisible");
-            nbt.remove("AngryAt");
-            try {
-                this.displayedEntity.readNbt(nbt);
-            }
-            catch (Exception e) {
-                Bole.LOGGER.warn("Cannot copy nbt of [" + this.targetEntity.getType().getTranslationKey() + "]: " + e);
-            }
+            copyEntityNbtForDisplay(this.targetEntity, this.displayedEntity);
         }
 
         public void setTargetEntity(Entity targetEntity) {

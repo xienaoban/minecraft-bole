@@ -13,6 +13,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -626,6 +627,21 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         RenderSystem.applyModelViewMatrix();
     }
 
+    public static <EE extends Entity> void copyEntityNbtForDisplay(EE from, EE to) {
+        NbtCompound nbt = from.writeNbt(new NbtCompound());
+        nbt.remove("Dimension");
+        nbt.remove("Rotation");
+        nbt.remove("CustomName");
+        nbt.remove("CustomNameVisible");
+        nbt.remove("AngryAt");
+        try {
+            to.readNbt(nbt);
+        }
+        catch (Exception e) {
+            Bole.LOGGER.warn("Cannot copy nbt of [" + from.getType().getTranslationKey() + "]: " + e);
+        }
+    }
+
     public ScreenElement getHovered() {
         return hovered;
     }
@@ -719,7 +735,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             return this;
         }
 
-        public Page addSlotLazyBefore(AbstractPropertyWidget widget, Class<?>  before) {
+        public Page addSlotLazyBefore(AbstractPropertyWidget widget, Class<?> before) {
             int size = this.lazyList.size();
             for (int i = 0; i < size; ++i) {
                 if (this.lazyList.get(i).getClass() == before) {

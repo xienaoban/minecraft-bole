@@ -11,6 +11,7 @@ public interface Keys {
     String ENTITY_SETTING_SILENT = "silent";
     String ENTITY_SETTING_BABY = "baby";
     String ENTITY_SETTING_RESTOCK = "restock";
+    String ENTITY_SETTING_CLOTHING = "clothing";
 
     // Translation Keys
     String MOD_NAME = "xienaoban.bole";
@@ -52,6 +53,8 @@ public interface Keys {
     String PROPERTY_WIDGET_VILLAGER_RESTOCK = "property_widget.xienaoban.bole.villager_restock";
     String PROPERTY_WIDGET_VILLAGER_RESTOCK_DESCRIPTION = "property_widget.xienaoban.bole.villager_restock.description";
     String PROPERTY_WIDGET_VILLAGER_RESTOCK_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.villager_restock.description.button1";
+    String PROPERTY_WIDGET_VILLAGER_CLOTHING = "property_widget.xienaoban.bole.villager_clothing";
+    String PROPERTY_WIDGET_VILLAGER_CLOTHING_DESCRIPTION = "property_widget.xienaoban.bole.villager_clothing.description";
 
     String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
     String TEXT_UNNAMED = "text.xienaoban.bole.unnamed";
