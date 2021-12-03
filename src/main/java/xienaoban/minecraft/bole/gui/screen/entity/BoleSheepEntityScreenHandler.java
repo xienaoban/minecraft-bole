@@ -44,7 +44,9 @@ public class BoleSheepEntityScreenHandler<E extends SheepEntity> extends BoleAni
                 Field timer = MiscUtil.getField(EatGrassGoal.class, "timer");
                 timer.setAccessible(true);
                 try {
-                    timer.setInt(goal, -1);
+                    if (timer.getInt(goal) == 0) {
+                        timer.setInt(goal, -1);
+                    }
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
