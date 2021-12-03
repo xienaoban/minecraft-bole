@@ -26,6 +26,8 @@
   "property_widget.xienaoban.bole.health.description": "每个红色血条最高代表20血。\n黄色血条表示20以上的血。",
   "property_widget.xienaoban.bole.health.description.horse_base": "最大生命通常介于 15 和 30 之间。",
   "property_widget.xienaoban.bole.status_effects": "状态效果",
+  "property_widget.xienaoban.bole.leash": "是否可被拴",
+  "property_widget.xienaoban.bole.leash.description": "实体是否可被拴绳拴着走。",
   "property_widget.xienaoban.bole.baby": "成长阶段",
   "property_widget.xienaoban.bole.baby.description": "幼儿状态的实体的成长阶段。",
   "property_widget.xienaoban.bole.baby.description.button1": "按钮1：设置是否禁止幼儿成长。",
@@ -43,7 +45,7 @@
   "property_widget.xienaoban.bole.villager_restock.description": "显示村民今日的补货次数与最大补货次数。",
   "property_widget.xienaoban.bole.villager_restock.description.button1": "按钮1：强制村民补货。",
   "property_widget.xienaoban.bole.villager_clothing": "换装",
-  "property_widget.xienaoban.bole.villager_clothing.description": "点击以换装。",
+  "property_widget.xienaoban.bole.villager_clothing.description": "点击以换装（村民暖暖了属于是）。",
 
   "text.xienaoban.bole.unsupported_entity": "不支持的实体",
   "text.xienaoban.bole.unnamed": "未命名",

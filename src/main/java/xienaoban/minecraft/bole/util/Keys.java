@@ -37,6 +37,8 @@ public interface Keys {
     String PROPERTY_WIDGET_HEALTH_DESCRIPTION = "property_widget.xienaoban.bole.health.description";
     String PROPERTY_WIDGET_HEALTH_DESCRIPTION_HORSE_BASE = "property_widget.xienaoban.bole.health.description.horse_base";
     String PROPERTY_WIDGET_STATUS_EFFECTS = "property_widget.xienaoban.bole.status_effects";
+    String PROPERTY_WIDGET_LEASH = "property_widget.xienaoban.bole.leash";
+    String PROPERTY_WIDGET_LEASH_DESCRIPTION = "property_widget.xienaoban.bole.leash.description";
     String PROPERTY_WIDGET_BABY = "property_widget.xienaoban.bole.baby";
     String PROPERTY_WIDGET_BABY_DESCRIPTION = "property_widget.xienaoban.bole.baby.description";
     String PROPERTY_WIDGET_BABY_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.baby.description.button1";

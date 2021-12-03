@@ -15,6 +15,7 @@ Toto List:
     - MobEntity:
       - [ ] `Speed` (goalSelector)
       - [X] `Attractive Items` (goalSelector - TemptGoal)
+      - [X] `Can Be Leashed` (canBeLeashedBy)
       - [ ] ~~`Loot Table`~~
       - [ ] ~~`Hand Item`~~
       - [ ] ~~`Grab Hand Item`~~
@@ -43,5 +44,5 @@ Toto List:
               - [ ] `Reset Job Site`
               - [ ] `Reset Level 0`
               - [ ] `Force Restock`
-              - [ ] `Change Clothes`
+              - [X] `Change Clothes`
         - HostileEntity:
