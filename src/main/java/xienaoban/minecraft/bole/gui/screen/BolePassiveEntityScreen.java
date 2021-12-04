@@ -59,9 +59,9 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             int age = handler.entityBreedingAge;
             drawIcon(matrices, 0, 60);
-            drawBar(matrices, 10, 60, 1.0F);
-            drawBar(matrices, 50, 60, 1.0F * (age - BABY_MIN_AGE) / (-BABY_MIN_AGE));
-            drawButton(matrices, 200 + (age < BABY_MIN_AGE ? 10 : 0), 0, 0);
+            drawBar(matrices, 1.0F, 10, 60);
+            drawBar(matrices, 1.0F * (age - BABY_MIN_AGE) / (-BABY_MIN_AGE), 50, 60);
+            drawButton(matrices, 0, 200 + (age < BABY_MIN_AGE ? 10 : 0), 0);
             if (debugMode) {
                 drawBarText(matrices, age + "t", LIGHT_TEXT_COLOR);
             }

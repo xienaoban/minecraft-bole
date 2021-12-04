@@ -6,13 +6,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
-import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
@@ -128,7 +126,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             Entity entity = handler.entity;
             Box box = entity.getBoundingBox();
             drawIcon(matrices, 0, 50);
-            drawBar(matrices, 10, 50, 1.0F);
+            drawBar(matrices, 1.0F, 10, 50);
             drawText(matrices, String.format("%.2f", box.getXLength()), 0xffee3d3d, 0.5F, x + BAR_LEFT + 2, y + TEXT_HEIGHT);
             drawText(matrices, String.format("%.2f", box.getYLength()), 0xff04b904, 0.5F, x + BAR_LEFT + 2 + 13, y + TEXT_HEIGHT);
             drawText(matrices, String.format("%.2f", box.getZLength()), 0xff175fe4, 0.5F, x + BAR_LEFT + 2 + 26, y + TEXT_HEIGHT);
@@ -163,9 +161,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             boolean lock = cooldown == Keys.NETHER_PORTAL_LOCK;
             float p = Math.min(1.0F, (float)cooldown / handler.entity.getDefaultNetherPortalCooldown());
             drawIcon(matrices, 0, 30);
-            drawBar(matrices, 10, 30, 1.0F);
-            drawBar(matrices, 50, 30, p);
-            drawButton(matrices, 200 + (lock ? 10 : 0), 0, 0);
+            drawBar(matrices, 1.0F, 10, 30);
+            drawBar(matrices, p, 50, 30);
+            drawButton(matrices, 0, 200 + (lock ? 10 : 0), 0);
             String text;
             if (lock) {
                 text = "∞";
@@ -224,8 +222,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(matrices, 0, 40);
-            drawBar(matrices, 10, 40, 1.0F);
-            drawButton(matrices, 220 + (handler.entity.isCustomNameVisible() ? 0 : 10), 0, 0);
+            drawBar(matrices, 1.0F, 10, 40);
+            drawButton(matrices, 0, 220 + (handler.entity.isCustomNameVisible() ? 0 : 10), 0);
             setCacheText();
             drawBarText(matrices, this.cacheText, this.cacheColor);
         }
@@ -290,7 +288,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(matrices, 100, 0);
-            drawButton(matrices, 200 + (isCurrentSilent() ? 10 : 0), 10, 0);
+            drawButton(matrices, 0, 200 + (isCurrentSilent() ? 10 : 0), 10);
         }
 
         @Override

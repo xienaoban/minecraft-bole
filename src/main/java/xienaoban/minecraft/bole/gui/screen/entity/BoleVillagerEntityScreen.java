@@ -6,9 +6,14 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.village.VillagerType;
+import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.BoleMerchantEntityScreen;
@@ -42,9 +47,11 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
     }
 
     public class RestockPropertyWidget extends TemplatePropertyWidget1 {
+        private final ItemStack overTime;
 
         public RestockPropertyWidget() {
             super(2, true, 1);
+            this.overTime = new ItemStack(Items.EMERALD, calOvertime());
         }
 
         @Override
@@ -59,9 +66,14 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             int restocksToday = handler.entityRestocksToday;
             drawIcon(matrices, 0, 110);
-            drawBar(matrices, 10, 110, 1.0F);
-            drawBar(matrices, 50, 110, restocksToday / 3.0F);
-            drawButton(matrices, 230, 10, 0);
+            drawBar(matrices, 1.0F, 10, 110);
+            drawBar(matrices, restocksToday / 3.0F, 50, 110);
+            if (canRestock()) {
+                drawButton(matrices, 0, this.overTime);
+            }
+            else {
+                drawButton(matrices, 0, 230, 10);
+            }
             drawBarText(matrices, restocksToday + "/3", LIGHT_TEXT_COLOR);
         }
 
@@ -71,8 +83,27 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 return false;
             }
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESTOCK);
+            if (canRestock() && handler.trySpendItems(this.overTime)) {
+                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESTOCK, this.overTime);
+                this.overTime.setCount(calOvertime());
+            }
+            else {
+                showOverlayMessage(new LiteralText("Error"));
+            }
             return true;
+        }
+
+        private boolean canRestock() {
+            GlobalPos jobSite = handler.entityJobSitePos;
+            World world = MinecraftClient.getInstance().world;
+            if (jobSite == null || world == null) {
+                return false;
+            }
+            return jobSite.getDimension() == world.getRegistryKey() && jobSite.getPos().isWithinDistance(handler.entity.getPos(), 1.73);
+        }
+
+        private int calOvertime() {
+            return Math.max(0, handler.entityRestocksToday - 3 + 1);
         }
     }
 

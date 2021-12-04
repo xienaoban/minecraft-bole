@@ -48,7 +48,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(matrices, 150, 0);
-            drawBar(matrices, 220 + (handler.entity.canBeLeashedBy(handler.player) ? 0 : 10), 20, 1.0F);
+            drawBar(matrices, 1.0F, 220 + (handler.entity.canBeLeashedBy(handler.player) ? 0 : 10), 20);
         }
     }
 }

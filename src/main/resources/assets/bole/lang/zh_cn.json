@@ -46,7 +46,7 @@
   "property_widget.xienaoban.bole.merchant_inventory.description": "未来会支持与商人背包的交互。",
   "property_widget.xienaoban.bole.villager_restock": "补货",
   "property_widget.xienaoban.bole.villager_restock.description": "显示村民今日的补货次数与最大补货次数。",
-  "property_widget.xienaoban.bole.villager_restock.description.button1": "按钮1：强制村民补货。",
+  "property_widget.xienaoban.bole.villager_restock.description.button1": "按钮1：强制村民补货（要付加班费的哦）。",
   "property_widget.xienaoban.bole.villager_clothing": "换装",
   "property_widget.xienaoban.bole.villager_clothing.description": "点击以换装（村民暖暖了属于是）。",
 

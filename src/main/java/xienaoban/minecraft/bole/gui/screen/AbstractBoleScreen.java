@@ -13,6 +13,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
@@ -56,6 +57,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     // private Element focused; (in AbstractParentElement)
     private ScreenElement hovered;
+    private final OverlayMessageHud overlayMessageHud;
 
     protected int bodyLeft, bodyRight, bodyTop, bodyBottom;
     protected int[] contentLeft, contentRight;
@@ -73,6 +75,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
         initButtons();
+        this.overlayMessageHud = new OverlayMessageHud();
         this.emptyPage = new Page();
         this.emptyPage.setSlot(0, 4, new CenteredTextPropertyWidget(4, 2, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), 0xaa666666, 1.0F));
         this.pages = new ArrayList<>();
@@ -84,6 +87,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             page.addSlotsFromLazyList();
         }
         initCustom();
+        BoleClient.getInstance().setScreenOpen(true);
     }
 
     protected abstract void initPages();
@@ -95,7 +99,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         super.init();
         this.bodyLeft = (this.width - BODY_WIDTH) / 2;
         this.bodyRight = this.bodyLeft + BODY_WIDTH;
-        this.bodyTop = this.height / 2 - BODY_HEIGHT / 2 + 10;
+        this.bodyTop = this.height / 2 - BODY_HEIGHT / 2 - 10;
         this.bodyBottom = this.bodyTop + BODY_HEIGHT;
         this.contentLeft[0] = (this.width - CONTENT_SPACING_WIDTH) / 2 - CONTENT_WIDTH;
         this.contentRight[0] = this.contentLeft[0] + CONTENT_WIDTH;
@@ -104,7 +108,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.contentTop = this.bodyTop + 25;
         this.contentBottom = this.contentTop + CONTENT_HEIGHT;
         initButtons();
-        BoleClient.getInstance().setScreenOpen(true);
     }
 
     protected void initButtons() {
@@ -229,6 +232,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         if (this.pageIndex + 1 < this.pages.size()) {
             drawTextCenteredX(matrices, "- " + (this.pageIndex + 1) + " -", 0x80000000, 0.75F, this.contentLeft[1] + this.contentRight[1] >> 1, this.contentBottom + 4);
         }
+        this.overlayMessageHud.draw(matrices, this.width >> 1, this.bodyBottom - 4, mouseX, mouseY);
     }
 
     /**
@@ -287,7 +291,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
      * <p>3. It can't recognize the yaw of LivingEntity, so don’t use it to render a rotating LivingEntity. </p>
      * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
      */
-
     @SuppressWarnings("deprecation")
     public static void drawEntity(Entity entity, int size, int x, int y, float mouseX, float mouseY) {
         float f = (float)Math.atan(mouseX / 40.0F);
@@ -514,14 +517,19 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         matrixScaleOff(matrixStack);
     }
 
+    public void drawTextCenteredX(MatrixStack matrices, Text text, int color, float xMid, float y) {
+        int w2 = this.textRenderer.getWidth(text) >> 1;
+        drawText(matrices, text, color, xMid - w2, y);
+    }
+
     public void drawTextCenteredX(MatrixStack matrices, String text, int color, float size, float xMid, float y) {
         float w2 = (this.textRenderer.getWidth(text) >> 1) * size;
-        this.drawText(matrices, text, color, size, xMid - w2, y);
+        drawText(matrices, text, color, size, xMid - w2, y);
     }
 
     public void drawTextCenteredX(MatrixStack matrices, Text text, int color, float size, float xMid, float y) {
         float w2 = (this.textRenderer.getWidth(text) >> 1) * size;
-        this.drawText(matrices, text, color, size, xMid - w2, y);
+        drawText(matrices, text, color, size, xMid - w2, y);
     }
 
     /**
@@ -641,6 +649,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
     }
 
+    public void showOverlayMessage(Text text) {
+        this.overlayMessageHud.showMessage(text);
+    }
+
     public ScreenElement getHovered() {
         return hovered;
     }
@@ -648,6 +660,42 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public void setHovered(ScreenElement hovered) {
         this.hovered = hovered;
     }
+
+    public final class OverlayMessageHud extends ScreenElement {
+        private Text overlayMessage;
+        private int overlayTicksTo;
+
+        public OverlayMessageHud() {
+            super(0, 0);
+            this.overlayMessage = null;
+            this.overlayTicksTo = -1;
+        }
+
+        @Override
+        public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            int ticks = this.overlayTicksTo - BoleClient.getInstance().getTicks();
+            if (this.overlayMessage == null || ticks < 0) {
+                return;
+            }
+            if (ticks == 0) {
+                clearMessage();
+                return;
+            }
+            drawTextCenteredX(matrices, this.overlayMessage, 0x00FFFFFF | (ticks << 26), x, y);
+        }
+
+        public void showMessage(Text text) {
+            this.overlayMessage = text;
+            this.overlayTicksTo = BoleClient.getInstance().getTicks() + 60;
+        }
+
+        public void clearMessage() {
+            this.overlayMessage = null;
+            this.overlayTicksTo = -1;
+        }
+
+    }
+
 
     /**
      * Manages all widgets on a page.
@@ -918,7 +966,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), this.box.left() + ICON_LEFT, this.box.top(), u, v);
         }
 
-        protected void drawBar(MatrixStack matrices, int u, int v, float p) {
+        protected void drawBar(MatrixStack matrices, float p, int u, int v) {
             if (p < 0.0F) {
                 p = 0.0F;
             }
@@ -936,8 +984,20 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             drawText(matrices, text, color, TEXT_SIZE, this.box.left() + BAR_TEXT_LEFT, this.box.top() + TEXT_HEIGHT);
         }
 
-        protected void drawButton(MatrixStack matrices, int u, int v, int index) {
+        protected void drawButton(MatrixStack matrices, int index, int u, int v) {
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), this.box.left() + this.buttons[index] - BUTTON_TEXTURE_OFFSET, this.box.top(), u, v);
+        }
+
+        protected void drawButton(MatrixStack matrices, int index, ItemStack itemStack) {
+            final float size = 0.5F;
+            int px = (int) ((this.box.left() + this.buttons[index] - BUTTON_TEXTURE_OFFSET + 1) / size), py = (int) ((this.box.top() + 1) / size);
+            MatrixStack matrixStack = matrixScaleOn(size, size, size);
+            int cnt = itemStack.getCount();
+            itemStack.setCount(1);
+            itemRenderer.renderInGui(itemStack, px, py);
+            itemRenderer.renderGuiItemOverlay(textRenderer, itemStack, px, py, String.valueOf(cnt));
+            itemStack.setCount(cnt);
+            matrixScaleOff(matrixStack);
         }
 
         protected int calMousePosition(double mouseX, double mouseY) {

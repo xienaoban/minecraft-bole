@@ -68,7 +68,7 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(matrices, 160, 0);
             int u = isEating() ? 10 : (canEat() ? 0 : 20);
-            drawButton(matrices, 200 + u, 30, 0);
+            drawButton(matrices, 0, 200 + u, 30);
         }
 
         @Override
