@@ -43,6 +43,6 @@ Toto List:
               - [ ] `Highlight Job Site`
               - [ ] `Reset Job Site`
               - [ ] `Reset Level 0`
-              - [ ] `Force Restock`
+              - [X] `Force Restock`
               - [X] `Change Clothes`
         - HostileEntity:

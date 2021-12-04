@@ -55,5 +55,12 @@
   "text.xienaoban.bole.grown_up": "Grown up",
   "text.xienaoban.bole.never_grow_up": "Never grow",
   "text.xienaoban.bole.loading": "Loading...",
-  "text.xienaoban.bole.empty_with_brackets": "(Empty)"
+  "text.xienaoban.bole.empty_with_brackets": "(Empty)",
+
+  "text.hint.xienaoban.bole.not_baby": "It's meaningless to lock the growth stage of adult creatures...",
+  "text.hint.xienaoban.bole.eating_grass": "Wait two seconds. The sheep is eating grass!",
+  "text.hint.xienaoban.bole.far_from_grass": "There is no grass under the sheep!",
+  "text.hint.xienaoban.bole.not_enough_items": "You don't have enough items to purchase this service!",
+  "text.hint.xienaoban.bole.far_from_job_site": "The villager is too far away from the job site!",
+  "text.hint.xienaoban.bole.no_job": "The villager has no job!"
 }

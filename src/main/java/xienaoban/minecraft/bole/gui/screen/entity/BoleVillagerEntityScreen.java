@@ -8,10 +8,10 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.dynamic.GlobalPos;
+import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
@@ -83,14 +83,24 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 return false;
             }
-            if (canRestock() && handler.trySpendItems(this.overTime)) {
+            if (!hasJob()) {
+                showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
+            }
+            else if (!canRestock()) {
+                showOverlayMessage(Keys.HINT_TEXT_FAR_FROM_JOB_SITE);
+            }
+            else if (!handler.trySpendItems(this.overTime)) {
+                showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
+            }
+            else {
                 handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESTOCK, this.overTime);
                 this.overTime.setCount(calOvertime());
             }
-            else {
-                showOverlayMessage(new LiteralText("Error"));
-            }
             return true;
+        }
+
+        private boolean hasJob() {
+            return handler.entity.getVillagerData().getProfession() != VillagerProfession.NONE;
         }
 
         private boolean canRestock() {

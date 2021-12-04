@@ -84,7 +84,8 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
             }
             int age = handler.entityBreedingAge;
             if (age >= 0) {
-                return false;
+                showOverlayMessage(Keys.HINT_TEXT_NOT_BABY);
+                return true;
             }
             if (age >= BABY_MIN_AGE) {
                 age = LOCK;

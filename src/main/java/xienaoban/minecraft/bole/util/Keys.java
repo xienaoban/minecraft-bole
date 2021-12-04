@@ -69,6 +69,13 @@ public interface Keys {
     String TEXT_LOADING = "text.xienaoban.bole.loading";
     String TEXT_EMPTY_WITH_BRACKETS = "text.xienaoban.bole.empty_with_brackets";
 
+    String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
+    String HINT_TEXT_EATING_GRASS = "text.hint.xienaoban.bole.eating_grass";
+    String HINT_TEXT_FAR_FROM_GRASS = "text.hint.xienaoban.bole.far_from_grass";
+    String HINT_TEXT_NOT_ENOUGH_ITEMS = "text.hint.xienaoban.bole.not_enough_items";
+    String HINT_TEXT_FAR_FROM_JOB_SITE = "text.hint.xienaoban.bole.far_from_job_site";
+    String HINT_TEXT_NO_JOB = "text.hint.xienaoban.bole.no_job";
+
     // Other
     int NETHER_PORTAL_LOCK = 0x7fffffff;
 }

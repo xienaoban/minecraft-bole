@@ -77,7 +77,13 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 return false;
             }
-            if (!isEating() && canEat()) {
+            if (isEating()) {
+                showOverlayMessage(Keys.HINT_TEXT_EATING_GRASS);
+            }
+            else if (!canEat()) {
+                showOverlayMessage(Keys.HINT_TEXT_FAR_FROM_GRASS);
+            }
+            else {
                 handler.sendClientEntitySettings(Keys.ENTITY_SETTING_EAT_GRASS);
                 this.interval = BoleClient.getInstance().getTicks() + 10;
             }

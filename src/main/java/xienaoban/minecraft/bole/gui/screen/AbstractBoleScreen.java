@@ -649,6 +649,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
     }
 
+    public void showOverlayMessage(String translationKey) {
+        this.overlayMessageHud.showMessage(new TranslatableText(translationKey));
+    }
+
     public void showOverlayMessage(Text text) {
         this.overlayMessageHud.showMessage(text);
     }
@@ -681,12 +685,15 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                 clearMessage();
                 return;
             }
-            drawTextCenteredX(matrices, this.overlayMessage, 0x00FFFFFF | (ticks << 26), x, y);
+            if (ticks > 63) {
+                ticks = 63;
+            }
+            drawTextCenteredX(matrices, this.overlayMessage, 0x00FFFFAA | (ticks << 26), x, y);
         }
 
         public void showMessage(Text text) {
             this.overlayMessage = text;
-            this.overlayTicksTo = BoleClient.getInstance().getTicks() + 60;
+            this.overlayTicksTo = BoleClient.getInstance().getTicks() + 100;
         }
 
         public void clearMessage() {
@@ -695,7 +702,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
     }
-
 
     /**
      * Manages all widgets on a page.
@@ -1017,7 +1023,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             else {
                 for (int i = this.buttons.length - 1; i >= 0; --i) {
                     if (offsetX > this.buttons[i]) {
-                        if (offsetX < this.buttons[i] + BUTTON_WIDTH && offsetY > 2 && offsetY < 8) {
+                        if (offsetX < this.buttons[i] + BUTTON_WIDTH && offsetY > 1 && offsetY < 9) {
                             index = 2 + i;
                         }
                         break;

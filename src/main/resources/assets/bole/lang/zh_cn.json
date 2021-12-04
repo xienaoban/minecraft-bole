@@ -37,7 +37,7 @@
   "property_widget.xienaoban.bole.breeding_items.description": "可用于繁育该实体的食物。",
   "property_widget.xienaoban.bole.eat_grass": "强制吃草",
   "property_widget.xienaoban.bole.eat_grass.description": "强制绵羊吃它脚底下的草。\n既然能强制喂羊小麦，那为什么不能强制让它吃草呢？\n（手动狗头",
-  "property_widget.xienaoban.bole.eat_grass.description.button1": "按钮1：尝试吃草。张嘴表示能吃；闭嘴表示正在吃；\n草+斜杠表示脚底没草可吃。",
+  "property_widget.xienaoban.bole.eat_grass.description.button1": "按钮1：尝试吃草（当然前提是得脚底有草）。",
   "property_widget.xienaoban.bole.horse_run_and_jump": "跳跃高度与奔跑速度",
   "property_widget.xienaoban.bole.horse_run_and_jump.description": "跑步速度通常介于 4.74m/s 与 14.23m/s 之间。\n跳跃高度通常介于 1.09m 与 5.29m 之间。",
   "property_widget.xienaoban.bole.donkey_chest": "挂载箱子的容量",
@@ -55,5 +55,12 @@
   "text.xienaoban.bole.grown_up": "已成年",
   "text.xienaoban.bole.never_grow_up": "永不成长",
   "text.xienaoban.bole.loading": "加载中……",
-  "text.xienaoban.bole.empty_with_brackets": "（空）"
+  "text.xienaoban.bole.empty_with_brackets": "（空）",
+
+  "text.hint.xienaoban.bole.not_baby": "锁住已成年生物的成长阶段，是怕它返老还童吗~",
+  "text.hint.xienaoban.bole.eating_grass": "草正吃着呢~",
+  "text.hint.xienaoban.bole.far_from_grass": "然而它脚底下并没有没草可以吃~",
+  "text.hint.xienaoban.bole.not_enough_items": "你这点钱很难让人给你办事啊~",
+  "text.hint.xienaoban.bole.far_from_job_site": "离工作方块太远啦！所谓“巧妇难为无米之炊”~",
+  "text.hint.xienaoban.bole.no_job": "无业游民：“只要我足够废物，就没有人能压榨我~”"
 }
