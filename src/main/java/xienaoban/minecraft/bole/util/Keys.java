@@ -56,6 +56,10 @@ public interface Keys {
     String PROPERTY_WIDGET_DONKEY_CHEST_DESCRIPTION = "property_widget.xienaoban.bole.donkey_chest.description";
     String PROPERTY_WIDGET_MERCHANT_INVENTORY = "property_widget.xienaoban.bole.merchant_inventory";
     String PROPERTY_WIDGET_MERCHANT_INVENTORY_DESCRIPTION = "property_widget.xienaoban.bole.merchant_inventory.description";
+    String PROPERTY_WIDGET_VILLAGER_JOB_SITE = "property_widget.xienaoban.bole.villager_job_site";
+    String PROPERTY_WIDGET_VILLAGER_JOB_SITE_DESCRIPTION = "property_widget.xienaoban.bole.villager_job_site.description";
+    String PROPERTY_WIDGET_VILLAGER_JOB_SITE_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.villager_job_site.description.button1";
+    String PROPERTY_WIDGET_VILLAGER_JOB_SITE_DESCRIPTION_BUTTON2 = "property_widget.xienaoban.bole.villager_job_site.description.button2";
     String PROPERTY_WIDGET_VILLAGER_RESTOCK = "property_widget.xienaoban.bole.villager_restock";
     String PROPERTY_WIDGET_VILLAGER_RESTOCK_DESCRIPTION = "property_widget.xienaoban.bole.villager_restock.description";
     String PROPERTY_WIDGET_VILLAGER_RESTOCK_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.villager_restock.description.button1";

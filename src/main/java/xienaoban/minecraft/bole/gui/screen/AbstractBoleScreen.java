@@ -208,7 +208,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawTextureNormally(matrices, 256, 256, this.getZOffset(),
                 this.width >> 1, y0, x1, y1, u0, v0, u1, v1);
         if (this.debugMode) {
-            drawText(matrices, "Tick: " + BoleClient.getInstance().getTicks(), LIGHT_TEXT_COLOR, 0.5F, 1, 10);
+            drawText(matrices, "Tick: " + BoleClient.getInstance().getScreenTicks(), LIGHT_TEXT_COLOR, 0.5F, 1, 10);
             if (this.handler.entity != null) {
                 List<String> entitySuperclasses = new ArrayList<>();
                 Class<?> clazz = this.handler.entity.getClass();
@@ -677,7 +677,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            int ticks = this.overlayTicksTo - BoleClient.getInstance().getTicks();
+            int ticks = this.overlayTicksTo - BoleClient.getInstance().getScreenTicks();
             if (this.overlayMessage == null || ticks < 0) {
                 return;
             }
@@ -693,7 +693,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         public void showMessage(Text text) {
             this.overlayMessage = text;
-            this.overlayTicksTo = BoleClient.getInstance().getTicks() + 100;
+            this.overlayTicksTo = BoleClient.getInstance().getScreenTicks() + 100;
         }
 
         public void clearMessage() {

@@ -7,6 +7,11 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Entity.class)
 public interface IMixinEntity {
+    @Accessor("GLOWING_FLAG_INDEX")
+    static int getGlowingFlagIndex() {
+        throw new AssertionError();
+    }
+
     @Accessor
     boolean getInNetherPortal();
 
@@ -15,6 +20,9 @@ public interface IMixinEntity {
 
     @Accessor
     void setNetherPortalCooldown(int netherPortalCooldown);
+
+    @Invoker
+    void callSetFlag(int index, boolean value);
 
     @Invoker
     void callTickNetherPortalCooldown();

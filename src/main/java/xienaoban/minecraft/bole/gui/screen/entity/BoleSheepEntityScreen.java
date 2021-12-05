@@ -85,7 +85,7 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
             }
             else {
                 handler.sendClientEntitySettings(Keys.ENTITY_SETTING_EAT_GRASS);
-                this.interval = BoleClient.getInstance().getTicks() + 10;
+                this.interval = BoleClient.getInstance().getScreenTicks() + 10;
             }
             return true;
         }
@@ -100,7 +100,7 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
         }
 
         private boolean isEating() {
-            return ((IMixinSheepEntity) handler.entity).getEatGrassTimer() > 0 || this.interval > BoleClient.getInstance().getTicks();
+            return ((IMixinSheepEntity) handler.entity).getEatGrassTimer() > 0 || this.interval > BoleClient.getInstance().getScreenTicks();
         }
     }
 }

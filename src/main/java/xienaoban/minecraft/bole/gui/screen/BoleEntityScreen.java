@@ -299,13 +299,13 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             }
             boolean newState = !isCurrentSilent();
             this.silentCache = newState;
-            this.silentSwitchCacheTicks = BoleClient.getInstance().getTicks() + 8;
+            this.silentSwitchCacheTicks = BoleClient.getInstance().getScreenTicks() + 8;
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_SILENT, newState);
             return true;
         }
 
         private boolean isCurrentSilent() {
-            return this.silentSwitchCacheTicks > BoleClient.getInstance().getTicks()
+            return this.silentSwitchCacheTicks > BoleClient.getInstance().getScreenTicks()
                     ? this.silentCache : handler.entity.isSilent();
         }
     }
