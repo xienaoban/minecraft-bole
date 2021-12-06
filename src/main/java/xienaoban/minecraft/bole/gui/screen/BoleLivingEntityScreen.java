@@ -77,6 +77,9 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
             LivingEntity entity = handler.entity;
             int health = (int)entity.getHealth();
             int maxHealth = (int)entity.getMaxHealth();
+            if (!debugMode && health > maxHealth) {
+                health = maxHealth;
+            }
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 0, this.lineCnt > 2 ? 10 : 0);
             calBars(1, health);
@@ -108,6 +111,9 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
          */
         protected void drawCustomLengthHealthBar(MatrixStack matrices, int health, int x, int y, int u, int v, boolean close) {
             int w = health << 1;
+            if (w > 40) {
+                w = 40;
+            }
             drawTextureNormally(matrices, 256, 256, w, 10, getZOffset(), x, y, u, v);
             if (close && health < 20) {
                 drawTextureNormally(matrices, 256, 256, 1, 10, getZOffset(), x + w, y, u + 39, v);

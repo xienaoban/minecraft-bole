@@ -40,7 +40,7 @@ Toto List:
             - [X] `Get Inventory`
             - [ ] `Set Inventory`
             - VillagerEntity:
-              - [ ] `Highlight Job Site`
+              - [X] `Highlight Job Site`
               - [ ] `Reset Job Site`
               - [ ] `Reset Level 0`
               - [X] `Force Restock`
