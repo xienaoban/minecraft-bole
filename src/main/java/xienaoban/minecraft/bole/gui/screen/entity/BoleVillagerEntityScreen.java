@@ -111,8 +111,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                     if (swords.test(player.getMainHandStack()) && swords.test(player.getOffHandStack())) {
                         handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESET_JOB);
                         onClose();
-                        player.sendMessage(new TranslatableText(Keys.TEXT_VILLAGER_AGREE_TO_RESET_JOB1), false);
-                        player.sendMessage(new TranslatableText(Keys.TEXT_VILLAGER_AGREE_TO_RESET_JOB2), false);
+                        player.sendMessage(new TranslatableText(Keys.TEXT_VILLAGER_AGREE_TO_RESET_JOB), false);
                     }
                     else {
                         showOverlayMessage(Keys.HINT_TEXT_REFUSE_TO_RESET_JOB);

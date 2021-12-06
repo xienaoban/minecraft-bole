@@ -73,8 +73,7 @@ public interface Keys {
     String TEXT_NEVER_GROW_UP = "text.xienaoban.bole.never_grow_up";
     String TEXT_LOADING = "text.xienaoban.bole.loading";
     String TEXT_EMPTY_WITH_BRACKETS = "text.xienaoban.bole.empty_with_brackets";
-    String TEXT_VILLAGER_AGREE_TO_RESET_JOB1 = "text.hint.xienaoban.bole.villager_agree_to_reset_job1";
-    String TEXT_VILLAGER_AGREE_TO_RESET_JOB2 = "text.hint.xienaoban.bole.villager_agree_to_reset_job2";
+    String TEXT_VILLAGER_AGREE_TO_RESET_JOB = "text.hint.xienaoban.bole.villager_agree_to_reset_job";
 
     String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
     String HINT_TEXT_EATING_GRASS = "text.hint.xienaoban.bole.eating_grass";
