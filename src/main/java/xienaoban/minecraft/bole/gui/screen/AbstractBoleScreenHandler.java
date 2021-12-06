@@ -108,7 +108,10 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
      */
     @Environment(EnvType.CLIENT)
     protected static Entity clientEntity() {
-        return BoleClient.getInstance().getBoleTarget();
+        Entity entity = BoleClient.getInstance().getBoleTarget();
+        // Set BoleTarget to null to avoid memory leak.
+        BoleClient.getInstance().setBoleTarget(null);
+        return entity;
     }
 
     /**

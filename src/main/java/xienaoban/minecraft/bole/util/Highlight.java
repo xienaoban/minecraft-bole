@@ -46,6 +46,7 @@ public class Highlight {
             }
         }
         if (this.highlighted.size() > 0) {
+            // Checks only one HighlightState each tick. Because I don’t want it to affect game performance.
             List<HighlightState> list = this.highlighted;
             if (this.checkIndex >= list.size()) {
                 this.checkIndex = 0;
@@ -121,7 +122,8 @@ public class Highlight {
 
         protected final void tick(int ticks) {
             if (!isStopped()) {
-                if (this.endTicks < ticks) {
+                // Check "this.entity.world != MinecraftClient.getInstance().world" to avoid memory leak.
+                if (this.endTicks < ticks || this.entity.world != MinecraftClient.getInstance().world) {
                     stop();
                 }
                 else {
@@ -184,7 +186,10 @@ public class Highlight {
 
         private void removeEntity() {
             Entity entity = this.entity;
-            ((ClientWorld) entity.world).removeEntity(entity.getId(), Entity.RemovalReason.DISCARDED);
+            ClientWorld world = ((ClientWorld) entity.world);
+            if (world.getEntityById(entity.getId()) == entity) {
+                world.removeEntity(entity.getId(), Entity.RemovalReason.DISCARDED);
+            }
         }
     }
 
