@@ -47,7 +47,7 @@
   "property_widget.xienaoban.bole.villager_job_site": "工作方块相关",
   "property_widget.xienaoban.bole.villager_job_site.description": "显示村民与其工作方块的距离。",
   "property_widget.xienaoban.bole.villager_job_site.description.button1": "按钮1：在游戏中高亮该工作方块。",
-  "property_widget.xienaoban.bole.villager_job_site.description.button2": "按钮2：强制村民放弃该工作方块。",
+  "property_widget.xienaoban.bole.villager_job_site.description.button2": "按钮2：重置村民交易（包括交易列表、等级等）。",
   "property_widget.xienaoban.bole.villager_restock": "补货",
   "property_widget.xienaoban.bole.villager_restock.description": "显示村民今日的补货次数与最大补货次数。",
   "property_widget.xienaoban.bole.villager_restock.description.button1": "按钮1：强制村民补货（要付加班费的哦）。",
@@ -60,11 +60,14 @@
   "text.xienaoban.bole.never_grow_up": "永不成长",
   "text.xienaoban.bole.loading": "加载中……",
   "text.xienaoban.bole.empty_with_brackets": "（空）",
+  "text.hint.xienaoban.bole.villager_agree_to_reset_job1": "选择死亡还是假装无事发生？村民识相地选择了后者。",
+  "text.hint.xienaoban.bole.villager_agree_to_reset_job2": "“我每天都会忘记上千件事，何不把这件事也忘了？”村民说。",
 
   "text.hint.xienaoban.bole.not_baby": "锁住已成年生物的成长阶段，是怕它返老还童吗~",
   "text.hint.xienaoban.bole.eating_grass": "草正吃着呢~",
   "text.hint.xienaoban.bole.far_from_grass": "然而它脚底下并没有没草可以吃~",
   "text.hint.xienaoban.bole.not_enough_items": "你这点钱很难让人给你办事啊~",
   "text.hint.xienaoban.bole.far_from_job_site": "离工作方块太远啦！所谓“巧妇难为无米之炊”~",
-  "text.hint.xienaoban.bole.no_job": "无业游民：“只要我足够废物，就没有人能压榨我~”"
+  "text.hint.xienaoban.bole.no_job": "无业游民：“只要我足够废物，就没有人能压榨我~”",
+  "text.hint.xienaoban.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你左右手各持一把钻石剑威胁也不会屈服！"
 }

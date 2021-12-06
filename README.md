@@ -41,8 +41,8 @@ Toto List:
             - [ ] `Set Inventory`
             - VillagerEntity:
               - [X] `Highlight Job Site`
-              - [ ] `Reset Job Site`
-              - [ ] `Reset Level 0`
+              - [ ] ~~`Reset Job Site`~~
+              - [X] `Reset Level 0`
               - [X] `Force Restock`
               - [X] `Change Clothes`
         - HostileEntity:

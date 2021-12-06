@@ -47,7 +47,7 @@
   "property_widget.xienaoban.bole.villager_job_site": "Job Site",
   "property_widget.xienaoban.bole.villager_job_site.description": "Shows the distance between the villager and the job site.",
   "property_widget.xienaoban.bole.villager_job_site.description.button1": "Button1: Highlight the job site for 6 seconds.",
-  "property_widget.xienaoban.bole.villager_job_site.description.button2": "Button2: Force the villager to abandon the job site.",
+  "property_widget.xienaoban.bole.villager_job_site.description.button2": "Button2: Reset the villager's job.",
   "property_widget.xienaoban.bole.villager_restock": "Restock",
   "property_widget.xienaoban.bole.villager_restock.description": "Shows the villager's restocks today.",
   "property_widget.xienaoban.bole.villager_restock.description.button1": "Button1: force the villager to restock (need to pay overtime).",
@@ -60,11 +60,14 @@
   "text.xienaoban.bole.never_grow_up": "Never grow",
   "text.xienaoban.bole.loading": "Loading...",
   "text.xienaoban.bole.empty_with_brackets": "(Empty)",
+  "text.hint.xienaoban.bole.villager_agree_to_reset_job1": "To die or pretend that nothing happened? The villager wisely chose the latter.",
+  "text.hint.xienaoban.bole.villager_agree_to_reset_job2": "\"I forget a thousand things every day. How about I make sure this is one of them?\" The villager said.",
 
   "text.hint.xienaoban.bole.not_baby": "It's meaningless to lock the growth stage of adult creatures...",
   "text.hint.xienaoban.bole.eating_grass": "Wait two seconds. The sheep is eating grass!",
   "text.hint.xienaoban.bole.far_from_grass": "There is no grass under the sheep!",
   "text.hint.xienaoban.bole.not_enough_items": "You don't have enough items to purchase this service!",
   "text.hint.xienaoban.bole.far_from_job_site": "The villager is too far away from the job site!",
-  "text.hint.xienaoban.bole.no_job": "The villager has no job!"
+  "text.hint.xienaoban.bole.no_job": "The villager has no job!",
+  "text.hint.xienaoban.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (maybe you should hold two swords to threaten it)."
 }

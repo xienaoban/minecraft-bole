@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
@@ -52,6 +53,18 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
     }
 
     private void registerEntitySettingsBufHandlers() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RESET_JOB, new EntitySettingsBufHandler() {
+            /**
+             * @see net.minecraft.entity.ai.brain.task.LoseJobOnSiteLossTask#shouldRun
+             */
+            @Override public void readFromBuf(PacketByteBuf buf) {
+                entity.setOffers(null);
+                entity.setExperience(0);
+                entity.setVillagerData(entity.getVillagerData().withLevel(1));
+                entity.reinitializeBrain((ServerWorld) entity.world);
+            }
+            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {}
+        });
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RESTOCK, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 ItemStack overTime = buf.readItemStack();

@@ -5,9 +5,11 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -73,7 +75,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
             GlobalPos pos = handler.entityJobSitePos;
             drawIcon(matrices, 170, 0);
             drawButton(matrices, 0, 230, 30 - (pos != null ? 0 : 20));
-            drawButton(matrices, 1, 240, 30);
+            drawButton(matrices, 1, 240, 20);
             int cutTicks = BoleClient.getInstance().getScreenTicks();
             if (cutTicks - this.lastTicks > 10) {
                 this.lastTicks = cutTicks;
@@ -104,7 +106,17 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                     }
                 }
                 case IDX_BUTTON_BEGIN + 1 -> {
-                    // todo
+                    PlayerEntity player = handler.player;
+                    Ingredient swords = Ingredient.ofItems(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
+                    if (swords.test(player.getMainHandStack()) && swords.test(player.getOffHandStack())) {
+                        handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESET_JOB);
+                        onClose();
+                        player.sendMessage(new TranslatableText(Keys.TEXT_VILLAGER_AGREE_TO_RESET_JOB1), false);
+                        player.sendMessage(new TranslatableText(Keys.TEXT_VILLAGER_AGREE_TO_RESET_JOB2), false);
+                    }
+                    else {
+                        showOverlayMessage(Keys.HINT_TEXT_REFUSE_TO_RESET_JOB);
+                    }
                 }
             }
             return true;

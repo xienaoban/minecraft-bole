@@ -165,11 +165,8 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
                     MutableText text1 = new TranslatableText(effect.getEffectType().getTranslationKey()).append(String.valueOf(effect.getAmplifier() + 1)).formatted(Formatting.WHITE);
                     MutableText text2 = new LiteralText((effect.getDuration() / 20) + "s").formatted(Formatting.GRAY);
                     int w = textRenderer.getWidth(text1) + textRenderer.getWidth(text2);
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = (maxWidth + 40 - w) / 2; i > 0; --i) {
-                        sb.append('.');
-                    }
-                    this.tooltipLines.add(text1.append(new LiteralText(sb.toString()).formatted(Formatting.DARK_GRAY)).append(text2).asOrderedText());
+                    String dot = ".".repeat(Math.max(0, (maxWidth + 40 - w) / 2));
+                    this.tooltipLines.add(text1.append(new LiteralText(dot).formatted(Formatting.DARK_GRAY)).append(text2).asOrderedText());
                 }
             }
             super.drawTooltip(matrices);

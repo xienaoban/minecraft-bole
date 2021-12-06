@@ -10,6 +10,7 @@ public interface Keys {
     String ENTITY_SETTING_CUSTOM_NAME_VISIBLE = "custom_name_visible";
     String ENTITY_SETTING_SILENT = "silent";
     String ENTITY_SETTING_BABY = "baby";
+    String ENTITY_SETTING_RESET_JOB = "reset_job";
     String ENTITY_SETTING_RESTOCK = "restock";
     String ENTITY_SETTING_CLOTHING = "clothing";
     String ENTITY_SETTING_EAT_GRASS = "eat_grass";
@@ -72,6 +73,8 @@ public interface Keys {
     String TEXT_NEVER_GROW_UP = "text.xienaoban.bole.never_grow_up";
     String TEXT_LOADING = "text.xienaoban.bole.loading";
     String TEXT_EMPTY_WITH_BRACKETS = "text.xienaoban.bole.empty_with_brackets";
+    String TEXT_VILLAGER_AGREE_TO_RESET_JOB1 = "text.hint.xienaoban.bole.villager_agree_to_reset_job1";
+    String TEXT_VILLAGER_AGREE_TO_RESET_JOB2 = "text.hint.xienaoban.bole.villager_agree_to_reset_job2";
 
     String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
     String HINT_TEXT_EATING_GRASS = "text.hint.xienaoban.bole.eating_grass";
@@ -79,6 +82,7 @@ public interface Keys {
     String HINT_TEXT_NOT_ENOUGH_ITEMS = "text.hint.xienaoban.bole.not_enough_items";
     String HINT_TEXT_FAR_FROM_JOB_SITE = "text.hint.xienaoban.bole.far_from_job_site";
     String HINT_TEXT_NO_JOB = "text.hint.xienaoban.bole.no_job";
+    String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.xienaoban.bole.refuse_to_reset_job";
 
     // Other
     int NETHER_PORTAL_LOCK = 0x7fffffff;
