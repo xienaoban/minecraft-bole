@@ -98,7 +98,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                     GlobalPos pos = handler.entityJobSitePos;
                     if (pos != null) {
                         Highlight hl = BoleClient.getInstance().getHighlight();
-                        hl.setJobSiteHighlightState(hl.highlightBlock(handler.entityJobSitePos, 6 * 20));
+                        hl.setJobSiteOrBeehiveHighlightState(hl.highlightBlock(pos, 6 * 20));
                         onClose();
                     }
                     else {

@@ -67,7 +67,7 @@ public class Highlight {
         return highLightState;
     }
 
-    public void setJobSiteHighlightState(HighlightState jobSiteHighlightState) {
+    public void setJobSiteOrBeehiveHighlightState(HighlightState jobSiteHighlightState) {
         HighlightState last = this.jobSiteHighlightState;
         if (last != null) {
             last.stop();
@@ -201,6 +201,14 @@ public class Highlight {
             super(createFallingBlockEntity(pos), ticks);
             this.pos = pos.getPos();
             this.moveTicks = 4;
+        }
+
+        @Override
+        protected void onTick() {
+            super.onTick();
+            if (!Objects.equals(this.entity.world.getBlockState(pos).getBlock(), ((FallingBlockEntity) this.entity).getBlockState().getBlock())) {
+                stop();
+            }
         }
 
         protected final boolean moveToRightPosition() {

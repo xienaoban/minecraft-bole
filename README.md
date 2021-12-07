@@ -33,12 +33,13 @@ Toto List:
                 - [X] `Running Speed`
                 - [X] `Jump Height`
             - BeeEntity:
-              - [ ] `Beehive Position`
+              - [X] `Beehive Position`
+              - [X] `Reset Beehive Position`
             - SheepEntity:
               - [X] `Force Eat Grass`
           - MerchantEntity:
             - [X] `Get Inventory`
-            - [ ] `Set Inventory`
+            - [ ] `Set Inventory` (Open a new HandledScreen? Just like HorseScreen?)
             - VillagerEntity:
               - [X] `Highlight Job Site`
               - [ ] ~~`Reset Job Site`~~

@@ -10,6 +10,7 @@ public interface Keys {
     String ENTITY_SETTING_CUSTOM_NAME_VISIBLE = "custom_name_visible";
     String ENTITY_SETTING_SILENT = "silent";
     String ENTITY_SETTING_BABY = "baby";
+    String ENTITY_SETTING_RESET_BEEHIVE = "reset_beehive";
     String ENTITY_SETTING_RESET_JOB = "reset_job";
     String ENTITY_SETTING_RESTOCK = "restock";
     String ENTITY_SETTING_CLOTHING = "clothing";
@@ -48,6 +49,10 @@ public interface Keys {
     String PROPERTY_WIDGET_ATTRACTIVE_ITEMS_DESCRIPTION = "property_widget.xienaoban.bole.attractive_items.description";
     String PROPERTY_WIDGET_BREEDING_ITEMS = "property_widget.xienaoban.bole.breeding_items";
     String PROPERTY_WIDGET_BREEDING_ITEMS_DESCRIPTION = "property_widget.xienaoban.bole.breeding_items.description";
+    String PROPERTY_WIDGET_BEEHIVE = "property_widget.xienaoban.bole.beehive";
+    String PROPERTY_WIDGET_BEEHIVE_DESCRIPTION = "property_widget.xienaoban.bole.beehive.description";
+    String PROPERTY_WIDGET_BEEHIVE_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.beehive.description.button1";
+    String PROPERTY_WIDGET_BEEHIVE_DESCRIPTION_BUTTON2 = "property_widget.xienaoban.bole.beehive.description.button2";
     String PROPERTY_WIDGET_EAT_GRASS = "property_widget.xienaoban.bole.eat_grass";
     String PROPERTY_WIDGET_EAT_GRASS_DESCRIPTION = "property_widget.xienaoban.bole.eat_grass.description";
     String PROPERTY_WIDGET_EAT_GRASS_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.eat_grass.description.button1";
@@ -76,6 +81,7 @@ public interface Keys {
     String TEXT_VILLAGER_AGREE_TO_RESET_JOB = "text.hint.xienaoban.bole.villager_agree_to_reset_job";
 
     String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
+    String HINT_TEXT_NO_BEEHIVE = "text.hint.xienaoban.bole.no_beehive";
     String HINT_TEXT_EATING_GRASS = "text.hint.xienaoban.bole.eating_grass";
     String HINT_TEXT_FAR_FROM_GRASS = "text.hint.xienaoban.bole.far_from_grass";
     String HINT_TEXT_NOT_ENOUGH_ITEMS = "text.hint.xienaoban.bole.not_enough_items";
