@@ -22,6 +22,7 @@ public interface Keys {
     String KEY_CATEGORY_BOLE = "key.category.xienaoban.bole";
     String KEY_OPEN_BOLE_GUI = "key.xienaoban.bole.open_bole_gui";
 
+    String TAG_GROUP_DEFAULT = "tag_group.xienaoban.bole.default";
     String TAG_GROUP_CLASS = "tag_group.xienaoban.bole.class";
     String TAG_GROUP_INTERFACE = "tag_group.xienaoban.bole.interface";
     String TAG_GROUP_NAMESPACE = "tag_group.xienaoban.bole.namespace";

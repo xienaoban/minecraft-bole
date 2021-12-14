@@ -13,9 +13,12 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
+import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
 public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookScreenHandler> {
@@ -25,18 +28,20 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
     @Override
     protected void initPages() {
-        this.pages.get(0).addSlotLazy(new LivingEntityPropertyWidget(EntityType.HORSE))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.SHEEP))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.COW))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.TURTLE))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.ZOMBIE))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.VILLAGER))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.RABBIT))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.ENDERMAN))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.POLAR_BEAR))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.IRON_GOLEM))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.GHAST))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.PARROT));
+        initCatalog();
+    }
+
+    private void initCatalog() {
+        EntityManager.getInstance().getTagGroup(Keys.TAG_GROUP_CLASS).dfsTags((root, depth) -> {
+            int index = 0;
+            while (!this.pages.get(index).addSlot(new CatalogItemPropertyWidget(depth, root.getName().substring(root.getName().lastIndexOf('.') + 1)))) {
+                ++index;
+                if (this.pages.size() == index) {
+                    this.pages.add(new Page());
+                }
+            }
+            return true;
+        });
     }
 
     @Override
@@ -50,6 +55,39 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
     @Override
     protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
+    }
+
+    public class CatalogItemPropertyWidget extends AbstractPropertyWidget {
+        private final int sub;
+        private final Text name;
+
+        public CatalogItemPropertyWidget(int sub, String translationKey) {
+            this(sub, new TranslatableText(translationKey));
+        }
+
+        public CatalogItemPropertyWidget(int sub, Text name) {
+            super(4, 1);
+            this.sub = sub;
+            this.name = name;
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawText(matrices, this.name, DARK_TEXT_COLOR, 4.0F / (sub + 6), x + sub * 2 + 10, y + 3.25F);
+        }
+
+        @Override
+        public void drawHovered(MatrixStack matrices, int mouseX, int mouseY) {
+            drawText(matrices, this.name, 0xff000000, 0.5F, this.box.left() + sub * 2 + 10, this.box.top() + 3.25F);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
     }
 
     public class LivingEntityPropertyWidget extends AbstractPropertyWidget {

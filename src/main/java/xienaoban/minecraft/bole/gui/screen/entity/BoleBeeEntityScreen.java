@@ -11,8 +11,8 @@ import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.client.HighlightManager;
 import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreen;
-import xienaoban.minecraft.bole.util.Highlight;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
@@ -87,7 +87,7 @@ public class BoleBeeEntityScreen<E extends BeeEntity, H extends BoleBeeEntityScr
                 case IDX_BUTTON_BEGIN -> {
                     BlockPos pos = handler.entityBeehivePosition;
                     if (pos != null) {
-                        Highlight hl = BoleClient.getInstance().getHighlight();
+                        HighlightManager hl = BoleClient.getInstance().getHighlightManager();
                         GlobalPos globalPos = GlobalPos.create(handler.entity.world.getRegistryKey(), pos);
                         hl.setJobSiteOrBeehiveHighlightState(hl.highlightBlock(globalPos, 6 * 20));
                         onClose();

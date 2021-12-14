@@ -19,9 +19,9 @@ import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.client.HighlightManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.BoleMerchantEntityScreen;
-import xienaoban.minecraft.bole.util.Highlight;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.Arrays;
@@ -97,7 +97,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                 case IDX_BUTTON_BEGIN -> {
                     GlobalPos pos = handler.entityJobSitePos;
                     if (pos != null) {
-                        Highlight hl = BoleClient.getInstance().getHighlight();
+                        HighlightManager hl = BoleClient.getInstance().getHighlightManager();
                         hl.setJobSiteOrBeehiveHighlightState(hl.highlightBlock(pos, 6 * 20));
                         onClose();
                     }

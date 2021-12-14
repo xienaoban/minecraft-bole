@@ -10,7 +10,6 @@ import net.minecraft.network.PacketByteBuf;
 import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
-import xienaoban.minecraft.bole.util.Highlight;
 
 @Environment(EnvType.CLIENT)
 public class BoleClient implements ClientModInitializer {
@@ -21,7 +20,7 @@ public class BoleClient implements ClientModInitializer {
     private int ticks;
     private int screenTicks;
     private PacketByteBuf handlerBufCache = null;
-    private Highlight highlight;
+    private HighlightManager highlightManager;
 
     public static BoleClient getInstance() {
         return instance;
@@ -33,7 +32,7 @@ public class BoleClient implements ClientModInitializer {
         this.isScreenOpen = false;
         this.ticks = -1;
         this.screenTicks = -1;
-        this.highlight = new Highlight();
+        this.highlightManager = new HighlightManager();
         ScreenRegistryManager.initClient();
         ClientNetworkManager.init();
         KeyBindingManager.init();
@@ -52,7 +51,7 @@ public class BoleClient implements ClientModInitializer {
                 ((AbstractBoleScreenHandler<?>) player.currentScreenHandler).clientTick(screenTicks);
             }
         }
-        this.highlight.tick(this.ticks);
+        this.highlightManager.tick(this.ticks);
     }
 
     public Entity getBoleTarget() {
@@ -84,7 +83,7 @@ public class BoleClient implements ClientModInitializer {
         this.handlerBufCache = buf;
     }
 
-    public Highlight getHighlight() {
-        return highlight;
+    public HighlightManager getHighlightManager() {
+        return highlightManager;
     }
 }

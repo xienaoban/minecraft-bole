@@ -779,7 +779,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                     return setSlot(j, i, widget);
                 }
             }
-            Bole.LOGGER.error(widget.getClass().getSimpleName() + " cannot be added here! " + widget.getColSlots() + ", " + widget.getRowSlots());
+            // Bole.LOGGER.error(widget.getClass().getSimpleName() + " cannot be added here! " + widget.getColSlots() + ", " + widget.getRowSlots());
             return false;
         }
 

@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.util;
+package xienaoban.minecraft.bole.client;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -7,20 +7,21 @@ import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientEntityManager;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.entity.EntityLookup;
-import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
+import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
-public class Highlight {
+public class HighlightManager {
     private final List<HighlightState> highlighted;
     private final List<BlockHighlightState> toMove;
 
@@ -28,7 +29,7 @@ public class Highlight {
 
     private HighlightState jobSiteHighlightState;
 
-    public Highlight() {
+    public HighlightManager() {
         this.highlighted = new ArrayList<>();
         this.toMove = new ArrayList<>();
         this.checkIndex = 0;
@@ -36,16 +37,16 @@ public class Highlight {
     }
 
     public void tick(int ticks) {
-        if (this.toMove.size() > 0) {
-            List<BlockHighlightState> list = this.toMove;
-            for (int i = list.size() - 1; i >= 0; --i) {
-                BlockHighlightState highLightState = list.get(i);
-                if (highLightState.moveToRightPosition()) {
-                    list.remove(i);
+        if (this.highlighted.size() > 0) {
+            if (this.toMove.size() > 0) {
+                List<BlockHighlightState> list = this.toMove;
+                for (int i = list.size() - 1; i >= 0; --i) {
+                    BlockHighlightState highLightState = list.get(i);
+                    if (highLightState.moveToRightPosition()) {
+                        list.remove(i);
+                    }
                 }
             }
-        }
-        if (this.highlighted.size() > 0) {
             // Checks only one HighlightState each tick. Because I don’t want it to affect game performance.
             List<HighlightState> list = this.highlighted;
             if (this.checkIndex >= list.size()) {
@@ -222,50 +223,4 @@ public class Highlight {
             return false;
         }
     }
-
-    // /**
-    //  * Three bad solutions (slime, magma cube and shulker).
-    //  */
-    // private Entity generateHighlightShulkerEntity(BlockPos pos, BlockState blockState, ClientWorld world) {
-    //     // SlimeEntity entity = EntityType.SLIME.create(world);
-    //     // MagmaCubeEntity entity = EntityType.MAGMA_CUBE.create(world);
-    //     ShulkerEntity entity = EntityType.SHULKER.create(world);
-    //     if (entity == null) {
-    //         throw new RuntimeException("Fail to create a shulker.");
-    //     }
-    //     entity.setInvisible(true);
-    //     entity.setNoGravity(true);
-    //     entity.setAiDisabled(true);
-    //     entity.setPosition(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-    //     return entity;
-    // }
-    //
-    // /**
-    //  * A feasible solution (but not perfect).
-    //  */
-    // private Entity generateHighlightEntityByBlackCarpetFallingBlockEntity(BlockPos pos, BlockState blockState, ClientWorld world) {
-    //     BlockState blockStateToDisplay = Blocks.BLACK_CARPET.getDefaultState();
-    //     FallingBlockEntity entity = new FallingBlockEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, blockStateToDisplay);
-    //     entity.setInvisible(true);
-    //     entity.setNoGravity(true);
-    //     return entity;
-    // }
-    //
-    // /**
-    //  * ArmorStandEntity only has two size (big/small).
-    //  * And it can't only glow its head.
-    //  */
-    // private Entity generateHighlightEntityByArmorStandEntity(BlockPos pos, BlockState blockState, ClientWorld world) {
-    //     ArmorStandEntity entity = new ArmorStandEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-    //     entity.setYaw(0);
-    //     entity.setPitch(0);
-    //     entity.setInvisible(true);
-    //     entity.setNoGravity(true);
-    //     ((IMixinArmorStandEntity) entity).callSetSmall(false);
-    //     ((IMixinArmorStandEntity) entity).callSetMarker(true);
-    //     DefaultedList<ItemStack> armorItems = MiscUtil.getFieldValue(entity, ArmorStandEntity.class, "armorItems");
-    //     ItemStack itemStack = new ItemStack(blockState.getBlock().asItem(), 1);
-    //     armorItems.set(EquipmentSlot.HEAD.getEntitySlotId(), itemStack);
-    //     return entity;
-    // }
 }
