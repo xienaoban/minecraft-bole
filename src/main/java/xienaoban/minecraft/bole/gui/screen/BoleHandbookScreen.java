@@ -39,7 +39,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         super.initButtons();
         int cnt = 0;
         for (EntityManager.TagGroup tags : EntityManager.getInstance().getTagGroups()) {
-            addDrawableChild(new TagGroupButtonWidget(this.contentLeft[0] - 30 - 8 - (cnt % 3), this.contentTop - 5 + cnt * 14, cnt, tags.getText(), (button -> initCatalog(tags))));
+            addDrawableChild(new TagGroupButtonWidget(this.contentLeft[0] - 30 - 10 + (cnt % 3), this.contentTop - 5 + cnt * 14, cnt, tags.getText(), (button -> initCatalog(tags))));
             ++cnt;
         }
     }

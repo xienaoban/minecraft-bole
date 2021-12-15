@@ -1,5 +1,6 @@
 package xienaoban.minecraft.bole.client;
 
+import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -132,28 +133,24 @@ public class EntityManager {
 
     private void initDefaultTags() {
         this.defaultTags.addTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, Keys.TAG_DEFAULT_ANIMAL);
+        this.defaultTags.addTag(Keys.TAG_DEFAULT_HUMAN, Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL);
         this.defaultTags.addTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, Keys.TAG_DEFAULT_ANIMAL);
-        this.defaultTags.addTag(Keys.TAG_DEFAULT_HUMAN, Keys.TAG_DEFAULT_ANIMAL);
-
-
-        Collection<EntityInfo> cTerrestrial = this.classTags.getTag(getClassId(AnimalEntity.class)).getEntities().stream().toList();
-        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, cTerrestrial);
-        this.defaultTags.addToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.BAT));
-        this.defaultTags.addToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.SPIDER));
-        this.defaultTags.addToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.CAVE_SPIDER));
-        this.defaultTags.addToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.SILVERFISH));
-
-        Collection<EntityInfo> cAquatic = this.classTags.getTag(getClassId(WaterCreatureEntity.class)).getEntities().stream().toList();
-        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, cAquatic);
 
         Collection<EntityInfo> cMerchant = this.classTags.getTag(getClassId(MerchantEntity.class)).getEntities().stream().toList();
         // Collection<EntityInfo> cPlayer = this.classTags.getTag(getClassId(PlayerEntity.class)).getEntities().stream().toList();
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, cMerchant);
         // this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, cPlayer);
 
+        Collection<EntityInfo> cTerrestrial = this.classTags.getTag(getClassId(AnimalEntity.class)).getEntities().stream().toList();
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, cTerrestrial);
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_HUMAN).getEntities());
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, List.of(getEntityInfo(EntityType.BAT), getEntityInfo(EntityType.SPIDER), getEntityInfo(EntityType.CAVE_SPIDER), getEntityInfo(EntityType.SILVERFISH)));
+
+        Collection<EntityInfo> cAquatic = this.classTags.getTag(getClassId(WaterCreatureEntity.class)).getEntities().stream().toList();
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, cAquatic);
+
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL).getEntities());
-        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_HUMAN).getEntities());
 
         // Duplicate Entity
         this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.TURTLE));
@@ -173,7 +170,10 @@ public class EntityManager {
 
     private void sortAllEntities() {
         for (TagGroup group : getTagGroups()) {
+            boolean noSkip = !group.getName().equals(Keys.TAG_GROUP_DEFAULT);
+            if (noSkip) Collections.sort(group.getRootTags());
             for (Tag tag : group.getTags()) {
+                if (noSkip) Collections.sort(tag.getSons());
                 Collections.sort(tag.getEntities());
             }
         }
@@ -286,7 +286,7 @@ public class EntityManager {
             return this.tags.values();
         }
 
-        public Collection<Tag> getRootTags() {
+        public List<Tag> getRootTags() {
             return this.rootTags;
         }
 
@@ -333,7 +333,7 @@ public class EntityManager {
         }
     }
 
-    public static class Tag {
+    public static class Tag implements Comparable<Tag> {
         private final String name;
         private final Text text;
         private final List<EntityInfo> entities;
@@ -390,6 +390,11 @@ public class EntityManager {
         @Override
         public String toString() {
             return name;
+        }
+
+        @Override
+        public int compareTo(@NotNull Tag o) {
+            return this.getName().compareTo(o.getName());
         }
     }
 
