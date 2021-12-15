@@ -81,7 +81,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
         @Override
         public void drawHovered(MatrixStack matrices, int mouseX, int mouseY) {
-            drawText(matrices, this.name, 0xff000000, 0.5F, this.box.left() + sub * 2 + 10, this.box.top() + 3.25F);
+            drawText(matrices, this.name, 0xff000000, 4.0F / (sub + 6), this.box.left() + sub * 2 + 10, this.box.top() + 3.25F);
         }
 
         @Override

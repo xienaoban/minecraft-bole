@@ -8,7 +8,7 @@
     "XieNaoban"
   ],
   "contact": {
-    "website": "https://xienaoban.github.io/",
+    "website": "https://xienaoban.github.io",
     "repo": "https://github.com/XieNaoban/minecraft-bole"
   },
   "license": "MIT",
@@ -26,8 +26,8 @@
     "bole.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.12.8",
+    "fabricloader": ">=0.12.11",
     "fabric": "*",
-    "minecraft": "1.18"
+    "minecraft": "1.18.1"
   }
 }
