@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "IMixinEntity",
+    "IMixinItemStack",
     "IMixinMobEntity",
     "IMixinPassiveEntity",
     "IMixinSheepEntity",

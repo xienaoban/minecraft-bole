@@ -13,7 +13,9 @@ import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.jetbrains.annotations.NotNull;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.TreeNodeExecutor;
 
@@ -28,6 +30,7 @@ public class EntityManager {
 
     private final Map<Class<?>, EntityTreeNode> tree = new HashMap<>();
     private final Map<EntityType<?>, EntityInfo> infos = new HashMap<>();
+    private final List<EntityInfo> sortedInfos = new ArrayList<>();
 
     private final List<TagGroup> tagGroups = new ArrayList<>();
 
@@ -54,6 +57,7 @@ public class EntityManager {
         registerTagGroup(this.classTags);
         registerTagGroup(this.interfaceTags);
         registerTagGroup(this.namespaceTags);
+        sortAllEntities();
 
         // this.tree.values().forEach(node -> System.out.println("1 " + node.getClazz().getSimpleName() + " " + node.getSons()));
         // this.infos.values().forEach(info -> System.out.println("2 " + info.getType().toString()));
@@ -69,10 +73,35 @@ public class EntityManager {
             try { entityInfo = new EntityInfo(entityType); }
             catch (Exception e) { continue; }
             this.infos.put(entityInfo.getType(), entityInfo);
+            this.sortedInfos.add(entityInfo);
             getEntityTreeNode(entityInfo.getClazz());
         }
-        this.infos.put(EntityType.PLAYER, new EntityInfo(EntityType.PLAYER, PlayerEntity.class));
-        getEntityTreeNode(PlayerEntity.class);
+        // this.infos.put(EntityType.PLAYER, new EntityInfo(EntityType.PLAYER, PlayerEntity.class));
+        // getEntityTreeNode(PlayerEntity.class);
+        this.sortedInfos.sort((a, b) -> {
+            Identifier ia = EntityType.getId(a.getType());
+            Identifier ib = EntityType.getId(b.getType());
+            int cmp = ia.getNamespace().compareTo(ib.getNamespace());
+            if (cmp != 0) {
+                if (ia.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {
+                    return 1;
+                }
+                return cmp;
+            }
+            String pa = ia.getPath(), pb = ib.getPath();
+            int i = pa.length() - 1, j = pb.length() - 1;
+            while (i >= 0 && j >= 0) {
+                cmp = pa.charAt(i) - pb.charAt(j);
+                if (cmp != 0) {
+                    return cmp;
+                }
+                --i; --j;
+            }
+            return i - j;
+        });
+        for (int i = this.sortedInfos.size() - 1; i >= 0; --i) {
+            this.sortedInfos.get(i).setSortId(i);
+        }
     }
 
     private void initJavaTags() {
@@ -83,7 +112,7 @@ public class EntityManager {
             this.classTags.addTag(getClassId(root.getClazz()), getClassId(root.getFather().getClazz()));
             return true;
         });
-        for (EntityInfo entityInfo : this.infos.values()) {
+        for (EntityInfo entityInfo : getEntityInfos()) {
             this.namespaceTags.addToTag(EntityType.getId(entityInfo.getType()).getNamespace(), entityInfo);
             Class<?> clazz = entityInfo.getClazz();
             Class<?> t = Entity.class.getSuperclass();
@@ -110,19 +139,23 @@ public class EntityManager {
         Collection<EntityInfo> cTerrestrial = this.classTags.getTag(getClassId(AnimalEntity.class)).getEntities().stream().toList();
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, cTerrestrial);
         this.defaultTags.addToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.BAT));
+        this.defaultTags.addToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.SPIDER));
+        this.defaultTags.addToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.CAVE_SPIDER));
+        this.defaultTags.addToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.SILVERFISH));
 
         Collection<EntityInfo> cAquatic = this.classTags.getTag(getClassId(WaterCreatureEntity.class)).getEntities().stream().toList();
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, cAquatic);
 
         Collection<EntityInfo> cMerchant = this.classTags.getTag(getClassId(MerchantEntity.class)).getEntities().stream().toList();
-        Collection<EntityInfo> cPlayer = this.classTags.getTag(getClassId(PlayerEntity.class)).getEntities().stream().toList();
+        // Collection<EntityInfo> cPlayer = this.classTags.getTag(getClassId(PlayerEntity.class)).getEntities().stream().toList();
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, cMerchant);
-        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, cPlayer);
+        // this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, cPlayer);
 
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_HUMAN).getEntities());
 
+        // Duplicate Entity
         this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.TURTLE));
 
         Stream<EntityInfo> sMonster = getEntityInfos().stream().filter(entityInfo -> entityInfo.getType().getSpawnGroup() == SpawnGroup.MONSTER);
@@ -136,6 +169,14 @@ public class EntityManager {
 
     public void registerTagGroup(TagGroup group) {
         this.tagGroups.add(group);
+    }
+
+    private void sortAllEntities() {
+        for (TagGroup group : getTagGroups()) {
+            for (Tag tag : group.getTags()) {
+                Collections.sort(tag.getEntities());
+            }
+        }
     }
 
     public List<TagGroup> getTagGroups() {
@@ -155,8 +196,8 @@ public class EntityManager {
         return this.infos.get(entityType);
     }
 
-    public Collection<EntityInfo> getEntityInfos() {
-        return this.infos.values();
+    public List<EntityInfo> getEntityInfos() {
+        return this.sortedInfos;
     }
 
     private String getClassId(Class<?> clazz) {
@@ -352,10 +393,11 @@ public class EntityManager {
         }
     }
 
-    public static class EntityInfo {
+    public static class EntityInfo implements Comparable<EntityInfo> {
         private final EntityType<?> type;
         private final Class<?> clazz;
         private final List<Tag> tags;
+        private int sortId;
 
         public EntityInfo(EntityType<?> type) {
             this.type = type;
@@ -389,9 +431,19 @@ public class EntityManager {
             this.tags.add(tag);
         }
 
+        public void setSortId(int sortId) {
+            this.sortId = sortId;
+        }
+
+
         @Override
         public String toString() {
             return this.type.toString();
+        }
+
+        @Override
+        public int compareTo(@NotNull EntityInfo o) {
+            return this.sortId - o.sortId;
         }
     }
 }

@@ -35,6 +35,7 @@ import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.gui.ElementBox;
 import xienaoban.minecraft.bole.gui.ScreenElement;
 import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.mixin.IMixinItemStack;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.ArrayList;
@@ -195,6 +196,15 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.curLeftPage = pageIndex <= size ? this.pages.get(pageIndex) : this.emptyPage;
         this.curRightPage = pageIndex + 1 <= size ? this.pages.get(pageIndex + 1) : this.emptyPage;
         this.pageIndex = pageIndex;
+    }
+
+    /**
+     * Don't forget to setPageIndex(0) after reset pages.
+     */
+    public void resetPages() {
+        this.pages.clear();
+        this.pages.add(new Page());
+        setHovered(null);
     }
 
     @Override
@@ -1026,7 +1036,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             final float size = 0.5F;
             int px = (int) ((this.box.left() + this.buttons[index] - BUTTON_TEXTURE_OFFSET + 1) / size), py = (int) ((this.box.top() + 1) / size);
             MatrixStack matrixStack = matrixScaleOn(size, size, size);
-            ItemStack forDraw = new ItemStack(itemStack.getItem(), 1);
+            ItemStack forDraw = new ItemStack(((IMixinItemStack)(Object) itemStack).getRealItem());
             itemRenderer.renderInGui(forDraw, px, py);
             itemRenderer.renderGuiItemOverlay(textRenderer, forDraw, px, py, String.valueOf(itemStack.getCount()));
             matrixScaleOff(matrixStack);

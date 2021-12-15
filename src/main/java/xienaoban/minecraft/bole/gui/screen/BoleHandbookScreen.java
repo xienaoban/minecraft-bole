@@ -39,12 +39,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         super.initButtons();
         int cnt = 0;
         for (EntityManager.TagGroup tags : EntityManager.getInstance().getTagGroups()) {
-            addDrawableChild(new TagGroupButtonWidget(this.contentLeft[0] - 30 - 8 - (cnt % 3), this.contentTop - 5 + cnt * 14, cnt, tags.getText(), (button -> {
-                this.pages.clear();
-                this.pages.add(new Page());
-                initCatalog(tags);
-                setPageIndex(0);
-            })));
+            addDrawableChild(new TagGroupButtonWidget(this.contentLeft[0] - 30 - 8 - (cnt % 3), this.contentTop - 5 + cnt * 14, cnt, tags.getText(), (button -> initCatalog(tags))));
             ++cnt;
         }
     }
@@ -60,9 +55,10 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
     }
 
     private void initCatalog(EntityManager.TagGroup tags) {
+        resetPages();
         tags.dfsTags((root, depth) -> {
             int index = 0;
-            while (!this.pages.get(index).addSlot(new CatalogItemPropertyWidget(depth, root.getName()))) {
+            while (!this.pages.get(index).addSlot(new TagItemPropertyWidget(depth, root))) {
                 ++index;
                 if (this.pages.size() == index) {
                     this.pages.add(new Page());
@@ -70,20 +66,18 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             }
             return true;
         });
+        setPageIndex(0);
     }
 
-    public class CatalogItemPropertyWidget extends AbstractPropertyWidget {
+    public class TagItemPropertyWidget extends AbstractPropertyWidget {
+        private static final int TAB = 5;
         private final int sub;
-        private final Text name;
+        private final EntityManager.Tag tag;
 
-        public CatalogItemPropertyWidget(int sub, String translationKey) {
-            this(sub, new TranslatableText(translationKey));
-        }
-
-        public CatalogItemPropertyWidget(int sub, Text name) {
+        public TagItemPropertyWidget(int sub, EntityManager.Tag tag) {
             super(4, 1);
             this.sub = sub;
-            this.name = name;
+            this.tag = tag;
         }
 
         @Override
@@ -92,7 +86,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             setTexture(Textures.ICONS);
-            drawTextureNormally(matrices, 256, 256, 40, 10, getZOffset(), x + this.sub * 4, y, 0, 240);
+            drawTextureNormally(matrices, 256, 256, 40, 10, getZOffset(), x + this.sub * TAB, y, 0, 240);
             drawName(matrices, 0xb0222222);
         }
 
@@ -103,16 +97,27 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
         private void drawName(MatrixStack matrices, int color) {
             if (this.sub < 0) { // impossible (sub always >= 0)
-                drawText(matrices, this.name, color, 1.0F, this.box.left() + 12 + this.sub * 4, this.box.top() + 1);
+                drawText(matrices, this.tag.getText(), color, 1.0F, this.box.left() + 12 - this.sub * TAB, this.box.top() + 1);
             }
             else {
-                drawText(matrices, this.name, color, 0.5F, this.box.left() + 12 + this.sub * 4, this.box.top() + 3.25F);
+                drawText(matrices, this.tag.getText(), color, 0.5F, this.box.left() + 12 + this.sub * TAB, this.box.top() + 3.25F);
             }
         }
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            return super.mouseClicked(mouseX, mouseY, button);
+            resetPages();
+            int index = 0;
+            for (EntityManager.EntityInfo entityInfo : this.tag.getEntities()) {
+                while (!pages.get(index).addSlot(new LivingEntityPropertyWidget(entityInfo.getType()))) {
+                    ++index;
+                    if (pages.size() == index) {
+                        pages.add(new Page());
+                    }
+                }
+            }
+            setPageIndex(0);
+            return true;
         }
     }
 
