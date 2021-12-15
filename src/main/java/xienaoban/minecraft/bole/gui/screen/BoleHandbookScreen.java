@@ -18,7 +18,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 import xienaoban.minecraft.bole.client.EntityManager;
-import xienaoban.minecraft.bole.util.Keys;
+import xienaoban.minecraft.bole.gui.Textures;
 
 @Environment(EnvType.CLIENT)
 public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookScreenHandler> {
@@ -28,24 +28,26 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
     @Override
     protected void initPages() {
-        initCatalog();
-    }
-
-    private void initCatalog() {
-        EntityManager.getInstance().getTagGroup(Keys.TAG_GROUP_CLASS).dfsTags((root, depth) -> {
-            int index = 0;
-            while (!this.pages.get(index).addSlot(new CatalogItemPropertyWidget(depth, root.getName().substring(root.getName().lastIndexOf('.') + 1)))) {
-                ++index;
-                if (this.pages.size() == index) {
-                    this.pages.add(new Page());
-                }
-            }
-            return true;
-        });
+        initCatalog(EntityManager.getInstance().getTagGroups().get(0));
     }
 
     @Override
     protected void initCustom() {}
+
+    @Override
+    protected void initButtons() {
+        super.initButtons();
+        int cnt = 0;
+        for (EntityManager.TagGroup tags : EntityManager.getInstance().getTagGroups()) {
+            addDrawableChild(new TagGroupButtonWidget(this.contentLeft[0] - 30 - 8 - (cnt % 3), this.contentTop - 5 + cnt * 14, cnt, tags.getText(), (button -> {
+                this.pages.clear();
+                this.pages.add(new Page());
+                initCatalog(tags);
+                setPageIndex(0);
+            })));
+            ++cnt;
+        }
+    }
 
     @Override
     protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
@@ -55,6 +57,19 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
     @Override
     protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
+    }
+
+    private void initCatalog(EntityManager.TagGroup tags) {
+        tags.dfsTags((root, depth) -> {
+            int index = 0;
+            while (!this.pages.get(index).addSlot(new CatalogItemPropertyWidget(depth, root.getName()))) {
+                ++index;
+                if (this.pages.size() == index) {
+                    this.pages.add(new Page());
+                }
+            }
+            return true;
+        });
     }
 
     public class CatalogItemPropertyWidget extends AbstractPropertyWidget {
@@ -76,12 +91,23 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawText(matrices, this.name, DARK_TEXT_COLOR, 4.0F / (sub + 6), x + sub * 2 + 10, y + 3.25F);
+            setTexture(Textures.ICONS);
+            drawTextureNormally(matrices, 256, 256, 40, 10, getZOffset(), x + this.sub * 4, y, 0, 240);
+            drawName(matrices, 0xb0222222);
         }
 
         @Override
         public void drawHovered(MatrixStack matrices, int mouseX, int mouseY) {
-            drawText(matrices, this.name, 0xff000000, 4.0F / (sub + 6), this.box.left() + sub * 2 + 10, this.box.top() + 3.25F);
+            drawName(matrices, 0xff000000);
+        }
+
+        private void drawName(MatrixStack matrices, int color) {
+            if (this.sub < 0) { // impossible (sub always >= 0)
+                drawText(matrices, this.name, color, 1.0F, this.box.left() + 12 + this.sub * 4, this.box.top() + 1);
+            }
+            else {
+                drawText(matrices, this.name, color, 0.5F, this.box.left() + 12 + this.sub * 4, this.box.top() + 3.25F);
+            }
         }
 
         @Override

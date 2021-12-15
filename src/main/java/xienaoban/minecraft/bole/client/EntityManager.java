@@ -6,6 +6,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.mob.WaterCreatureEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.MerchantEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.registry.Registry;
@@ -14,6 +19,8 @@ import xienaoban.minecraft.bole.util.TreeNodeExecutor;
 
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Environment(EnvType.CLIENT)
 public class EntityManager {
@@ -22,7 +29,7 @@ public class EntityManager {
     private final Map<Class<?>, EntityTreeNode> tree = new HashMap<>();
     private final Map<EntityType<?>, EntityInfo> infos = new HashMap<>();
 
-    private final Map<String, TagGroup> tagGroups = new HashMap<>();
+    private final List<TagGroup> tagGroups = new ArrayList<>();
 
     private final TagGroup defaultTags = new TagGroup(Keys.TAG_GROUP_DEFAULT);
     private final TagGroup classTags = new TagGroup(Keys.TAG_GROUP_CLASS);
@@ -64,6 +71,8 @@ public class EntityManager {
             this.infos.put(entityInfo.getType(), entityInfo);
             getEntityTreeNode(entityInfo.getClazz());
         }
+        this.infos.put(EntityType.PLAYER, new EntityInfo(EntityType.PLAYER, PlayerEntity.class));
+        getEntityTreeNode(PlayerEntity.class);
     }
 
     private void initJavaTags() {
@@ -71,7 +80,7 @@ public class EntityManager {
             if (!Modifier.isAbstract(root.getClazz().getModifiers())) {
                 return false;
             }
-            this.classTags.addTag(root.clazz.getName(), root.getFather().clazz.getName());
+            this.classTags.addTag(getClassId(root.getClazz()), getClassId(root.getFather().getClazz()));
             return true;
         });
         for (EntityInfo entityInfo : this.infos.values()) {
@@ -80,11 +89,11 @@ public class EntityManager {
             Class<?> t = Entity.class.getSuperclass();
             while (!t.equals(clazz)) {
                 if (Modifier.isAbstract(clazz.getModifiers())) {
-                    this.classTags.addToTag(clazz.getName(), entityInfo);
+                    this.classTags.addToTag(getClassId(clazz), entityInfo);
                 }
                 for (Class<?> clazz2 : clazz.getInterfaces()) {
-                    if (!clazz2.getName().contains("Mixin")) {
-                        this.interfaceTags.addToTag(clazz2.getName(), entityInfo);
+                    if (!clazz2.getSimpleName().contains("Mixin")) {
+                        this.interfaceTags.addToTag(getClassId(clazz2), entityInfo);
                     }
                 }
                 clazz = clazz.getSuperclass();
@@ -93,19 +102,44 @@ public class EntityManager {
     }
 
     private void initDefaultTags() {
+        this.defaultTags.addTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, Keys.TAG_DEFAULT_ANIMAL);
+        this.defaultTags.addTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, Keys.TAG_DEFAULT_ANIMAL);
+        this.defaultTags.addTag(Keys.TAG_DEFAULT_HUMAN, Keys.TAG_DEFAULT_ANIMAL);
 
+
+        Collection<EntityInfo> cTerrestrial = this.classTags.getTag(getClassId(AnimalEntity.class)).getEntities().stream().toList();
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, cTerrestrial);
+        this.defaultTags.addToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.BAT));
+
+        Collection<EntityInfo> cAquatic = this.classTags.getTag(getClassId(WaterCreatureEntity.class)).getEntities().stream().toList();
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, cAquatic);
+
+        Collection<EntityInfo> cMerchant = this.classTags.getTag(getClassId(MerchantEntity.class)).getEntities().stream().toList();
+        Collection<EntityInfo> cPlayer = this.classTags.getTag(getClassId(PlayerEntity.class)).getEntities().stream().toList();
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, cMerchant);
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, cPlayer);
+
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL).getEntities());
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL).getEntities());
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_HUMAN).getEntities());
+
+        this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.TURTLE));
+
+        Stream<EntityInfo> sMonster = getEntityInfos().stream().filter(entityInfo -> entityInfo.getType().getSpawnGroup() == SpawnGroup.MONSTER);
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_MONSTER, sMonster.collect(Collectors.toSet()));
+
+        Set<EntityInfo> tAnimal = new HashSet<>(this.defaultTags.getTag(Keys.TAG_DEFAULT_ANIMAL).getEntities());
+        Set<EntityInfo> tMonster = new HashSet<>(this.defaultTags.getTag(Keys.TAG_DEFAULT_MONSTER).getEntities());
+        List<EntityInfo> other = getEntityInfos().stream().filter(entityInfo -> !(tAnimal.contains(entityInfo) || tMonster.contains(entityInfo))).toList();
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_OTHER, other);
     }
 
     public void registerTagGroup(TagGroup group) {
-        this.tagGroups.put(group.getName(), group);
+        this.tagGroups.add(group);
     }
 
-    public TagGroup getTagGroup(String tagName) {
-        return this.tagGroups.get(tagName);
-    }
-
-    public Collection<TagGroup> getTagGroups() {
-        return this.tagGroups.values();
+    public List<TagGroup> getTagGroups() {
+        return this.tagGroups;
     }
 
     public EntityTreeNode getEntityTreeNode(Class<?> clazz) {
@@ -119,6 +153,14 @@ public class EntityManager {
 
     public EntityInfo getEntityInfo(EntityType<?> entityType) {
         return this.infos.get(entityType);
+    }
+
+    public Collection<EntityInfo> getEntityInfos() {
+        return this.infos.values();
+    }
+
+    private String getClassId(Class<?> clazz) {
+        return clazz.getSimpleName();
     }
 
     public void dfsEntityTree(boolean skipRoot, TreeNodeExecutor<EntityTreeNode> executor) {
@@ -230,6 +272,12 @@ public class EntityManager {
             entityInfo.addTag(tag);
         }
 
+        public void addAllToTag(String tagName, Collection<EntityInfo> entityInfos) {
+            Tag tag = getTag(tagName);
+            tag.addEntities(entityInfos);
+            entityInfos.forEach(entityInfo -> entityInfo.addTag(tag));
+        }
+
         public void dfsTags(TreeNodeExecutor<Tag> executor) {
             for (Tag root : getRootTags()) {
                 dfsTagsPrivate(root, 0, executor);
@@ -282,6 +330,10 @@ public class EntityManager {
             this.entities.add(info);
         }
 
+        protected void addEntities(Collection<EntityInfo> infos) {
+            this.entities.addAll(infos);
+        }
+
         public Tag getFather() {
             return father;
         }
@@ -312,6 +364,12 @@ public class EntityManager {
                 throw new RuntimeException();
             }
             this.clazz = instance.getClass();
+            this.tags = new ArrayList<>();
+        }
+
+        public EntityInfo(EntityType<?> type, Class<? extends Entity> clazz) {
+            this.type = type;
+            this.clazz = clazz;
             this.tags = new ArrayList<>();
         }
 

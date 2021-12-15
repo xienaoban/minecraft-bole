@@ -5,8 +5,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -226,11 +228,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawText(matrices, this.title, 0xff444444, this.contentLeft[0], this.contentTop - 12);
         drawLeftContent(matrices, delta, this.contentLeft[0], this.contentTop, mouseX, mouseY);
         drawRightContent(matrices, delta, this.contentLeft[1], this.contentTop, mouseX, mouseY);
-        if (this.pageIndex < this.pages.size()) {
-            drawTextCenteredX(matrices, "- " + this.pageIndex + " -", 0x80000000, 0.75F, this.contentLeft[0] + this.contentRight[0] >> 1, this.contentBottom + 4);
+        int sz = this.pages.size();
+        if (this.pageIndex < sz) {
+            drawTextCenteredX(matrices, "- " + (this.pageIndex + 1) + "/" + sz + " -", 0x80000000, 0.75F, this.contentLeft[0] + this.contentRight[0] >> 1, this.contentBottom + 4);
         }
-        if (this.pageIndex + 1 < this.pages.size()) {
-            drawTextCenteredX(matrices, "- " + (this.pageIndex + 1) + " -", 0x80000000, 0.75F, this.contentLeft[1] + this.contentRight[1] >> 1, this.contentBottom + 4);
+        if (this.pageIndex + 1 < sz) {
+            drawTextCenteredX(matrices, "- " + (this.pageIndex + 2) + "/" + sz + " -", 0x80000000, 0.75F, this.contentLeft[1] + this.contentRight[1] >> 1, this.contentBottom + 4);
         }
         this.overlayMessageHud.draw(matrices, this.width >> 1, this.bodyBottom - 4, mouseX, mouseY);
     }
@@ -703,6 +706,31 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     }
 
+    public class TagGroupButtonWidget extends ButtonWidget {
+        private final int color;
+        private final Text title;
+
+        public TagGroupButtonWidget(int x, int y, int color, Text title, PressAction onPress) {
+            super(x, y, 30, 10, LiteralText.EMPTY, onPress);
+            this.color = color % 4;
+            this.title = title;
+        }
+
+        @Override
+        public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            setTexture(Textures.ICONS);
+            int u = 220;
+            int v = 240 - 10 * this.color;
+            if (this.isHovered()) {
+                u -= 30;
+            }
+            this.drawTexture(matrices, this.x, this.y, u, v, 30, 10);
+            drawText(matrices, this.title, LIGHT_TEXT_COLOR, 0.5F, this.x + 28 - textRenderer.getWidth(this.title) * 0.5F, this.y + 3);
+        }
+    }
+
     /**
      * Manages all widgets on a page.
      */
@@ -998,11 +1026,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             final float size = 0.5F;
             int px = (int) ((this.box.left() + this.buttons[index] - BUTTON_TEXTURE_OFFSET + 1) / size), py = (int) ((this.box.top() + 1) / size);
             MatrixStack matrixStack = matrixScaleOn(size, size, size);
-            int cnt = itemStack.getCount();
-            itemStack.setCount(1);
-            itemRenderer.renderInGui(itemStack, px, py);
-            itemRenderer.renderGuiItemOverlay(textRenderer, itemStack, px, py, String.valueOf(cnt));
-            itemStack.setCount(cnt);
+            ItemStack forDraw = new ItemStack(itemStack.getItem(), 1);
+            itemRenderer.renderInGui(forDraw, px, py);
+            itemRenderer.renderGuiItemOverlay(textRenderer, forDraw, px, py, String.valueOf(itemStack.getCount()));
             matrixScaleOff(matrixStack);
         }
 

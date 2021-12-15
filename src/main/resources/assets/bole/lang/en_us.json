@@ -12,6 +12,18 @@
   "swamp": "Swamp",
   "taiga": "Taiga",
 
+  "tag_group.xienaoban.bole.default": "Default",
+  "tag_group.xienaoban.bole.class": "By Class",
+  "tag_group.xienaoban.bole.interface": "By Interface",
+  "tag_group.xienaoban.bole.namespace": "By Mod",
+
+  "tag.xienaoban.bole.default.human": "Human",
+  "tag.xienaoban.bole.default.terrestrial_animal": "Terrestrial Animal",
+  "tag.xienaoban.bole.default.aquatic_animal": "Aquatic Animal",
+  "tag.xienaoban.bole.default.animal": "Animal",
+  "tag.xienaoban.bole.default.monster": "Monster",
+  "tag.xienaoban.bole.default.other": "Other",
+
   "property_widget.xienaoban.bole.bounding_box": "Bounding Box",
   "property_widget.xienaoban.bole.bounding_box.description": "Bounding box or hit box of the entity.\n\"Red\" and \"Blue\" means the width of it, and \"Green\" means the height of it (unit: meter).",
   "property_widget.xienaoban.bole.nether_portal_cooldown": "Nether Portal Cooldown",

@@ -27,6 +27,13 @@ public interface Keys {
     String TAG_GROUP_INTERFACE = "tag_group.xienaoban.bole.interface";
     String TAG_GROUP_NAMESPACE = "tag_group.xienaoban.bole.namespace";
 
+    String TAG_DEFAULT_HUMAN = "tag.xienaoban.bole.default.human";
+    String TAG_DEFAULT_TERRESTRIAL_ANIMAL = "tag.xienaoban.bole.default.terrestrial_animal";
+    String TAG_DEFAULT_AQUATIC_ANIMAL = "tag.xienaoban.bole.default.aquatic_animal";
+    String TAG_DEFAULT_ANIMAL = "tag.xienaoban.bole.default.animal";
+    String TAG_DEFAULT_MONSTER = "tag.xienaoban.bole.default.monster";
+    String TAG_DEFAULT_OTHER = "tag.xienaoban.bole.default.other";
+
     String PROPERTY_WIDGET_BOUNDING_BOX = "property_widget.xienaoban.bole.bounding_box";
     String PROPERTY_WIDGET_BOUNDING_BOX_DESCRIPTION = "property_widget.xienaoban.bole.bounding_box.description";
     String PROPERTY_WIDGET_NETHER_PORTAL_COOLDOWN = "property_widget.xienaoban.bole.nether_portal_cooldown";

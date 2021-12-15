@@ -12,6 +12,18 @@
   "swamp": "沼泽",
   "taiga": "针叶",
 
+  "tag_group.xienaoban.bole.default": "默认分类",
+  "tag_group.xienaoban.bole.class": "“类”分类",
+  "tag_group.xienaoban.bole.interface": "接口分类",
+  "tag_group.xienaoban.bole.namespace": "模组分类",
+
+  "tag.xienaoban.bole.default.human": "人类",
+  "tag.xienaoban.bole.default.terrestrial_animal": "陆生动物",
+  "tag.xienaoban.bole.default.aquatic_animal": "水生动物",
+  "tag.xienaoban.bole.default.animal": "动物",
+  "tag.xienaoban.bole.default.monster": "怪物",
+  "tag.xienaoban.bole.default.other": "其他",
+
   "property_widget.xienaoban.bole.bounding_box": "碰撞箱",
   "property_widget.xienaoban.bole.bounding_box.description": "实体的碰撞箱或者说边界框。\n红色与蓝色为宽度，绿色为高度（单位：米）。",
   "property_widget.xienaoban.bole.nether_portal_cooldown": "下界传送冷却时间",
