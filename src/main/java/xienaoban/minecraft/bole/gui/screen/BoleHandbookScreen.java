@@ -13,9 +13,12 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
+import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.gui.Textures;
 
 @Environment(EnvType.CLIENT)
 public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookScreenHandler> {
@@ -25,22 +28,21 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
     @Override
     protected void initPages() {
-        this.pages.get(0).addSlotLazy(new LivingEntityPropertyWidget(EntityType.HORSE))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.SHEEP))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.COW))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.TURTLE))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.ZOMBIE))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.VILLAGER))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.RABBIT))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.ENDERMAN))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.POLAR_BEAR))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.IRON_GOLEM))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.GHAST))
-                .addSlotLazy(new LivingEntityPropertyWidget(EntityType.PARROT));
+        initCatalog(EntityManager.getInstance().getTagGroups().get(0));
     }
 
     @Override
     protected void initCustom() {}
+
+    @Override
+    protected void initButtons() {
+        super.initButtons();
+        int cnt = 0;
+        for (EntityManager.TagGroup tags : EntityManager.getInstance().getTagGroups()) {
+            addDrawableChild(new TagGroupButtonWidget(this.contentLeft[0] - 30 - 10 + (cnt % 3), this.contentTop - 5 + cnt * 14, cnt, tags.getText(), (button -> initCatalog(tags))));
+            ++cnt;
+        }
+    }
 
     @Override
     protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
@@ -50,6 +52,73 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
     @Override
     protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
+    }
+
+    private void initCatalog(EntityManager.TagGroup tags) {
+        resetPages();
+        tags.dfsTags((root, depth) -> {
+            int index = 0;
+            while (!this.pages.get(index).addSlot(new TagItemPropertyWidget(depth, root))) {
+                ++index;
+                if (this.pages.size() == index) {
+                    this.pages.add(new Page());
+                }
+            }
+            return true;
+        });
+        setPageIndex(0);
+    }
+
+    public class TagItemPropertyWidget extends AbstractPropertyWidget {
+        private static final int TAB = 5;
+        private final int sub;
+        private final EntityManager.Tag tag;
+
+        public TagItemPropertyWidget(int sub, EntityManager.Tag tag) {
+            super(4, 1);
+            this.sub = sub;
+            this.tag = tag;
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            setTexture(Textures.ICONS);
+            drawTextureNormally(matrices, 256, 256, 40, 10, getZOffset(), x + this.sub * TAB, y, 0, 240);
+            drawName(matrices, 0xb0222222);
+        }
+
+        @Override
+        public void drawHovered(MatrixStack matrices, int mouseX, int mouseY) {
+            drawName(matrices, 0xff000000);
+        }
+
+        private void drawName(MatrixStack matrices, int color) {
+            if (this.sub < 0) { // impossible (sub always >= 0)
+                drawText(matrices, this.tag.getText(), color, 1.0F, this.box.left() + 12 - this.sub * TAB, this.box.top() + 1);
+            }
+            else {
+                drawText(matrices, this.tag.getText(), color, 0.5F, this.box.left() + 12 + this.sub * TAB, this.box.top() + 3.25F);
+            }
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            resetPages();
+            int index = 0;
+            for (EntityManager.EntityInfo entityInfo : this.tag.getEntities()) {
+                while (!pages.get(index).addSlot(new LivingEntityPropertyWidget(entityInfo.getType()))) {
+                    ++index;
+                    if (pages.size() == index) {
+                        pages.add(new Page());
+                    }
+                }
+            }
+            setPageIndex(0);
+            return true;
+        }
     }
 
     public class LivingEntityPropertyWidget extends AbstractPropertyWidget {
@@ -86,11 +155,12 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         /**
          * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
          */
+        @SuppressWarnings("deprecation")
         private void drawEntity() {
             float size = entitySize;
-            int t = ((int) System.currentTimeMillis()) % 8000;
+            int t = (int) (System.currentTimeMillis() % 8000);
             t = t > 4000 ? 6000 - t : t - 2000;
-            float f = (float)Math.atan(t / 420.0F) * 6F;
+            float f = (float) Math.atan(t / 420.0F) * 6F;
             float g = -45;
             MatrixStack matrixStack = RenderSystem.getModelViewStack();
             matrixStack.push();

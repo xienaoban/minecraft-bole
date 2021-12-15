@@ -2,13 +2,29 @@ package xienaoban.minecraft.bole.gui.screen.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.dynamic.GlobalPos;
+import net.minecraft.village.VillagerProfession;
+import net.minecraft.village.VillagerType;
+import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
+import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.client.HighlightManager;
+import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.BoleMerchantEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
+
+import java.util.Arrays;
 
 @Environment(EnvType.CLIENT)
 public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVillagerEntityScreenHandler<E>> extends BoleMerchantEntityScreen<E, H> {
@@ -19,7 +35,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(1).addSlotLazy(new RestockPropertyWidget());
+        this.pages.get(1).addSlotLazyAfter(new ClothingPropertyWidget(), null).addSlotLazy(new JobSitePropertyWidget()).addSlotLazy(new RestockPropertyWidget());
     }
 
     @Override
@@ -35,10 +51,83 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
+    public class JobSitePropertyWidget extends TemplatePropertyWidget1 {
+        private int lastTicks;
+        private Text cacheDistance;
+
+        public JobSitePropertyWidget() {
+            super(2, true, 2);
+            this.lastTicks = -123456;
+            this.cacheDistance = new LiteralText(" - ");
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_VILLAGER_JOB_SITE);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_VILLAGER_JOB_SITE_DESCRIPTION);
+            initTooltipEmptyLine();
+            initTooltipButtonDescription(Keys.PROPERTY_WIDGET_VILLAGER_JOB_SITE_DESCRIPTION_BUTTON1);
+            initTooltipButtonDescription(Keys.PROPERTY_WIDGET_VILLAGER_JOB_SITE_DESCRIPTION_BUTTON2);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            GlobalPos pos = handler.entityJobSitePos;
+            drawIcon(matrices, 170, 0);
+            drawButton(matrices, 0, 230, 30 - (pos != null ? 0 : 20));
+            drawButton(matrices, 1, 240, 20);
+            int cutTicks = BoleClient.getInstance().getScreenTicks();
+            if (cutTicks - this.lastTicks > 10) {
+                this.lastTicks = cutTicks;
+                if (pos != null) {
+                    double dis = pos.getPos().getSquaredDistance(handler.entity.getPos(), true);
+                    this.cacheDistance = new LiteralText(String.format("%.2fm", Math.sqrt(dis)));
+                }
+            }
+            drawBarText(matrices, this.cacheDistance, DARK_TEXT_COLOR);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            int index = calMousePosition(mouseX, mouseY);
+            if (index < IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                return false;
+            }
+            switch (index) {
+                case IDX_BUTTON_BEGIN -> {
+                    GlobalPos pos = handler.entityJobSitePos;
+                    if (pos != null) {
+                        HighlightManager hl = BoleClient.getInstance().getHighlightManager();
+                        hl.setJobSiteOrBeehiveHighlightState(hl.highlightBlock(pos, 6 * 20));
+                        onClose();
+                    }
+                    else {
+                        showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
+                    }
+                }
+                case IDX_BUTTON_BEGIN + 1 -> {
+                    PlayerEntity player = handler.player;
+                    Ingredient swords = Ingredient.ofItems(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
+                    if (swords.test(player.getMainHandStack()) && swords.test(player.getOffHandStack())) {
+                        handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESET_JOB);
+                        onClose();
+                        player.sendMessage(new TranslatableText(Keys.TEXT_VILLAGER_AGREE_TO_RESET_JOB), false);
+                    }
+                    else {
+                        showOverlayMessage(Keys.HINT_TEXT_REFUSE_TO_RESET_JOB);
+                    }
+                }
+            }
+            return true;
+        }
+    }
+
     public class RestockPropertyWidget extends TemplatePropertyWidget1 {
+        private final ItemStack overTime;
 
         public RestockPropertyWidget() {
             super(2, true, 1);
+            this.overTime = new ItemStack(Items.EMERALD, calOvertime());
         }
 
         @Override
@@ -53,9 +142,14 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             int restocksToday = handler.entityRestocksToday;
             drawIcon(matrices, 0, 110);
-            drawBar(matrices, 10, 110, 1.0F);
-            drawBar(matrices, 50, 110, restocksToday / 3.0F);
-            drawButton(matrices, 230, 10, 0);
+            drawBar(matrices, 1.0F, 10, 110);
+            drawBar(matrices, restocksToday / 3.0F, 50, 110);
+            if (canRestock()) {
+                drawButton(matrices, 0, this.overTime);
+            }
+            else {
+                drawButton(matrices, 0, 230, 10);
+            }
             drawBarText(matrices, restocksToday + "/3", LIGHT_TEXT_COLOR);
         }
 
@@ -65,8 +159,112 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 return false;
             }
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESTOCK);
+            if (!hasJob()) {
+                showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
+            }
+            else if (!canRestock()) {
+                showOverlayMessage(Keys.HINT_TEXT_FAR_FROM_JOB_SITE);
+            }
+            else if (!handler.trySpendItems(this.overTime)) {
+                showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
+            }
+            else {
+                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESTOCK, this.overTime);
+                this.overTime.setCount(calOvertime());
+            }
             return true;
+        }
+
+        private boolean hasJob() {
+            return handler.entity.getVillagerData().getProfession() != VillagerProfession.NONE;
+        }
+
+        private boolean canRestock() {
+            GlobalPos jobSite = handler.entityJobSitePos;
+            World world = MinecraftClient.getInstance().world;
+            if (jobSite == null || world == null) {
+                return false;
+            }
+            return jobSite.getDimension() == world.getRegistryKey() && jobSite.getPos().isWithinDistance(handler.entity.getPos(), 1.73);
+        }
+
+        private int calOvertime() {
+            return Math.max(0, handler.entityRestocksToday - 3 + 1);
+        }
+    }
+
+    public class ClothingPropertyWidget extends AbstractPropertyWidget {
+        private static final VillagerType[] CLOTHES = {VillagerType.PLAINS, VillagerType.TAIGA, VillagerType.DESERT, VillagerType.JUNGLE, VillagerType.SAVANNA, VillagerType.SNOW, VillagerType.SWAMP};
+        private static final Text[] NAMES = Arrays.stream(CLOTHES).map(type -> new TranslatableText(type.toString())).toArray(Text[]::new);
+        private final VillagerEntity[] clothingEntities;
+        private final int eachWidth, margin;
+
+        public ClothingPropertyWidget() {
+            super(4, 3);
+            this.clothingEntities = new VillagerEntity[CLOTHES.length];
+            this.eachWidth = this.box.width() / this.clothingEntities.length;
+            this.margin = ((this.box.width() % this.clothingEntities.length) >> 1) + 1;
+            for (int i = 0; i < CLOTHES.length; ++i) {
+                VillagerEntity entity = (VillagerEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
+                if (entity == null) {
+                    throw new RuntimeException("Failed to create a VillagerEntity on the client side.");
+                }
+                copyEntityNbtForDisplay(handler.entity, entity);
+                entity.setVillagerData(entity.getVillagerData().withType(CLOTHES[i]));
+                this.clothingEntities[i] = entity;
+            }
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_VILLAGER_CLOTHING);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_VILLAGER_CLOTHING_DESCRIPTION);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            for (int i = 0; i < this.clothingEntities.length; ++i) {
+                VillagerEntity entity = this.clothingEntities[i];
+                int xx = x + this.eachWidth * i + this.margin;
+                drawEntityAuto(entity, xx, y, xx + this.eachWidth, this.box.bottom() - 10, 0, 10);
+                drawTextCenteredX(matrices, NAMES[i], 0xaa220000, 0.5F, xx + this.eachWidth / 2.0F, this.box.bottom() - 8);
+                if (CLOTHES[i] == handler.entity.getVillagerData().getType()) {
+                    drawSelectedTick(matrices, i, true);
+                }
+            }
+            if (getHovered() == this) {
+                int i = calIndex(mouseX, mouseY);
+                if (i >= 0 && i < CLOTHES.length && CLOTHES[i] != handler.entity.getVillagerData().getType()) {
+                    drawSelectedTick(matrices, i, false);
+                }
+            }
+        }
+
+        private void drawSelectedTick(MatrixStack matrices, int index, boolean selected) {
+            setTexture(Textures.ICONS);
+            int xx = this.box.left() + this.eachWidth * index + this.margin + this.eachWidth / 2 - 5;
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), xx, this.box.bottom() - 18, 210 - (selected ? 10 : 0), 20);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            int index = calIndex((int) mouseX, (int) mouseY);
+            if (index < 0 || index >= CLOTHES.length) {
+                return false;
+            }
+            VillagerType type = CLOTHES[index];
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CLOTHING, type);
+            if (targetDisplayedEntityPropertyWidget != null) {
+                targetDisplayedEntityPropertyWidget.updateDisplayedEntity();
+            }
+            return true;
+        }
+
+        private int calIndex(int mouseX, int mouseY) {
+            if (mouseY < this.box.top() + 4 || mouseY > this.box.bottom() - 4) {
+                return -1;
+            }
+            return (mouseX - this.margin - this.box.left()) / this.eachWidth;
         }
     }
 }

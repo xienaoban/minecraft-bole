@@ -15,6 +15,7 @@ Toto List:
     - MobEntity:
       - [ ] `Speed` (goalSelector)
       - [X] `Attractive Items` (goalSelector - TemptGoal)
+      - [X] `Can Be Leashed` (canBeLeashedBy)
       - [ ] ~~`Loot Table`~~
       - [ ] ~~`Hand Item`~~
       - [ ] ~~`Grab Hand Item`~~
@@ -32,16 +33,17 @@ Toto List:
                 - [X] `Running Speed`
                 - [X] `Jump Height`
             - BeeEntity:
-              - [ ] `Beehive Position`
+              - [X] `Beehive Position`
+              - [X] `Reset Beehive Position`
             - SheepEntity:
-              - [ ] `Force Eat Grass`
+              - [X] `Force Eat Grass`
           - MerchantEntity:
             - [X] `Get Inventory`
-            - [ ] `Set Inventory`
+            - [ ] `Set Inventory` (Open a new HandledScreen? Just like HorseScreen?)
             - VillagerEntity:
-              - [ ] `Highlight Job Site`
-              - [ ] `Reset Job Site`
-              - [ ] `Reset Level 0`
-              - [ ] `Force Restock`
-              - [ ] `Change Clothes`
+              - [X] `Highlight Job Site`
+              - [ ] ~~`Reset Job Site`~~
+              - [X] `Reset Level 0`
+              - [X] `Force Restock`
+              - [X] `Change Clothes`
         - HostileEntity:

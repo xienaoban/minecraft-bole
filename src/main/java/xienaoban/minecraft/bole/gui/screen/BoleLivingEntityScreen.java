@@ -77,6 +77,9 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
             LivingEntity entity = handler.entity;
             int health = (int)entity.getHealth();
             int maxHealth = (int)entity.getMaxHealth();
+            if (!debugMode && health > maxHealth) {
+                health = maxHealth;
+            }
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), x, y, 0, this.lineCnt > 2 ? 10 : 0);
             calBars(1, health);
@@ -108,6 +111,9 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
          */
         protected void drawCustomLengthHealthBar(MatrixStack matrices, int health, int x, int y, int u, int v, boolean close) {
             int w = health << 1;
+            if (w > 40) {
+                w = 40;
+            }
             drawTextureNormally(matrices, 256, 256, w, 10, getZOffset(), x, y, u, v);
             if (close && health < 20) {
                 drawTextureNormally(matrices, 256, 256, 1, 10, getZOffset(), x + w, y, u + 39, v);
@@ -159,11 +165,8 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
                     MutableText text1 = new TranslatableText(effect.getEffectType().getTranslationKey()).append(String.valueOf(effect.getAmplifier() + 1)).formatted(Formatting.WHITE);
                     MutableText text2 = new LiteralText((effect.getDuration() / 20) + "s").formatted(Formatting.GRAY);
                     int w = textRenderer.getWidth(text1) + textRenderer.getWidth(text2);
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = (maxWidth + 40 - w) / 2; i > 0; --i) {
-                        sb.append('.');
-                    }
-                    this.tooltipLines.add(text1.append(new LiteralText(sb.toString()).formatted(Formatting.DARK_GRAY)).append(text2).asOrderedText());
+                    String dot = ".".repeat(Math.max(0, (maxWidth + 40 - w) / 2));
+                    this.tooltipLines.add(text1.append(new LiteralText(dot).formatted(Formatting.DARK_GRAY)).append(text2).asOrderedText());
                 }
             }
             super.drawTooltip(matrices);

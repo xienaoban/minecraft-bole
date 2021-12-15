@@ -21,7 +21,7 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazyBefore(new AttractiveItemsPropertyWidget(), BoundingBoxPropertyWidget.class);
+        this.pages.get(0).addSlotLazyBefore(new AttractiveItemsPropertyWidget(), LeashPropertyWidget.class);
     }
 
     @Override

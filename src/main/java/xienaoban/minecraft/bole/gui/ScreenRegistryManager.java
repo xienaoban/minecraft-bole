@@ -11,8 +11,7 @@ import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerInventory;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.screen.*;
-import xienaoban.minecraft.bole.gui.screen.entity.BoleVillagerEntityScreen;
-import xienaoban.minecraft.bole.gui.screen.entity.BoleVillagerEntityScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.entity.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,6 +64,8 @@ public class ScreenRegistryManager {
         registerEntityToHandler(AbstractDonkeyEntity.class, BoleAbstractDonkeyEntityScreenHandler::new);
         registerEntityToHandler(MerchantEntity.class, BoleMerchantEntityScreenHandler::new);
         registerEntityToHandler(VillagerEntity.class, BoleVillagerEntityScreenHandler::new);
+        registerEntityToHandler(SheepEntity.class, BoleSheepEntityScreenHandler::new);
+        registerEntityToHandler(BeeEntity.class, BoleBeeEntityScreenHandler::new);
     }
 
     @Environment(EnvType.CLIENT)
@@ -81,5 +82,7 @@ public class ScreenRegistryManager {
         ScreenRegistry.register(BoleAbstractDonkeyEntityScreenHandler.HANDLER, BoleAbstractDonkeyEntityScreen<AbstractDonkeyEntity, BoleAbstractDonkeyEntityScreenHandler<AbstractDonkeyEntity>>::new);
         ScreenRegistry.register(BoleMerchantEntityScreenHandler.HANDLER, BoleMerchantEntityScreen<MerchantEntity, BoleMerchantEntityScreenHandler<MerchantEntity>>::new);
         ScreenRegistry.register(BoleVillagerEntityScreenHandler.HANDLER, BoleVillagerEntityScreen<VillagerEntity, BoleVillagerEntityScreenHandler<VillagerEntity>>::new);
+        ScreenRegistry.register(BoleSheepEntityScreenHandler.HANDLER, BoleSheepEntityScreen<SheepEntity, BoleSheepEntityScreenHandler<SheepEntity>>::new);
+        ScreenRegistry.register(BoleBeeEntityScreenHandler.HANDLER, BoleBeeEntityScreen<BeeEntity, BoleBeeEntityScreenHandler<BeeEntity>>::new);
     }
 }

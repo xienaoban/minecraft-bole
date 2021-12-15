@@ -18,7 +18,9 @@ public class BoleClient implements ClientModInitializer {
     private boolean isScreenOpen;
     private Entity boleTarget;
     private int ticks;
+    private int screenTicks;
     private PacketByteBuf handlerBufCache = null;
+    private HighlightManager highlightManager;
 
     public static BoleClient getInstance() {
         return instance;
@@ -29,6 +31,8 @@ public class BoleClient implements ClientModInitializer {
         instance = this;
         this.isScreenOpen = false;
         this.ticks = -1;
+        this.screenTicks = -1;
+        this.highlightManager = new HighlightManager();
         ScreenRegistryManager.initClient();
         ClientNetworkManager.init();
         KeyBindingManager.init();
@@ -38,14 +42,16 @@ public class BoleClient implements ClientModInitializer {
      * @see xienaoban.minecraft.bole.mixin.MixinMinecraftClient#tick
      */
     public void clientTick() {
+        ++this.ticks;
         if (this.isScreenOpen) {
             MinecraftClient client = MinecraftClient.getInstance();
             ClientPlayerEntity player = client.player;
             if (player != null && player.currentScreenHandler instanceof AbstractBoleScreenHandler) {
-                ++ticks;
-                ((AbstractBoleScreenHandler<?>) player.currentScreenHandler).clientTick(ticks);
+                ++screenTicks;
+                ((AbstractBoleScreenHandler<?>) player.currentScreenHandler).clientTick(screenTicks);
             }
         }
+        this.highlightManager.tick(this.ticks);
     }
 
     public Entity getBoleTarget() {
@@ -54,7 +60,7 @@ public class BoleClient implements ClientModInitializer {
 
     public void setScreenOpen(boolean isScreenOpen) {
         this.isScreenOpen = isScreenOpen;
-        this.ticks = -1;
+        this.screenTicks = -1;
     }
 
     public void setBoleTarget(Entity boleTarget) {
@@ -65,11 +71,19 @@ public class BoleClient implements ClientModInitializer {
         return ticks;
     }
 
+    public int getScreenTicks() {
+        return screenTicks;
+    }
+
     public PacketByteBuf getHandlerBufCache() {
         return handlerBufCache;
     }
 
     public void setHandlerBufCache(PacketByteBuf buf) {
         this.handlerBufCache = buf;
+    }
+
+    public HighlightManager getHighlightManager() {
+        return highlightManager;
     }
 }

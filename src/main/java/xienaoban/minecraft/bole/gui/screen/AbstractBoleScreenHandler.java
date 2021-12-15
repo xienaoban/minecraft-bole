@@ -7,6 +7,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
@@ -27,10 +29,10 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     private final Map<String, EntitySettingsBufHandler> entitySettingsBufHandlers;
 
     public AbstractBoleScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId,
-                                      PlayerInventory playerInventor, Entity entity) {
+                                      PlayerInventory playerInventory, Entity entity) {
         super(type, syncId);
         this.entity = MiscUtil.cast(entity);
-        this.player = playerInventor.player;
+        this.player = playerInventory.player;
         this.entitySettingsBufHandlers = new HashMap<>();
         if (this.player instanceof ServerPlayerEntity) {
             initServer();
@@ -106,7 +108,10 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
      */
     @Environment(EnvType.CLIENT)
     protected static Entity clientEntity() {
-        return BoleClient.getInstance().getBoleTarget();
+        Entity entity = BoleClient.getInstance().getBoleTarget();
+        // Set BoleTarget to null to avoid memory leak.
+        BoleClient.getInstance().setBoleTarget(null);
+        return entity;
     }
 
     /**
@@ -167,6 +172,45 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         catch (Exception e) {
             Bole.LOGGER.warn(e);
         }
+    }
+
+    public final boolean trySpendItems(ItemStack ...targetStacks) {
+        PlayerInventory inventory = player.getInventory();
+        for (ItemStack target : targetStacks) {
+            Item item = target.getItem();
+            int neededCount = target.getCount();
+            int count = 0;
+            for (int i = inventory.size() - 1; i >= 0; --i) {
+                ItemStack stack = inventory.getStack(i);
+                if (!stack.getItem().equals(item) || stack.hasNbt()) {
+                    continue;
+                }
+                count += stack.getCount();
+                if (count >= neededCount) {
+                    break;
+                }
+            }
+            if (count < neededCount) {
+                return false;
+            }
+        }
+        for (ItemStack target : targetStacks) {
+            Item item = target.getItem();
+            int leftCount = target.getCount();
+            for (int i = inventory.size() - 1; i >= 0; --i) {
+                ItemStack stack = inventory.getStack(i);
+                if (!stack.getItem().equals(item) || stack.hasNbt()) {
+                    continue;
+                }
+                int decrementCount = Math.min(stack.getCount(), leftCount);
+                stack.decrement(decrementCount);
+                leftCount -= decrementCount;
+                if (leftCount == 0) {
+                    break;
+                }
+            }
+        }
+        return true;
     }
 
     public interface EntitySettingsBufHandler {
