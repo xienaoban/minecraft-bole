@@ -61,6 +61,12 @@ public class HighlightManager {
         }
     }
 
+    public HighlightState highlightEntity(Entity entity, int ticks) {
+        HighlightState highLightState = new HighlightState(entity, ticks);
+        this.highlighted.add(highLightState);
+        return highLightState;
+    }
+
     public HighlightState highlightBlock(GlobalPos pos, int ticks) {
         BlockHighlightState highLightState = new BlockHighlightState(pos, ticks);
         this.toMove.add(highLightState);

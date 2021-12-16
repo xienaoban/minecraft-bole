@@ -8,17 +8,28 @@ import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.world.ClientEntityManager;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.world.entity.EntityLookup;
+import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.client.HighlightManager;
 import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.util.Keys;
+import xienaoban.minecraft.bole.util.MiscUtil;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Environment(EnvType.CLIENT)
 public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookScreenHandler> {
@@ -153,6 +164,23 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawEntity();
             drawTextCenteredX(matrices, this.entityName, DARK_TEXT_COLOR, 0.5F, this.box.left() + (this.box.width() >> 1), this.box.bottom() - (Page.PROPERTY_WIDGET_HEIGHT >> 1));
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            HighlightManager hl = BoleClient.getInstance().getHighlightManager();
+            ClientEntityManager<Entity> entityManager = MiscUtil.getFieldValue(MinecraftClient.getInstance().world, ClientWorld.class, "entityManager");
+            EntityLookup<Entity> lookup = entityManager.getLookup();
+            AtomicInteger cnt = new AtomicInteger();
+            lookup.forEach(this.entity.getType(), entity -> {
+                if (entity.distanceTo(handler.player) < 66 * 66) {
+                    hl.highlightEntity(entity, 8 * 20);
+                    cnt.incrementAndGet();
+                }
+            });
+            handler.player.sendMessage(new LiteralText(String.valueOf(cnt.get())).append(new TranslatableText(this.entity.getType().getTranslationKey())).append(new TranslatableText(Keys.TEXT_HIGHLIGHT)).formatted(Formatting.GOLD), false);
+            onClose();
+            return true;
         }
 
         /**

@@ -88,6 +88,7 @@ public interface Keys {
     String TEXT_LOADING = "text.xienaoban.bole.loading";
     String TEXT_EMPTY_WITH_BRACKETS = "text.xienaoban.bole.empty_with_brackets";
     String TEXT_VILLAGER_AGREE_TO_RESET_JOB = "text.hint.xienaoban.bole.villager_agree_to_reset_job";
+    String TEXT_HIGHLIGHT = "text.xienaoban.bole.highlight";
 
     String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
     String HINT_TEXT_NO_BEEHIVE = "text.hint.xienaoban.bole.no_beehive";

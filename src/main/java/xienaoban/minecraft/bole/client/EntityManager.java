@@ -46,6 +46,7 @@ public class EntityManager {
      */
     public static EntityManager getInstance() {
         if (instance == null) {
+            // It should be single-threaded here, so there is no need for thread synchronization.
             instance = new EntityManager();
         }
         return instance;

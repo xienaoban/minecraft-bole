@@ -132,7 +132,7 @@
   "text.xienaoban.bole.never_grow_up": "Never grow",
   "text.xienaoban.bole.loading": "Loading...",
   "text.xienaoban.bole.empty_with_brackets": "(Empty)",
-  "text.hint.xienaoban.bole.villager_agree_to_reset_job": "Without this mod, villagers with unsatisfactory trading lists may be killed by the player.\nThinking of this, the villager readily accepted the player's kindness.",
+  "text.xienaoban.bole.highlight": " have been highlighted.",
 
   "text.hint.xienaoban.bole.not_baby": "It's meaningless to lock the growth stage of adult creatures...",
   "text.hint.xienaoban.bole.no_beehive": "This bee has no beehive or bee nest yet.",
@@ -141,5 +141,6 @@
   "text.hint.xienaoban.bole.not_enough_items": "You don't have enough items to purchase this service!",
   "text.hint.xienaoban.bole.far_from_job_site": "The villager is too far away from the job site!",
   "text.hint.xienaoban.bole.no_job": "The villager has no job!",
-  "text.hint.xienaoban.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (maybe you should hold two swords to threaten it)."
+  "text.hint.xienaoban.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (maybe you should hold two swords to threaten it).",
+  "text.hint.xienaoban.bole.villager_agree_to_reset_job": "Without this mod, villagers with unsatisfactory trading lists may be killed by the player.\nThinking of this, the villager readily accepted the player's kindness."
 }
