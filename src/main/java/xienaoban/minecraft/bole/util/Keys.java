@@ -31,6 +31,7 @@ public interface Keys {
     String TAG_DEFAULT_TERRESTRIAL_ANIMAL = "tag.xienaoban.bole.default.terrestrial_animal";
     String TAG_DEFAULT_AQUATIC_ANIMAL = "tag.xienaoban.bole.default.aquatic_animal";
     String TAG_DEFAULT_ANIMAL = "tag.xienaoban.bole.default.animal";
+    String TAG_DEFAULT_PATROL = "tag.xienaoban.bole.default.patrol";
     String TAG_DEFAULT_MONSTER = "tag.xienaoban.bole.default.monster";
     String TAG_DEFAULT_OTHER = "tag.xienaoban.bole.default.other";
 
