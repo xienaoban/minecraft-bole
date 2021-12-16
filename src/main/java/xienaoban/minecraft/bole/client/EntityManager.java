@@ -177,6 +177,12 @@ public class EntityManager {
                 Collections.sort(tag.getEntities());
             }
         }
+
+        List<Tag> ns = this.namespaceTags.getRootTags();
+        Tag mcTag = this.namespaceTags.getTag(Identifier.DEFAULT_NAMESPACE);
+        ns.remove(mcTag);
+        Collections.sort(ns);
+        ns.add(0, mcTag);
     }
 
     public List<TagGroup> getTagGroups() {
@@ -201,7 +207,7 @@ public class EntityManager {
     }
 
     private String getClassId(Class<?> clazz) {
-        return clazz.getSimpleName();
+        return clazz.getName();
     }
 
     public void dfsEntityTree(boolean skipRoot, TreeNodeExecutor<EntityTreeNode> executor) {
@@ -394,7 +400,9 @@ public class EntityManager {
 
         @Override
         public int compareTo(@NotNull Tag o) {
-            return this.getName().compareTo(o.getName());
+            String s1 = getName().substring(getName().lastIndexOf('.') + 1);
+            String s2 = o.getName().substring(o.getName().lastIndexOf('.') + 1);
+            return s1.compareTo(s2);
         }
     }
 

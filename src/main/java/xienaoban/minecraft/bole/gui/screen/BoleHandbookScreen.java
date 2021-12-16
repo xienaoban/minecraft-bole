@@ -54,9 +54,10 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    private void initCatalog(EntityManager.TagGroup tags) {
+    private void initCatalog(EntityManager.TagGroup group) {
         resetPages();
-        tags.dfsTags((root, depth) -> {
+        this.pages.get(0).addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(group.getName() + ".description"), DARK_TEXT_COLOR, 0.5F));
+        group.dfsTags((root, depth) -> {
             int index = 0;
             while (!this.pages.get(index).addSlot(new TagItemPropertyWidget(depth, root))) {
                 ++index;
@@ -73,11 +74,13 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         private static final int TAB = 5;
         private final int sub;
         private final EntityManager.Tag tag;
+        private final Text text;
 
         public TagItemPropertyWidget(int sub, EntityManager.Tag tag) {
             super(4, 1);
             this.sub = sub;
             this.tag = tag;
+            this.text = new TranslatableText(tag.getName()).append(" (" + tag.getEntities().size() + ")");
         }
 
         @Override
@@ -97,10 +100,10 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
         private void drawName(MatrixStack matrices, int color) {
             if (this.sub < 0) { // impossible (sub always >= 0)
-                drawText(matrices, this.tag.getText(), color, 1.0F, this.box.left() + 12 - this.sub * TAB, this.box.top() + 1);
+                drawText(matrices, this.text, color, 1.0F, this.box.left() + 12 - this.sub * TAB, this.box.top() + 1);
             }
             else {
-                drawText(matrices, this.tag.getText(), color, 0.5F, this.box.left() + 12 + this.sub * TAB, this.box.top() + 3.25F);
+                drawText(matrices, this.text, color, 0.5F, this.box.left() + 12 + this.sub * TAB, this.box.top() + 3.25F);
             }
         }
 

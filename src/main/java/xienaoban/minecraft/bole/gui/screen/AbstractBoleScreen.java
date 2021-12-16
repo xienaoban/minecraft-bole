@@ -1125,8 +1125,42 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawText(matrices, text, color, size,
-                    x + (this.box.width() - textRenderer.getWidth(text) >> 1),
-                    y + (this.box.height() - (int)(DEFAULT_LINE_HEIGHT * this.size) >> 1));
+                    x + (this.box.width() - (int) (textRenderer.getWidth(text) * this.size) >> 1),
+                    y + (this.box.height() - (int) (DEFAULT_LINE_HEIGHT * this.size) >> 1));
+        }
+
+        public void setText(Text text) {
+            this.text = text;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
+
+        public void setSize(float size) {
+            this.size = size;
+        }
+    }
+
+    public class LeftTextPropertyWidget extends AbstractPropertyWidget {
+        private static final int DEFAULT_LINE_HEIGHT = 8;
+        private Text text;
+        private int color;
+        private float size;
+
+        public LeftTextPropertyWidget(int colSlots, int rowSlots, Text text, int color, float size) {
+            super(colSlots, rowSlots);
+            setText(text); setColor(color); setSize(size);
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawText(matrices, text, color, size,
+                    x + 2,
+                    y + (this.box.height() - (int) (DEFAULT_LINE_HEIGHT * this.size) >> 1));
         }
 
         public void setText(Text text) {
