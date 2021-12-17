@@ -24,7 +24,7 @@ import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.entity.EntityLookup;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
-import xienaoban.minecraft.bole.client.HighlightManager;
+import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
@@ -168,17 +168,18 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            EntityType<?> entityType = this.entity.getType();
             HighlightManager hl = BoleClient.getInstance().getHighlightManager();
             ClientEntityManager<Entity> entityManager = MiscUtil.getFieldValue(MinecraftClient.getInstance().world, ClientWorld.class, "entityManager");
             EntityLookup<Entity> lookup = entityManager.getLookup();
             AtomicInteger cnt = new AtomicInteger();
-            lookup.forEach(this.entity.getType(), entity -> {
+            lookup.forEach(entityType, entity -> {
                 if (entity.distanceTo(handler.player) < 66 * 66) {
-                    hl.highlightEntity(entity, 8 * 20);
+                    hl.highlight(entity, 8 * 20);
                     cnt.incrementAndGet();
                 }
             });
-            handler.player.sendMessage(new LiteralText(String.valueOf(cnt.get())).append(new TranslatableText(this.entity.getType().getTranslationKey())).append(new TranslatableText(Keys.TEXT_HIGHLIGHT)).formatted(Formatting.GOLD), false);
+            handler.player.sendMessage(new LiteralText(String.valueOf(cnt.get())).append(new TranslatableText(entityType.getTranslationKey())).append(new TranslatableText(Keys.TEXT_HIGHLIGHT)).formatted(Formatting.GOLD), false);
             onClose();
             return true;
         }
