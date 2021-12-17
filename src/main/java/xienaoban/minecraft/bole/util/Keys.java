@@ -87,7 +87,7 @@ public interface Keys {
     String TEXT_NEVER_GROW_UP = "text.xienaoban.bole.never_grow_up";
     String TEXT_LOADING = "text.xienaoban.bole.loading";
     String TEXT_EMPTY_WITH_BRACKETS = "text.xienaoban.bole.empty_with_brackets";
-    String TEXT_VILLAGER_AGREE_TO_RESET_JOB = "text.hint.xienaoban.bole.villager_agree_to_reset_job";
+    String TEXT_VILLAGER_AGREE_TO_RESET_JOB = "text.xienaoban.bole.villager_agree_to_reset_job";
     String TEXT_HIGHLIGHT = "text.xienaoban.bole.highlight";
 
     String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
@@ -97,6 +97,8 @@ public interface Keys {
     String HINT_TEXT_NOT_ENOUGH_ITEMS = "text.hint.xienaoban.bole.not_enough_items";
     String HINT_TEXT_FAR_FROM_JOB_SITE = "text.hint.xienaoban.bole.far_from_job_site";
     String HINT_TEXT_NO_JOB = "text.hint.xienaoban.bole.no_job";
+    String HINT_TEXT_NO_JOB_SITE = "text.hint.xienaoban.bole.no_job_site";
+    String HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION = "text.hint.xienaoban.bole.job_site_different_dimension";
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.xienaoban.bole.refuse_to_reset_job";
 
     // Other

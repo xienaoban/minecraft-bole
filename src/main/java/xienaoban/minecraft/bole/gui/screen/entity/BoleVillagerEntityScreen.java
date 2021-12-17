@@ -25,6 +25,7 @@ import xienaoban.minecraft.bole.gui.screen.BoleMerchantEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVillagerEntityScreenHandler<E>> extends BoleMerchantEntityScreen<E, H> {
@@ -96,13 +97,19 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
             switch (index) {
                 case IDX_BUTTON_BEGIN -> {
                     GlobalPos pos = handler.entityJobSitePos;
-                    if (pos != null) {
+                    if (!handler.hasJob()) {
+                        showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
+                    }
+                    else if (pos == null) {
+                        showOverlayMessage(Keys.HINT_TEXT_NO_JOB_SITE);
+                    }
+                    else if (!Objects.equals(pos.getDimension(), handler.entity.world.getRegistryKey())) {
+                        showOverlayMessage(Keys.HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION);
+                    }
+                    else {
                         HighlightManager hl = BoleClient.getInstance().getHighlightManager();
                         hl.setOnlyHighlighted(hl.highlight(pos, 6 * 20));
                         onClose();
-                    }
-                    else {
-                        showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
                     }
                 }
                 case IDX_BUTTON_BEGIN + 1 -> {
@@ -159,7 +166,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 return false;
             }
-            if (!hasJob()) {
+            if (!handler.hasJob()) {
                 showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
             }
             else if (!canRestock()) {
@@ -173,10 +180,6 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                 this.overTime.setCount(calOvertime());
             }
             return true;
-        }
-
-        private boolean hasJob() {
-            return handler.entity.getVillagerData().getProfession() != VillagerProfession.NONE;
         }
 
         private boolean canRestock() {

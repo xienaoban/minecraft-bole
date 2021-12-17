@@ -14,9 +14,10 @@ import java.util.Objects;
  * Uses FallingBlockEntity to achieve highlighting effects of blocks.
  *
  * FallingBlockEntity doesn't render when the BlockState it displays is at its position (see MC-114286).
- * Solution ({@link #tryToMoveToRightPosition}):
+ * Solution:
  * Don't set the FallingBlockEntity to the position it should be immediately.
- * Initialize its position to anywhere else instead, and move it to where it should be after some ticks.
+ * Initialize its position to anywhere else instead {@link #createFallingBlockEntity},
+ * and move it to where it should be after some ticks {@link #tryToMoveToRightPosition}.
  */
 public class HighlightedBlockInstance extends HighlightedFakeInstance {
     protected final BlockPos pos;
