@@ -5,8 +5,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
+import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
@@ -20,6 +22,7 @@ public class BoleClient implements ClientModInitializer {
     private Entity boleTarget;
     private int ticks;
     private int screenTicks;
+    private boolean inWorld;
     private PacketByteBuf handlerBufCache = null;
     private HighlightManager highlightManager;
 
@@ -33,17 +36,32 @@ public class BoleClient implements ClientModInitializer {
         this.isScreenOpen = false;
         this.ticks = -1;
         this.screenTicks = -1;
+        this.inWorld = false;
         this.highlightManager = new HighlightManager();
         ScreenRegistryManager.initClient();
         ClientNetworkManager.init();
         KeyBindingManager.init();
     }
 
-    /**
-     * @see xienaoban.minecraft.bole.mixin.MixinMinecraftClient#tick
-     */
+    public void onJoinWorld() {
+        ClientWorld world = MinecraftClient.getInstance().world;
+        this.inWorld = world != null;
+        this.highlightManager.clear();  // to prevent memory leaks
+        if (world != null) Bole.LOGGER.info("Joining the world: " + MinecraftClient.getInstance().world.getRegistryKey().getValue());
+        else Bole.LOGGER.info("Joining the world: null?!");
+    }
+
+    public void onDisconnect() {
+        this.inWorld = false;
+        this.highlightManager.clear();  // to prevent memory leaks
+        ClientWorld world = MinecraftClient.getInstance().world;
+        if (world != null) Bole.LOGGER.info("Disconnecting from the world: " + MinecraftClient.getInstance().world.getRegistryKey().getValue());
+        else Bole.LOGGER.info("Disconnecting from the world: null?!");
+    }
+
     public void clientTick() {
-        ++this.ticks;
+        if (!inWorld) return;
+        if (!MinecraftClient.getInstance().isPaused()) ++this.ticks;
         if (this.isScreenOpen) {
             MinecraftClient client = MinecraftClient.getInstance();
             ClientPlayerEntity player = client.player;

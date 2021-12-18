@@ -9,7 +9,7 @@ import java.util.*;
 public class HighlightManager {
     private final PriorityQueue<HighlightedInstance> highlightedQue;
     private final Map<Entity, HighlightedInstance> highlightedMap;
-    private final List<HighlightedInstance> highlightedBlockList;
+    private final List<HighlightedBlockInstance> highlightedBlockList;
 
     private HighlightedBlockInstance onlyHighlighted;
 
@@ -59,5 +59,13 @@ public class HighlightManager {
         HighlightedBlockInstance old = this.onlyHighlighted;
         if (old != null) old.stop();
         this.onlyHighlighted = onlyHighlighted;
+    }
+
+    public void clear() {
+        this.highlightedQue.clear();
+        this.highlightedMap.clear();
+        this.highlightedBlockList.forEach(HighlightedBlockInstance::stop); // actually it's ok not to call "stop" here
+        this.highlightedBlockList.clear();
+        this.onlyHighlighted = null;
     }
 }
