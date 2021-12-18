@@ -37,6 +37,8 @@ Toto List:
               - [X] `Reset Beehive Position`
             - SheepEntity:
               - [X] `Force Eat Grass`
+            - ChickenEntity:
+              - [ ] `No Egg Laying`
           - MerchantEntity:
             - [X] `Get Inventory`
             - [ ] `Set Inventory` (Open a new HandledScreen? Just like HorseScreen?)

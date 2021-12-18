@@ -75,16 +75,18 @@ public class ServerNetworkManager {
             Identifier worldId = buf.readIdentifier();
             World world = server.getWorld(RegistryKey.of(Registry.WORLD_KEY, worldId));
             if (world == null) return;
-            PacketByteBuf res = PacketByteBufs.create();
-            res.writeInt(size);
-            res.writeIdentifier(worldId);
-            for (int i = 0; i < size; ++i) {
-                int entityId = buf.readInt();
-                Entity entity = world.getEntityById(entityId);
-                res.writeInt(entityId);
-                res.writeBoolean(entity != null && entity.isGlowing());
-            }
-            server.execute(() -> ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITIES_GLOWING, res));
+            server.execute(() -> {
+                PacketByteBuf res = PacketByteBufs.create();
+                res.writeInt(size);
+                res.writeIdentifier(worldId);
+                for (int i = 0; i < size; ++i) {
+                    int entityId = buf.readInt();
+                    Entity entity = world.getEntityById(entityId);
+                    res.writeInt(entityId);
+                    res.writeBoolean(entity != null && entity.isGlowing());
+                }
+                ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITIES_GLOWING, res);
+            });
         });
     }
 
