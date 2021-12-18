@@ -32,6 +32,7 @@ import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
+import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.ElementBox;
 import xienaoban.minecraft.bole.gui.ScreenElement;
 import xienaoban.minecraft.bole.gui.Textures;
@@ -233,6 +234,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                 drawText(matrices, "Entity: " + String.join(" > ", entitySuperclasses), LIGHT_TEXT_COLOR, 0.5F, 1, 15);
                 drawText(matrices, "Screen: " + this.getClass().getSimpleName(), LIGHT_TEXT_COLOR, 0.5F, 1, 20);
             }
+            drawText(matrices, "HighlightManager: " + BoleClient.getInstance().getHighlightManager(), LIGHT_TEXT_COLOR, 0.5F, 1, this.height - 5);
         }
         drawText(matrices, this.title, 0x99888888, this.contentLeft[0] + 0.7F, this.contentTop - 12 + 0.7F);
         drawText(matrices, this.title, 0xff444444, this.contentLeft[0], this.contentTop - 12);

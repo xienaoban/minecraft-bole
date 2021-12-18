@@ -22,7 +22,11 @@ public class HighlightManager {
 
     public void tick() {
         if (!this.highlightedBlockList.isEmpty()) {
+            // highlighting of blocks should be checked every tick (to check if the block is broken)
             this.highlightedBlockList.removeIf(HighlightedInstance::check);
+            if (this.onlyHighlighted != null && this.onlyHighlighted.isStopped()) {
+                this.onlyHighlighted = null;
+            }
         }
         if (!this.highlightedQue.isEmpty()) {
             PriorityQueue<HighlightedInstance> que = this.highlightedQue;
@@ -67,5 +71,14 @@ public class HighlightManager {
         this.highlightedBlockList.forEach(HighlightedBlockInstance::stop); // actually it's ok not to call "stop" here
         this.highlightedBlockList.clear();
         this.onlyHighlighted = null;
+    }
+
+    @Override
+    public String toString() {
+        return "highlightedQue(" + highlightedQue.size() +
+                "), highlightedMap(" + highlightedMap.size() +
+                "), highlightedBlockList(" + highlightedBlockList.size() +
+                "), onlyHighlighted(" + (onlyHighlighted != null ? 1 : 0) +
+                ")";
     }
 }
