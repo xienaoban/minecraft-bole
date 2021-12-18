@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -103,6 +104,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         public void setTargetEntity(Entity targetEntity) {
             this.targetEntity = targetEntity;
             this.displayedEntity = targetEntity.getType().create(MinecraftClient.getInstance().world);
+            if (this.displayedEntity == null) {
+                this.displayedEntity = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
+            }
             updateDisplayedEntity();
         }
     }

@@ -1,11 +1,10 @@
 package xienaoban.minecraft.bole.client.highlight;
 
-import net.minecraft.client.world.ClientEntityManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.world.entity.EntityLookup;
-import xienaoban.minecraft.bole.util.MiscUtil;
+import xienaoban.minecraft.bole.mixin.IMixinWorld;
 
 /**
  * Create a fake entity and display it only on current client.
@@ -33,8 +32,7 @@ public class HighlightedFakeInstance extends HighlightedInstance {
     }
 
     private int findAUsableEntityId() {
-        ClientEntityManager<Entity> entityManager = MiscUtil.getFieldValue(this.entity.world, ClientWorld.class, "entityManager");
-        EntityLookup<Entity> lookup = entityManager.getLookup();
+        EntityLookup<Entity> lookup = ((IMixinWorld) this.entity.world).callGetEntityLookup();
         int id;
         for (id = -66666666; id < -66660000; ++id) {
             if (lookup.get(id) == null) {

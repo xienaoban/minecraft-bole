@@ -14,7 +14,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.dynamic.GlobalPos;
-import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
@@ -108,7 +107,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                     }
                     else {
                         HighlightManager hl = BoleClient.getInstance().getHighlightManager();
-                        hl.setOnlyHighlighted(hl.highlight(pos, 6 * 20));
+                        hl.setHighlightedJobSiteOrBeehive(hl.highlight(pos, 6 * 20));
                         onClose();
                     }
                 }

@@ -45,7 +45,8 @@ public class HighlightedInstance implements Comparable<HighlightedInstance> {
     }
 
     protected void onStop() {
-        ((IMixinEntity) this.entity).callSetFlag(IMixinEntity.getGlowingFlagIndex(), false); // todo
+        ((IMixinEntity) this.entity).callSetFlag(IMixinEntity.getGlowingFlagIndex(), false);
+        BoleClient.getInstance().getHighlightManager().checkServerGlowing(this.entity);
     }
 
     public Entity getEntity() {

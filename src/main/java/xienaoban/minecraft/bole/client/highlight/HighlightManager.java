@@ -3,6 +3,7 @@ package xienaoban.minecraft.bole.client.highlight;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.dynamic.GlobalPos;
 import xienaoban.minecraft.bole.config.ClientConfig;
+import xienaoban.minecraft.bole.network.ClientNetworkManager;
 
 import java.util.*;
 
@@ -11,21 +12,24 @@ public class HighlightManager {
     private final Map<Entity, HighlightedInstance> highlightedMap;
     private final List<HighlightedBlockInstance> highlightedBlockList;
 
-    private HighlightedBlockInstance onlyHighlighted;
+    private HighlightedBlockInstance highlightedJobSiteOrBeehive;
+
+    private final Queue<Entity> toCheckGlowingFromServer;
 
     public HighlightManager() {
         this.highlightedQue = new PriorityQueue<>();
         this.highlightedMap = new HashMap<>();
         this.highlightedBlockList = new ArrayList<>();
-        this.onlyHighlighted = null;
+        this.highlightedJobSiteOrBeehive = null;
+        this.toCheckGlowingFromServer = new ArrayDeque<>(123);
     }
 
     public void tick() {
         if (!this.highlightedBlockList.isEmpty()) {
             // highlighting of blocks should be checked every tick (to check if the block is broken)
             this.highlightedBlockList.removeIf(HighlightedInstance::check);
-            if (this.onlyHighlighted != null && this.onlyHighlighted.isStopped()) {
-                this.onlyHighlighted = null;
+            if (this.highlightedJobSiteOrBeehive != null && this.highlightedJobSiteOrBeehive.isStopped()) {
+                this.highlightedJobSiteOrBeehive = null;
             }
         }
         if (!this.highlightedQue.isEmpty()) {
@@ -36,6 +40,7 @@ public class HighlightManager {
                 this.highlightedMap.remove(ins.getEntity());
                 if (ClientConfig.lazilyUnhighlight) break;
             }
+            ClientNetworkManager.requestServerEntitiesGlowing(this.toCheckGlowingFromServer);
         }
     }
 
@@ -44,7 +49,7 @@ public class HighlightManager {
         Map<Entity, HighlightedInstance> map = this.highlightedMap;
         HighlightedInstance old = map.getOrDefault(entity, null);
         if (old != null) {
-            old.stop();
+            // old.stop();  // don't call "stop" as it will check server glowing state
             que.remove(old);
         }
         HighlightedInstance ins = new HighlightedInstance(entity, ticks);
@@ -59,10 +64,10 @@ public class HighlightManager {
         return ins;
     }
 
-    public void setOnlyHighlighted(HighlightedBlockInstance onlyHighlighted) {
-        HighlightedBlockInstance old = this.onlyHighlighted;
+    public void setHighlightedJobSiteOrBeehive(HighlightedBlockInstance highlighted) {
+        HighlightedBlockInstance old = this.highlightedJobSiteOrBeehive;
         if (old != null) old.stop();
-        this.onlyHighlighted = onlyHighlighted;
+        this.highlightedJobSiteOrBeehive = highlighted;
     }
 
     public void clear() {
@@ -70,15 +75,20 @@ public class HighlightManager {
         this.highlightedMap.clear();
         this.highlightedBlockList.forEach(HighlightedBlockInstance::stop); // actually it's ok not to call "stop" here
         this.highlightedBlockList.clear();
-        this.onlyHighlighted = null;
+        this.highlightedJobSiteOrBeehive = null;
+    }
+
+    public void checkServerGlowing(Entity entity) {
+        this.toCheckGlowingFromServer.add(entity);
     }
 
     @Override
     public String toString() {
-        return "highlightedQue(" + highlightedQue.size() +
-                "), highlightedMap(" + highlightedMap.size() +
-                "), highlightedBlockList(" + highlightedBlockList.size() +
-                "), onlyHighlighted(" + (onlyHighlighted != null ? 1 : 0) +
+        return "highlightedQue(" + this.highlightedQue.size() +
+                "), highlightedMap(" + this.highlightedMap.size() +
+                "), highlightedBlockList(" + this.highlightedBlockList.size() +
+                "), highlightedJobSiteOrBeehive(" + (this.highlightedJobSiteOrBeehive != null ? 1 : 0) +
+                // "), toCheckGlowingFromServer(" + this.toCheckGlowingFromServer.size() +
                 ")";
     }
 }

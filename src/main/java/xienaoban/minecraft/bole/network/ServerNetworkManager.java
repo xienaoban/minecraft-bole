@@ -12,6 +12,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
@@ -22,6 +26,7 @@ public class ServerNetworkManager {
         registerRequestBoleScreen();
         registerRequestServerEntityData();
         registerSendClientEntitySettings();
+        registerRequestServerEntitiesGlowing();
     }
 
     private static void registerRequestBoleScreen() {
@@ -64,17 +69,36 @@ public class ServerNetworkManager {
         });
     }
 
-    private static AbstractBoleScreenHandler<?> getBoleScreenHandler(ServerPlayerEntity player) {
-        if (!(player.currentScreenHandler instanceof AbstractBoleScreenHandler)) {
-            Bole.LOGGER.warn("The bole screen may have been closed. Buf ignored.");
-            return null;
-        }
-        return (AbstractBoleScreenHandler<?>) player.currentScreenHandler;
+    private static void registerRequestServerEntitiesGlowing() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_SERVER_ENTITIES_GLOWING, (server, player, handler, buf, responseSender) -> {
+            int size = buf.readInt();
+            Identifier worldId = buf.readIdentifier();
+            World world = server.getWorld(RegistryKey.of(Registry.WORLD_KEY, worldId));
+            if (world == null) return;
+            PacketByteBuf res = PacketByteBufs.create();
+            res.writeInt(size);
+            res.writeIdentifier(worldId);
+            for (int i = 0; i < size; ++i) {
+                int entityId = buf.readInt();
+                Entity entity = world.getEntityById(entityId);
+                res.writeInt(entityId);
+                res.writeBoolean(entity != null && entity.isGlowing());
+            }
+            server.execute(() -> ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITIES_GLOWING, res));
+        });
     }
 
     public static void sendServerEntityData(AbstractBoleScreenHandler<?> boleScreenHandler, MinecraftServer server, ServerPlayerEntity player) {
         PacketByteBuf entityBuf = PacketByteBufs.create();
         boleScreenHandler.tryWriteServerEntityFromBuf(entityBuf);
         server.execute(() -> ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITY_DATA, entityBuf));
+    }
+
+    private static AbstractBoleScreenHandler<?> getBoleScreenHandler(ServerPlayerEntity player) {
+        if (!(player.currentScreenHandler instanceof AbstractBoleScreenHandler)) {
+            Bole.LOGGER.warn("The bole screen may have been closed. Buf ignored.");
+            return null;
+        }
+        return (AbstractBoleScreenHandler<?>) player.currentScreenHandler;
     }
 }

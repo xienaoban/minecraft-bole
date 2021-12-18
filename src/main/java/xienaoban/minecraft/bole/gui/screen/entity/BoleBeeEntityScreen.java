@@ -89,7 +89,7 @@ public class BoleBeeEntityScreen<E extends BeeEntity, H extends BoleBeeEntityScr
                     if (pos != null) {
                         HighlightManager hl = BoleClient.getInstance().getHighlightManager();
                         GlobalPos globalPos = GlobalPos.create(handler.entity.world.getRegistryKey(), pos);
-                        hl.setOnlyHighlighted(hl.highlight(globalPos, 6 * 20));
+                        hl.setHighlightedJobSiteOrBeehive(hl.highlight(globalPos, 6 * 20));
                         onClose();
                     }
                     else {

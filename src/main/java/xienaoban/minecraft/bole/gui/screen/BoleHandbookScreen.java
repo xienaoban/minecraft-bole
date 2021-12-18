@@ -142,7 +142,11 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
         public LivingEntityPropertyWidget(EntityType<?> entityType) {
             super(1, 3);
-            this.entity = (LivingEntity) entityType.create(MinecraftClient.getInstance().world);
+            LivingEntity tmp = (LivingEntity) entityType.create(MinecraftClient.getInstance().world);
+            if (tmp == null) {
+                tmp = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
+            }
+            this.entity = tmp;
             this.entityName = entityType.getName();
             this.entitySize = calEntitySize();
         }
