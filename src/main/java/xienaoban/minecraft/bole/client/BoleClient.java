@@ -46,17 +46,17 @@ public class BoleClient implements ClientModInitializer {
     public void onJoinWorld() {
         ClientWorld world = MinecraftClient.getInstance().world;
         this.inWorld = world != null;
-        this.highlightManager.clear();  // to prevent memory leaks
+        preventMemoryLeak();
         if (world != null) Bole.LOGGER.info("Joining the world: " + MinecraftClient.getInstance().world.getRegistryKey().getValue());
         else Bole.LOGGER.info("Joining the world: null?!");
     }
 
     public void onDisconnect() {
         this.inWorld = false;
-        this.highlightManager.clear();  // to prevent memory leaks
+        preventMemoryLeak();
         ClientWorld world = MinecraftClient.getInstance().world;
         if (world != null) Bole.LOGGER.info("Disconnecting from the world: " + MinecraftClient.getInstance().world.getRegistryKey().getValue());
-        else Bole.LOGGER.info("Disconnecting from the world: null?!");
+        else Bole.LOGGER.info("Disconnecting from the world: null");
     }
 
     public void clientTick() {
@@ -104,5 +104,11 @@ public class BoleClient implements ClientModInitializer {
 
     public HighlightManager getHighlightManager() {
         return highlightManager;
+    }
+
+    private void preventMemoryLeak() {
+        this.boleTarget = null;
+        this.handlerBufCache = null;
+        this.highlightManager.clear();
     }
 }
