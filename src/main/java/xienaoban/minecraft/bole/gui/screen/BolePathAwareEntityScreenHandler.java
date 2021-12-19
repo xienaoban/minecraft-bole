@@ -18,8 +18,8 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.mixin.IMixinMobEntity;
+import xienaoban.minecraft.bole.mixin.IMixinTemptGoal;
 import xienaoban.minecraft.bole.util.Keys;
-import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -103,13 +103,13 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
         }
         Item[] items = null;
         GoalSelector goalSelector = ((IMixinMobEntity)this.entity).getGoalSelector();
-        Set<PrioritizedGoal> goals = MiscUtil.getFieldValue(goalSelector, GoalSelector.class, "goals");
+        Set<PrioritizedGoal> goals = goalSelector.getGoals();
         for (PrioritizedGoal prioritizedGoal : goals) {
             Goal goal = prioritizedGoal.getGoal();
             if (!(goal instanceof TemptGoal)) {
                 continue;
             }
-            Ingredient foods = MiscUtil.getFieldValue(goal, TemptGoal.class, "food");
+            Ingredient foods = ((IMixinTemptGoal) goal).getFood();
             ItemStack[] itemStacks = foods.getMatchingStacks();
             items = Arrays.stream(itemStacks).map(ItemStack::getItem)
                     .sorted(Comparator.comparing(Registry.ITEM::getId)).toArray(Item[]::new);

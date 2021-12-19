@@ -4,17 +4,15 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.goal.EatGrassGoal;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreenHandler;
+import xienaoban.minecraft.bole.mixin.IMixinEatGrassGoal;
+import xienaoban.minecraft.bole.mixin.IMixinSheepEntity;
 import xienaoban.minecraft.bole.util.Keys;
-import xienaoban.minecraft.bole.util.MiscUtil;
-
-import java.lang.reflect.Field;
 
 public class BoleSheepEntityScreenHandler<E extends SheepEntity> extends BoleAnimalEntityScreenHandler<E> {
     public static final ScreenHandlerType<BoleSheepEntityScreenHandler<SheepEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
@@ -40,15 +38,9 @@ public class BoleSheepEntityScreenHandler<E extends SheepEntity> extends BoleAni
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_EAT_GRASS, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                EatGrassGoal goal = MiscUtil.getFieldValue(entity, SheepEntity.class, "eatGrassGoal");
-                Field timer = MiscUtil.getField(EatGrassGoal.class, "timer");
-                timer.setAccessible(true);
-                try {
-                    if (timer.getInt(goal) == 0) {
-                        timer.setInt(goal, -1);
-                    }
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
+                IMixinEatGrassGoal goal = (IMixinEatGrassGoal) ((IMixinSheepEntity) entity).getEatGrassGoal();
+                if (goal.getTimer() == 0) {
+                    goal.setTimer(-1);
                 }
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {}

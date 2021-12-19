@@ -8,8 +8,6 @@ import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.world.ClientEntityManager;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -26,8 +24,8 @@ import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.mixin.IMixinWorld;
 import xienaoban.minecraft.bole.util.Keys;
-import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -174,8 +172,8 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             EntityType<?> entityType = this.entity.getType();
             HighlightManager hl = BoleClient.getInstance().getHighlightManager();
-            ClientEntityManager<Entity> entityManager = MiscUtil.getFieldValue(MinecraftClient.getInstance().world, ClientWorld.class, "entityManager");
-            EntityLookup<Entity> lookup = entityManager.getLookup();
+            assert MinecraftClient.getInstance().world != null;
+            EntityLookup<Entity> lookup = ((IMixinWorld) MinecraftClient.getInstance().world).callGetEntityLookup();
             AtomicInteger cnt = new AtomicInteger();
             lookup.forEach(entityType, entity -> {
                 if (entity.distanceTo(handler.player) < 66 * 66) {
