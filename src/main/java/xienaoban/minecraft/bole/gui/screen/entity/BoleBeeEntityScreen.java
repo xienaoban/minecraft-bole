@@ -73,6 +73,7 @@ public class BoleBeeEntityScreen<E extends BeeEntity, H extends BoleBeeEntityScr
                     double dis = pos.getSquaredDistance(handler.entity.getPos(), true);
                     this.cacheDistance = new LiteralText(String.format("%.2fm", Math.sqrt(dis)));
                 }
+                else this.cacheDistance = NO_HIVE;
             }
             drawBarText(matrices, this.cacheDistance, DARK_TEXT_COLOR);
         }

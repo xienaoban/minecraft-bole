@@ -147,6 +147,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             int restocksToday = handler.entityRestocksToday;
+            this.overTime.setCount(calOvertime());
             drawIcon(matrices, 0, 110);
             drawBar(matrices, 1.0F, 10, 110);
             drawBar(matrices, restocksToday / 3.0F, 50, 110);

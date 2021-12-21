@@ -82,6 +82,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         private final Text[] names;
         private final int variantsSize;
         private final int eachWidth, margin;
+        private int lastChosen;
 
         public VariantsPropertyWidget(int colSlots, int rowSlots) {
             super(colSlots, rowSlots);
@@ -90,6 +91,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             this.names = initNames();
             this.eachWidth = this.box.width() / this.variantsSize;
             this.margin = ((this.box.width() % this.variantsSize) >> 1) + 1;
+            this.lastChosen = -1;
         }
 
         @Override
@@ -100,6 +102,12 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                 drawEntity(matrices, entity, xx, y, xx + this.eachWidth, this.box.bottom() - 10, mouseX, mouseY);
                 drawName(matrices, this.names[i], xx + this.eachWidth / 2, this.box.bottom() - 8);
                 if (isChosen(this.variants[i])) {
+                    if (this.lastChosen != i) {
+                        if (this.lastChosen != -1 && targetDisplayedEntityPropertyWidget != null) {
+                            targetDisplayedEntityPropertyWidget.updateDisplayedEntity();
+                        }
+                        this.lastChosen = i;
+                    }
                     drawSelectedTick(matrices, i, true);
                 }
             }
@@ -124,9 +132,6 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                 return false;
             }
             setChosen(this.variants[index]);
-            if (targetDisplayedEntityPropertyWidget != null) {
-                targetDisplayedEntityPropertyWidget.updateDisplayedEntity();
-            }
             return true;
         }
 
@@ -157,7 +162,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
      * The entity can be rotated according to the mouse.
      */
     public class DisplayedEntityPropertyWidget extends AbstractPropertyWidget {
+        private static final int UPDATE_TICKS = 20;
         private Entity displayedEntity, targetEntity;
+        private int nextUpdateTicks;
 
         public DisplayedEntityPropertyWidget(int colSlots, int rowSlots, Entity targetEntity) {
             super(colSlots, rowSlots);
@@ -169,12 +176,16 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            if (BoleClient.getInstance().getScreenTicks() > this.nextUpdateTicks) {
+                updateDisplayedEntity();
+            }
             drawEntityAuto(this.displayedEntity, x + 2, y, x + this.box.width() - 2, y + this.box.height() - 4,
                     (mouseX) / 33.0F + 0.0001F, (mouseY) / 53.0F + 5.0F);
         }
 
         public void updateDisplayedEntity() {
             copyEntityNbtForDisplay(this.targetEntity, this.displayedEntity);
+            this.nextUpdateTicks = BoleClient.getInstance().getScreenTicks() + UPDATE_TICKS;
         }
 
         public void setTargetEntity(Entity targetEntity) {
