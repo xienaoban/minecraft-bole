@@ -75,12 +75,14 @@ public class ServerNetworkManager {
             Identifier worldId = buf.readIdentifier();
             World world = server.getWorld(RegistryKey.of(Registry.WORLD_KEY, worldId));
             if (world == null) return;
+            int[] entityIds = new int[size];
+            for (int i = 0; i < size; ++i) entityIds[i] = buf.readInt();
             server.execute(() -> {
                 PacketByteBuf res = PacketByteBufs.create();
                 res.writeInt(size);
                 res.writeIdentifier(worldId);
                 for (int i = 0; i < size; ++i) {
-                    int entityId = buf.readInt();
+                    int entityId = entityIds[i];
                     Entity entity = world.getEntityById(entityId);
                     res.writeInt(entityId);
                     res.writeBoolean(entity != null && entity.isGlowing());

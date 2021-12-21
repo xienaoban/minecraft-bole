@@ -1,5 +1,6 @@
-Toto List:
+Functions:
 - Entity:
+  - [X] **`Highlight Entities Around The Player`**
   - [ ] ~~`UUID`~~
   - [X] `Bounding Box`
   - [X] `Custom Name`
@@ -27,7 +28,10 @@ Toto List:
             - TameableEntity:
               - [ ] `Is Tamed`
               - [ ] `Set Owner`
-              - CatEntity
+              - TameableShoulderEntity:
+                - ParrotEntity:
+                  - [ ] `Set Parrot Type`
+              - CatEntity:
                 - [X] `Set Cat Type`
             - HorseBaseEntity:
               - AbstractDonkeyEntity
@@ -42,6 +46,8 @@ Toto List:
               - [X] `Force Eat Grass`
             - ChickenEntity:
               - [ ] `No Egg Laying`
+            - PandaEntity:
+              - [X] `Set Gene`
           - MerchantEntity:
             - [X] `Get Inventory`
             - [ ] `Set Inventory` (Open a new HandledScreen? Just like HorseScreen?)
