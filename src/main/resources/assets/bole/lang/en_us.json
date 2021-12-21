@@ -12,6 +12,18 @@
   "swamp": "Swamp",
   "taiga": "Taiga",
 
+  "type.entity.minecraft.cat.tabby": "Tabby",
+  "type.entity.minecraft.cat.black": "Black",
+  "type.entity.minecraft.cat.red": "Red",
+  "type.entity.minecraft.cat.siamese": "Siamese",
+  "type.entity.minecraft.cat.shorthair": "Shorthair",
+  "type.entity.minecraft.cat.calico": "Calico",
+  "type.entity.minecraft.cat.persian": "Persian",
+  "type.entity.minecraft.cat.ragdoll": "Ragdoll",
+  "type.entity.minecraft.cat.white": "White",
+  "type.entity.minecraft.cat.jellie": "Jellie",
+  "type.entity.minecraft.cat.all_black": "All Black",
+
   "tag_group.xienaoban.bole.default": "Default",
   "tag_group.xienaoban.bole.default.description": "Default catalog.",
   "tag_group.xienaoban.bole.class": "By Class",
@@ -125,6 +137,8 @@
   "property_widget.xienaoban.bole.villager_restock.description.button1": "Button1: force the villager to restock (need to pay overtime).",
   "property_widget.xienaoban.bole.villager_clothing": "Clothing",
   "property_widget.xienaoban.bole.villager_clothing.description": "Click to dress up.",
+  "property_widget.xienaoban.bole.cat_type": "Types of Cat",
+  "property_widget.xienaoban.bole.cat_type.description": "You can only set the type in creative or spectator mode.",
 
   "text.xienaoban.bole.unsupported_entity": "Unsupported entity",
   "text.xienaoban.bole.unnamed": "Unnamed",

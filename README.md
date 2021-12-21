@@ -25,7 +25,10 @@ Toto List:
           - AnimalEntity:
             - [X] `Breeding Item` (isBreedingItem)
             - TameableEntity:
+              - [ ] `Is Tamed`
               - [ ] `Set Owner`
+              - CatEntity
+                - [X] `Set Cat Type`
             - HorseBaseEntity:
               - AbstractDonkeyEntity
                 - [X] `Chest Size`

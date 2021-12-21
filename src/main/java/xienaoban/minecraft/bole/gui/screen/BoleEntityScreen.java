@@ -13,6 +13,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -74,6 +75,77 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         this.targetDisplayedEntityPropertyWidget = new DisplayedEntityPropertyWidget(width, height, this.handler.entity);
         page.setSlot(left, top, this.targetDisplayedEntityPropertyWidget);
         return plan;
+    }
+
+    public abstract class VariantsPropertyWidget extends AbstractPropertyWidget {
+        private final E[] variants;
+        private final Text[] names;
+        private final int variantsSize;
+        private final int eachWidth, margin;
+
+        public VariantsPropertyWidget(int colSlots, int rowSlots) {
+            super(colSlots, rowSlots);
+            this.variants = initEntities();
+            this.variantsSize = this.variants.length;
+            this.names = initNames();
+            this.eachWidth = this.box.width() / this.variantsSize;
+            this.margin = ((this.box.width() % this.variantsSize) >> 1) + 1;
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            for (int i = 0; i < this.variantsSize; ++i) {
+                E entity = this.variants[i];
+                int xx = x + this.eachWidth * i + this.margin;
+                drawEntity(entity, xx, y, xx + this.eachWidth, this.box.bottom() - 10, mouseX, mouseY);
+                drawTextCenteredX(matrices, this.names[i], 0xaa220000, 0.5F, xx + this.eachWidth / 2.0F, this.box.bottom() - 8);
+                if (isChosen(this.variants[i])) {
+                    drawSelectedTick(matrices, i, true);
+                }
+            }
+            if (isHovered() && canChoose()) {
+                int i = calIndex(mouseX, mouseY);
+                if (i >= 0 && i < this.variantsSize && !isChosen(this.variants[i])) {
+                    drawSelectedTick(matrices, i, false);
+                }
+            }
+        }
+
+        private void drawSelectedTick(MatrixStack matrices, int index, boolean selected) {
+            setTexture(Textures.ICONS);
+            int xx = this.box.left() + this.eachWidth * index + this.margin + this.eachWidth / 2 - 5;
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), xx, this.box.bottom() - 18, 210 - (selected ? 10 : 0), 20);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            int index = calIndex((int) mouseX, (int) mouseY);
+            if (index < 0 || index >= this.variantsSize || !canChoose()) {
+                return false;
+            }
+            setChosen(this.variants[index]);
+            if (targetDisplayedEntityPropertyWidget != null) {
+                targetDisplayedEntityPropertyWidget.updateDisplayedEntity();
+            }
+            return true;
+        }
+
+        private int calIndex(int mouseX, int mouseY) {
+            if (mouseY < this.box.top() + 4 || mouseY > this.box.bottom() - 4) {
+                return -1;
+            }
+            return (mouseX - this.margin - this.box.left()) / this.eachWidth;
+        }
+
+        protected abstract E[] initEntities();
+        protected abstract Text[] initNames();
+        protected abstract boolean canChoose();
+        protected abstract boolean isChosen(E fake);
+        protected abstract void setChosen(E fake);
+
+        protected void drawEntity(E fake, int x0, int y0, int x1, int y1, int mouseX, int mouseY) {
+            drawEntityAuto(fake, x0, y0, x1, y1, 0, 10);
+        }
     }
 
     /**

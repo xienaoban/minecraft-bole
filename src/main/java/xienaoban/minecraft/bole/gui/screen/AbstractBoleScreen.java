@@ -5,11 +5,11 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
@@ -27,12 +27,12 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
-import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.ElementBox;
 import xienaoban.minecraft.bole.gui.ScreenElement;
 import xienaoban.minecraft.bole.gui.Textures;
@@ -221,7 +221,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawTextureNormally(matrices, 256, 256, this.getZOffset(),
                 this.width >> 1, y0, x1, y1, u0, v0, u1, v1);
         if (this.debugMode) {
-            drawText(matrices, "Tick: " + BoleClient.getInstance().getScreenTicks(), LIGHT_TEXT_COLOR, 0.5F, 1, 10);
+            drawText(matrices, "Ticks: " + BoleClient.getInstance().getScreenTicks(), LIGHT_TEXT_COLOR, 0.5F, 1, 10);
             if (this.handler.entity != null) {
                 List<String> entitySuperclasses = new ArrayList<>();
                 Class<?> clazz = this.handler.entity.getClass();
@@ -680,6 +680,11 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.hovered = hovered;
     }
 
+    public GameMode getGameMode() {
+        ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
+        return manager != null ? manager.getCurrentGameMode() : null;
+    }
+
     public final class OverlayMessageHud extends ScreenElement {
         private Text overlayMessage;
         private int overlayTicksTo;
@@ -969,6 +974,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         public final int getColSlots() {
             return this.colSlots;
+        }
+
+        public final boolean isHovered() {
+            return getHovered() == this;
         }
     }
 

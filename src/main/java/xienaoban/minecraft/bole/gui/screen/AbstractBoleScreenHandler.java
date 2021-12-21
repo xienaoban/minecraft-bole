@@ -3,7 +3,9 @@ package xienaoban.minecraft.bole.gui.screen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,6 +15,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.Nullable;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.BoleClient;
@@ -112,6 +115,14 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         // Set BoleTarget to null to avoid memory leak.
         BoleClient.getInstance().setBoleTarget(null);
         return entity;
+    }
+
+    public GameMode getGameMode() {
+        if (this.player instanceof ClientPlayerEntity) {
+            ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
+            return manager != null ? manager.getCurrentGameMode() : null;
+        }
+        return ((ServerPlayerEntity) this.player).interactionManager.getGameMode();
     }
 
     /**

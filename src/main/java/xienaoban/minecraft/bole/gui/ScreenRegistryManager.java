@@ -66,6 +66,8 @@ public class ScreenRegistryManager {
         registerEntityToHandler(VillagerEntity.class, BoleVillagerEntityScreenHandler::new);
         registerEntityToHandler(SheepEntity.class, BoleSheepEntityScreenHandler::new);
         registerEntityToHandler(BeeEntity.class, BoleBeeEntityScreenHandler::new);
+        registerEntityToHandler(TameableEntity.class, BoleTameableEntityScreenHandler::new);
+        registerEntityToHandler(CatEntity.class, BoleCatEntityScreenHandler::new);
     }
 
     @Environment(EnvType.CLIENT)
@@ -84,5 +86,7 @@ public class ScreenRegistryManager {
         ScreenRegistry.register(BoleVillagerEntityScreenHandler.HANDLER, BoleVillagerEntityScreen<VillagerEntity, BoleVillagerEntityScreenHandler<VillagerEntity>>::new);
         ScreenRegistry.register(BoleSheepEntityScreenHandler.HANDLER, BoleSheepEntityScreen<SheepEntity, BoleSheepEntityScreenHandler<SheepEntity>>::new);
         ScreenRegistry.register(BoleBeeEntityScreenHandler.HANDLER, BoleBeeEntityScreen<BeeEntity, BoleBeeEntityScreenHandler<BeeEntity>>::new);
+        ScreenRegistry.register(BoleTameableEntityScreenHandler.HANDLER, BoleTameableEntityScreen<TameableEntity, BoleTameableEntityScreenHandler<TameableEntity>>::new);
+        ScreenRegistry.register(BoleCatEntityScreenHandler.HANDLER, BoleCatEntityScreen<CatEntity, BoleCatEntityScreenHandler<CatEntity>>::new);
     }
 }

@@ -234,7 +234,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                     drawSelectedTick(matrices, i, true);
                 }
             }
-            if (getHovered() == this) {
+            if (isHovered()) {
                 int i = calIndex(mouseX, mouseY);
                 if (i >= 0 && i < CLOTHES.length && CLOTHES[i] != handler.entity.getVillagerData().getType()) {
                     drawSelectedTick(matrices, i, false);
@@ -255,7 +255,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                 return false;
             }
             VillagerType type = CLOTHES[index];
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CLOTHING, type);
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_VILLAGER_CLOTHING, type);
             if (targetDisplayedEntityPropertyWidget != null) {
                 targetDisplayedEntityPropertyWidget.updateDisplayedEntity();
             }

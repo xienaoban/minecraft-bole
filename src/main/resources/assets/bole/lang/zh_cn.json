@@ -12,6 +12,18 @@
   "swamp": "沼泽",
   "taiga": "针叶",
 
+  "type.entity.minecraft.cat.tabby": "虎斑",
+  "type.entity.minecraft.cat.black": "西服",
+  "type.entity.minecraft.cat.red": "大橘",
+  "type.entity.minecraft.cat.siamese": "暹罗",
+  "type.entity.minecraft.cat.shorthair": "英短",
+  "type.entity.minecraft.cat.calico": "三花",
+  "type.entity.minecraft.cat.persian": "波斯",
+  "type.entity.minecraft.cat.ragdoll": "布偶",
+  "type.entity.minecraft.cat.white": "白色",
+  "type.entity.minecraft.cat.jellie": "黑白",
+  "type.entity.minecraft.cat.all_black": "黑色",
+
   "tag_group.xienaoban.bole.default": "默认分类",
   "tag_group.xienaoban.bole.default.description": "默认的目录。",
   "tag_group.xienaoban.bole.class": "“类”分类",
@@ -125,6 +137,8 @@
   "property_widget.xienaoban.bole.villager_restock.description.button1": "按钮1：强制村民补货（要付加班费的哦）。",
   "property_widget.xienaoban.bole.villager_clothing": "换装",
   "property_widget.xienaoban.bole.villager_clothing.description": "点击以换装（村民暖暖了属于是）。",
+  "property_widget.xienaoban.bole.cat_type": "猫猫的品种",
+  "property_widget.xienaoban.bole.cat_type.description": "你只能在创造模式或观察模式中更换品种。",
 
   "text.xienaoban.bole.unsupported_entity": "不支持的实体",
   "text.xienaoban.bole.unnamed": "未命名",

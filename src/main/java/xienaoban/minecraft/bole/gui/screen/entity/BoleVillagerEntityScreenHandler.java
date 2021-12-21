@@ -83,7 +83,7 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
                 ++entityRestocksToday;
             }
         });
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_CLOTHING, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_VILLAGER_CLOTHING, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 VillagerType type = Registry.VILLAGER_TYPE.get(Identifier.tryParse(buf.readString()));
                 entity.setVillagerData(entity.getVillagerData().withType(type));
