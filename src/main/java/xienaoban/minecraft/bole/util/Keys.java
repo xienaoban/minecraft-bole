@@ -16,24 +16,29 @@ public interface Keys {
     String ENTITY_SETTING_VILLAGER_CLOTHING =       "villager_clothing";
     String ENTITY_SETTING_EAT_GRASS =               "eat_grass";
     String ENTITY_SETTING_CAT_TYPE =                "cat_type";
+    String ENTITY_SETTING_PANDA_TYPE =                "panda_type";
 
     // Translation Keys
-    String CAT_TYPE_TABBY =             "type.entity.minecraft.cat.tabby";
-    String CAT_TYPE_BLACK =             "type.entity.minecraft.cat.black";
-    String CAT_TYPE_RED =               "type.entity.minecraft.cat.red";
-    String CAT_TYPE_SIAMESE =           "type.entity.minecraft.cat.siamese";
-    String CAT_TYPE_BRITISH_SHORTHAIR = "type.entity.minecraft.cat.shorthair";
-    String CAT_TYPE_CALICO =            "type.entity.minecraft.cat.calico";
-    String CAT_TYPE_PERSIAN =           "type.entity.minecraft.cat.persian";
-    String CAT_TYPE_RAGDOLL =           "type.entity.minecraft.cat.ragdoll";
-    String CAT_TYPE_WHITE =             "type.entity.minecraft.cat.white";
-    String CAT_TYPE_JELLIE =            "type.entity.minecraft.cat.jellie";
-    String CAT_TYPE_ALL_BLACK =         "type.entity.minecraft.cat.all_black";
-
     String MOD_NAME =               "xienaoban.bole";
     String TITLE_BOLE_OVERVIEW =    "title.xienaoban.bole.bole_handbook";
     String KEY_CATEGORY_BOLE =      "key.category.xienaoban.bole";
     String KEY_OPEN_BOLE_GUI =      "key.xienaoban.bole.open_bole_gui";
+
+    String CAT_TYPE_TABBY =             "entity.minecraft.cat.type.tabby";
+    String CAT_TYPE_BLACK =             "entity.minecraft.cat.type.black";
+    String CAT_TYPE_RED =               "entity.minecraft.cat.type.red";
+    String CAT_TYPE_SIAMESE =           "entity.minecraft.cat.type.siamese";
+    String CAT_TYPE_BRITISH_SHORTHAIR = "entity.minecraft.cat.type.shorthair";
+    String CAT_TYPE_CALICO =            "entity.minecraft.cat.type.calico";
+    String CAT_TYPE_PERSIAN =           "entity.minecraft.cat.type.persian";
+    String CAT_TYPE_RAGDOLL =           "entity.minecraft.cat.type.ragdoll";
+    String CAT_TYPE_WHITE =             "entity.minecraft.cat.type.white";
+    String CAT_TYPE_JELLIE =            "entity.minecraft.cat.type.jellie";
+    String CAT_TYPE_ALL_BLACK =         "entity.minecraft.cat.type.all_black";
+
+    String PANDA_TYPE_PREFIX = "entity.minecraft.panda.type.";
+
+    String VILLAGER_CLOTHING_PREFIX = "entity.minecraft.villager.clothing.";
 
     String TAG_GROUP_DEFAULT =      "tag_group.xienaoban.bole.default";
     String TAG_GROUP_CLASS =        "tag_group.xienaoban.bole.class";
@@ -95,6 +100,10 @@ public interface Keys {
     String PROPERTY_WIDGET_VILLAGER_CLOTHING_DESCRIPTION = "property_widget.xienaoban.bole.villager_clothing.description";
     String PROPERTY_WIDGET_CAT_TYPE = "property_widget.xienaoban.bole.cat_type";
     String PROPERTY_WIDGET_CAT_TYPE_DESCRIPTION = "property_widget.xienaoban.bole.cat_type.description";
+    String PROPERTY_WIDGET_PANDA_MAIN_GENE = "property_widget.xienaoban.bole.panda_main_gene";
+    String PROPERTY_WIDGET_PANDA_MAIN_GENE_DESCRIPTION = "property_widget.xienaoban.bole.panda_main_gene.description";
+    String PROPERTY_WIDGET_PANDA_HIDDEN_GENE = "property_widget.xienaoban.bole.panda_hidden_gene";
+    String PROPERTY_WIDGET_PANDA_HIDDEN_GENE_DESCRIPTION = "property_widget.xienaoban.bole.panda_hidden_gene.description";
 
     String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
     String TEXT_UNNAMED = "text.xienaoban.bole.unnamed";
@@ -104,6 +113,8 @@ public interface Keys {
     String TEXT_EMPTY_WITH_BRACKETS = "text.xienaoban.bole.empty_with_brackets";
     String TEXT_VILLAGER_AGREE_TO_RESET_JOB = "text.xienaoban.bole.villager_agree_to_reset_job";
     String TEXT_HIGHLIGHT = "text.xienaoban.bole.highlight";
+    String TEXT_MAIN_GENE = "text.xienaoban.bole.main_gene";
+    String TEXT_HIDDEN_GENE = "text.xienaoban.bole.hidden_gene";
 
     String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
     String HINT_TEXT_NO_BEEHIVE = "text.hint.xienaoban.bole.no_beehive";

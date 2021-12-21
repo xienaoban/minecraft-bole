@@ -97,8 +97,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             for (int i = 0; i < this.variantsSize; ++i) {
                 E entity = this.variants[i];
                 int xx = x + this.eachWidth * i + this.margin;
-                drawEntity(entity, xx, y, xx + this.eachWidth, this.box.bottom() - 10, mouseX, mouseY);
-                drawTextCenteredX(matrices, this.names[i], 0xaa220000, 0.5F, xx + this.eachWidth / 2.0F, this.box.bottom() - 8);
+                drawEntity(matrices, entity, xx, y, xx + this.eachWidth, this.box.bottom() - 10, mouseX, mouseY);
+                drawName(matrices, this.names[i], xx + this.eachWidth / 2, this.box.bottom() - 8);
                 if (isChosen(this.variants[i])) {
                     drawSelectedTick(matrices, i, true);
                 }
@@ -143,8 +143,12 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         protected abstract boolean isChosen(E fake);
         protected abstract void setChosen(E fake);
 
-        protected void drawEntity(E fake, int x0, int y0, int x1, int y1, int mouseX, int mouseY) {
+        protected void drawEntity(MatrixStack matrices, E fake, int x0, int y0, int x1, int y1, int mouseX, int mouseY) {
             drawEntityAuto(fake, x0, y0, x1, y1, 0, 10);
+        }
+
+        protected void drawName(MatrixStack matrices, Text text, int xMid, int yTop) {
+            drawTextCenteredX(matrices, text, 0xaa220000, 0.5F, xMid, yTop);
         }
     }
 

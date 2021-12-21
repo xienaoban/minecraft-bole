@@ -96,7 +96,7 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
         }
 
         @Override
-        protected void drawEntity(E fake, int x0, int y0, int x1, int y1, int mouseX, int mouseY) {
+        protected void drawEntity(MatrixStack matrices, E fake, int x0, int y0, int x1, int y1, int mouseX, int mouseY) {
             int mid = x0 + x1 >> 1;
             drawEntityAuto(fake, mid - 10, y0 - 12, mid + 10, y1, 0, 10);
         }
