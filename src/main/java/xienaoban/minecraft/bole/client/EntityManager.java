@@ -7,13 +7,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.mob.PatrolEntity;
-import net.minecraft.entity.mob.WaterCreatureEntity;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import xienaoban.minecraft.bole.util.Keys;
@@ -135,6 +136,7 @@ public class EntityManager {
         this.defaultTags.addTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, Keys.TAG_DEFAULT_ANIMAL);
         this.defaultTags.addTag(Keys.TAG_DEFAULT_HUMAN, Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL);
         this.defaultTags.addTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, Keys.TAG_DEFAULT_ANIMAL);
+        this.defaultTags.addTag(Keys.TAG_DEFAULT_HUMANOID, Keys.TAG_DEFAULT_MONSTER);
         this.defaultTags.addTag(Keys.TAG_DEFAULT_PATROL, Keys.TAG_DEFAULT_MONSTER);
 
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, this.classTags.getTag(getClassId(MerchantEntity.class)).getEntities());
@@ -151,6 +153,17 @@ public class EntityManager {
 
         // Duplicate Entity
         this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.TURTLE));
+
+        List<EntityInfo> cHumanoid = this.getEntityInfos().stream().filter(entityInfo -> {
+            if (entityInfo.getInstance() instanceof HostileEntity) {
+                if (entityInfo.getClazz() == CreeperEntity.class || entityInfo.getClazz() == BlazeEntity.class
+                        || entityInfo.getClazz() == WitherEntity.class) return false;
+                Box box = entityInfo.getInstance().getBoundingBox();
+                return box.getXLength() < 1 && box.getYLength() > 1.6;
+            }
+            return false;
+        }).collect(Collectors.toList());
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMANOID, cHumanoid);
 
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_PATROL, this.classTags.getTag(getClassId(PatrolEntity.class)).getEntities());
 
@@ -407,6 +420,7 @@ public class EntityManager {
 
     public static class EntityInfo implements Comparable<EntityInfo> {
         private final EntityType<?> type;
+        private final Entity instance;
         private final Class<?> clazz;
         private final List<Tag> tags;
         private int sortId;
@@ -414,6 +428,7 @@ public class EntityManager {
         public EntityInfo(EntityType<?> type) {
             this.type = type;
             Entity instance = type.create(MinecraftClient.getInstance().world);
+            this.instance = instance;
             if (!(instance instanceof LivingEntity)) {
                 throw new RuntimeException();
             }
@@ -421,14 +436,12 @@ public class EntityManager {
             this.tags = new ArrayList<>();
         }
 
-        public EntityInfo(EntityType<?> type, Class<? extends Entity> clazz) {
-            this.type = type;
-            this.clazz = clazz;
-            this.tags = new ArrayList<>();
-        }
-
         public EntityType<?> getType() {
             return this.type;
+        }
+
+        public Entity getInstance() {
+            return this.instance;
         }
 
         public Class<?> getClazz() {
