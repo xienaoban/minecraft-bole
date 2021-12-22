@@ -12,6 +12,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.screen.*;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
+import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreen;
+import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenHandler;
 
 import java.util.HashMap;
 import java.util.Map;

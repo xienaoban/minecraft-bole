@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui.screen;
+package xienaoban.minecraft.bole.gui.screen.handbook;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -9,6 +9,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public final class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<Entity> {
