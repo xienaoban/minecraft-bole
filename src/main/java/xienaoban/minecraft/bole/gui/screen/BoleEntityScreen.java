@@ -15,6 +15,7 @@ import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
+import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
@@ -38,6 +39,12 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     @Override
     protected void initCustom() {
         this.pages.get(1).setSlot(0, 5, new CenteredTextPropertyWidget(4, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
+    }
+
+    @Override
+    protected void initButtons() {
+        super.initButtons();
+        addBookmark(0, new TranslatableText(Keys.TEXT_RETURN_TO_HANDBOOK), button -> ClientNetworkManager.requestBoleScreen());
     }
 
     @Override

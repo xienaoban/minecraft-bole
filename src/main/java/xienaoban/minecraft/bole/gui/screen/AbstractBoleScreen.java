@@ -39,9 +39,7 @@ import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.mixin.IMixinItemStack;
 import xienaoban.minecraft.bole.util.Keys;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
@@ -67,6 +65,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     protected int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
 
+    protected final Map<Integer, ButtonWidget> bookmarks;
+
     protected final List<Page> pages;
     protected Page curLeftPage, curRightPage;
     protected int pageIndex;
@@ -78,8 +78,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.debugMode = false;
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
-        initButtons();
         this.overlayMessageHud = new OverlayMessageHud();
+        this.bookmarks = new HashMap<>();
         this.emptyPage = new Page();
         this.emptyPage.setSlot(0, 4, new CenteredTextPropertyWidget(4, 2, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), 0xaa666666, 1.0F));
         this.pages = new ArrayList<>();
@@ -206,6 +206,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.pages.clear();
         this.pages.add(new Page());
         setHovered(null);
+    }
+
+    public void addBookmark(int index, Text title, ButtonWidget.PressAction onPress) {
+        BookmarkButtonWidget bookmark = new BookmarkButtonWidget(this.contentLeft[0] - 30 - 10 + (index % 3), this.contentTop - 5 + index * 14, index, title, onPress);
+        addDrawableChild(bookmark);
+        this.bookmarks.put(index, bookmark);
     }
 
     @Override
@@ -723,11 +729,11 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     }
 
-    public class TagGroupButtonWidget extends ButtonWidget {
+    public class BookmarkButtonWidget extends ButtonWidget {
         private final int color;
         private final Text title;
 
-        public TagGroupButtonWidget(int x, int y, int color, Text title, PressAction onPress) {
+        public BookmarkButtonWidget(int x, int y, int color, Text title, PressAction onPress) {
             super(x, y, 30, 10, LiteralText.EMPTY, onPress);
             this.color = color % 4;
             this.title = title;

@@ -1,4 +1,5 @@
 {
+  "xienaoban": "屑老板（XieNaoban）",
   "xienaoban.bole": "伯乐",
   "key.category.xienaoban.bole": "伯乐",
   "key.xienaoban.bole.open_bole_gui": "打开伯乐界面",
@@ -152,6 +153,13 @@
   "property_widget.xienaoban.bole.panda_hidden_gene": "能苗的基因2（隐藏基因）",
   "property_widget.xienaoban.bole.panda_hidden_gene.description": "隐藏基因一般不表达，除非与主要基因为同一隐形基因。\n你只能在创造模式或观察模式中更换基因。",
 
+  "setting.xienaoban.bole.lazily_unhighlight": "逐个地取消高亮",
+
+  "text.xienaoban.bole.return_to_handbook": "返回手册主页",
+  "text.xienaoban.bole.settings": "设置",
+  "text.xienaoban.bole.about": "关于",
+  "text.xienaoban.bole.mod_name_is": "模组名：%s",
+  "text.xienaoban.bole.mod_author_is": "模组作者：%s",
   "text.xienaoban.bole.unsupported_entity": "不支持的实体",
   "text.xienaoban.bole.unnamed": "未命名",
   "text.xienaoban.bole.grown_up": "已成年",

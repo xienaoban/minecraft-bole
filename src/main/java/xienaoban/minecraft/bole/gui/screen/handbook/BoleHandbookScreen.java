@@ -49,9 +49,22 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         super.initButtons();
         int cnt = 0;
         for (EntityManager.TagGroup tags : EntityManager.getInstance().getTagGroups()) {
-            addDrawableChild(new TagGroupButtonWidget(this.contentLeft[0] - 30 - 10 + (cnt % 3), this.contentTop - 5 + cnt * 14, cnt, tags.getText(), (button -> initCatalog(tags))));
+            addBookmark(cnt, tags.getText(), button -> initCatalog(tags));
             ++cnt;
         }
+        addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
+            resetPages();
+            Page page0 = this.pages.get(0);
+            page0.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.SETTING_LAZILY_UNHIGHLIGHT), DARK_TEXT_COLOR, 0.5F));
+            setPageIndex(0);
+        });
+        addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
+            resetPages();
+            Page page0 = this.pages.get(0);
+            page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_NAME_IS, new TranslatableText(Keys.MOD_NAME)), DARK_TEXT_COLOR, 0.5F));
+            page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_AUTHOR_IS, new TranslatableText(Keys.XIENAOBAN)), DARK_TEXT_COLOR, 0.5F));
+            setPageIndex(0);
+        });
     }
 
     @Override

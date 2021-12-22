@@ -12,6 +12,7 @@ import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 
 @Environment(EnvType.CLIENT)
@@ -24,6 +25,7 @@ public class BoleClient implements ClientModInitializer {
     private int screenTicks;
     private boolean inWorld;
     private PacketByteBuf handlerBufCache = null;
+    private BoleHandbookScreenState handbookState;
     private HighlightManager highlightManager;
 
     public static BoleClient getInstance() {
@@ -87,19 +89,27 @@ public class BoleClient implements ClientModInitializer {
     }
 
     public int getTicks() {
-        return ticks;
+        return this.ticks;
     }
 
     public int getScreenTicks() {
-        return screenTicks;
+        return this.screenTicks;
     }
 
     public PacketByteBuf getHandlerBufCache() {
-        return handlerBufCache;
+        return this.handlerBufCache;
     }
 
     public void setHandlerBufCache(PacketByteBuf buf) {
         this.handlerBufCache = buf;
+    }
+
+    public BoleHandbookScreenState getHandbookState() {
+        return this.handbookState;
+    }
+
+    public void setHandbookState(BoleHandbookScreenState handbookState) {
+        this.handbookState = handbookState;
     }
 
     public HighlightManager getHighlightManager() {

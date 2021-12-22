@@ -1,4 +1,5 @@
 {
+  "xienaoban": "XieNaoban (屑老板)",
   "xienaoban.bole": "Bole",
   "key.category.xienaoban.bole": "Bole",
   "key.xienaoban.bole.open_bole_gui": "Open Bole GUI",
@@ -152,6 +153,13 @@
   "property_widget.xienaoban.bole.panda_hidden_gene": "Hidden Gene of Panda",
   "property_widget.xienaoban.bole.panda_hidden_gene.description": "You can only change the gene in creative or spectator mode.",
 
+  "setting.xienaoban.bole.lazily_unhighlight": "Lazily unhighlight",
+
+  "text.xienaoban.bole.return_to_handbook": "Handbook",
+  "text.xienaoban.bole.settings": "Settings",
+  "text.xienaoban.bole.about": "About",
+  "text.xienaoban.bole.mod_name_is": "Mod name: %s",
+  "text.xienaoban.bole.mod_author_is": "Mod author: %s",
   "text.xienaoban.bole.unsupported_entity": "Unsupported entity",
   "text.xienaoban.bole.unnamed": "Unnamed",
   "text.xienaoban.bole.grown_up": "Grown up",

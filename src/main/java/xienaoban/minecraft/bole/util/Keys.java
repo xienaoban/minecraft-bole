@@ -19,6 +19,7 @@ public interface Keys {
     String ENTITY_SETTING_PANDA_TYPE =                "panda_type";
 
     // Translation Keys
+    String XIENAOBAN =              "xienaoban";
     String MOD_NAME =               "xienaoban.bole";
     String TITLE_BOLE_OVERVIEW =    "title.xienaoban.bole.bole_handbook";
     String KEY_CATEGORY_BOLE =      "key.category.xienaoban.bole";
@@ -105,6 +106,13 @@ public interface Keys {
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE = "property_widget.xienaoban.bole.panda_hidden_gene";
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE_DESCRIPTION = "property_widget.xienaoban.bole.panda_hidden_gene.description";
 
+    String SETTING_LAZILY_UNHIGHLIGHT = "setting.xienaoban.bole.lazily_unhighlight";
+
+    String TEXT_RETURN_TO_HANDBOOK = "text.xienaoban.bole.return_to_handbook";
+    String TEXT_SETTINGS = "text.xienaoban.bole.settings";
+    String TEXT_ABOUT = "text.xienaoban.bole.about";
+    String TEXT_MOD_NAME_IS = "text.xienaoban.bole.mod_name_is";
+    String TEXT_MOD_AUTHOR_IS = "text.xienaoban.bole.mod_author_is";
     String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
     String TEXT_UNNAMED = "text.xienaoban.bole.unnamed";
     String TEXT_GROWN_UP = "text.xienaoban.bole.grown_up";
