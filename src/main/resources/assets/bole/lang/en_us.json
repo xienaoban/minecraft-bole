@@ -153,6 +153,17 @@
   "property_widget.xienaoban.bole.panda_hidden_gene": "Hidden Gene of Panda",
   "property_widget.xienaoban.bole.panda_hidden_gene.description": "You can only change the gene in creative or spectator mode.",
 
+  "text.hint.xienaoban.bole.not_baby": "It's meaningless to lock the growth stage of adult creatures...",
+  "text.hint.xienaoban.bole.no_beehive": "This bee has no beehive or bee nest yet.",
+  "text.hint.xienaoban.bole.eating_grass": "Wait two seconds. The sheep is eating grass!",
+  "text.hint.xienaoban.bole.far_from_grass": "There is no grass under the sheep!",
+  "text.hint.xienaoban.bole.not_enough_items": "You don't have enough items to purchase this service!",
+  "text.hint.xienaoban.bole.far_from_job_site": "The villager is too far away from the job site!",
+  "text.hint.xienaoban.bole.no_job": "The villager has no job!",
+  "text.hint.xienaoban.bole.no_job_site": "The villager has no job site!",
+  "text.hint.xienaoban.bole.job_site_different_dimension": "The job site is not in this dimension!",
+  "text.hint.xienaoban.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (maybe you should hold two swords to threaten it).",
+
   "setting.xienaoban.bole.lazily_unhighlight": "Lazily unhighlight",
 
   "text.xienaoban.bole.return_to_handbook": "Handbook",
@@ -169,16 +180,5 @@
   "text.xienaoban.bole.villager_agree_to_reset_job": "Without this mod, villagers with unsatisfactory trading lists may be killed by the player.\nThinking of this, the villager readily accepted the player's kindness.",
   "text.xienaoban.bole.highlight": " have been highlighted.",
   "text.xienaoban.bole.main_gene": "Main",
-  "text.xienaoban.bole.hidden_gene": "Hidden",
-
-  "text.hint.xienaoban.bole.not_baby": "It's meaningless to lock the growth stage of adult creatures...",
-  "text.hint.xienaoban.bole.no_beehive": "This bee has no beehive or bee nest yet.",
-  "text.hint.xienaoban.bole.eating_grass": "Wait two seconds. The sheep is eating grass!",
-  "text.hint.xienaoban.bole.far_from_grass": "There is no grass under the sheep!",
-  "text.hint.xienaoban.bole.not_enough_items": "You don't have enough items to purchase this service!",
-  "text.hint.xienaoban.bole.far_from_job_site": "The villager is too far away from the job site!",
-  "text.hint.xienaoban.bole.no_job": "The villager has no job!",
-  "text.hint.xienaoban.bole.no_job_site": "The villager has no job site!",
-  "text.hint.xienaoban.bole.job_site_different_dimension": "The job site is not in this dimension!",
-  "text.hint.xienaoban.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (maybe you should hold two swords to threaten it)."
+  "text.xienaoban.bole.hidden_gene": "Hidden"
 }

@@ -153,6 +153,17 @@
   "property_widget.xienaoban.bole.panda_hidden_gene": "能苗的基因2（隐藏基因）",
   "property_widget.xienaoban.bole.panda_hidden_gene.description": "隐藏基因一般不表达，除非与主要基因为同一隐形基因。\n你只能在创造模式或观察模式中更换基因。",
 
+  "text.hint.xienaoban.bole.not_baby": "锁住已成年生物的成长阶段，是怕它返老还童吗~",
+  "text.hint.xienaoban.bole.no_beehive": "看样子是只无家可归的小蜜蜂呢~",
+  "text.hint.xienaoban.bole.eating_grass": "草正吃着呢~",
+  "text.hint.xienaoban.bole.far_from_grass": "然而它脚底下并没有没草可以吃~",
+  "text.hint.xienaoban.bole.not_enough_items": "你这点钱很难让人给你办事啊~",
+  "text.hint.xienaoban.bole.far_from_job_site": "离工作方块太远啦！所谓“巧妇难为无米之炊”~",
+  "text.hint.xienaoban.bole.no_job": "无业游民：“只要我足够废物，就没有人能压榨我~”",
+  "text.hint.xienaoban.bole.no_job_site": "这是一只失去工作方块的村民，看样子是就业形势不太好呢~",
+  "text.hint.xienaoban.bole.job_site_different_dimension": "工作方块不在当前世界维度！",
+  "text.hint.xienaoban.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你左右手各持一把钻石剑威胁也不会屈服！",
+
   "setting.xienaoban.bole.lazily_unhighlight": "逐个地取消高亮",
 
   "text.xienaoban.bole.return_to_handbook": "返回手册主页",
@@ -169,16 +180,5 @@
   "text.xienaoban.bole.villager_agree_to_reset_job": "在有此Mod之前，交易刷歪了的村民大多难逃玩家正义的击杀。\n想到这儿，村民不仅欣然接受了玩家的好意，甚至还感恩起了Mod作者能给他一个重新做人的机会。",
   "text.xienaoban.bole.highlight": "被高亮了。",
   "text.xienaoban.bole.main_gene": "显性",
-  "text.xienaoban.bole.hidden_gene": "隐性",
-
-  "text.hint.xienaoban.bole.not_baby": "锁住已成年生物的成长阶段，是怕它返老还童吗~",
-  "text.hint.xienaoban.bole.no_beehive": "看样子是只无家可归的小蜜蜂呢~",
-  "text.hint.xienaoban.bole.eating_grass": "草正吃着呢~",
-  "text.hint.xienaoban.bole.far_from_grass": "然而它脚底下并没有没草可以吃~",
-  "text.hint.xienaoban.bole.not_enough_items": "你这点钱很难让人给你办事啊~",
-  "text.hint.xienaoban.bole.far_from_job_site": "离工作方块太远啦！所谓“巧妇难为无米之炊”~",
-  "text.hint.xienaoban.bole.no_job": "无业游民：“只要我足够废物，就没有人能压榨我~”",
-  "text.hint.xienaoban.bole.no_job_site": "这是一只失去工作方块的村民，看样子是就业形势不太好呢~",
-  "text.hint.xienaoban.bole.job_site_different_dimension": "工作方块不在当前世界维度！",
-  "text.hint.xienaoban.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你左右手各持一把钻石剑威胁也不会屈服！"
+  "text.xienaoban.bole.hidden_gene": "隐性"
 }
