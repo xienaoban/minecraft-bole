@@ -69,6 +69,8 @@ public class ScreenRegistryManager {
         registerEntityToHandler(SheepEntity.class, BoleSheepEntityScreenHandler::new);
         registerEntityToHandler(BeeEntity.class, BoleBeeEntityScreenHandler::new);
         registerEntityToHandler(TameableEntity.class, BoleTameableEntityScreenHandler::new);
+        registerEntityToHandler(TameableShoulderEntity.class, BoleTameableShoulderEntityScreenHandler::new);
+        registerEntityToHandler(ParrotEntity.class, BoleParrotEntityScreenHandler::new);
         registerEntityToHandler(CatEntity.class, BoleCatEntityScreenHandler::new);
         registerEntityToHandler(PandaEntity.class, BolePandaEntityScreenHandler::new);
     }
@@ -90,6 +92,8 @@ public class ScreenRegistryManager {
         ScreenRegistry.register(BoleSheepEntityScreenHandler.HANDLER, BoleSheepEntityScreen<SheepEntity, BoleSheepEntityScreenHandler<SheepEntity>>::new);
         ScreenRegistry.register(BoleBeeEntityScreenHandler.HANDLER, BoleBeeEntityScreen<BeeEntity, BoleBeeEntityScreenHandler<BeeEntity>>::new);
         ScreenRegistry.register(BoleTameableEntityScreenHandler.HANDLER, BoleTameableEntityScreen<TameableEntity, BoleTameableEntityScreenHandler<TameableEntity>>::new);
+        ScreenRegistry.register(BoleTameableShoulderEntityScreenHandler.HANDLER, BoleTameableShoulderEntityScreen<TameableShoulderEntity, BoleTameableShoulderEntityScreenHandler<TameableShoulderEntity>>::new);
+        ScreenRegistry.register(BoleParrotEntityScreenHandler.HANDLER, BoleParrotEntityScreen<ParrotEntity, BoleParrotEntityScreenHandler<ParrotEntity>>::new);
         ScreenRegistry.register(BoleCatEntityScreenHandler.HANDLER, BoleCatEntityScreen<CatEntity, BoleCatEntityScreenHandler<CatEntity>>::new);
         ScreenRegistry.register(BolePandaEntityScreenHandler.HANDLER, BolePandaEntityScreen<PandaEntity, BolePandaEntityScreenHandler<PandaEntity>>::new);
     }

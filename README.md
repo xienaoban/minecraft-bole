@@ -29,10 +29,11 @@ Functions:
               - [ ] `Is Tamed`
               - [ ] `Set Owner`
               - TameableShoulderEntity:
+                - [ ] `Set Cooldown of Sitting On Player`
                 - ParrotEntity:
-                  - [ ] `Set Parrot Type`
+                  - [X] `Set Parrot Variant`
               - CatEntity:
-                - [X] `Set Cat Type`
+                - [X] `Set Cat Variant`
             - HorseBaseEntity:
               - AbstractDonkeyEntity
                 - [X] `Chest Size`

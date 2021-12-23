@@ -8,7 +8,6 @@ import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.world.GameMode;
 import xienaoban.minecraft.bole.gui.screen.BoleTameableEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
@@ -39,9 +38,9 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
     }
 
     public class CatVariantsPropertyWidget1 extends VariantsPropertyWidget {
-        private static final String[] NAMES = { Keys.CAT_TYPE_TABBY, Keys.CAT_TYPE_BLACK, Keys.CAT_TYPE_RED, Keys.CAT_TYPE_SIAMESE,
-                Keys.CAT_TYPE_BRITISH_SHORTHAIR, Keys.CAT_TYPE_CALICO, Keys.CAT_TYPE_PERSIAN, Keys.CAT_TYPE_RAGDOLL,
-                Keys.CAT_TYPE_WHITE, Keys.CAT_TYPE_JELLIE, Keys.CAT_TYPE_ALL_BLACK };
+        private static final String[] NAMES = { Keys.CAT_VARIANT_TABBY, Keys.CAT_VARIANT_BLACK, Keys.CAT_VARIANT_RED, Keys.CAT_VARIANT_SIAMESE,
+                Keys.CAT_VARIANT_BRITISH_SHORTHAIR, Keys.CAT_VARIANT_CALICO, Keys.CAT_VARIANT_PERSIAN, Keys.CAT_VARIANT_RAGDOLL,
+                Keys.CAT_VARIANT_WHITE, Keys.CAT_VARIANT_JELLIE, Keys.CAT_VARIANT_ALL_BLACK };
 
         public CatVariantsPropertyWidget1() {
             super(4, 2);
@@ -49,8 +48,8 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
 
         @Override
         protected void initTooltipLines() {
-            initTooltipTitle(Keys.PROPERTY_WIDGET_CAT_TYPE);
-            initTooltipDescription(Keys.PROPERTY_WIDGET_CAT_TYPE_DESCRIPTION);
+            initTooltipTitle(Keys.PROPERTY_WIDGET_CAT_VARIANT);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_CAT_VARIANT_DESCRIPTION);
         }
 
         @Override
@@ -82,7 +81,7 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
 
         @Override
         protected boolean canChoose() {
-            return getGameMode() == GameMode.CREATIVE || getGameMode() == GameMode.SPECTATOR;
+            return isGodMode();
         }
 
         @Override
@@ -92,7 +91,7 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CAT_TYPE, fake.getCatType());
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CAT_VARIANT, fake.getCatType());
         }
 
         @Override

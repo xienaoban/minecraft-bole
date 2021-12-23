@@ -8,7 +8,6 @@ import net.minecraft.entity.passive.PandaEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.world.GameMode;
 import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
@@ -74,13 +73,13 @@ public class BolePandaEntityScreen<E extends PandaEntity, H extends BolePandaEnt
         protected Text[] initNames() {
             return Arrays.stream(PandaEntity.Gene.values())
                     .sorted(Comparator.comparingInt(PandaEntity.Gene::getId))
-                    .map(gene -> new TranslatableText(Keys.PANDA_TYPE_PREFIX + gene.getName()))
+                    .map(gene -> new TranslatableText(Keys.PANDA_VARIANT_PREFIX + gene.getName()))
                     .toArray(Text[]::new);
         }
 
         @Override
         protected boolean canChoose() {
-            return getGameMode() == GameMode.CREATIVE || getGameMode() == GameMode.SPECTATOR;
+            return isGodMode();
         }
 
         @Override
@@ -90,7 +89,7 @@ public class BolePandaEntityScreen<E extends PandaEntity, H extends BolePandaEnt
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_PANDA_TYPE, isMainGene(), getGene(fake));
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_PANDA_VARIANT, isMainGene(), getGene(fake));
         }
 
         @Override

@@ -15,8 +15,9 @@ public interface Keys {
     String ENTITY_SETTING_RESTOCK =                 "restock";
     String ENTITY_SETTING_VILLAGER_CLOTHING =       "villager_clothing";
     String ENTITY_SETTING_EAT_GRASS =               "eat_grass";
-    String ENTITY_SETTING_CAT_TYPE =                "cat_type";
-    String ENTITY_SETTING_PANDA_TYPE =                "panda_type";
+    String ENTITY_SETTING_CAT_VARIANT =             "cat_variant";
+    String ENTITY_SETTING_PARROT_VARIANT =          "parrot_variant";
+    String ENTITY_SETTING_PANDA_VARIANT =           "panda_variant";
 
     // Translation Keys
     String XIENAOBAN =              "xienaoban";
@@ -25,19 +26,25 @@ public interface Keys {
     String KEY_CATEGORY_BOLE =      "key.category.xienaoban.bole";
     String KEY_OPEN_BOLE_GUI =      "key.xienaoban.bole.open_bole_gui";
 
-    String CAT_TYPE_TABBY =             "entity.minecraft.cat.type.tabby";
-    String CAT_TYPE_BLACK =             "entity.minecraft.cat.type.black";
-    String CAT_TYPE_RED =               "entity.minecraft.cat.type.red";
-    String CAT_TYPE_SIAMESE =           "entity.minecraft.cat.type.siamese";
-    String CAT_TYPE_BRITISH_SHORTHAIR = "entity.minecraft.cat.type.shorthair";
-    String CAT_TYPE_CALICO =            "entity.minecraft.cat.type.calico";
-    String CAT_TYPE_PERSIAN =           "entity.minecraft.cat.type.persian";
-    String CAT_TYPE_RAGDOLL =           "entity.minecraft.cat.type.ragdoll";
-    String CAT_TYPE_WHITE =             "entity.minecraft.cat.type.white";
-    String CAT_TYPE_JELLIE =            "entity.minecraft.cat.type.jellie";
-    String CAT_TYPE_ALL_BLACK =         "entity.minecraft.cat.type.all_black";
+    String CAT_VARIANT_TABBY =             "entity.minecraft.cat.variant.tabby";
+    String CAT_VARIANT_BLACK =             "entity.minecraft.cat.variant.black";
+    String CAT_VARIANT_RED =               "entity.minecraft.cat.variant.red";
+    String CAT_VARIANT_SIAMESE =           "entity.minecraft.cat.variant.siamese";
+    String CAT_VARIANT_BRITISH_SHORTHAIR = "entity.minecraft.cat.variant.shorthair";
+    String CAT_VARIANT_CALICO =            "entity.minecraft.cat.variant.calico";
+    String CAT_VARIANT_PERSIAN =           "entity.minecraft.cat.variant.persian";
+    String CAT_VARIANT_RAGDOLL =           "entity.minecraft.cat.variant.ragdoll";
+    String CAT_VARIANT_WHITE =             "entity.minecraft.cat.variant.white";
+    String CAT_VARIANT_JELLIE =            "entity.minecraft.cat.variant.jellie";
+    String CAT_VARIANT_ALL_BLACK =         "entity.minecraft.cat.variant.all_black";
 
-    String PANDA_TYPE_PREFIX = "entity.minecraft.panda.type.";
+    String PARROT_VARIANT_RED =     "entity.minecraft.parrot.variant.red";
+    String PARROT_VARIANT_BLUE =    "entity.minecraft.parrot.variant.blue";
+    String PARROT_VARIANT_GREEN =   "entity.minecraft.parrot.variant.green";
+    String PARROT_VARIANT_CYAN =    "entity.minecraft.parrot.variant.cyan";
+    String PARROT_VARIANT_GRAY =    "entity.minecraft.parrot.variant.gray";
+
+    String PANDA_VARIANT_PREFIX = "entity.minecraft.panda.variant.";
 
     String VILLAGER_CLOTHING_PREFIX = "entity.minecraft.villager.clothing.";
 
@@ -102,8 +109,10 @@ public interface Keys {
     String PROPERTY_WIDGET_VILLAGER_RESTOCK_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.villager_restock.description.button1";
     String PROPERTY_WIDGET_VILLAGER_CLOTHING = "property_widget.xienaoban.bole.villager_clothing";
     String PROPERTY_WIDGET_VILLAGER_CLOTHING_DESCRIPTION = "property_widget.xienaoban.bole.villager_clothing.description";
-    String PROPERTY_WIDGET_CAT_TYPE = "property_widget.xienaoban.bole.cat_type";
-    String PROPERTY_WIDGET_CAT_TYPE_DESCRIPTION = "property_widget.xienaoban.bole.cat_type.description";
+    String PROPERTY_WIDGET_CAT_VARIANT = "property_widget.xienaoban.bole.cat_variant";
+    String PROPERTY_WIDGET_CAT_VARIANT_DESCRIPTION = "property_widget.xienaoban.bole.cat_variant.description";
+    String PROPERTY_WIDGET_PARROT_VARIANT = "property_widget.xienaoban.bole.parrot_variant";
+    String PROPERTY_WIDGET_PARROT_VARIANT_DESCRIPTION = "property_widget.xienaoban.bole.parrot_variant.description";
     String PROPERTY_WIDGET_PANDA_MAIN_GENE = "property_widget.xienaoban.bole.panda_main_gene";
     String PROPERTY_WIDGET_PANDA_MAIN_GENE_DESCRIPTION = "property_widget.xienaoban.bole.panda_main_gene.description";
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE = "property_widget.xienaoban.bole.panda_hidden_gene";

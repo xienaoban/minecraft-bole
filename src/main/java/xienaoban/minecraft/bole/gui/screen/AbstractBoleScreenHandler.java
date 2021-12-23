@@ -125,6 +125,10 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         return ((ServerPlayerEntity) this.player).interactionManager.getGameMode();
     }
 
+    public boolean isGodMode() {
+        return getGameMode() == GameMode.CREATIVE || getGameMode() == GameMode.SPECTATOR;
+    }
+
     /**
      * Registers an EntitySettingsBufHandler to handle the specific buf sent from the client to the server.
      *

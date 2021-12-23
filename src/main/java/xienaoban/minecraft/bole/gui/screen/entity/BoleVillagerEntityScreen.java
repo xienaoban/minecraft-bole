@@ -198,7 +198,6 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
 
     public class ClothingPropertyWidget extends VariantsPropertyWidget {
         private static final VillagerType[] CLOTHES = {VillagerType.PLAINS, VillagerType.TAIGA, VillagerType.DESERT, VillagerType.JUNGLE, VillagerType.SAVANNA, VillagerType.SNOW, VillagerType.SWAMP};
-        private static final Text[] NAMES = Arrays.stream(CLOTHES).map(type -> new TranslatableText(Keys.VILLAGER_CLOTHING_PREFIX + type.toString())).toArray(Text[]::new);
 
         public ClothingPropertyWidget() {
             super(4, 3);
@@ -227,7 +226,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
 
         @Override
         protected Text[] initNames() {
-            return NAMES;
+            return Arrays.stream(CLOTHES).map(type -> new TranslatableText(Keys.VILLAGER_CLOTHING_PREFIX + type.toString())).toArray(Text[]::new);
         }
 
         @Override

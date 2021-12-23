@@ -691,6 +691,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         return manager != null ? manager.getCurrentGameMode() : null;
     }
 
+    public boolean isGodMode() {
+        return getGameMode() == GameMode.CREATIVE || getGameMode() == GameMode.SPECTATOR;
+    }
+
     public final class OverlayMessageHud extends ScreenElement {
         private Text overlayMessage;
         private int overlayTicksTo;
