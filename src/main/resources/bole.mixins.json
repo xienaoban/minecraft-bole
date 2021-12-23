@@ -12,6 +12,7 @@
     "IMixinPassiveEntity",
     "IMixinSheepEntity",
     "IMixinStatusEffectInstance",
+    "IMixinTameableShoulderEntity",
     "IMixinTemptGoal",
     "IMixinVillagerEntity",
     "IMixinWorld",
@@ -19,7 +20,8 @@
     "MixinEntity",
     "MixinMinecraftClient",
     "MixinPassiveEntity",
-    "MixinPolarBearEntity"
+    "MixinPolarBearEntity",
+    "MixinTameableShoulderEntity"
   ],
   "client": [
   ],

@@ -18,6 +18,7 @@ public interface Keys {
     String ENTITY_SETTING_CAT_VARIANT =             "cat_variant";
     String ENTITY_SETTING_PARROT_VARIANT =          "parrot_variant";
     String ENTITY_SETTING_PANDA_VARIANT =           "panda_variant";
+    String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =  "sit_on_player_cooldown";
 
     // Translation Keys
     String XIENAOBAN =              "xienaoban";
@@ -94,6 +95,9 @@ public interface Keys {
     String PROPERTY_WIDGET_EAT_GRASS = "property_widget.xienaoban.bole.eat_grass";
     String PROPERTY_WIDGET_EAT_GRASS_DESCRIPTION = "property_widget.xienaoban.bole.eat_grass.description";
     String PROPERTY_WIDGET_EAT_GRASS_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.eat_grass.description.button1";
+    String PROPERTY_WIDGET_SIT_ON_PLAYER_COOLDOWN = "property_widget.xienaoban.bole.sit_on_player_cooldown";
+    String PROPERTY_WIDGET_SIT_ON_PLAYER_COOLDOWN_DESCRIPTION = "property_widget.xienaoban.bole.sit_on_player_cooldown.description";
+    String PROPERTY_WIDGET_SIT_ON_PLAYER_COOLDOWN_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.sit_on_player_cooldown.description.button1";
     String PROPERTY_WIDGET_HORSE_RUN_AND_JUMP = "property_widget.xienaoban.bole.horse_run_and_jump";
     String PROPERTY_WIDGET_HORSE_RUN_AND_JUMP_DESCRIPTION = "property_widget.xienaoban.bole.horse_run_and_jump.description";
     String PROPERTY_WIDGET_DONKEY_CHEST = "property_widget.xienaoban.bole.donkey_chest";
@@ -148,5 +152,6 @@ public interface Keys {
     String TEXT_HIDDEN_GENE = "text.xienaoban.bole.hidden_gene";
 
     // Other
-    int NETHER_PORTAL_LOCK = 0x7fffffff;
+    int NETHER_PORTAL_LOCK = 1200;
+    int SIT_ON_PLAYER_LOCK = -300;
 }

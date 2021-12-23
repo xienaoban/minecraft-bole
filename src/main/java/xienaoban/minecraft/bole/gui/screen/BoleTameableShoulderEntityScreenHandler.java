@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import xienaoban.minecraft.bole.mixin.IMixinTameableShoulderEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleTameableShoulderEntityScreenHandler<E extends TameableShoulderEntity> extends BoleTameableEntityScreenHandler<E> {
@@ -29,6 +30,20 @@ public class BoleTameableShoulderEntityScreenHandler<E extends TameableShoulderE
 
     public BoleTameableShoulderEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
+        registerEntitySettingsBufHandlers();
+    }
+
+    private void registerEntitySettingsBufHandlers() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN, new EntitySettingsBufHandler() {
+            @Override public void readFromBuf(PacketByteBuf buf) {
+                ((IMixinTameableShoulderEntity) entity).setTicks(buf.readInt());
+            }
+            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
+                int ticks = (Integer) args[0];
+                buf.writeInt(ticks);
+                ((IMixinTameableShoulderEntity) entity).setTicks(ticks);
+            }
+        });
     }
 
     @Override

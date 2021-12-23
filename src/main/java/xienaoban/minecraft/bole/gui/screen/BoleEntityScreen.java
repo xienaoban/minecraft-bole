@@ -263,12 +263,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             drawBar(matrices, p, 50, 30);
             drawButton(matrices, 0, 200 + (lock ? 10 : 0), 0);
             String text;
-            if (lock) {
-                text = "∞";
-            }
-            else if (debugMode) {
-                text = ((IMixinEntity)handler.entity).getNetherPortalCooldown() + "t";
-            }
+            if (debugMode) text = ((IMixinEntity)handler.entity).getNetherPortalCooldown() + "t";
+            else if (lock) text = "∞";
             else {
                 text = (((IMixinEntity)handler.entity).getNetherPortalCooldown() / 20) + "s";
             }
