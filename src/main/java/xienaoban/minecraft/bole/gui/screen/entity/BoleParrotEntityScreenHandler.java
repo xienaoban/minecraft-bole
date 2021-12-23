@@ -4,46 +4,45 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreenHandler;
-import xienaoban.minecraft.bole.mixin.IMixinEatGrassGoal;
-import xienaoban.minecraft.bole.mixin.IMixinSheepEntity;
+import xienaoban.minecraft.bole.gui.screen.BoleTameableShoulderEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleSheepEntityScreenHandler<E extends SheepEntity> extends BoleAnimalEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleSheepEntityScreenHandler<SheepEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "sheep_entity"), BoleSheepEntityScreenHandler::new);
+public class BoleParrotEntityScreenHandler<E extends ParrotEntity> extends BoleTameableShoulderEntityScreenHandler<E> {
+    public static final ScreenHandlerType<BoleParrotEntityScreenHandler<ParrotEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
+            new Identifier(Keys.NAMESPACE, "parrot_entity"), BoleParrotEntityScreenHandler::new);
 
-    public BoleSheepEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public BoleParrotEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }
 
-    public BoleSheepEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleParrotEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
         this(HANDLER, syncId, playerInventory, entity);
     }
 
-    public BoleSheepEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
+    public BoleParrotEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
         this(handler, syncId, playerInventory, clientEntity());
     }
 
-    public BoleSheepEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleParrotEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
         registerEntitySettingsBufHandlers();
     }
 
     private void registerEntitySettingsBufHandlers() {
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_EAT_GRASS, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_PARROT_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                IMixinEatGrassGoal goal = (IMixinEatGrassGoal) ((IMixinSheepEntity) entity).getEatGrassGoal();
-                if (goal.getTimer() == 0) {
-                    goal.setTimer(-1);
-                }
+                if (isGodMode()) entity.setVariant(buf.readInt());
             }
-            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {}
+            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
+                int variant = (Integer) args[0];
+                buf.writeInt(variant);
+                entity.setVariant(variant);
+            }
         });
     }
 
@@ -59,8 +58,7 @@ public class BoleSheepEntityScreenHandler<E extends SheepEntity> extends BoleAni
     }
 
     @Override
-    protected void initCustom() {
-    }
+    protected void initCustom() {}
 
     @Environment(EnvType.CLIENT)
     @Override

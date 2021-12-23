@@ -1,6 +1,5 @@
 package xienaoban.minecraft.bole.client;
 
-import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -8,13 +7,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.mob.WaterCreatureEntity;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.MerchantEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import xienaoban.minecraft.bole.util.Keys;
@@ -45,6 +45,7 @@ public class EntityManager {
      */
     public static EntityManager getInstance() {
         if (instance == null) {
+            // It should be single-threaded here, so there is no need for thread synchronization.
             instance = new EntityManager();
         }
         return instance;
@@ -135,25 +136,36 @@ public class EntityManager {
         this.defaultTags.addTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, Keys.TAG_DEFAULT_ANIMAL);
         this.defaultTags.addTag(Keys.TAG_DEFAULT_HUMAN, Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL);
         this.defaultTags.addTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, Keys.TAG_DEFAULT_ANIMAL);
+        this.defaultTags.addTag(Keys.TAG_DEFAULT_HUMANOID, Keys.TAG_DEFAULT_MONSTER);
+        this.defaultTags.addTag(Keys.TAG_DEFAULT_PATROL, Keys.TAG_DEFAULT_MONSTER);
 
-        Collection<EntityInfo> cMerchant = this.classTags.getTag(getClassId(MerchantEntity.class)).getEntities().stream().toList();
-        // Collection<EntityInfo> cPlayer = this.classTags.getTag(getClassId(PlayerEntity.class)).getEntities().stream().toList();
-        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, cMerchant);
-        // this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, cPlayer);
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, this.classTags.getTag(getClassId(MerchantEntity.class)).getEntities());
+        // this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMAN, this.classTags.getTag(getClassId(PlayerEntity.class)).getEntities());
 
-        Collection<EntityInfo> cTerrestrial = this.classTags.getTag(getClassId(AnimalEntity.class)).getEntities().stream().toList();
-        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, cTerrestrial);
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, this.classTags.getTag(getClassId(AnimalEntity.class)).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_HUMAN).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, List.of(getEntityInfo(EntityType.BAT), getEntityInfo(EntityType.SPIDER), getEntityInfo(EntityType.CAVE_SPIDER), getEntityInfo(EntityType.SILVERFISH)));
 
-        Collection<EntityInfo> cAquatic = this.classTags.getTag(getClassId(WaterCreatureEntity.class)).getEntities().stream().toList();
-        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, cAquatic);
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, this.classTags.getTag(getClassId(WaterCreatureEntity.class)).getEntities());
 
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL).getEntities());
 
         // Duplicate Entity
         this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.TURTLE));
+
+        List<EntityInfo> cHumanoid = this.getEntityInfos().stream().filter(entityInfo -> {
+            if (entityInfo.getInstance() instanceof HostileEntity) {
+                if (entityInfo.getClazz() == CreeperEntity.class || entityInfo.getClazz() == BlazeEntity.class
+                        || entityInfo.getClazz() == WitherEntity.class) return false;
+                Box box = entityInfo.getInstance().getBoundingBox();
+                return box.getXLength() < 1 && box.getYLength() > 1.6;
+            }
+            return false;
+        }).collect(Collectors.toList());
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_HUMANOID, cHumanoid);
+
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_PATROL, this.classTags.getTag(getClassId(PatrolEntity.class)).getEntities());
 
         Stream<EntityInfo> sMonster = getEntityInfos().stream().filter(entityInfo -> entityInfo.getType().getSpawnGroup() == SpawnGroup.MONSTER);
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_MONSTER, sMonster.collect(Collectors.toSet()));
@@ -177,6 +189,12 @@ public class EntityManager {
                 Collections.sort(tag.getEntities());
             }
         }
+
+        List<Tag> ns = this.namespaceTags.getRootTags();
+        Tag mcTag = this.namespaceTags.getTag(Identifier.DEFAULT_NAMESPACE);
+        ns.remove(mcTag);
+        Collections.sort(ns);
+        ns.add(0, mcTag);
     }
 
     public List<TagGroup> getTagGroups() {
@@ -201,7 +219,7 @@ public class EntityManager {
     }
 
     private String getClassId(Class<?> clazz) {
-        return clazz.getSimpleName();
+        return clazz.getName();
     }
 
     public void dfsEntityTree(boolean skipRoot, TreeNodeExecutor<EntityTreeNode> executor) {
@@ -394,12 +412,15 @@ public class EntityManager {
 
         @Override
         public int compareTo(@NotNull Tag o) {
-            return this.getName().compareTo(o.getName());
+            String s1 = getName().substring(getName().lastIndexOf('.') + 1);
+            String s2 = o.getName().substring(o.getName().lastIndexOf('.') + 1);
+            return s1.compareTo(s2);
         }
     }
 
     public static class EntityInfo implements Comparable<EntityInfo> {
         private final EntityType<?> type;
+        private final Entity instance;
         private final Class<?> clazz;
         private final List<Tag> tags;
         private int sortId;
@@ -407,6 +428,7 @@ public class EntityManager {
         public EntityInfo(EntityType<?> type) {
             this.type = type;
             Entity instance = type.create(MinecraftClient.getInstance().world);
+            this.instance = instance;
             if (!(instance instanceof LivingEntity)) {
                 throw new RuntimeException();
             }
@@ -414,14 +436,12 @@ public class EntityManager {
             this.tags = new ArrayList<>();
         }
 
-        public EntityInfo(EntityType<?> type, Class<? extends Entity> clazz) {
-            this.type = type;
-            this.clazz = clazz;
-            this.tags = new ArrayList<>();
-        }
-
         public EntityType<?> getType() {
             return this.type;
+        }
+
+        public Entity getInstance() {
+            return this.instance;
         }
 
         public Class<?> getClazz() {

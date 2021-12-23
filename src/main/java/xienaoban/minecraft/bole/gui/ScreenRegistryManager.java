@@ -12,6 +12,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.screen.*;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
+import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreen;
+import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,6 +68,11 @@ public class ScreenRegistryManager {
         registerEntityToHandler(VillagerEntity.class, BoleVillagerEntityScreenHandler::new);
         registerEntityToHandler(SheepEntity.class, BoleSheepEntityScreenHandler::new);
         registerEntityToHandler(BeeEntity.class, BoleBeeEntityScreenHandler::new);
+        registerEntityToHandler(TameableEntity.class, BoleTameableEntityScreenHandler::new);
+        registerEntityToHandler(TameableShoulderEntity.class, BoleTameableShoulderEntityScreenHandler::new);
+        registerEntityToHandler(ParrotEntity.class, BoleParrotEntityScreenHandler::new);
+        registerEntityToHandler(CatEntity.class, BoleCatEntityScreenHandler::new);
+        registerEntityToHandler(PandaEntity.class, BolePandaEntityScreenHandler::new);
     }
 
     @Environment(EnvType.CLIENT)
@@ -84,5 +91,10 @@ public class ScreenRegistryManager {
         ScreenRegistry.register(BoleVillagerEntityScreenHandler.HANDLER, BoleVillagerEntityScreen<VillagerEntity, BoleVillagerEntityScreenHandler<VillagerEntity>>::new);
         ScreenRegistry.register(BoleSheepEntityScreenHandler.HANDLER, BoleSheepEntityScreen<SheepEntity, BoleSheepEntityScreenHandler<SheepEntity>>::new);
         ScreenRegistry.register(BoleBeeEntityScreenHandler.HANDLER, BoleBeeEntityScreen<BeeEntity, BoleBeeEntityScreenHandler<BeeEntity>>::new);
+        ScreenRegistry.register(BoleTameableEntityScreenHandler.HANDLER, BoleTameableEntityScreen<TameableEntity, BoleTameableEntityScreenHandler<TameableEntity>>::new);
+        ScreenRegistry.register(BoleTameableShoulderEntityScreenHandler.HANDLER, BoleTameableShoulderEntityScreen<TameableShoulderEntity, BoleTameableShoulderEntityScreenHandler<TameableShoulderEntity>>::new);
+        ScreenRegistry.register(BoleParrotEntityScreenHandler.HANDLER, BoleParrotEntityScreen<ParrotEntity, BoleParrotEntityScreenHandler<ParrotEntity>>::new);
+        ScreenRegistry.register(BoleCatEntityScreenHandler.HANDLER, BoleCatEntityScreen<CatEntity, BoleCatEntityScreenHandler<CatEntity>>::new);
+        ScreenRegistry.register(BolePandaEntityScreenHandler.HANDLER, BolePandaEntityScreen<PandaEntity, BolePandaEntityScreenHandler<PandaEntity>>::new);
     }
 }

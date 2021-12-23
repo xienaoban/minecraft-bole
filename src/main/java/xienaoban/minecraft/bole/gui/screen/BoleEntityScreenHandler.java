@@ -69,6 +69,17 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 boolean silent = (Boolean) args[0];
                 buf.writeBoolean(silent);
+                entity.setSilent(true);
+            }
+        });
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_INVULNERABLE, new EntitySettingsBufHandler() {
+            @Override public void readFromBuf(PacketByteBuf buf) {
+                if (isGodMode()) entity.setInvulnerable(buf.readBoolean());
+            }
+            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
+                boolean invulnerable = (Boolean) args[0];
+                buf.writeBoolean(invulnerable);
+                entity.setInvulnerable(invulnerable);
             }
         });
     }
@@ -91,6 +102,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     protected void writeServerEntityToBuf(PacketByteBuf buf) {
         buf.writeInt(this.entity.getId());
         buf.writeInt(((IMixinEntity)this.entity).getNetherPortalCooldown());
+        buf.writeBoolean(this.entity.isInvulnerable());
     }
 
     @Environment(EnvType.CLIENT)
@@ -101,12 +113,14 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
             throw new RuntimeException("Expired packet of the server entity.");
         }
         ((IMixinEntity)this.entity).setNetherPortalCooldown(buf.readInt());
+        this.entity.setInvulnerable(buf.readBoolean());
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     protected void resetClientEntityServerProperties() {
         ((IMixinEntity)this.entity).setNetherPortalCooldown(0);
+        this.entity.setInvulnerable(false);
     }
 
     @Environment(EnvType.CLIENT)

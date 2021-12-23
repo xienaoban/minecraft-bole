@@ -16,6 +16,7 @@ import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
@@ -82,7 +83,7 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
                 ++entityRestocksToday;
             }
         });
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_CLOTHING, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_VILLAGER_CLOTHING, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 VillagerType type = Registry.VILLAGER_TYPE.get(Identifier.tryParse(buf.readString()));
                 entity.setVillagerData(entity.getVillagerData().withType(type));
@@ -149,5 +150,9 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
     @Override
     protected void resetClientEntityServerProperties() {
         super.resetClientEntityServerProperties();
+    }
+
+    protected boolean hasJob() {
+        return this.entity.getVillagerData().getProfession() != VillagerProfession.NONE;
     }
 }

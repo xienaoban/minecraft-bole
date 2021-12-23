@@ -11,10 +11,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import xienaoban.minecraft.bole.mixin.IMixinStatusEffectInstance;
 import xienaoban.minecraft.bole.util.Keys;
-import xienaoban.minecraft.bole.util.MiscUtil;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -22,8 +21,6 @@ import java.util.List;
 public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleEntityScreenHandler<E> {
     public static final ScreenHandlerType<BoleLivingEntityScreenHandler<LivingEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "living_entity"), BoleLivingEntityScreenHandler::new);
-
-    private static final Field EFFECT_DURATION_FIELD = MiscUtil.getField(StatusEffectInstance.class, "duration");
 
     @Environment(EnvType.CLIENT)
     protected List<StatusEffectInstance> entityStatusEffects;
@@ -102,7 +99,7 @@ public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleE
     private void calStatusEffectsDuration() {
         if (this.entityStatusEffects != null) {
             for (StatusEffectInstance effect : this.entityStatusEffects) {
-                MiscUtil.setFieldValue(effect, EFFECT_DURATION_FIELD, Math.max(effect.getDuration() - 1, 0));
+                ((IMixinStatusEffectInstance) effect).setDuration(Math.max(effect.getDuration() - 1, 0));
             }
         }
     }

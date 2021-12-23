@@ -14,17 +14,17 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.dynamic.GlobalPos;
-import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
-import xienaoban.minecraft.bole.client.HighlightManager;
-import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.screen.BoleMerchantEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
+import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVillagerEntityScreenHandler<E>> extends BoleMerchantEntityScreen<E, H> {
@@ -96,13 +96,19 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
             switch (index) {
                 case IDX_BUTTON_BEGIN -> {
                     GlobalPos pos = handler.entityJobSitePos;
-                    if (pos != null) {
-                        HighlightManager hl = BoleClient.getInstance().getHighlightManager();
-                        hl.setJobSiteOrBeehiveHighlightState(hl.highlightBlock(pos, 6 * 20));
-                        onClose();
+                    if (!handler.hasJob()) {
+                        showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
+                    }
+                    else if (pos == null) {
+                        showOverlayMessage(Keys.HINT_TEXT_NO_JOB_SITE);
+                    }
+                    else if (!Objects.equals(pos.getDimension(), handler.entity.world.getRegistryKey())) {
+                        showOverlayMessage(Keys.HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION);
                     }
                     else {
-                        showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
+                        HighlightManager hl = BoleClient.getInstance().getHighlightManager();
+                        hl.setHighlightedJobSiteOrBeehive(hl.highlight(pos, 6 * 20));
+                        onClose();
                     }
                 }
                 case IDX_BUTTON_BEGIN + 1 -> {
@@ -141,6 +147,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             int restocksToday = handler.entityRestocksToday;
+            this.overTime.setCount(calOvertime());
             drawIcon(matrices, 0, 110);
             drawBar(matrices, 1.0F, 10, 110);
             drawBar(matrices, restocksToday / 3.0F, 50, 110);
@@ -159,7 +166,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 return false;
             }
-            if (!hasJob()) {
+            if (!handler.hasJob()) {
                 showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
             }
             else if (!canRestock()) {
@@ -173,10 +180,6 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                 this.overTime.setCount(calOvertime());
             }
             return true;
-        }
-
-        private boolean hasJob() {
-            return handler.entity.getVillagerData().getProfession() != VillagerProfession.NONE;
         }
 
         private boolean canRestock() {
@@ -193,26 +196,11 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         }
     }
 
-    public class ClothingPropertyWidget extends AbstractPropertyWidget {
+    public class ClothingPropertyWidget extends VariantsPropertyWidget {
         private static final VillagerType[] CLOTHES = {VillagerType.PLAINS, VillagerType.TAIGA, VillagerType.DESERT, VillagerType.JUNGLE, VillagerType.SAVANNA, VillagerType.SNOW, VillagerType.SWAMP};
-        private static final Text[] NAMES = Arrays.stream(CLOTHES).map(type -> new TranslatableText(type.toString())).toArray(Text[]::new);
-        private final VillagerEntity[] clothingEntities;
-        private final int eachWidth, margin;
 
         public ClothingPropertyWidget() {
             super(4, 3);
-            this.clothingEntities = new VillagerEntity[CLOTHES.length];
-            this.eachWidth = this.box.width() / this.clothingEntities.length;
-            this.margin = ((this.box.width() % this.clothingEntities.length) >> 1) + 1;
-            for (int i = 0; i < CLOTHES.length; ++i) {
-                VillagerEntity entity = (VillagerEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
-                if (entity == null) {
-                    throw new RuntimeException("Failed to create a VillagerEntity on the client side.");
-                }
-                copyEntityNbtForDisplay(handler.entity, entity);
-                entity.setVillagerData(entity.getVillagerData().withType(CLOTHES[i]));
-                this.clothingEntities[i] = entity;
-            }
         }
 
         @Override
@@ -222,49 +210,39 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         }
 
         @Override
-        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            for (int i = 0; i < this.clothingEntities.length; ++i) {
-                VillagerEntity entity = this.clothingEntities[i];
-                int xx = x + this.eachWidth * i + this.margin;
-                drawEntityAuto(entity, xx, y, xx + this.eachWidth, this.box.bottom() - 10, 0, 10);
-                drawTextCenteredX(matrices, NAMES[i], 0xaa220000, 0.5F, xx + this.eachWidth / 2.0F, this.box.bottom() - 8);
-                if (CLOTHES[i] == handler.entity.getVillagerData().getType()) {
-                    drawSelectedTick(matrices, i, true);
+        protected E[] initEntities() {
+            VillagerEntity[] entities = new VillagerEntity[CLOTHES.length];
+            for (int i = 0; i < CLOTHES.length; ++i) {
+                VillagerEntity entity = (VillagerEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
+                if (entity == null) {
+                    throw new RuntimeException("Failed to create a VillagerEntity on the client side.");
                 }
+                copyEntityNbtForDisplay(handler.entity, entity);
+                entity.setVillagerData(entity.getVillagerData().withType(CLOTHES[i]));
+                entities[i] = entity;
             }
-            if (getHovered() == this) {
-                int i = calIndex(mouseX, mouseY);
-                if (i >= 0 && i < CLOTHES.length && CLOTHES[i] != handler.entity.getVillagerData().getType()) {
-                    drawSelectedTick(matrices, i, false);
-                }
-            }
-        }
-
-        private void drawSelectedTick(MatrixStack matrices, int index, boolean selected) {
-            setTexture(Textures.ICONS);
-            int xx = this.box.left() + this.eachWidth * index + this.margin + this.eachWidth / 2 - 5;
-            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), xx, this.box.bottom() - 18, 210 - (selected ? 10 : 0), 20);
+            return MiscUtil.cast(entities);
         }
 
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            int index = calIndex((int) mouseX, (int) mouseY);
-            if (index < 0 || index >= CLOTHES.length) {
-                return false;
-            }
-            VillagerType type = CLOTHES[index];
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CLOTHING, type);
-            if (targetDisplayedEntityPropertyWidget != null) {
-                targetDisplayedEntityPropertyWidget.updateDisplayedEntity();
-            }
+        protected Text[] initNames() {
+            return Arrays.stream(CLOTHES).map(type -> new TranslatableText(Keys.VILLAGER_CLOTHING_PREFIX + type.toString())).toArray(Text[]::new);
+        }
+
+        @Override
+        protected boolean canChoose() {
             return true;
         }
 
-        private int calIndex(int mouseX, int mouseY) {
-            if (mouseY < this.box.top() + 4 || mouseY > this.box.bottom() - 4) {
-                return -1;
-            }
-            return (mouseX - this.margin - this.box.left()) / this.eachWidth;
+        @Override
+        protected boolean isChosen(E fake) {
+            return handler.entity.getVillagerData().getType() == fake.getVillagerData().getType();
+        }
+
+        @Override
+        protected void setChosen(E fake) {
+            VillagerType type = fake.getVillagerData().getType();
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_VILLAGER_CLOTHING, type);
         }
     }
 }

@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui.screen;
+package xienaoban.minecraft.bole.gui.screen.handbook;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
@@ -12,13 +12,25 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.world.entity.EntityLookup;
+import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
+import xienaoban.minecraft.bole.mixin.IMixinWorld;
+import xienaoban.minecraft.bole.network.ClientNetworkManager;
+import xienaoban.minecraft.bole.util.Keys;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Environment(EnvType.CLIENT)
 public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookScreenHandler> {
@@ -39,9 +51,22 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         super.initButtons();
         int cnt = 0;
         for (EntityManager.TagGroup tags : EntityManager.getInstance().getTagGroups()) {
-            addDrawableChild(new TagGroupButtonWidget(this.contentLeft[0] - 30 - 10 + (cnt % 3), this.contentTop - 5 + cnt * 14, cnt, tags.getText(), (button -> initCatalog(tags))));
+            addBookmark(cnt, tags.getText(), button -> initCatalog(tags));
             ++cnt;
         }
+        addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
+            resetPages();
+            Page page0 = this.pages.get(0);
+            page0.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.SETTING_LAZILY_UNHIGHLIGHT), DARK_TEXT_COLOR, 0.5F));
+            setPageIndex(0);
+        });
+        addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
+            resetPages();
+            Page page0 = this.pages.get(0);
+            page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_NAME_IS, new TranslatableText(Keys.MOD_NAME)), DARK_TEXT_COLOR, 0.5F));
+            page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_AUTHOR_IS, new TranslatableText(Keys.XIENAOBAN)), DARK_TEXT_COLOR, 0.5F));
+            setPageIndex(0);
+        });
     }
 
     @Override
@@ -54,9 +79,10 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    private void initCatalog(EntityManager.TagGroup tags) {
+    private void initCatalog(EntityManager.TagGroup group) {
         resetPages();
-        tags.dfsTags((root, depth) -> {
+        this.pages.get(0).addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(group.getName() + ".description"), DARK_TEXT_COLOR, 0.5F));
+        group.dfsTags((root, depth) -> {
             int index = 0;
             while (!this.pages.get(index).addSlot(new TagItemPropertyWidget(depth, root))) {
                 ++index;
@@ -73,11 +99,13 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         private static final int TAB = 5;
         private final int sub;
         private final EntityManager.Tag tag;
+        private final Text text;
 
         public TagItemPropertyWidget(int sub, EntityManager.Tag tag) {
             super(4, 1);
             this.sub = sub;
             this.tag = tag;
+            this.text = new TranslatableText(tag.getName()).append(" (" + tag.getEntities().size() + ")");
         }
 
         @Override
@@ -97,10 +125,10 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
         private void drawName(MatrixStack matrices, int color) {
             if (this.sub < 0) { // impossible (sub always >= 0)
-                drawText(matrices, this.tag.getText(), color, 1.0F, this.box.left() + 12 - this.sub * TAB, this.box.top() + 1);
+                drawText(matrices, this.text, color, 1.0F, this.box.left() + 12 - this.sub * TAB, this.box.top() + 1);
             }
             else {
-                drawText(matrices, this.tag.getText(), color, 0.5F, this.box.left() + 12 + this.sub * TAB, this.box.top() + 3.25F);
+                drawText(matrices, this.text, color, 0.5F, this.box.left() + 12 + this.sub * TAB, this.box.top() + 3.25F);
             }
         }
 
@@ -122,15 +150,24 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
     }
 
     public class LivingEntityPropertyWidget extends AbstractPropertyWidget {
+        private static final int BUTTONS_CUT = 20;
         private final LivingEntity entity;
+        private final ItemStack spawnEgg;
         private final Text entityName;
         private final float entitySize;
+        private long hoverTime;
 
         public LivingEntityPropertyWidget(EntityType<?> entityType) {
             super(1, 3);
-            this.entity = (LivingEntity) entityType.create(MinecraftClient.getInstance().world);
+            LivingEntity tmp = (LivingEntity) entityType.create(MinecraftClient.getInstance().world);
+            if (tmp == null) {
+                tmp = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
+            }
+            this.entity = tmp;
+            this.spawnEgg = new ItemStack(SpawnEggItem.forEntity(entityType));
             this.entityName = entityType.getName();
             this.entitySize = calEntitySize();
+            this.hoverTime = -1;
         }
 
         private float calEntitySize() {
@@ -142,14 +179,66 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         }
 
         @Override
-        protected void initTooltipLines() {
-
-        }
+        protected void initTooltipLines() {}
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawEntity();
             drawTextCenteredX(matrices, this.entityName, DARK_TEXT_COLOR, 0.5F, this.box.left() + (this.box.width() >> 1), this.box.bottom() - (Page.PROPERTY_WIDGET_HEIGHT >> 1));
+            if (isHovered()) {
+                if (this.hoverTime == -1) this.hoverTime = System.currentTimeMillis();
+                long diff = System.currentTimeMillis() - this.hoverTime;
+                int u;
+                if (diff < 150 || (diff % 2400) < 100) u = 240;
+                else if (diff < 300) u = 230;
+                else u = 220;
+                drawRectangle(matrices, 0x77794500, getZOffset(), this.box.left(), this.box.top(), this.box.right(), this.box.bottom());
+                drawTextCenteredX(matrices, this.entityName, 0xffffffff, 0.5F, this.box.left() + (this.box.width() >> 1), this.box.bottom() - (Page.PROPERTY_WIDGET_HEIGHT >> 1));
+                boolean whichButton = mouseY > this.box.top() + BUTTONS_CUT;
+                drawRectangle(matrices, !whichButton ? 0xbaffffff : 0x66ffffff, getZOffset(), this.box.left() + 1, this.box.top() + 1, this.box.right() - 1, this.box.top() + BUTTONS_CUT);
+                drawRectangle(matrices, whichButton ? 0xbaffffff : 0x66ffffff, getZOffset(), this.box.left() + 1, this.box.top() + BUTTONS_CUT, this.box.right() - 1, this.box.bottom() - 6);
+                int mid = this.box.left() + this.box.right() >> 1;
+                float size = 2.0F;
+                MatrixStack matrixStack = matrixScaleOn(size, size, size);
+                setTexture(Textures.ICONS);
+                drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), mid / size - 5, this.box.top() / size, u, 0);
+                matrixScaleOff(matrixStack);
+                size = 0.5F;
+                matrixStack = matrixScaleOn(size, size, size);
+                itemRenderer.renderInGui(this.spawnEgg, (int) ((mid - 4) / size), (int) ((this.box.top() + 21) / size));
+                matrixScaleOff(matrixStack);
+            }
+            else this.hoverTime = -1;
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (mouseY < this.box.top() + BUTTONS_CUT) {
+                EntityType<?> entityType = this.entity.getType();
+                HighlightManager hl = BoleClient.getInstance().getHighlightManager();
+                assert MinecraftClient.getInstance().world != null;
+                EntityLookup<Entity> lookup = ((IMixinWorld) MinecraftClient.getInstance().world).callGetEntityLookup();
+                AtomicInteger cnt = new AtomicInteger();
+                lookup.forEach(entityType, entity -> {
+                    if (entity.distanceTo(handler.player) < 66 * 66) {
+                        hl.highlight(entity, 8 * 20);
+                        cnt.incrementAndGet();
+                    }
+                });
+                handler.player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey())).formatted(Formatting.GOLD), false);
+                ClientNetworkManager.sendHighlightEvent();
+                onClose();
+                return true;
+            }
+            else if (mouseY < this.box.bottom() - 6) {
+                if (isGodMode()) {
+                    handler.sendClientEntitySettings(Keys.ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY, new ItemStack(this.spawnEgg.getItem()));
+                    showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_OFFER_OR_DROP, new TranslatableText(this.spawnEgg.getTranslationKey())));
+                }
+                else showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_ONLY_IN_GOD_MODE));
+                return true;
+            }
+            return false;
         }
 
         /**

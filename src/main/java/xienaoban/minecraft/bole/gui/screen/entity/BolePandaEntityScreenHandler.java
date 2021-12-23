@@ -4,46 +4,53 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.passive.PandaEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreenHandler;
-import xienaoban.minecraft.bole.mixin.IMixinEatGrassGoal;
-import xienaoban.minecraft.bole.mixin.IMixinSheepEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleSheepEntityScreenHandler<E extends SheepEntity> extends BoleAnimalEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleSheepEntityScreenHandler<SheepEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "sheep_entity"), BoleSheepEntityScreenHandler::new);
+public class BolePandaEntityScreenHandler<E extends PandaEntity> extends BoleAnimalEntityScreenHandler<E> {
+    public static final ScreenHandlerType<BolePandaEntityScreenHandler<PandaEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
+            new Identifier(Keys.NAMESPACE, "panda_entity"), BolePandaEntityScreenHandler::new);
 
-    public BoleSheepEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public BolePandaEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }
 
-    public BoleSheepEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BolePandaEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
         this(HANDLER, syncId, playerInventory, entity);
     }
 
-    public BoleSheepEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
+    public BolePandaEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
         this(handler, syncId, playerInventory, clientEntity());
     }
 
-    public BoleSheepEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BolePandaEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
         registerEntitySettingsBufHandlers();
     }
 
     private void registerEntitySettingsBufHandlers() {
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_EAT_GRASS, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_PANDA_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                IMixinEatGrassGoal goal = (IMixinEatGrassGoal) ((IMixinSheepEntity) entity).getEatGrassGoal();
-                if (goal.getTimer() == 0) {
-                    goal.setTimer(-1);
+                if (isGodMode()) {
+                    boolean isMainGene = buf.readBoolean();
+                    PandaEntity.Gene gene = PandaEntity.Gene.byId(buf.readInt());
+                    if (isMainGene) entity.setMainGene(gene);
+                    else entity.setHiddenGene(gene);
                 }
             }
-            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {}
+            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
+                boolean isMainGene = (Boolean) args[0];
+                PandaEntity.Gene gene = (PandaEntity.Gene) args[1];
+                buf.writeBoolean(isMainGene);
+                buf.writeInt(gene.getId());
+                if (isMainGene) entity.setMainGene(gene);
+                else entity.setHiddenGene(gene);
+            }
         });
     }
 

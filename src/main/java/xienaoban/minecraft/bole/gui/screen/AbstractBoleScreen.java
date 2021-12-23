@@ -5,11 +5,11 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
@@ -27,6 +27,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
@@ -38,9 +39,7 @@ import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.mixin.IMixinItemStack;
 import xienaoban.minecraft.bole.util.Keys;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
@@ -66,6 +65,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     protected int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
 
+    protected final Map<Integer, ButtonWidget> bookmarks;
+
     protected final List<Page> pages;
     protected Page curLeftPage, curRightPage;
     protected int pageIndex;
@@ -77,8 +78,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.debugMode = false;
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
-        initButtons();
         this.overlayMessageHud = new OverlayMessageHud();
+        this.bookmarks = new HashMap<>();
         this.emptyPage = new Page();
         this.emptyPage.setSlot(0, 4, new CenteredTextPropertyWidget(4, 2, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), 0xaa666666, 1.0F));
         this.pages = new ArrayList<>();
@@ -207,6 +208,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         setHovered(null);
     }
 
+    public void addBookmark(int index, Text title, ButtonWidget.PressAction onPress) {
+        BookmarkButtonWidget bookmark = new BookmarkButtonWidget(this.contentLeft[0] - 30 - 10 + (index % 3), this.contentTop - 5 + index * 14, index, title, onPress);
+        addDrawableChild(bookmark);
+        this.bookmarks.put(index, bookmark);
+    }
+
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         this.renderBackground(matrices);
@@ -220,7 +227,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawTextureNormally(matrices, 256, 256, this.getZOffset(),
                 this.width >> 1, y0, x1, y1, u0, v0, u1, v1);
         if (this.debugMode) {
-            drawText(matrices, "Tick: " + BoleClient.getInstance().getScreenTicks(), LIGHT_TEXT_COLOR, 0.5F, 1, 10);
+            drawText(matrices, "Ticks: " + BoleClient.getInstance().getScreenTicks(), LIGHT_TEXT_COLOR, 0.5F, 1, 10);
             if (this.handler.entity != null) {
                 List<String> entitySuperclasses = new ArrayList<>();
                 Class<?> clazz = this.handler.entity.getClass();
@@ -233,6 +240,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                 drawText(matrices, "Entity: " + String.join(" > ", entitySuperclasses), LIGHT_TEXT_COLOR, 0.5F, 1, 15);
                 drawText(matrices, "Screen: " + this.getClass().getSimpleName(), LIGHT_TEXT_COLOR, 0.5F, 1, 20);
             }
+            drawText(matrices, "HighlightManager: " + BoleClient.getInstance().getHighlightManager(), LIGHT_TEXT_COLOR, 0.5F, 1, this.height - 5);
         }
         drawText(matrices, this.title, 0x99888888, this.contentLeft[0] + 0.7F, this.contentTop - 12 + 0.7F);
         drawText(matrices, this.title, 0xff444444, this.contentLeft[0], this.contentTop - 12);
@@ -678,6 +686,15 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.hovered = hovered;
     }
 
+    public GameMode getGameMode() {
+        ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
+        return manager != null ? manager.getCurrentGameMode() : null;
+    }
+
+    public boolean isGodMode() {
+        return getGameMode() == GameMode.CREATIVE;
+    }
+
     public final class OverlayMessageHud extends ScreenElement {
         private Text overlayMessage;
         private int overlayTicksTo;
@@ -716,11 +733,11 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     }
 
-    public class TagGroupButtonWidget extends ButtonWidget {
+    public class BookmarkButtonWidget extends ButtonWidget {
         private final int color;
         private final Text title;
 
-        public TagGroupButtonWidget(int x, int y, int color, Text title, PressAction onPress) {
+        public BookmarkButtonWidget(int x, int y, int color, Text title, PressAction onPress) {
             super(x, y, 30, 10, LiteralText.EMPTY, onPress);
             this.color = color % 4;
             this.title = title;
@@ -968,6 +985,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         public final int getColSlots() {
             return this.colSlots;
         }
+
+        public final boolean isHovered() {
+            return getHovered() == this;
+        }
     }
 
     /**
@@ -1125,8 +1146,42 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawText(matrices, text, color, size,
-                    x + (this.box.width() - textRenderer.getWidth(text) >> 1),
-                    y + (this.box.height() - (int)(DEFAULT_LINE_HEIGHT * this.size) >> 1));
+                    x + (this.box.width() - (int) (textRenderer.getWidth(text) * this.size) >> 1),
+                    y + (this.box.height() - (int) (DEFAULT_LINE_HEIGHT * this.size) >> 1));
+        }
+
+        public void setText(Text text) {
+            this.text = text;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
+
+        public void setSize(float size) {
+            this.size = size;
+        }
+    }
+
+    public class LeftTextPropertyWidget extends AbstractPropertyWidget {
+        private static final int DEFAULT_LINE_HEIGHT = 8;
+        private Text text;
+        private int color;
+        private float size;
+
+        public LeftTextPropertyWidget(int colSlots, int rowSlots, Text text, int color, float size) {
+            super(colSlots, rowSlots);
+            setText(text); setColor(color); setSize(size);
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawText(matrices, text, color, size,
+                    x + 2,
+                    y + (this.box.height() - (int) (DEFAULT_LINE_HEIGHT * this.size) >> 1));
         }
 
         public void setText(Text text) {

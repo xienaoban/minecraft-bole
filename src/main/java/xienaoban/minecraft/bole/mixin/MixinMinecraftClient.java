@@ -9,6 +9,16 @@ import xienaoban.minecraft.bole.client.BoleClient;
 
 @Mixin(MinecraftClient.class)
 public class MixinMinecraftClient {
+    @Inject(method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V", at = @At("TAIL"))
+    private void joinWorld(CallbackInfo callbackInfo) {
+        BoleClient.getInstance().onJoinWorld();
+    }
+
+    @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("HEAD"))
+    private void disconnect(CallbackInfo callbackInfo) {
+        BoleClient.getInstance().onDisconnect();
+    }
+
     @Inject(method = "tick()V", at = @At("HEAD"))
     private void tick(CallbackInfo callbackInfo) {
         BoleClient.getInstance().clientTick();

@@ -1,4 +1,6 @@
-Toto List:
+Functions:
+- [X] **`Highlight Entities Around The Player`**
+- [X] **`Offer a Spawn Egg`**
 - Entity:
   - [ ] ~~`UUID`~~
   - [X] `Bounding Box`
@@ -7,13 +9,14 @@ Toto List:
   - [X] `Set Nether Portal Cooldown`
   - [X] `Set Custom Name Visible`
   - [X] `Shut Up` (isSilent)
+  - [X] `Set Invulnerable`
   - LivingEntity:
     - [X] `Health`
     - [X] `Max Health`
     - [X] `Is Baby`
     - [X] `Status Effects`
     - MobEntity:
-      - [ ] `Speed` (goalSelector)
+      - [ ] ~~`Speed` (goalSelector)~~
       - [X] `Attractive Items` (goalSelector - TemptGoal)
       - [X] `Can Be Leashed` (canBeLeashedBy)
       - [ ] ~~`Loot Table`~~
@@ -25,7 +28,15 @@ Toto List:
           - AnimalEntity:
             - [X] `Breeding Item` (isBreedingItem)
             - TameableEntity:
+              - [X] `Is Tamed`
               - [ ] `Set Owner`
+              - [ ] `Invulnerable Pets`
+              - TameableShoulderEntity:
+                - [X] `Set Cooldown of Sitting On Player`
+                - ParrotEntity:
+                  - [X] `Set Parrot Variant`
+              - CatEntity:
+                - [X] `Set Cat Variant`
             - HorseBaseEntity:
               - AbstractDonkeyEntity
                 - [X] `Chest Size`
@@ -37,6 +48,10 @@ Toto List:
               - [X] `Reset Beehive Position`
             - SheepEntity:
               - [X] `Force Eat Grass`
+            - ChickenEntity:
+              - [ ] `No Egg Laying`
+            - PandaEntity:
+              - [X] `Set Gene`
           - MerchantEntity:
             - [X] `Get Inventory`
             - [ ] `Set Inventory` (Open a new HandledScreen? Just like HorseScreen?)

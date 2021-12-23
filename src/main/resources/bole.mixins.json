@@ -4,17 +4,24 @@
   "package": "xienaoban.minecraft.bole.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "IMixinBeeEntity",
+    "IMixinEatGrassGoal",
     "IMixinEntity",
     "IMixinItemStack",
     "IMixinMobEntity",
     "IMixinPassiveEntity",
     "IMixinSheepEntity",
+    "IMixinStatusEffectInstance",
+    "IMixinTameableShoulderEntity",
+    "IMixinTemptGoal",
     "IMixinVillagerEntity",
+    "IMixinWorld",
     "MixinEatGrassGoal",
     "MixinEntity",
     "MixinMinecraftClient",
     "MixinPassiveEntity",
-    "MixinPolarBearEntity"
+    "MixinPolarBearEntity",
+    "MixinTameableShoulderEntity"
   ],
   "client": [
   ],

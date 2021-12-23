@@ -6,7 +6,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.ai.goal.EatGrassGoal;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
@@ -15,9 +14,9 @@ import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreen;
+import xienaoban.minecraft.bole.mixin.IMixinEatGrassGoal;
 import xienaoban.minecraft.bole.mixin.IMixinSheepEntity;
 import xienaoban.minecraft.bole.util.Keys;
-import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.function.Predicate;
 
@@ -47,7 +46,7 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
     }
 
     public class EatGrassPropertyWidget extends TemplatePropertyWidget1 {
-        private static final Predicate<BlockState> GRASS_PREDICATE = MiscUtil.getFieldValue(null, EatGrassGoal.class, "GRASS_PREDICATE");
+        private static final Predicate<BlockState> GRASS_PREDICATE = IMixinEatGrassGoal.getGrassPredicate();
 
         private int interval;
 

@@ -5,10 +5,14 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
+import xienaoban.minecraft.bole.Bole;
+import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 
 @Environment(EnvType.CLIENT)
@@ -19,7 +23,9 @@ public class BoleClient implements ClientModInitializer {
     private Entity boleTarget;
     private int ticks;
     private int screenTicks;
+    private boolean inWorld;
     private PacketByteBuf handlerBufCache = null;
+    private BoleHandbookScreenState handbookState;
     private HighlightManager highlightManager;
 
     public static BoleClient getInstance() {
@@ -32,17 +38,32 @@ public class BoleClient implements ClientModInitializer {
         this.isScreenOpen = false;
         this.ticks = -1;
         this.screenTicks = -1;
+        this.inWorld = false;
         this.highlightManager = new HighlightManager();
         ScreenRegistryManager.initClient();
         ClientNetworkManager.init();
         KeyBindingManager.init();
     }
 
-    /**
-     * @see xienaoban.minecraft.bole.mixin.MixinMinecraftClient#tick
-     */
+    public void onJoinWorld() {
+        ClientWorld world = MinecraftClient.getInstance().world;
+        this.inWorld = world != null;
+        preventMemoryLeak();
+        if (world != null) Bole.LOGGER.info("Joining the world: " + MinecraftClient.getInstance().world.getRegistryKey().getValue());
+        else Bole.LOGGER.info("Joining the world: null?!");
+    }
+
+    public void onDisconnect() {
+        this.inWorld = false;
+        preventMemoryLeak();
+        ClientWorld world = MinecraftClient.getInstance().world;
+        if (world != null) Bole.LOGGER.info("Disconnecting from the world: " + MinecraftClient.getInstance().world.getRegistryKey().getValue());
+        else Bole.LOGGER.info("Disconnecting from the world: null");
+    }
+
     public void clientTick() {
-        ++this.ticks;
+        if (!inWorld) return;
+        if (!MinecraftClient.getInstance().isPaused()) ++this.ticks;
         if (this.isScreenOpen) {
             MinecraftClient client = MinecraftClient.getInstance();
             ClientPlayerEntity player = client.player;
@@ -51,7 +72,7 @@ public class BoleClient implements ClientModInitializer {
                 ((AbstractBoleScreenHandler<?>) player.currentScreenHandler).clientTick(screenTicks);
             }
         }
-        this.highlightManager.tick(this.ticks);
+        this.highlightManager.tick();
     }
 
     public Entity getBoleTarget() {
@@ -68,22 +89,36 @@ public class BoleClient implements ClientModInitializer {
     }
 
     public int getTicks() {
-        return ticks;
+        return this.ticks;
     }
 
     public int getScreenTicks() {
-        return screenTicks;
+        return this.screenTicks;
     }
 
     public PacketByteBuf getHandlerBufCache() {
-        return handlerBufCache;
+        return this.handlerBufCache;
     }
 
     public void setHandlerBufCache(PacketByteBuf buf) {
         this.handlerBufCache = buf;
     }
 
+    public BoleHandbookScreenState getHandbookState() {
+        return this.handbookState;
+    }
+
+    public void setHandbookState(BoleHandbookScreenState handbookState) {
+        this.handbookState = handbookState;
+    }
+
     public HighlightManager getHighlightManager() {
         return highlightManager;
+    }
+
+    private void preventMemoryLeak() {
+        this.boleTarget = null;
+        this.handlerBufCache = null;
+        this.highlightManager.clear();
     }
 }

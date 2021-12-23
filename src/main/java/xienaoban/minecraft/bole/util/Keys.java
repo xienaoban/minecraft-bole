@@ -6,33 +6,64 @@ public interface Keys {
     String NAMESPACE = "bole";
 
     // Entity Setting Channels
-    String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN = "nether_portal_cooldown";
-    String ENTITY_SETTING_CUSTOM_NAME_VISIBLE = "custom_name_visible";
-    String ENTITY_SETTING_SILENT = "silent";
-    String ENTITY_SETTING_BABY = "baby";
-    String ENTITY_SETTING_RESET_BEEHIVE = "reset_beehive";
-    String ENTITY_SETTING_RESET_JOB = "reset_job";
-    String ENTITY_SETTING_RESTOCK = "restock";
-    String ENTITY_SETTING_CLOTHING = "clothing";
-    String ENTITY_SETTING_EAT_GRASS = "eat_grass";
+    String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =     "offer_or_drop";
+    String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN =          "nether_portal_cooldown";
+    String ENTITY_SETTING_CUSTOM_NAME_VISIBLE =             "custom_name_visible";
+    String ENTITY_SETTING_SILENT =                          "silent";
+    String ENTITY_SETTING_INVULNERABLE =                    "invulnerable";
+    String ENTITY_SETTING_BABY =                            "baby";
+    String ENTITY_SETTING_RESET_BEEHIVE =                   "reset_beehive";
+    String ENTITY_SETTING_RESET_JOB =                       "reset_job";
+    String ENTITY_SETTING_RESTOCK =                         "restock";
+    String ENTITY_SETTING_VILLAGER_CLOTHING =               "villager_clothing";
+    String ENTITY_SETTING_EAT_GRASS =                       "eat_grass";
+    String ENTITY_SETTING_CAT_VARIANT =                     "cat_variant";
+    String ENTITY_SETTING_PARROT_VARIANT =                  "parrot_variant";
+    String ENTITY_SETTING_PANDA_VARIANT =                   "panda_variant";
+    String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =          "sit_on_player_cooldown";
 
     // Translation Keys
-    String MOD_NAME = "xienaoban.bole";
-    String TITLE_BOLE_OVERVIEW = "title.xienaoban.bole.bole_handbook";
-    String KEY_CATEGORY_BOLE = "key.category.xienaoban.bole";
-    String KEY_OPEN_BOLE_GUI = "key.xienaoban.bole.open_bole_gui";
+    String XIENAOBAN =              "xienaoban";
+    String MOD_NAME =               "xienaoban.bole";
+    String TITLE_BOLE_OVERVIEW =    "title.xienaoban.bole.bole_handbook";
+    String KEY_CATEGORY_BOLE =      "key.category.xienaoban.bole";
+    String KEY_OPEN_BOLE_GUI =      "key.xienaoban.bole.open_bole_gui";
 
-    String TAG_GROUP_DEFAULT = "tag_group.xienaoban.bole.default";
-    String TAG_GROUP_CLASS = "tag_group.xienaoban.bole.class";
-    String TAG_GROUP_INTERFACE = "tag_group.xienaoban.bole.interface";
-    String TAG_GROUP_NAMESPACE = "tag_group.xienaoban.bole.namespace";
+    String CAT_VARIANT_TABBY =             "entity.minecraft.cat.variant.tabby";
+    String CAT_VARIANT_BLACK =             "entity.minecraft.cat.variant.black";
+    String CAT_VARIANT_RED =               "entity.minecraft.cat.variant.red";
+    String CAT_VARIANT_SIAMESE =           "entity.minecraft.cat.variant.siamese";
+    String CAT_VARIANT_BRITISH_SHORTHAIR = "entity.minecraft.cat.variant.shorthair";
+    String CAT_VARIANT_CALICO =            "entity.minecraft.cat.variant.calico";
+    String CAT_VARIANT_PERSIAN =           "entity.minecraft.cat.variant.persian";
+    String CAT_VARIANT_RAGDOLL =           "entity.minecraft.cat.variant.ragdoll";
+    String CAT_VARIANT_WHITE =             "entity.minecraft.cat.variant.white";
+    String CAT_VARIANT_JELLIE =            "entity.minecraft.cat.variant.jellie";
+    String CAT_VARIANT_ALL_BLACK =         "entity.minecraft.cat.variant.all_black";
 
-    String TAG_DEFAULT_HUMAN = "tag.xienaoban.bole.default.human";
+    String PARROT_VARIANT_RED =     "entity.minecraft.parrot.variant.red";
+    String PARROT_VARIANT_BLUE =    "entity.minecraft.parrot.variant.blue";
+    String PARROT_VARIANT_GREEN =   "entity.minecraft.parrot.variant.green";
+    String PARROT_VARIANT_CYAN =    "entity.minecraft.parrot.variant.cyan";
+    String PARROT_VARIANT_GRAY =    "entity.minecraft.parrot.variant.gray";
+
+    String PANDA_VARIANT_PREFIX = "entity.minecraft.panda.variant.";
+
+    String VILLAGER_CLOTHING_PREFIX = "entity.minecraft.villager.clothing.";
+
+    String TAG_GROUP_DEFAULT =      "tag_group.xienaoban.bole.default";
+    String TAG_GROUP_CLASS =        "tag_group.xienaoban.bole.class";
+    String TAG_GROUP_INTERFACE =    "tag_group.xienaoban.bole.interface";
+    String TAG_GROUP_NAMESPACE =    "tag_group.xienaoban.bole.namespace";
+
+    String TAG_DEFAULT_HUMAN =              "tag.xienaoban.bole.default.human";
     String TAG_DEFAULT_TERRESTRIAL_ANIMAL = "tag.xienaoban.bole.default.terrestrial_animal";
-    String TAG_DEFAULT_AQUATIC_ANIMAL = "tag.xienaoban.bole.default.aquatic_animal";
-    String TAG_DEFAULT_ANIMAL = "tag.xienaoban.bole.default.animal";
-    String TAG_DEFAULT_MONSTER = "tag.xienaoban.bole.default.monster";
-    String TAG_DEFAULT_OTHER = "tag.xienaoban.bole.default.other";
+    String TAG_DEFAULT_AQUATIC_ANIMAL =     "tag.xienaoban.bole.default.aquatic_animal";
+    String TAG_DEFAULT_ANIMAL =             "tag.xienaoban.bole.default.animal";
+    String TAG_DEFAULT_HUMANOID =           "tag.xienaoban.bole.default.humanoid";
+    String TAG_DEFAULT_PATROL =             "tag.xienaoban.bole.default.patrol";
+    String TAG_DEFAULT_MONSTER =            "tag.xienaoban.bole.default.monster";
+    String TAG_DEFAULT_OTHER =              "tag.xienaoban.bole.default.other";
 
     String PROPERTY_WIDGET_BOUNDING_BOX = "property_widget.xienaoban.bole.bounding_box";
     String PROPERTY_WIDGET_BOUNDING_BOX_DESCRIPTION = "property_widget.xienaoban.bole.bounding_box.description";
@@ -44,12 +75,16 @@ public interface Keys {
     String PROPERTY_WIDGET_CUSTOM_NAME_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.custom_name.description.button1";
     String PROPERTY_WIDGET_SILENT = "property_widget.xienaoban.bole.silent";
     String PROPERTY_WIDGET_SILENT_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.silent.description.button1";
+    String PROPERTY_WIDGET_INVULNERABLE = "property_widget.xienaoban.bole.invulnerable";
+    String PROPERTY_WIDGET_INVULNERABLE_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.invulnerable.description.button1";
     String PROPERTY_WIDGET_HEALTH = "property_widget.xienaoban.bole.health";
     String PROPERTY_WIDGET_HEALTH_DESCRIPTION = "property_widget.xienaoban.bole.health.description";
     String PROPERTY_WIDGET_HEALTH_DESCRIPTION_HORSE_BASE = "property_widget.xienaoban.bole.health.description.horse_base";
     String PROPERTY_WIDGET_STATUS_EFFECTS = "property_widget.xienaoban.bole.status_effects";
     String PROPERTY_WIDGET_LEASH = "property_widget.xienaoban.bole.leash";
     String PROPERTY_WIDGET_LEASH_DESCRIPTION = "property_widget.xienaoban.bole.leash.description";
+    String PROPERTY_WIDGET_TAME = "property_widget.xienaoban.bole.tame";
+    String PROPERTY_WIDGET_TAME_DESCRIPTION = "property_widget.xienaoban.bole.tame.description";
     String PROPERTY_WIDGET_BABY = "property_widget.xienaoban.bole.baby";
     String PROPERTY_WIDGET_BABY_DESCRIPTION = "property_widget.xienaoban.bole.baby.description";
     String PROPERTY_WIDGET_BABY_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.baby.description.button1";
@@ -64,6 +99,9 @@ public interface Keys {
     String PROPERTY_WIDGET_EAT_GRASS = "property_widget.xienaoban.bole.eat_grass";
     String PROPERTY_WIDGET_EAT_GRASS_DESCRIPTION = "property_widget.xienaoban.bole.eat_grass.description";
     String PROPERTY_WIDGET_EAT_GRASS_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.eat_grass.description.button1";
+    String PROPERTY_WIDGET_SIT_ON_PLAYER_COOLDOWN = "property_widget.xienaoban.bole.sit_on_player_cooldown";
+    String PROPERTY_WIDGET_SIT_ON_PLAYER_COOLDOWN_DESCRIPTION = "property_widget.xienaoban.bole.sit_on_player_cooldown.description";
+    String PROPERTY_WIDGET_SIT_ON_PLAYER_COOLDOWN_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.sit_on_player_cooldown.description.button1";
     String PROPERTY_WIDGET_HORSE_RUN_AND_JUMP = "property_widget.xienaoban.bole.horse_run_and_jump";
     String PROPERTY_WIDGET_HORSE_RUN_AND_JUMP_DESCRIPTION = "property_widget.xienaoban.bole.horse_run_and_jump.description";
     String PROPERTY_WIDGET_DONKEY_CHEST = "property_widget.xienaoban.bole.donkey_chest";
@@ -79,15 +117,17 @@ public interface Keys {
     String PROPERTY_WIDGET_VILLAGER_RESTOCK_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.villager_restock.description.button1";
     String PROPERTY_WIDGET_VILLAGER_CLOTHING = "property_widget.xienaoban.bole.villager_clothing";
     String PROPERTY_WIDGET_VILLAGER_CLOTHING_DESCRIPTION = "property_widget.xienaoban.bole.villager_clothing.description";
+    String PROPERTY_WIDGET_CAT_VARIANT = "property_widget.xienaoban.bole.cat_variant";
+    String PROPERTY_WIDGET_CAT_VARIANT_DESCRIPTION = "property_widget.xienaoban.bole.cat_variant.description";
+    String PROPERTY_WIDGET_PARROT_VARIANT = "property_widget.xienaoban.bole.parrot_variant";
+    String PROPERTY_WIDGET_PARROT_VARIANT_DESCRIPTION = "property_widget.xienaoban.bole.parrot_variant.description";
+    String PROPERTY_WIDGET_PANDA_MAIN_GENE = "property_widget.xienaoban.bole.panda_main_gene";
+    String PROPERTY_WIDGET_PANDA_MAIN_GENE_DESCRIPTION = "property_widget.xienaoban.bole.panda_main_gene.description";
+    String PROPERTY_WIDGET_PANDA_HIDDEN_GENE = "property_widget.xienaoban.bole.panda_hidden_gene";
+    String PROPERTY_WIDGET_PANDA_HIDDEN_GENE_DESCRIPTION = "property_widget.xienaoban.bole.panda_hidden_gene.description";
 
-    String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
-    String TEXT_UNNAMED = "text.xienaoban.bole.unnamed";
-    String TEXT_GROWN_UP = "text.xienaoban.bole.grown_up";
-    String TEXT_NEVER_GROW_UP = "text.xienaoban.bole.never_grow_up";
-    String TEXT_LOADING = "text.xienaoban.bole.loading";
-    String TEXT_EMPTY_WITH_BRACKETS = "text.xienaoban.bole.empty_with_brackets";
-    String TEXT_VILLAGER_AGREE_TO_RESET_JOB = "text.hint.xienaoban.bole.villager_agree_to_reset_job";
-
+    String HINT_TEXT_OFFER_OR_DROP = "text.hint.xienaoban.bole.offer_or_drop";
+    String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.xienaoban.bole.only_in_god_mode";
     String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
     String HINT_TEXT_NO_BEEHIVE = "text.hint.xienaoban.bole.no_beehive";
     String HINT_TEXT_EATING_GRASS = "text.hint.xienaoban.bole.eating_grass";
@@ -95,8 +135,29 @@ public interface Keys {
     String HINT_TEXT_NOT_ENOUGH_ITEMS = "text.hint.xienaoban.bole.not_enough_items";
     String HINT_TEXT_FAR_FROM_JOB_SITE = "text.hint.xienaoban.bole.far_from_job_site";
     String HINT_TEXT_NO_JOB = "text.hint.xienaoban.bole.no_job";
+    String HINT_TEXT_NO_JOB_SITE = "text.hint.xienaoban.bole.no_job_site";
+    String HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION = "text.hint.xienaoban.bole.job_site_different_dimension";
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.xienaoban.bole.refuse_to_reset_job";
 
+    String SETTING_LAZILY_UNHIGHLIGHT = "setting.xienaoban.bole.lazily_unhighlight";
+
+    String TEXT_RETURN_TO_HANDBOOK = "text.xienaoban.bole.return_to_handbook";
+    String TEXT_SETTINGS = "text.xienaoban.bole.settings";
+    String TEXT_ABOUT = "text.xienaoban.bole.about";
+    String TEXT_MOD_NAME_IS = "text.xienaoban.bole.mod_name_is";
+    String TEXT_MOD_AUTHOR_IS = "text.xienaoban.bole.mod_author_is";
+    String TEXT_UNSUPPORTED_ENTITY = "text.xienaoban.bole.unsupported_entity";
+    String TEXT_UNNAMED = "text.xienaoban.bole.unnamed";
+    String TEXT_GROWN_UP = "text.xienaoban.bole.grown_up";
+    String TEXT_NEVER_GROW_UP = "text.xienaoban.bole.never_grow_up";
+    String TEXT_LOADING = "text.xienaoban.bole.loading";
+    String TEXT_EMPTY_WITH_BRACKETS = "text.xienaoban.bole.empty_with_brackets";
+    String TEXT_VILLAGER_AGREE_TO_RESET_JOB = "text.xienaoban.bole.villager_agree_to_reset_job";
+    String TEXT_HIGHLIGHT = "text.xienaoban.bole.highlight";
+    String TEXT_MAIN_GENE = "text.xienaoban.bole.main_gene";
+    String TEXT_HIDDEN_GENE = "text.xienaoban.bole.hidden_gene";
+
     // Other
-    int NETHER_PORTAL_LOCK = 0x7fffffff;
+    int NETHER_PORTAL_LOCK = 1200;
+    int SIT_ON_PLAYER_LOCK = -300;
 }

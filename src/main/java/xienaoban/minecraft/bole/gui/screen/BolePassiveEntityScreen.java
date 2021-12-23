@@ -19,7 +19,7 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(1).addSlotLazyAfter(new BabyPropertyWidget(), SilentPropertyWidget.class);
+        this.pages.get(1).addSlotLazyAfter(new BabyPropertyWidget(), NetherPortalCooldownPropertyWidget.class);
     }
 
     @Override

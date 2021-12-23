@@ -13,8 +13,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreenHandler;
+import xienaoban.minecraft.bole.mixin.IMixinBeeEntity;
 import xienaoban.minecraft.bole.util.Keys;
-import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.Objects;
 
@@ -45,7 +45,7 @@ public class BoleBeeEntityScreenHandler<E extends BeeEntity> extends BoleAnimalE
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RESET_BEEHIVE, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                MiscUtil.setFieldValue(entity, BeeEntity.class, "hivePos", null);
+                ((IMixinBeeEntity) entity).setHivePos(null);
             }
 
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {}

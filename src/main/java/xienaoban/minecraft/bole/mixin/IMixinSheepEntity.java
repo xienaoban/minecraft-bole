@@ -1,5 +1,6 @@
 package xienaoban.minecraft.bole.mixin;
 
+import net.minecraft.entity.ai.goal.EatGrassGoal;
 import net.minecraft.entity.passive.SheepEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
@@ -8,4 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface IMixinSheepEntity {
     @Accessor
     int getEatGrassTimer();
+
+    @Accessor
+    EatGrassGoal getEatGrassGoal();
 }
