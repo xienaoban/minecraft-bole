@@ -119,7 +119,7 @@
   "property_widget.xienaoban.bole.silent": "沉默",
   "property_widget.xienaoban.bole.silent.description.button1": "按钮1：设置是否让实体保持闭嘴。",
   "property_widget.xienaoban.bole.invulnerable": "无敌",
-  "property_widget.xienaoban.bole.invulnerable.description.button1": "按钮1：设置是否让实体无敌。但在创造模式下始终可以对其造成伤害。",
+  "property_widget.xienaoban.bole.invulnerable.description.button1": "按钮1：设置是否让实体无敌。\n不过在创造模式下始终可以对其造成伤害。",
   "property_widget.xienaoban.bole.health": "血量",
   "property_widget.xienaoban.bole.health.description": "每个红色血条最高代表20血。\n黄色血条表示20以上的血。",
   "property_widget.xienaoban.bole.health.description.horse_base": "最大生命通常介于 15 和 30 之间。",
