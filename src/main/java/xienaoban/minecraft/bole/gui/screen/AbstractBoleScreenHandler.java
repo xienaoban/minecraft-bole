@@ -126,7 +126,7 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     }
 
     public boolean isGodMode() {
-        return getGameMode() == GameMode.CREATIVE || getGameMode() == GameMode.SPECTATOR;
+        return getGameMode() == GameMode.CREATIVE;
     }
 
     /**
