@@ -12,7 +12,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.LiteralText;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -148,9 +149,12 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
     }
 
     public class LivingEntityPropertyWidget extends AbstractPropertyWidget {
+        private static final int BUTTONS_CUT = 20;
         private final LivingEntity entity;
+        private final ItemStack spawnEgg;
         private final Text entityName;
         private final float entitySize;
+        private long hoverTime;
 
         public LivingEntityPropertyWidget(EntityType<?> entityType) {
             super(1, 3);
@@ -159,8 +163,10 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
                 tmp = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
             }
             this.entity = tmp;
+            this.spawnEgg = new ItemStack(SpawnEggItem.forEntity(entityType));
             this.entityName = entityType.getName();
             this.entitySize = calEntitySize();
+            this.hoverTime = -1;
         }
 
         private float calEntitySize() {
@@ -172,32 +178,65 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         }
 
         @Override
-        protected void initTooltipLines() {
-
-        }
+        protected void initTooltipLines() {}
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawEntity();
             drawTextCenteredX(matrices, this.entityName, DARK_TEXT_COLOR, 0.5F, this.box.left() + (this.box.width() >> 1), this.box.bottom() - (Page.PROPERTY_WIDGET_HEIGHT >> 1));
+            if (isHovered()) {
+                if (this.hoverTime == -1) this.hoverTime = System.currentTimeMillis();
+                long diff = System.currentTimeMillis() - this.hoverTime;
+                int u;
+                if (diff < 150 || (diff % 2400) < 100) u = 240;
+                else if (diff < 300) u = 230;
+                else u = 220;
+                drawRectangle(matrices, 0x77794500, getZOffset(), this.box.left(), this.box.top(), this.box.right(), this.box.bottom());
+                drawTextCenteredX(matrices, this.entityName, 0xffffffff, 0.5F, this.box.left() + (this.box.width() >> 1), this.box.bottom() - (Page.PROPERTY_WIDGET_HEIGHT >> 1));
+                boolean whichButton = mouseY > this.box.top() + BUTTONS_CUT;
+                drawRectangle(matrices, !whichButton ? 0xbaffffff : 0x66ffffff, getZOffset(), this.box.left() + 1, this.box.top() + 1, this.box.right() - 1, this.box.top() + BUTTONS_CUT);
+                drawRectangle(matrices, whichButton ? 0xbaffffff : 0x66ffffff, getZOffset(), this.box.left() + 1, this.box.top() + BUTTONS_CUT, this.box.right() - 1, this.box.bottom() - 6);
+                int mid = this.box.left() + this.box.right() >> 1;
+                float size = 2.0F;
+                MatrixStack matrixStack = matrixScaleOn(size, size, size);
+                setTexture(Textures.ICONS);
+                drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), mid / size - 5, this.box.top() / size, u, 0);
+                matrixScaleOff(matrixStack);
+                size = 0.5F;
+                matrixStack = matrixScaleOn(size, size, size);
+                itemRenderer.renderInGui(this.spawnEgg, (int) ((mid - 4) / size), (int) ((this.box.top() + 21) / size));
+                matrixScaleOff(matrixStack);
+            }
+            else this.hoverTime = -1;
         }
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            EntityType<?> entityType = this.entity.getType();
-            HighlightManager hl = BoleClient.getInstance().getHighlightManager();
-            assert MinecraftClient.getInstance().world != null;
-            EntityLookup<Entity> lookup = ((IMixinWorld) MinecraftClient.getInstance().world).callGetEntityLookup();
-            AtomicInteger cnt = new AtomicInteger();
-            lookup.forEach(entityType, entity -> {
-                if (entity.distanceTo(handler.player) < 66 * 66) {
-                    hl.highlight(entity, 8 * 20);
-                    cnt.incrementAndGet();
+            if (mouseY < this.box.top() + BUTTONS_CUT) {
+                EntityType<?> entityType = this.entity.getType();
+                HighlightManager hl = BoleClient.getInstance().getHighlightManager();
+                assert MinecraftClient.getInstance().world != null;
+                EntityLookup<Entity> lookup = ((IMixinWorld) MinecraftClient.getInstance().world).callGetEntityLookup();
+                AtomicInteger cnt = new AtomicInteger();
+                lookup.forEach(entityType, entity -> {
+                    if (entity.distanceTo(handler.player) < 66 * 66) {
+                        hl.highlight(entity, 8 * 20);
+                        cnt.incrementAndGet();
+                    }
+                });
+                handler.player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey())).formatted(Formatting.GOLD), false);
+                onClose();
+                return true;
+            }
+            else if (mouseY < this.box.bottom() - 6) {
+                if (isGodMode()) {
+                    handler.sendClientEntitySettings(Keys.ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY, new ItemStack(this.spawnEgg.getItem()));
+                    showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_OFFER_OR_DROP, new TranslatableText(this.spawnEgg.getTranslationKey())));
                 }
-            });
-            handler.player.sendMessage(new LiteralText(String.valueOf(cnt.get())).append(new TranslatableText(entityType.getTranslationKey())).append(new TranslatableText(Keys.TEXT_HIGHLIGHT)).formatted(Formatting.GOLD), false);
-            onClose();
-            return true;
+                else showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_ONLY_IN_GOD_MODE));
+                return true;
+            }
+            return false;
         }
 
         /**

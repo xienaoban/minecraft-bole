@@ -119,7 +119,7 @@
   "property_widget.xienaoban.bole.silent": "Silent",
   "property_widget.xienaoban.bole.silent.description.button1": "Button1: set whether to keep the entity quiet.",
   "property_widget.xienaoban.bole.invulnerable": "Invulnerable",
-  "property_widget.xienaoban.bole.invulnerable.description.button1": "Button1: set the entity invulnerable or not.",
+  "property_widget.xienaoban.bole.invulnerable.description.button1": "Button1: set the entity invulnerable or not.\nYou can still damage it in creative mode.",
   "property_widget.xienaoban.bole.health": "Health Points",
   "property_widget.xienaoban.bole.health.description": "Each red bar represents up to 20 points.\nA golden bar represents more than 20 points.",
   "property_widget.xienaoban.bole.health.description.horse_base": "Max health is usually between 15 and 30.",
@@ -169,6 +169,7 @@
   "property_widget.xienaoban.bole.panda_hidden_gene": "Hidden Gene of Pandas",
   "property_widget.xienaoban.bole.panda_hidden_gene.description": "You can only change the gene in creative mode.",
 
+  "text.hint.xienaoban.bole.offer_or_drop": "%s is offered to you.",
   "text.hint.xienaoban.bole.only_in_god_mode": "Can only be used in creative mode.",
   "text.hint.xienaoban.bole.not_baby": "It's meaningless to lock the growth stage of adult creatures...",
   "text.hint.xienaoban.bole.no_beehive": "This bee has no beehive or bee nest yet.",
@@ -195,7 +196,7 @@
   "text.xienaoban.bole.loading": "Loading...",
   "text.xienaoban.bole.empty_with_brackets": "(Empty)",
   "text.xienaoban.bole.villager_agree_to_reset_job": "Without this mod, villagers with unsatisfactory trading lists may be killed by the player.\nThinking of this, the villager readily accepted the player's kindness.",
-  "text.xienaoban.bole.highlight": " have been highlighted.",
+  "text.xienaoban.bole.highlight": "%d %s have been highlighted.",
   "text.xienaoban.bole.main_gene": "Main",
   "text.xienaoban.bole.hidden_gene": "Hidden"
 }

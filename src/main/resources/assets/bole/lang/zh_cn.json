@@ -119,7 +119,7 @@
   "property_widget.xienaoban.bole.silent": "沉默",
   "property_widget.xienaoban.bole.silent.description.button1": "按钮1：设置是否让实体保持闭嘴。",
   "property_widget.xienaoban.bole.invulnerable": "无敌",
-  "property_widget.xienaoban.bole.invulnerable.description.button1": "按钮1：设置是否让实体无敌。",
+  "property_widget.xienaoban.bole.invulnerable.description.button1": "按钮1：设置是否让实体无敌。但在创造模式下始终可以对其造成伤害。",
   "property_widget.xienaoban.bole.health": "血量",
   "property_widget.xienaoban.bole.health.description": "每个红色血条最高代表20血。\n黄色血条表示20以上的血。",
   "property_widget.xienaoban.bole.health.description.horse_base": "最大生命通常介于 15 和 30 之间。",
@@ -169,6 +169,7 @@
   "property_widget.xienaoban.bole.panda_hidden_gene": "能苗的基因2（隐藏基因）",
   "property_widget.xienaoban.bole.panda_hidden_gene.description": "隐藏基因一般不表达，除非与主要基因为同一隐形基因。\n你只能在创造模式中更换基因。",
 
+  "text.hint.xienaoban.bole.offer_or_drop": "%s已发放到背包。",
   "text.hint.xienaoban.bole.only_in_god_mode": "只能在创造模式中使用。",
   "text.hint.xienaoban.bole.not_baby": "锁住已成年生物的成长阶段，是怕它返老还童吗~",
   "text.hint.xienaoban.bole.no_beehive": "看样子是只无家可归的小蜜蜂呢~",
@@ -195,7 +196,7 @@
   "text.xienaoban.bole.loading": "加载中……",
   "text.xienaoban.bole.empty_with_brackets": "（空）",
   "text.xienaoban.bole.villager_agree_to_reset_job": "在有此Mod之前，交易刷歪了的村民大多难逃玩家正义的击杀。\n想到这儿，村民不仅欣然接受了玩家的好意，甚至还感恩起了Mod作者能给他一个重新做人的机会。",
-  "text.xienaoban.bole.highlight": "被高亮了。",
+  "text.xienaoban.bole.highlight": "%d只%s被高亮了。",
   "text.xienaoban.bole.main_gene": "显性",
   "text.xienaoban.bole.hidden_gene": "隐性"
 }

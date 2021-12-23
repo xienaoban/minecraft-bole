@@ -6,20 +6,21 @@ public interface Keys {
     String NAMESPACE = "bole";
 
     // Entity Setting Channels
-    String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN =  "nether_portal_cooldown";
-    String ENTITY_SETTING_CUSTOM_NAME_VISIBLE =     "custom_name_visible";
-    String ENTITY_SETTING_SILENT =                  "silent";
-    String ENTITY_SETTING_INVULNERABLE =            "invulnerable";
-    String ENTITY_SETTING_BABY =                    "baby";
-    String ENTITY_SETTING_RESET_BEEHIVE =           "reset_beehive";
-    String ENTITY_SETTING_RESET_JOB =               "reset_job";
-    String ENTITY_SETTING_RESTOCK =                 "restock";
-    String ENTITY_SETTING_VILLAGER_CLOTHING =       "villager_clothing";
-    String ENTITY_SETTING_EAT_GRASS =               "eat_grass";
-    String ENTITY_SETTING_CAT_VARIANT =             "cat_variant";
-    String ENTITY_SETTING_PARROT_VARIANT =          "parrot_variant";
-    String ENTITY_SETTING_PANDA_VARIANT =           "panda_variant";
-    String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =  "sit_on_player_cooldown";
+    String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =     "offer_or_drop";
+    String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN =          "nether_portal_cooldown";
+    String ENTITY_SETTING_CUSTOM_NAME_VISIBLE =             "custom_name_visible";
+    String ENTITY_SETTING_SILENT =                          "silent";
+    String ENTITY_SETTING_INVULNERABLE =                    "invulnerable";
+    String ENTITY_SETTING_BABY =                            "baby";
+    String ENTITY_SETTING_RESET_BEEHIVE =                   "reset_beehive";
+    String ENTITY_SETTING_RESET_JOB =                       "reset_job";
+    String ENTITY_SETTING_RESTOCK =                         "restock";
+    String ENTITY_SETTING_VILLAGER_CLOTHING =               "villager_clothing";
+    String ENTITY_SETTING_EAT_GRASS =                       "eat_grass";
+    String ENTITY_SETTING_CAT_VARIANT =                     "cat_variant";
+    String ENTITY_SETTING_PARROT_VARIANT =                  "parrot_variant";
+    String ENTITY_SETTING_PANDA_VARIANT =                   "panda_variant";
+    String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =          "sit_on_player_cooldown";
 
     // Translation Keys
     String XIENAOBAN =              "xienaoban";
@@ -125,6 +126,7 @@ public interface Keys {
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE = "property_widget.xienaoban.bole.panda_hidden_gene";
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE_DESCRIPTION = "property_widget.xienaoban.bole.panda_hidden_gene.description";
 
+    String HINT_TEXT_OFFER_OR_DROP = "text.hint.xienaoban.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.xienaoban.bole.only_in_god_mode";
     String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
     String HINT_TEXT_NO_BEEHIVE = "text.hint.xienaoban.bole.no_beehive";
