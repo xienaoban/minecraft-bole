@@ -27,6 +27,7 @@ import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.mixin.IMixinWorld;
+import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -225,6 +226,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
                     }
                 });
                 handler.player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey())).formatted(Formatting.GOLD), false);
+                ClientNetworkManager.sendHighlightEvent();
                 onClose();
                 return true;
             }

@@ -1,6 +1,7 @@
 Functions:
+- [X] **`Highlight Entities Around The Player`**
+- [X] **`Offer a Spawn Egg`**
 - Entity:
-  - [X] **`Highlight Entities Around The Player`**
   - [ ] ~~`UUID`~~
   - [X] `Bounding Box`
   - [X] `Custom Name`
@@ -15,7 +16,7 @@ Functions:
     - [X] `Is Baby`
     - [X] `Status Effects`
     - MobEntity:
-      - [ ] `Speed` (goalSelector)
+      - [ ] ~~`Speed` (goalSelector)~~
       - [X] `Attractive Items` (goalSelector - TemptGoal)
       - [X] `Can Be Leashed` (canBeLeashedBy)
       - [ ] ~~`Loot Table`~~

@@ -3,6 +3,8 @@ package xienaoban.minecraft.bole.network;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
@@ -27,6 +29,7 @@ public class ServerNetworkManager {
         registerRequestServerEntityData();
         registerSendClientEntitySettings();
         registerRequestServerEntitiesGlowing();
+        registerSendHighlightEvent();
     }
 
     private static void registerRequestBoleScreen() {
@@ -88,6 +91,14 @@ public class ServerNetworkManager {
                     res.writeBoolean(entity != null && entity.isGlowing());
                 }
                 ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITIES_GLOWING, res);
+            });
+        });
+    }
+
+    private static void registerSendHighlightEvent() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.SEND_HIGHLIGHT_EVENT, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 2 * 20));
             });
         });
     }

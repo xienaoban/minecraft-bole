@@ -80,13 +80,6 @@ public class ClientNetworkManager {
         ClientPlayNetworking.send(Channels.SEND_CLIENT_ENTITY_SETTINGS, buf);
     }
 
-    public static AbstractBoleScreenHandler<?> getBoleScreenHandler(MinecraftClient client) {
-        if (client.player == null || !(client.player.currentScreenHandler instanceof AbstractBoleScreenHandler)) {
-            return null;
-        }
-        return (AbstractBoleScreenHandler<?>) client.player.currentScreenHandler;
-    }
-
     public static void requestServerEntitiesGlowing(Queue<Entity> que) {
         if (que.isEmpty()) return;
         PacketByteBuf buf = PacketByteBufs.create();
@@ -98,5 +91,16 @@ public class ClientNetworkManager {
             buf.writeInt(entity.getId());
         }
         ClientPlayNetworking.send(Channels.REQUEST_SERVER_ENTITIES_GLOWING, buf);
+    }
+
+    public static void sendHighlightEvent() {
+        ClientPlayNetworking.send(Channels.SEND_HIGHLIGHT_EVENT, PacketByteBufs.empty());
+    }
+
+    public static AbstractBoleScreenHandler<?> getBoleScreenHandler(MinecraftClient client) {
+        if (client.player == null || !(client.player.currentScreenHandler instanceof AbstractBoleScreenHandler)) {
+            return null;
+        }
+        return (AbstractBoleScreenHandler<?>) client.player.currentScreenHandler;
     }
 }
