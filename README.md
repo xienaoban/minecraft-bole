@@ -8,6 +8,7 @@ Functions:
   - [X] `Set Nether Portal Cooldown`
   - [X] `Set Custom Name Visible`
   - [X] `Shut Up` (isSilent)
+  - [X] `Set Invulnerable`
   - LivingEntity:
     - [X] `Health`
     - [X] `Max Health`
@@ -26,10 +27,11 @@ Functions:
           - AnimalEntity:
             - [X] `Breeding Item` (isBreedingItem)
             - TameableEntity:
-              - [ ] `Is Tamed`
+              - [X] `Is Tamed`
               - [ ] `Set Owner`
+              - [ ] `Invulnerable Pets`
               - TameableShoulderEntity:
-                - [ ] `Set Cooldown of Sitting On Player`
+                - [X] `Set Cooldown of Sitting On Player`
                 - ParrotEntity:
                   - [X] `Set Parrot Variant`
               - CatEntity:

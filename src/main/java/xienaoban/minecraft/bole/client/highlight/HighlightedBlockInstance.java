@@ -27,6 +27,7 @@ public class HighlightedBlockInstance extends HighlightedFakeInstance {
         super(createFallingBlockEntity(pos), ticks);
         this.pos = pos.getPos();
         this.moveTicks = getCurrentTicks() + 3;
+        this.entity.setInvisible(true);
     }
 
     @Override

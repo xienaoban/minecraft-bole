@@ -9,6 +9,7 @@ public interface Keys {
     String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN =  "nether_portal_cooldown";
     String ENTITY_SETTING_CUSTOM_NAME_VISIBLE =     "custom_name_visible";
     String ENTITY_SETTING_SILENT =                  "silent";
+    String ENTITY_SETTING_INVULNERABLE =            "invulnerable";
     String ENTITY_SETTING_BABY =                    "baby";
     String ENTITY_SETTING_RESET_BEEHIVE =           "reset_beehive";
     String ENTITY_SETTING_RESET_JOB =               "reset_job";
@@ -73,6 +74,8 @@ public interface Keys {
     String PROPERTY_WIDGET_CUSTOM_NAME_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.custom_name.description.button1";
     String PROPERTY_WIDGET_SILENT = "property_widget.xienaoban.bole.silent";
     String PROPERTY_WIDGET_SILENT_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.silent.description.button1";
+    String PROPERTY_WIDGET_INVULNERABLE = "property_widget.xienaoban.bole.invulnerable";
+    String PROPERTY_WIDGET_INVULNERABLE_DESCRIPTION_BUTTON1 = "property_widget.xienaoban.bole.invulnerable.description.button1";
     String PROPERTY_WIDGET_HEALTH = "property_widget.xienaoban.bole.health";
     String PROPERTY_WIDGET_HEALTH_DESCRIPTION = "property_widget.xienaoban.bole.health.description";
     String PROPERTY_WIDGET_HEALTH_DESCRIPTION_HORSE_BASE = "property_widget.xienaoban.bole.health.description.horse_base";
@@ -122,6 +125,7 @@ public interface Keys {
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE = "property_widget.xienaoban.bole.panda_hidden_gene";
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE_DESCRIPTION = "property_widget.xienaoban.bole.panda_hidden_gene.description";
 
+    String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.xienaoban.bole.only_in_god_mode";
     String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
     String HINT_TEXT_NO_BEEHIVE = "text.hint.xienaoban.bole.no_beehive";
     String HINT_TEXT_EATING_GRASS = "text.hint.xienaoban.bole.eating_grass";

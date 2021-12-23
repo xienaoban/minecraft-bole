@@ -32,7 +32,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         this.entityDisplayPlan = chooseEntityDisplayPlan(this.pages.get(0));
         this.pages.get(0).addSlotLazy(new BoundingBoxPropertyWidget());
         this.pages.get(1).addSlotLazy(new CustomNamePropertyWidget())
-                .addSlotLazy(new SilentPropertyWidget())
+                .addSlotLazy(new InvulnerablePropertyWidget())
+                .addSlotLazyBefore(new SilentPropertyWidget(), InvulnerablePropertyWidget.class)
                 .addSlotLazy(new NetherPortalCooldownPropertyWidget());
     }
 
@@ -364,13 +365,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
      * Allows you to make the entity shut up forever.
      */
     public class SilentPropertyWidget extends TemplatePropertyWidget1 {
-        private boolean silentCache;            // to ensure that the button pattern responds in the first time
-        private int silentSwitchCacheTicks;     // (rather than waiting for the response of the server)
 
         public SilentPropertyWidget() {
             super(1, false, 1);
-            this.silentCache = false;
-            this.silentSwitchCacheTicks = -233;
         }
 
         @Override
@@ -392,15 +389,49 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                 return false;
             }
             boolean newState = !isCurrentSilent();
-            this.silentCache = newState;
-            this.silentSwitchCacheTicks = BoleClient.getInstance().getScreenTicks() + 8;
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_SILENT, newState);
             return true;
         }
 
         private boolean isCurrentSilent() {
-            return this.silentSwitchCacheTicks > BoleClient.getInstance().getScreenTicks()
-                    ? this.silentCache : handler.entity.isSilent();
+            return handler.entity.isSilent();
+        }
+    }
+
+    public class InvulnerablePropertyWidget extends TemplatePropertyWidget1 {
+
+        public InvulnerablePropertyWidget() {
+            super(1, false, 1);
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_INVULNERABLE);
+            initTooltipButtonDescription(Keys.PROPERTY_WIDGET_INVULNERABLE_DESCRIPTION_BUTTON1);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawIcon(matrices, 100, 10);
+            drawButton(matrices, 0, 200 + (isCurrentInvulnerable() ? 10 : 0), 0);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            int index = calMousePosition(mouseX, mouseY);
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                return false;
+            }
+            if (isGodMode()) {
+                boolean newState = !isCurrentInvulnerable();
+                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_INVULNERABLE, newState);
+            }
+            else showOverlayMessage(Keys.HINT_TEXT_ONLY_IN_GOD_MODE);
+            return true;
+        }
+
+        private boolean isCurrentInvulnerable() {
+            return handler.entity.isInvulnerable();
         }
     }
 }
