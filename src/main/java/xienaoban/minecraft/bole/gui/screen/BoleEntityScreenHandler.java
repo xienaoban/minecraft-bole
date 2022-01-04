@@ -100,7 +100,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
 
     @Override
     protected void writeServerEntityToBuf(PacketByteBuf buf) {
-        buf.writeInt(this.entity.getId());
+        buf.writeInt(this.syncId);
         buf.writeInt(((IMixinEntity)this.entity).getNetherPortalCooldown());
         buf.writeBoolean(this.entity.isInvulnerable());
     }
@@ -109,7 +109,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     @Override
     protected void readServerEntityFromBuf(PacketByteBuf buf) {
         int id = buf.readInt();
-        if (this.entity.getId() != id) {
+        if (this.syncId != id) {
             throw new RuntimeException("Expired packet of the server entity.");
         }
         ((IMixinEntity)this.entity).setNetherPortalCooldown(buf.readInt());

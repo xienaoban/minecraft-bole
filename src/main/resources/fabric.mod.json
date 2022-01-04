@@ -20,6 +20,9 @@
     ],
     "main": [
       "xienaoban.minecraft.bole.Bole"
+    ],
+    "modmenu": [
+      "xienaoban.minecraft.bole.config.ModMenuImpl"
     ]
   },
   "mixins": [
