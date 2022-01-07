@@ -110,6 +110,7 @@
 
   "text.autoconfig.xienaoban.bole.title": "伯乐模组设置",
   "text.autoconfig.xienaoban.bole.option.invulnerablePets": "宠物无敌",
+  "text.autoconfig.xienaoban.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "禁止设置其他玩家的地狱传送冷却值",
 
   "property_widget.xienaoban.bole.bounding_box": "碰撞箱",
   "property_widget.xienaoban.bole.bounding_box.description": "实体的碰撞箱或者说边界框。\n红色与蓝色为宽度，绿色为高度（单位：米）。",
@@ -174,6 +175,7 @@
 
   "text.hint.xienaoban.bole.offer_or_drop": "%s已发放到背包。",
   "text.hint.xienaoban.bole.only_in_god_mode": "只能在创造模式中使用。",
+  "text.hint.xienaoban.bole.forbid_to_set_nether_portal_cooldown_of_other_players": "服务器禁止更改其他玩家的地狱传送冷却。",
   "text.hint.xienaoban.bole.not_baby": "锁住已成年生物的成长阶段，是怕它返老还童吗~",
   "text.hint.xienaoban.bole.no_beehive": "看样子是只无家可归的小蜜蜂呢~",
   "text.hint.xienaoban.bole.eating_grass": "草正吃着呢~",

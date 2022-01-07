@@ -110,6 +110,7 @@
 
   "text.autoconfig.xienaoban.bole.title": "Settings of Bole",
   "text.autoconfig.xienaoban.bole.option.invulnerablePets": "Invulnerable pets",
+  "text.autoconfig.xienaoban.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "Forbid to set nether portal cooldown of other players",
 
   "property_widget.xienaoban.bole.bounding_box": "Bounding Box",
   "property_widget.xienaoban.bole.bounding_box.description": "Bounding box or hit box of the entity.\n\"Red\" and \"Blue\" means the width of it, and \"Green\" means the height of it (unit: meter).",
@@ -174,6 +175,7 @@
 
   "text.hint.xienaoban.bole.offer_or_drop": "%s is offered to you.",
   "text.hint.xienaoban.bole.only_in_god_mode": "Can only be used in creative mode.",
+  "text.hint.xienaoban.bole.forbid_to_set_nether_portal_cooldown_of_other_players": "The server prohibits setting nether portal cooldown of other players.",
   "text.hint.xienaoban.bole.not_baby": "It's meaningless to lock the growth stage of adult creatures...",
   "text.hint.xienaoban.bole.no_beehive": "This bee has no beehive or bee nest yet.",
   "text.hint.xienaoban.bole.eating_grass": "Wait two seconds. The sheep is eating grass!",

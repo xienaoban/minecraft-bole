@@ -109,6 +109,12 @@ public class ServerNetworkManager {
         server.execute(() -> ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITY_DATA, entityBuf));
     }
 
+    public static void sendOverlayMessage(Text text, MinecraftServer server, ServerPlayerEntity player) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeText(text);
+        server.execute(() -> ServerPlayNetworking.send(player, Channels.SEND_OVERLAY_MESSAGE, buf));
+    }
+
     private static AbstractBoleScreenHandler<?> getBoleScreenHandler(ServerPlayerEntity player) {
         if (!(player.currentScreenHandler instanceof AbstractBoleScreenHandler)) {
             Bole.LOGGER.warn("The bole screen may have been closed. Buf ignored.");

@@ -15,6 +15,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.Nullable;
 import xienaoban.minecraft.bole.Bole;
@@ -127,6 +128,11 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
 
     public boolean isGodMode() {
         return getGameMode() == GameMode.CREATIVE;
+    }
+
+    public void sendOverlayMessage(Text text) {
+        ServerPlayerEntity player = (ServerPlayerEntity) this.player;
+        ServerNetworkManager.sendOverlayMessage(text, player.server, player);
     }
 
     /**

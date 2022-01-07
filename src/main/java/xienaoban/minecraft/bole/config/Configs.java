@@ -22,5 +22,15 @@ public class Configs implements ConfigData {
         return holder.getConfig();
     }
 
-    public boolean invulnerablePets = false;
+    boolean invulnerablePets = false;
+
+    boolean forbidToSetNetherPortalCooldownOfOtherPlayers = false;
+
+    public boolean isInvulnerablePets() {
+        return invulnerablePets;
+    }
+
+    public boolean isForbidToSetNetherPortalCooldownOfOtherPlayers() {
+        return forbidToSetNetherPortalCooldownOfOtherPlayers;
+    }
 }

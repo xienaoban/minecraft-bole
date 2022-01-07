@@ -130,6 +130,7 @@ public interface Keys {
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.xienaoban.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.xienaoban.bole.only_in_god_mode";
+    String HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS = "text.hint.xienaoban.bole.forbid_to_set_nether_portal_cooldown_of_other_players";
     String HINT_TEXT_NOT_BABY = "text.hint.xienaoban.bole.not_baby";
     String HINT_TEXT_NO_BEEHIVE = "text.hint.xienaoban.bole.no_beehive";
     String HINT_TEXT_EATING_GRASS = "text.hint.xienaoban.bole.eating_grass";
@@ -140,8 +141,6 @@ public interface Keys {
     String HINT_TEXT_NO_JOB_SITE = "text.hint.xienaoban.bole.no_job_site";
     String HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION = "text.hint.xienaoban.bole.job_site_different_dimension";
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.xienaoban.bole.refuse_to_reset_job";
-
-    String SETTING_LAZILY_UNHIGHLIGHT = "setting.xienaoban.bole.lazily_unhighlight";
 
     String TEXT_RETURN_TO_HANDBOOK = "text.xienaoban.bole.return_to_handbook";
     String TEXT_SETTINGS = "text.xienaoban.bole.settings";
