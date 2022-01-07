@@ -1,8 +1,8 @@
 Functions:
 - [X] **`Highlight entities around the player`**
 - [X] **`Offer a spawn egg`**
-- [ ] **`Open the handbook screen when looking up`**
-- [ ] **`Open the player screen when looking down`**
+- [X] **`Open the handbook screen when looking up`**
+- [X] **`Open the player or mount screen when looking down`**
 - Entity:
   - [ ] ~~`UUID`~~
   - [X] `Bounding box`

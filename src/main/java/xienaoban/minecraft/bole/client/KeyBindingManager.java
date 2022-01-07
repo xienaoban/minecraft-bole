@@ -30,14 +30,19 @@ public class KeyBindingManager {
                     Bole.LOGGER.error("Client player is null. Fail to open the Bole Screen.");
                     return;
                 }
+                Entity target;
+                double y = player.getRotationVec(0).getY();
                 HitResult hit = client.crosshairTarget;
-                if (hit == null || hit.getType() != HitResult.Type.ENTITY) {
-                    ClientNetworkManager.requestBoleScreen();
-                }
+                if (y > 0.998) target = null;
+                else if (y < -0.998) target = player;
+                else if (y < -0.886 && player.hasVehicle()) target = player.getVehicle();
+                else if (hit == null || hit.getType() != HitResult.Type.ENTITY) target = null;
+                else target = ((EntityHitResult) hit).getEntity();
+
+                if (target == null) ClientNetworkManager.requestBoleScreen();
                 else {
-                    Entity entity = ((EntityHitResult)hit).getEntity();
-                    BoleClient.getInstance().setBoleTarget(entity);
-                    ClientNetworkManager.requestBoleScreen(entity);
+                    BoleClient.getInstance().setBoleTarget(target);
+                    ClientNetworkManager.requestBoleScreen(target);
                 }
             }
         });
