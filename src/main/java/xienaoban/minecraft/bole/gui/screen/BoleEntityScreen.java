@@ -15,6 +15,7 @@ import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
@@ -46,12 +47,16 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     @Override
     protected void initButtons() {
         super.initButtons();
-        addBookmark(0, new TranslatableText(Keys.TEXT_RETURN_TO_HANDBOOK), button -> ClientNetworkManager.requestBoleScreen());
+        addBookmark(0, new TranslatableText(Keys.TEXT_RETURN_TO_HANDBOOK), button -> {
+            BoleClient.getInstance().setHandbookState(new BoleHandbookScreenState());
+            ClientNetworkManager.requestBoleScreen();
+        });
         addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
             assert this.client != null;
             this.client.setScreen(ScreenManager.getConfigScreen(this));
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
+            BoleClient.getInstance().setHandbookState(new BoleHandbookScreenState(9, 0));
             ClientNetworkManager.requestBoleScreen();
         });
     }

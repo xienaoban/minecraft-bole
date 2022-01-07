@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -37,6 +38,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookScreenHandler> {
     public BoleHandbookScreen(BoleHandbookScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        BoleHandbookScreenState state = BoleClient.getInstance().getHandbookState();
+        if (state != null && this.client != null) {
+            BoleClient.getInstance().setHandbookState(null);
+            InputUtil.setCursorParameters(this.client.getWindow().getHandle(), 212993, state.getMouseX(), state.getMouseY());
+            this.bookmarks.get(state.getBookmarkIndex()).onPress();
+            setPageIndex(state.getPageIndex());
+        }
     }
 
     @Override
