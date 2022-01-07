@@ -17,7 +17,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazyBefore(new LeashPropertyWidget(), BoundingBoxPropertyWidget.class);
+        this.pages.get(0).addSlotLazyAfter(new LeashPropertyWidget(), StatusEffectsPropertyWidget.class);
     }
 
     @Override

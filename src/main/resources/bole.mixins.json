@@ -16,6 +16,7 @@
     "IMixinTemptGoal",
     "IMixinVillagerEntity",
     "IMixinWorld",
+    "MixinAnimalEntity",
     "MixinEatGrassGoal",
     "MixinEntity",
     "MixinMinecraftClient",

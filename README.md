@@ -9,7 +9,7 @@ Functions:
   - [X] `Custom name`
   - [X] `Nether portal cooldown`
   - [X] `Set nether portal cooldown`
-    - [ ] `Players can only change their own cooldown`
+    - [X] `Players can only change their own cooldown`
   - [X] `Set custom name visible`
   - [X] `Shut up`
   - [X] `Set invulnerable`
@@ -34,7 +34,7 @@ Functions:
             - TameableEntity:
               - [X] `Is tamed`
               - [ ] `Set owner`
-              - [ ] `Invulnerable pets`
+              - [X] `Invulnerable pets`
               - TameableShoulderEntity:
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:

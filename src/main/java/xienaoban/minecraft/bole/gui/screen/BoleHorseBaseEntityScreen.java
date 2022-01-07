@@ -21,7 +21,8 @@ public class BoleHorseBaseEntityScreen<E extends HorseBaseEntity, H extends Bole
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazyAfter(new HorseRunAndJumpPropertyWidget(), HealthPropertyWidget.class);
+        this.pages.get(0).addSlotLazyAfter(new HorseRunAndJumpPropertyWidget(), HealthPropertyWidget.class)
+                .addSlotLazyAfter(new TamePropertyWidget(), LeashPropertyWidget.class);
     }
 
     @Override
@@ -35,6 +36,25 @@ public class BoleHorseBaseEntityScreen<E extends HorseBaseEntity, H extends Bole
     @Override
     protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
+    }
+
+    public class TamePropertyWidget extends TemplatePropertyWidget1 {
+
+        public TamePropertyWidget() {
+            super(1, true, 0);
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_TAME);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_TAME_DESCRIPTION);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawIcon(matrices, 150, 10);
+            drawBar(matrices, 1.0F, 220 + (handler.entity.isTame() ? 0 : 10), 20);
+        }
     }
 
     /**
