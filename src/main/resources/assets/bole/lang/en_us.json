@@ -108,6 +108,9 @@
 
   "minecraft": "Minecraft",
 
+  "text.autoconfig.xienaoban.bole.title": "Settings of Bole",
+  "text.autoconfig.xienaoban.bole.option.invulnerablePets": "Invulnerable pets",
+
   "property_widget.xienaoban.bole.bounding_box": "Bounding Box",
   "property_widget.xienaoban.bole.bounding_box.description": "Bounding box or hit box of the entity.\n\"Red\" and \"Blue\" means the width of it, and \"Green\" means the height of it (unit: meter).",
   "property_widget.xienaoban.bole.nether_portal_cooldown": "Nether Portal Cooldown",

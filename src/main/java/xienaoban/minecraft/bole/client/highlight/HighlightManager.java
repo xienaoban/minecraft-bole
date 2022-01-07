@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.client.highlight;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.dynamic.GlobalPos;
-import xienaoban.minecraft.bole.config.ClientConfig;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 
 import java.util.*;
@@ -38,7 +37,6 @@ public class HighlightManager {
             while ((ins = que.peek()) != null && ins.check()) {
                 que.poll();
                 this.highlightedMap.remove(ins.getEntity());
-                if (ClientConfig.lazilyUnhighlight) break;
             }
             ClientNetworkManager.requestServerEntitiesGlowing(this.toCheckGlowingFromServer);
         }

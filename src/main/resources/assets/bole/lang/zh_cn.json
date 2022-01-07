@@ -108,6 +108,9 @@
 
   "minecraft": "我的世界",
 
+  "text.autoconfig.xienaoban.bole.title": "伯乐模组设置",
+  "text.autoconfig.xienaoban.bole.option.invulnerablePets": "宠物无敌",
+
   "property_widget.xienaoban.bole.bounding_box": "碰撞箱",
   "property_widget.xienaoban.bole.bounding_box.description": "实体的碰撞箱或者说边界框。\n红色与蓝色为宽度，绿色为高度（单位：米）。",
   "property_widget.xienaoban.bole.nether_portal_cooldown": "下界传送冷却时间",

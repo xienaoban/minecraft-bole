@@ -24,6 +24,7 @@ import net.minecraft.world.entity.EntityLookup;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
+import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.mixin.IMixinWorld;
@@ -55,10 +56,8 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             ++cnt;
         }
         addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
-            resetPages();
-            Page page0 = this.pages.get(0);
-            page0.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.SETTING_LAZILY_UNHIGHLIGHT), DARK_TEXT_COLOR, 0.5F));
-            setPageIndex(0);
+            assert this.client != null;
+            this.client.setScreen(ScreenManager.getConfigScreen(this));
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
             resetPages();

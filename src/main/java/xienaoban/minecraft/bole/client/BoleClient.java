@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
-import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
+import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
@@ -40,7 +40,7 @@ public class BoleClient implements ClientModInitializer {
         this.screenTicks = -1;
         this.inWorld = false;
         this.highlightManager = new HighlightManager();
-        ScreenRegistryManager.initClient();
+        ScreenManager.initClient();
         ClientNetworkManager.init();
         KeyBindingManager.init();
     }

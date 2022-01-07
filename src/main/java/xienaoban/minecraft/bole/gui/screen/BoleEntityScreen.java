@@ -13,6 +13,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
@@ -46,6 +47,13 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     protected void initButtons() {
         super.initButtons();
         addBookmark(0, new TranslatableText(Keys.TEXT_RETURN_TO_HANDBOOK), button -> ClientNetworkManager.requestBoleScreen());
+        addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
+            assert this.client != null;
+            this.client.setScreen(ScreenManager.getConfigScreen(this));
+        });
+        addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
+            ClientNetworkManager.requestBoleScreen();
+        });
     }
 
     @Override

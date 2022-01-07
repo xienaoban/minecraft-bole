@@ -3,7 +3,7 @@
   "id": "bole",
   "version": "${version}",
   "name": "Bole",
-  "description": "A mod to show info of entities.",
+  "description": "A mod to display or modify the properties and status of entities.\nBy the way Bole is a historical figure in ancient China and nobody knows more about horses than he does.",
   "authors": [
     "XieNaoban"
   ],

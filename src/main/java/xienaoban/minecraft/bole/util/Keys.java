@@ -65,6 +65,8 @@ public interface Keys {
     String TAG_DEFAULT_MONSTER =            "tag.xienaoban.bole.default.monster";
     String TAG_DEFAULT_OTHER =              "tag.xienaoban.bole.default.other";
 
+    String OPTION_INVULNERABLE_PETS = "option.xienaoban.bole.invulnerable_pets";
+
     String PROPERTY_WIDGET_BOUNDING_BOX = "property_widget.xienaoban.bole.bounding_box";
     String PROPERTY_WIDGET_BOUNDING_BOX_DESCRIPTION = "property_widget.xienaoban.bole.bounding_box.description";
     String PROPERTY_WIDGET_NETHER_PORTAL_COOLDOWN = "property_widget.xienaoban.bole.nether_portal_cooldown";

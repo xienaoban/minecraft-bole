@@ -19,7 +19,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
+import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -38,7 +38,7 @@ public class ServerNetworkManager {
             server.execute(() -> player.openHandledScreen(new NamedScreenHandlerFactory() {
                 @Override
                 public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-                    return ScreenRegistryManager.getHandler(syncId, inv, entity);
+                    return ScreenManager.getHandler(syncId, inv, entity);
                 }
 
                 @Override
