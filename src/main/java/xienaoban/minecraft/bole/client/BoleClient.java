@@ -70,9 +70,9 @@ public class BoleClient implements ClientModInitializer {
         if (this.isScreenOpen) {
             MinecraftClient client = MinecraftClient.getInstance();
             ClientPlayerEntity player = client.player;
-            if (player != null && player.currentScreenHandler instanceof AbstractBoleScreenHandler) {
+            if (player != null && player.currentScreenHandler instanceof AbstractBoleScreenHandler boleScreenHandler) {
                 ++screenTicks;
-                ((AbstractBoleScreenHandler<?>) player.currentScreenHandler).clientTick(screenTicks);
+                boleScreenHandler.clientTick(screenTicks);
             }
         }
         this.highlightManager.tick();

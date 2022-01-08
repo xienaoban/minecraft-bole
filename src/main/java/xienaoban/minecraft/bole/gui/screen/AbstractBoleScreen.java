@@ -662,6 +662,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         nbt.remove("CustomName");
         nbt.remove("CustomNameVisible");
         nbt.remove("AngryAt");
+        nbt.remove("HurtTime");
         try {
             to.readNbt(nbt);
         }
@@ -892,8 +893,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                 return null;
             }
             AbstractPropertyWidget widget = this.widgets.get(col).get(row);
-            if (widget instanceof AbstractBoleScreen.EmptyPropertyWidget) {
-                widget = ((EmptyPropertyWidget) widget).father;
+            if (widget instanceof EmptyPropertyWidget emptyWidget) {
+                widget = emptyWidget.father;
             }
             if (widget == null || mouseX > widget.box.right() || mouseY > widget.box.bottom()) {
                 return null;
@@ -918,6 +919,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public abstract class AbstractPropertyWidget extends ScreenElement {
         protected final int colSlots, rowSlots;
         protected final List<OrderedText> tooltipLines;
+        private final OrderedText widgetClassText;
 
         public AbstractPropertyWidget(int colSlots, int rowSlots) {
             super(colSlots * (Page.PROPERTY_WIDGET_WIDTH + Page.PROPERTY_WIDGET_MARGIN_WIDTH) - Page.PROPERTY_WIDGET_MARGIN_WIDTH,
@@ -926,6 +928,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             this.rowSlots = rowSlots;
             this.tooltipLines = new ArrayList<>();
             initTooltipLines();
+            String name = this.getClass().getName();
+            name = name.substring(name.lastIndexOf('.') + 1).replaceFirst("\\$", " -> ");
+            this.widgetClassText = new LiteralText(name).formatted(Formatting.DARK_GRAY).asOrderedText();
         }
 
         protected abstract void initTooltipLines();
@@ -970,7 +975,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         protected void drawTooltip(MatrixStack matrices) {
-            renderTooltip(matrices, this.tooltipLines, 0.5F, this.box.left(), this.box.bottom());
+            if (debugMode) {
+                this.tooltipLines.add(this.widgetClassText);
+                renderTooltip(matrices, this.tooltipLines, 0.5F, this.box.left(), this.box.bottom());
+                this.tooltipLines.remove(this.tooltipLines.size() - 1);
+            }
+            else renderTooltip(matrices, this.tooltipLines, 0.5F, this.box.left(), this.box.bottom());
         }
 
         @Override

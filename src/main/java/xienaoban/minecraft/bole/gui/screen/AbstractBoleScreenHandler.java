@@ -4,7 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,12 +37,8 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         this.entity = MiscUtil.cast(entity);
         this.player = playerInventory.player;
         this.entitySettingsBufHandlers = new HashMap<>();
-        if (this.player instanceof ServerPlayerEntity) {
-            initServer();
-        }
-        else if (this.player instanceof ClientPlayerEntity) {
-            initClient();
-        }
+        if (this.player instanceof ServerPlayerEntity) initServer();
+        else initClient();
         initCustom();
     }
 
@@ -119,11 +114,11 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     }
 
     public GameMode getGameMode() {
-        if (this.player instanceof ClientPlayerEntity) {
-            ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
-            return manager != null ? manager.getCurrentGameMode() : null;
+        if (this.player instanceof ServerPlayerEntity serverPlayer) {
+            return serverPlayer.interactionManager.getGameMode();
         }
-        return ((ServerPlayerEntity) this.player).interactionManager.getGameMode();
+        ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
+        return manager != null ? manager.getCurrentGameMode() : null;
     }
 
     public boolean isGodMode() {

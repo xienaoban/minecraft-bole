@@ -34,9 +34,11 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
     }
 
     public class LeashPropertyWidget extends TemplatePropertyWidget1 {
+        private final boolean canBeLeashed;
 
         public LeashPropertyWidget() {
             super(1, true, 0);
+            this.canBeLeashed = handler.entity.canBeLeashedBy(handler.player) || handler.entity.isLeashed();
         }
 
         @Override
@@ -48,7 +50,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(matrices, 150, 0);
-            drawBar(matrices, 1.0F, 220 + (handler.entity.canBeLeashedBy(handler.player) ? 0 : 10), 20);
+            drawBar(matrices, 1.0F, 220 + (this.canBeLeashed ? 0 : 10), 20);
         }
     }
 }

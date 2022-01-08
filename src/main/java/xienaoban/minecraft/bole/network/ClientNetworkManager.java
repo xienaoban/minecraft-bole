@@ -69,8 +69,8 @@ public class ClientNetworkManager {
         ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_OVERLAY_MESSAGE, (client, handler, buf, responseSender) -> {
             Text text = buf.readText();
             client.execute(() -> {
-                if (client.currentScreen instanceof AbstractBoleScreen) {
-                    ((AbstractBoleScreen<?, ?>) client.currentScreen).showOverlayMessage(text);
+                if (client.currentScreen instanceof AbstractBoleScreen boleScreen) {
+                    boleScreen.showOverlayMessage(text);
                 }
             });
         });
@@ -112,9 +112,9 @@ public class ClientNetworkManager {
     }
 
     public static AbstractBoleScreenHandler<?> getBoleScreenHandler(MinecraftClient client) {
-        if (client.player == null || !(client.player.currentScreenHandler instanceof AbstractBoleScreenHandler)) {
-            return null;
+        if (client.player != null && client.player.currentScreenHandler instanceof AbstractBoleScreenHandler boleScreenHandler) {
+            return boleScreenHandler;
         }
-        return (AbstractBoleScreenHandler<?>) client.player.currentScreenHandler;
+        return null;
     }
 }

@@ -13,6 +13,7 @@ Functions:
   - [X] `Set custom name visible`
   - [X] `Shut up`
   - [X] `Set invulnerable`
+  - [ ] `Air`
   - LivingEntity:
     - [X] `Health`
     - [X] `Max health`

@@ -13,8 +13,8 @@ public class MixinAnimalEntity {
     @ModifyVariable(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private float damage(float amount, DamageSource source) {
         AnimalEntity that = (AnimalEntity)(Object) this;
-        if (that instanceof TameableEntity && ((TameableEntity) that).isTamed()
-                || that instanceof HorseBaseEntity && ((HorseBaseEntity) that).isTame()) {
+        if ((that instanceof TameableEntity te && te.isTamed())
+                || (that instanceof HorseBaseEntity hbe && hbe.isTame())) {
             if (source == DamageSource.DROWN || source == DamageSource.ANVIL) return amount;
             return 0.0F;
         }
