@@ -104,6 +104,7 @@ public class ScreenManager {
         registerEntityToHandler(ParrotEntity.class, BoleParrotEntityScreenHandler::new);
         registerEntityToHandler(CatEntity.class, BoleCatEntityScreenHandler::new);
         registerEntityToHandler(PandaEntity.class, BolePandaEntityScreenHandler::new);
+        registerEntityToHandler(AxolotlEntity.class, BoleAxolotlEntityScreenHandler::new);
     }
 
     @Environment(EnvType.CLIENT)
@@ -127,5 +128,6 @@ public class ScreenManager {
         ScreenRegistry.register(BoleParrotEntityScreenHandler.HANDLER, BoleParrotEntityScreen<ParrotEntity, BoleParrotEntityScreenHandler<ParrotEntity>>::new);
         ScreenRegistry.register(BoleCatEntityScreenHandler.HANDLER, BoleCatEntityScreen<CatEntity, BoleCatEntityScreenHandler<CatEntity>>::new);
         ScreenRegistry.register(BolePandaEntityScreenHandler.HANDLER, BolePandaEntityScreen<PandaEntity, BolePandaEntityScreenHandler<PandaEntity>>::new);
+        ScreenRegistry.register(BoleAxolotlEntityScreenHandler.HANDLER, BoleAxolotlEntityScreen<AxolotlEntity, BoleAxolotlEntityScreenHandler<AxolotlEntity>>::new);
     }
 }

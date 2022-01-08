@@ -176,6 +176,8 @@
   "property_widget.bole.panda_main_gene.description": "You can only change the gene in creative mode.",
   "property_widget.bole.panda_hidden_gene": "Hidden Gene of Pandas",
   "property_widget.bole.panda_hidden_gene.description": "You can only change the gene in creative mode.",
+  "property_widget.bole.axolotl_variant": "Variants of Axolotls",
+  "property_widget.bole.axolotl_variant.description": "You can only change the variant in creative mode.",
 
   "text.hint.bole.offer_or_drop": "%s is offered to you.",
   "text.hint.bole.only_in_god_mode": "Can only be used in creative mode.",

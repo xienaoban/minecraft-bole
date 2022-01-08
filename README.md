@@ -13,7 +13,7 @@ Functions:
   - [X] `Set custom name visible`
   - [X] `Shut up`
   - [X] `Set invulnerable`
-  - [ ] `Air`
+  - [X] `Air`
   - LivingEntity:
     - [X] `Health`
     - [X] `Max health`
@@ -57,6 +57,8 @@ Functions:
               - [ ] `No egg laying`
             - PandaEntity:
               - [X] `Set gene`
+            - AxolotlEntity:
+              - [x] `Set axolotl variant`
           - MerchantEntity:
             - [X] `Get inventory`
             - [ ] `Set inventory` (Open a new HandledScreen? Just like HorseScreen?)

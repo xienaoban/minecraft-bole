@@ -4,6 +4,7 @@
   "package": "xienaoban.minecraft.bole.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "IMixinAxolotlEntity",
     "IMixinBeeEntity",
     "IMixinEatGrassGoal",
     "IMixinEntity",

@@ -176,6 +176,8 @@
   "property_widget.bole.panda_main_gene.description": "若该基因为显性，则直接表达；\n若该基因为隐性，则仅当两个基因相同时才表达。\n你只能在创造模式中更换基因。",
   "property_widget.bole.panda_hidden_gene": "能苗的基因2（隐藏基因）",
   "property_widget.bole.panda_hidden_gene.description": "隐藏基因一般不表达，除非与主要基因为同一隐形基因。\n你只能在创造模式中更换基因。",
+  "property_widget.bole.axolotl_variant": "美西螈的品种",
+  "property_widget.bole.axolotl_variant.description": "你只能在创造模式中更换品种。",
 
   "text.hint.bole.offer_or_drop": "%s已发放到背包。",
   "text.hint.bole.only_in_god_mode": "只能在创造模式中使用。",

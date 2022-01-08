@@ -21,6 +21,7 @@ public interface Keys {
     String ENTITY_SETTING_CAT_VARIANT =                     "cat_variant";
     String ENTITY_SETTING_PARROT_VARIANT =                  "parrot_variant";
     String ENTITY_SETTING_PANDA_VARIANT =                   "panda_variant";
+    String ENTITY_SETTING_AXOLOTL_VARIANT =                 "axolotl_variant";
     String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =          "sit_on_player_cooldown";
 
     // Translation Keys
@@ -132,6 +133,8 @@ public interface Keys {
     String PROPERTY_WIDGET_PANDA_MAIN_GENE_DESCRIPTION = "property_widget.bole.panda_main_gene.description";
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE = "property_widget.bole.panda_hidden_gene";
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE_DESCRIPTION = "property_widget.bole.panda_hidden_gene.description";
+    String PROPERTY_WIDGET_AXOLOTL_VARIANT = "property_widget.bole.axolotl_variant";
+    String PROPERTY_WIDGET_AXOLOTL_VARIANT_DESCRIPTION = "property_widget.bole.axolotl_variant.description";
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.bole.only_in_god_mode";
