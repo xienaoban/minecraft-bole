@@ -21,7 +21,7 @@ public class BoleHorseBaseEntityScreen<E extends HorseBaseEntity, H extends Bole
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazyAfter(new HorseRunAndJumpPropertyWidget(), HealthPropertyWidget.class)
+        this.pages.get(0).addSlotLazyAfter(new HorseRunAndJumpPropertyWidget(), AirPropertyWidget.class)
                 .addSlotLazyAfter(new TamePropertyWidget(), LeashPropertyWidget.class);
     }
 

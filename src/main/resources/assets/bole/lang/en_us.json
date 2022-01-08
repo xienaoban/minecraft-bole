@@ -112,6 +112,8 @@
   "text.autoconfig.bole.option.invulnerablePets": "Invulnerable pets",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "Forbid to set nether portal cooldown of other players",
 
+  "property_widget.bole.air": "Oxygen",
+  "property_widget.bole.air.description": "The entity will lose health when oxygen is depleted.",
   "property_widget.bole.bounding_box": "Bounding Box",
   "property_widget.bole.bounding_box.description": "Bounding box or hit box of the entity.\n\"Red\" and \"Blue\" means the width of it, and \"Green\" means the height of it (unit: meter).",
   "property_widget.bole.nether_portal_cooldown": "Nether Portal Cooldown",

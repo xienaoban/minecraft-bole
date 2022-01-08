@@ -68,6 +68,8 @@ public interface Keys {
 
     String OPTION_INVULNERABLE_PETS = "option.bole.invulnerable_pets";
 
+    String PROPERTY_WIDGET_AIR = "property_widget.bole.air";
+    String PROPERTY_WIDGET_AIR_DESCRIPTION = "property_widget.bole.air.description";
     String PROPERTY_WIDGET_BOUNDING_BOX = "property_widget.bole.bounding_box";
     String PROPERTY_WIDGET_BOUNDING_BOX_DESCRIPTION = "property_widget.bole.bounding_box.description";
     String PROPERTY_WIDGET_NETHER_PORTAL_COOLDOWN = "property_widget.bole.nether_portal_cooldown";

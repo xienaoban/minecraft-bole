@@ -1041,12 +1041,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         protected void drawBar(MatrixStack matrices, float p, int u, int v) {
-            if (p < 0.0F) {
-                p = 0.0F;
-            }
-            else if (p > 1.0F) {
-                p = 1.0F;
-            }
+            if (p < 0.0F) p = 0.0F;
+            else if (p > 1.0F) p = 1.0F;
             drawTextureNormally(matrices, 256, 256, this.barWidth * p, 10, getZOffset(), this.box.left() + BAR_LEFT, this.box.top(), u, v);
         }
 

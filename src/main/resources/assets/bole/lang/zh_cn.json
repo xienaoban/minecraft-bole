@@ -112,6 +112,8 @@
   "text.autoconfig.bole.option.invulnerablePets": "宠物无敌",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "禁止设置其他玩家的地狱传送冷却值",
 
+  "property_widget.bole.air": "氧气",
+  "property_widget.bole.air.description": "氧气耗尽后持续掉血。",
   "property_widget.bole.bounding_box": "碰撞箱",
   "property_widget.bole.bounding_box.description": "实体的碰撞箱或者说边界框。\n红色与蓝色为宽度，绿色为高度（单位：米）。",
   "property_widget.bole.nether_portal_cooldown": "下界传送冷却时间",

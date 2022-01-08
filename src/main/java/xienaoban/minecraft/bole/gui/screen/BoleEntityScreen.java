@@ -32,7 +32,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     @Override
     protected void initPages() {
         this.entityDisplayPlan = chooseEntityDisplayPlan(this.pages.get(0));
-        this.pages.get(0).addSlotLazy(new BoundingBoxPropertyWidget());
+        this.pages.get(0).addSlotLazy(new AirPropertyWidget())
+                .addSlotLazy(new BoundingBoxPropertyWidget());
         this.pages.get(1).addSlotLazy(new InvulnerablePropertyWidget())
                 .addSlotLazy(new SilentPropertyWidget())
                 .addSlotLazy(new CustomNamePropertyWidget())
@@ -448,6 +449,29 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         private boolean isCurrentInvulnerable() {
             return handler.entity.isInvulnerable();
+        }
+    }
+
+    public class AirPropertyWidget extends TemplatePropertyWidget1 {
+        public AirPropertyWidget() {
+            super(2, true, 0);
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_AIR);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_AIR_DESCRIPTION);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawIcon(matrices, 0, 130);
+            drawBar(matrices, 1.0F, 10, 130);
+            drawBar(matrices, handler.entity.getAir() / (float) handler.entity.getMaxAir(), 50, 130);
+            String text;
+            if (debugMode) text = handler.entity.getMaxAir() + "t/" + handler.entity.getAir() + "t";
+            else text = (handler.entity.getAir() / 20) + "s";
+            drawBarText(matrices, text, LIGHT_TEXT_COLOR);
         }
     }
 }
