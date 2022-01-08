@@ -200,6 +200,7 @@
   "text.bole.about": "About",
   "text.bole.mod_name_is": "Mod name: %s",
   "text.bole.mod_author_is": "Mod author: %s",
+  "text.bole.mod_version_is": "Mod version: %s",
   "text.bole.unsupported_entity": "Unsupported entity",
   "text.bole.unnamed": "Unnamed",
   "text.bole.grown_up": "Grown up",

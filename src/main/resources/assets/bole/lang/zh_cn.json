@@ -200,6 +200,7 @@
   "text.bole.about": "关于",
   "text.bole.mod_name_is": "模组名：%s",
   "text.bole.mod_author_is": "模组作者：%s",
+  "text.bole.mod_version_is": "模组版本：%s",
   "text.bole.unsupported_entity": "不支持的实体",
   "text.bole.unnamed": "未命名",
   "text.bole.grown_up": "已成年",

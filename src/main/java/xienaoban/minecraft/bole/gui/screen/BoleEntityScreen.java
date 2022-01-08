@@ -1,8 +1,11 @@
 package xienaoban.minecraft.bole.gui.screen;
 
+import com.mojang.authlib.GameProfile;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,6 +14,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.gui.ScreenManager;
@@ -217,7 +221,17 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             this.targetEntity = targetEntity;
             this.displayedEntity = targetEntity.getType().create(MinecraftClient.getInstance().world);
             if (this.displayedEntity == null) {
-                this.displayedEntity = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
+                if (targetEntity instanceof AbstractClientPlayerEntity clientPlayer) {
+                    GameProfile profile = clientPlayer.getGameProfile();
+                    this.displayedEntity = new OtherClientPlayerEntity(clientPlayer.clientWorld, new GameProfile(profile.getId(), profile.getName()));
+                    // to make name label invisible
+                    // @see net.minecraft.client.render.entity.LivingEntityRenderer#hasLabel
+                    Vec3d targetPos = targetEntity.getPos();
+                    this.displayedEntity.setPosition(targetPos.getX(), targetPos.getY() - 4097, targetPos.getZ());
+                }
+                else {
+                    this.displayedEntity = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
+                }
             }
             updateDisplayedEntity();
         }

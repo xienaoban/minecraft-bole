@@ -155,6 +155,7 @@ public interface Keys {
     String TEXT_ABOUT = "text.bole.about";
     String TEXT_MOD_NAME_IS = "text.bole.mod_name_is";
     String TEXT_MOD_AUTHOR_IS = "text.bole.mod_author_is";
+    String TEXT_MOD_VERSION_IS = "text.bole.mod_version_is";
     String TEXT_UNSUPPORTED_ENTITY = "text.bole.unsupported_entity";
     String TEXT_UNNAMED = "text.bole.unnamed";
     String TEXT_GROWN_UP = "text.bole.grown_up";

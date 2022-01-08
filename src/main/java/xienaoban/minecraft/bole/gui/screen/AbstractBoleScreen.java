@@ -663,6 +663,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         nbt.remove("CustomNameVisible");
         nbt.remove("AngryAt");
         nbt.remove("HurtTime");
+        nbt.remove("Pos");
         try {
             to.readNbt(nbt);
         }

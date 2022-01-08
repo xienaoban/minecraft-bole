@@ -3,6 +3,7 @@ package xienaoban.minecraft.bole.gui.screen.handbook;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -77,6 +78,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             Page page0 = this.pages.get(0);
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_NAME_IS, new TranslatableText(Keys.MOD_NAME)), DARK_TEXT_COLOR, 0.5F));
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_AUTHOR_IS, new TranslatableText(Keys.XIENAOBAN)), DARK_TEXT_COLOR, 0.5F));
+            FabricLoader.getInstance().getModContainer(Keys.BOLE).ifPresent(modContainer -> page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_VERSION_IS, modContainer.getMetadata().getVersion()), DARK_TEXT_COLOR, 0.5F)));
             setPageIndex(0);
         });
     }
