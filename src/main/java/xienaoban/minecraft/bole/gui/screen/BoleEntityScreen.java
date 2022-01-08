@@ -117,12 +117,14 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            boolean nothingChosen = true;
             for (int i = 0; i < this.variantsSize; ++i) {
                 E entity = this.variants[i];
                 int xx = x + this.eachWidth * i + this.margin;
                 drawEntity(matrices, entity, xx, y, xx + this.eachWidth, this.box.bottom() - 10, mouseX, mouseY);
                 drawName(matrices, this.names[i], xx + this.eachWidth / 2, this.box.bottom() - 8);
                 if (isChosen(this.variants[i])) {
+                    nothingChosen = false;
                     if (this.lastChosen != i) {
                         if (this.lastChosen != -1 && targetDisplayedEntityPropertyWidget != null) {
                             targetDisplayedEntityPropertyWidget.updateDisplayedEntity();
@@ -132,6 +134,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                     drawSelectedTick(matrices, i, true);
                 }
             }
+            if (nothingChosen) this.lastChosen = -2;
             if (isHovered() && canChoose()) {
                 int i = calIndex(mouseX, mouseY);
                 if (i >= 0 && i < this.variantsSize && !isChosen(this.variants[i])) {
