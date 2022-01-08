@@ -33,9 +33,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     protected void initPages() {
         this.entityDisplayPlan = chooseEntityDisplayPlan(this.pages.get(0));
         this.pages.get(0).addSlotLazy(new BoundingBoxPropertyWidget());
-        this.pages.get(1).addSlotLazy(new CustomNamePropertyWidget())
-                .addSlotLazy(new InvulnerablePropertyWidget())
-                .addSlotLazyBefore(new SilentPropertyWidget(), InvulnerablePropertyWidget.class)
+        this.pages.get(1).addSlotLazy(new InvulnerablePropertyWidget())
+                .addSlotLazy(new SilentPropertyWidget())
+                .addSlotLazy(new CustomNamePropertyWidget())
                 .addSlotLazy(new NetherPortalCooldownPropertyWidget());
     }
 

@@ -29,6 +29,20 @@ public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingE
 
     public BoleMobEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
+        registerEntitySettingsBufHandlers();
+    }
+
+    private void registerEntitySettingsBufHandlers() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_NO_AI, new EntitySettingsBufHandler() {
+            @Override public void readFromBuf(PacketByteBuf buf) {
+                entity.setAiDisabled(buf.readBoolean());
+            }
+            @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
+                boolean disabled = (Boolean) args[0];
+                buf.writeBoolean(disabled);
+                entity.setAiDisabled(disabled);
+            }
+        });
     }
 
     @Override

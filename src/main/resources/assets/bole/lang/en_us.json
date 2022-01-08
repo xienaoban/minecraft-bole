@@ -130,6 +130,8 @@
   "property_widget.bole.status_effects": "Status Effects",
   "property_widget.bole.leash": "Whether the Entity Can Be Leashed",
   "property_widget.bole.leash.description": "Whether the entity can be leashed by a rope.",
+  "property_widget.bole.has_ai": "Whether the AI Is Enabled",
+  "property_widget.bole.has_ai.description.button1": "Button1: enable/disable the AI of the entity.",
   "property_widget.bole.tame": "Whether the Entity Is Tamed",
   "property_widget.bole.tame.description": "（=ㅇᆽㅇ=）♡",
   "property_widget.bole.baby": "Growth Stage",

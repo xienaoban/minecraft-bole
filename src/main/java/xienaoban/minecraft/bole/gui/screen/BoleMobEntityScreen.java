@@ -6,6 +6,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
@@ -18,6 +19,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
     protected void initPages() {
         super.initPages();
         this.pages.get(0).addSlotLazyAfter(new LeashPropertyWidget(), StatusEffectsPropertyWidget.class);
+        this.pages.get(1).addSlotLazyAfter(new HasAiPropertyWidget(), InvulnerablePropertyWidget.class);
     }
 
     @Override
@@ -51,6 +53,34 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(matrices, 150, 0);
             drawBar(matrices, 1.0F, 220 + (this.canBeLeashed ? 0 : 10), 20);
+        }
+    }
+
+    public class HasAiPropertyWidget extends TemplatePropertyWidget1 {
+        public HasAiPropertyWidget() {
+            super(1, false, 1);
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_HAS_AI);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_HAS_AI_DESCRIPTION_BUTTON1);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawIcon(matrices, 110, 10);
+            drawButton(matrices, 0, 200 + (handler.entity.isAiDisabled() ? 10 : 0), 40);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            int index = calMousePosition(mouseX, mouseY);
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                return false;
+            }
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NO_AI, !handler.entity.isAiDisabled());
+            return true;
         }
     }
 }

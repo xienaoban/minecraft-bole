@@ -11,6 +11,7 @@ public interface Keys {
     String ENTITY_SETTING_CUSTOM_NAME_VISIBLE =             "custom_name_visible";
     String ENTITY_SETTING_SILENT =                          "silent";
     String ENTITY_SETTING_INVULNERABLE =                    "invulnerable";
+    String ENTITY_SETTING_NO_AI =                           "no_ai";
     String ENTITY_SETTING_BABY =                            "baby";
     String ENTITY_SETTING_RESET_BEEHIVE =                   "reset_beehive";
     String ENTITY_SETTING_RESET_JOB =                       "reset_job";
@@ -85,6 +86,8 @@ public interface Keys {
     String PROPERTY_WIDGET_STATUS_EFFECTS = "property_widget.bole.status_effects";
     String PROPERTY_WIDGET_LEASH = "property_widget.bole.leash";
     String PROPERTY_WIDGET_LEASH_DESCRIPTION = "property_widget.bole.leash.description";
+    String PROPERTY_WIDGET_HAS_AI = "property_widget.bole.has_ai";
+    String PROPERTY_WIDGET_HAS_AI_DESCRIPTION_BUTTON1 = "property_widget.bole.has_ai.description.button1";
     String PROPERTY_WIDGET_TAME = "property_widget.bole.tame";
     String PROPERTY_WIDGET_TAME_DESCRIPTION = "property_widget.bole.tame.description";
     String PROPERTY_WIDGET_BABY = "property_widget.bole.baby";

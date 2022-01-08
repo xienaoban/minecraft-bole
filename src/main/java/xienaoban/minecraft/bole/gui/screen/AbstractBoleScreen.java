@@ -820,16 +820,15 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         public boolean addSlot(AbstractPropertyWidget widget) {
+            final int addCnt = widget.getColSlots() == 2 ? 2 : 1;
             for (int i = 0; i < ROWS; ++i) {
                 if (i + widget.getRowSlots() > ROWS) break;
                 BAD:
-                for (int j = 0; j < COLS; ++j) {
+                for (int j = 0; j < COLS; j += addCnt) {
                     if (j + widget.getColSlots() > COLS) break;
                     for (int p = 0; p < widget.getRowSlots(); ++p) {
                         for (int q = 0; q < widget.getColSlots(); ++q) {
-                            if (this.widgets.get(j + q).get(i + p) != null) {
-                                continue BAD;
-                            }
+                            if (this.widgets.get(j + q).get(i + p) != null) continue BAD;
                         }
                     }
                     return setSlot(j, i, widget);
