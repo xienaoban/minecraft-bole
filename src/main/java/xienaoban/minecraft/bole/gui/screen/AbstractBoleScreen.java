@@ -67,6 +67,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     protected final Map<Integer, ButtonWidget> bookmarks;
 
+    protected ScreenElement popup;
+
     protected final List<Page> pages;
     protected Page curLeftPage, curRightPage;
     protected int pageIndex;
@@ -167,6 +169,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     public ScreenElement getScreenElement(double mouseX, double mouseY) {
+        if (this.popup != null) return this.popup;
         if (mouseY >= this.contentTop && mouseY <= this.contentBottom) {
             if (mouseX >= this.contentLeft[0] && mouseX <= this.contentRight[0]) {
                 return this.curLeftPage;
@@ -274,10 +277,13 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
         MatrixStack matrixStack = RenderSystem.getModelViewStack();
         matrixStack.translate(-super.x, -super.y, 0.0F);
+        RenderSystem.applyModelViewMatrix();
+        if (this.popup != null) this.popup.draw(matrices, this.width - this.popup.box.width() >> 1, this.height - this.popup.box.height() - 32 >> 1, mouseX, mouseY);
         if (this.hovered != null) {
             this.hovered.drawHovered(matrices, mouseX, mouseY);
         }
         matrixStack.translate(super.x, super.y, 0.0F);
+        RenderSystem.applyModelViewMatrix();
     }
 
     public static void drawEntityAuto(Entity entity, int x0, int y0, int x1, int y1, float mouseX, float mouseY) {
@@ -688,6 +694,11 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.hovered = hovered;
     }
 
+    public void setPopup(ScreenElement popup) {
+        this.popup = popup;
+        this.setHovered(null);
+    }
+
     public GameMode getGameMode() {
         ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
         return manager != null ? manager.getCurrentGameMode() : null;
@@ -760,6 +771,80 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
     }
 
+    public class PopUpConfirmWindow extends ScreenElement {
+        private final List<OrderedText> lines;
+        private final PopUpButton confirm, cancel;
+
+        public PopUpConfirmWindow(Text text, Runnable onConfirm) {
+            this(text, onConfirm, () -> {});
+        }
+
+        public PopUpConfirmWindow(Text text, Runnable onConfirm, Runnable onCancel) {
+            super(160, 100);
+            this.lines = textRenderer.wrapLines(text, this.box.width() - 16);
+            this.confirm = new PopUpButton(new TranslatableText(Keys.GUI_OK), onConfirm);
+            this.cancel = new PopUpButton(new TranslatableText(Keys.GUI_CANCEL), onCancel);
+        }
+
+        @Override
+        public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            super.draw(matrices, x, y, mouseX, mouseY);
+            renderBackground(matrices);
+            setTexture(Textures.POPUP);
+            drawTextureNormally(matrices, 256, 256, this.box.width(), this.box.height(), getZOffset(), this.box.left(), this.box.top(), 0, 0);
+            for (int i = 0; i < lines.size(); ++i) {
+                textRenderer.draw(matrices, lines.get(i), x + 8, y + 8 + i * 10, DARK_TEXT_COLOR);
+            }
+            this.confirm.draw(matrices, this.box.right() - this.confirm.box.width() - this.cancel.box.width() - 15, this.box.bottom() - this.confirm.box.height() - 8, mouseX, mouseY);
+            this.cancel.draw(matrices, this.box.right() - this.cancel.box.width() - 10, this.box.bottom() - this.cancel.box.height() - 8, mouseX, mouseY);
+            drawDebugBox(matrices, this.box, 0x66dd001b);
+        }
+
+        @Override
+        public ScreenElement getSubScreenElement(double mouseX, double mouseY) {
+            if (confirm.isMouseOver(mouseX, mouseY)) return confirm;
+            if (cancel.isMouseOver(mouseX, mouseY)) return cancel;
+            return null;
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            ScreenElement sub = getSubScreenElement(mouseX, mouseY);
+            if (sub != null) sub.mouseClicked(mouseX, mouseY, button);
+            else if (!isMouseOver(mouseX, mouseY)) {
+                cancel.mouseClicked(mouseX, mouseY, button);
+            }
+            return true;
+        }
+    }
+
+    public class PopUpButton extends ScreenElement {
+        private final Text title;
+        private final Runnable onClick;
+
+        public PopUpButton(Text title, Runnable onClick) {
+            super(40, 20);
+            this.title = title;
+            this.onClick = onClick;
+        }
+
+        @Override
+        public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            super.draw(matrices, x, y, mouseX, mouseY);
+            setTexture(Textures.POPUP);
+            drawTextureNormally(matrices, 256, 256, this.box.width(), this.box.height(), getZOffset(), x, y, getHovered() == this ? this.box.width() : 0, 200);
+            drawTextCenteredX(matrices, this.title, DARK_TEXT_COLOR, x + (this.box.width() >> 1), y + (this.box.height() - 7 >> 1));
+            drawDebugBox(matrices, this.box, getHovered() == this ? 0x88b9ac67 : 0x88c55c2d);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            setPopup(null);
+            this.onClick.run();
+            return true;
+        }
+    }
+
     /**
      * Manages all widgets on a page.
      */
@@ -791,14 +876,16 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             super.draw(matrices, x, y, mouseX, mouseY);
-            for (int i = 0; i < COLS; ++i) {
-                for (int j = 0; j < ROWS; ++j) {
-                    AbstractPropertyWidget w = this.widgets.get(i).get(j);
-                    if (w != null) {
-                        w.draw(matrices,
-                                x + i * (PROPERTY_WIDGET_WIDTH + PROPERTY_WIDGET_MARGIN_WIDTH),
-                                y + j * (PROPERTY_WIDGET_HEIGHT + PROPERTY_WIDGET_MARGIN_HEIGHT),
-                                mouseX, mouseY);
+            if (popup == null) {
+                for (int i = 0; i < COLS; ++i) {
+                    for (int j = 0; j < ROWS; ++j) {
+                        AbstractPropertyWidget w = this.widgets.get(i).get(j);
+                        if (w != null) {
+                            w.draw(matrices,
+                                    x + i * (PROPERTY_WIDGET_WIDTH + PROPERTY_WIDGET_MARGIN_WIDTH),
+                                    y + j * (PROPERTY_WIDGET_HEIGHT + PROPERTY_WIDGET_MARGIN_HEIGHT),
+                                    mouseX, mouseY);
+                        }
                     }
                 }
             }
@@ -964,7 +1051,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             super.draw(matrices, x, y, mouseX, mouseY);
             drawContent(matrices, x, y, mouseX, mouseY);
-            drawDebugBox(matrices, this.box, this == getHovered() ? 0x88b9ac67 : 0x88c55c2d);
+            drawDebugBox(matrices, this.box, isHovered() ? 0x88b9ac67 : 0x88c55c2d);
         }
 
         protected abstract void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY);

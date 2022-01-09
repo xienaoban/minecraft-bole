@@ -181,7 +181,7 @@
 
   "text.hint.bole.offer_or_drop": "%s已发放到背包。",
   "text.hint.bole.only_in_god_mode": "只能在创造模式中使用。",
-  "text.hint.bole.forbid_to_set_nether_portal_cooldown_of_other_players": "服务器禁止更改其他玩家的地狱传送冷却。",
+  "text.hint.bole.forbid_to_set_nether_portal_cooldown_of_other_players": "本服务器禁止更改其他玩家的地狱传送冷却。",
   "text.hint.bole.not_baby": "锁住已成年生物的成长阶段，是怕它返老还童吗~",
   "text.hint.bole.no_beehive": "看样子是只无家可归的小蜜蜂呢~",
   "text.hint.bole.eating_grass": "草正吃着呢~",

@@ -58,8 +58,8 @@ public class EntityManager {
         initJavaTags();
         initDefaultTags();
         registerTagGroup(this.defaultTags);
-        registerTagGroup(this.classTags);
-        registerTagGroup(this.interfaceTags);
+        registerTagGroup(this.classTags);       // todo 反混淆
+        registerTagGroup(this.interfaceTags);   // todo 反混淆
         registerTagGroup(this.namespaceTags);
         sortAllEntities();
 

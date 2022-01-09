@@ -6,6 +6,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -79,7 +80,8 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 return false;
             }
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NO_AI, !handler.entity.isAiDisabled());
+            setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.TEXT_VILLAGER_AGREE_TO_RESET_JOB),
+                    () -> handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NO_AI, !handler.entity.isAiDisabled())));
             return true;
         }
     }

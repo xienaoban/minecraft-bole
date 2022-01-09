@@ -25,6 +25,9 @@ public interface Keys {
     String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =          "sit_on_player_cooldown";
 
     // Translation Keys
+    String GUI_OK = "gui.ok";
+    String GUI_CANCEL = "gui.cancel";
+
     String XIENAOBAN =              "xienaoban";
     String MOD_NAME =               "bole";
     String TITLE_BOLE_OVERVIEW =    "title.bole.bole_handbook";
