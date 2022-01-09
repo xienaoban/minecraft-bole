@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
@@ -35,12 +36,19 @@ public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingE
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_NO_AI, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                entity.setAiDisabled(buf.readBoolean());
+                set(buf.readBoolean());
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 boolean disabled = (Boolean) args[0];
                 buf.writeBoolean(disabled);
+                set(disabled);
+            }
+            private void set(boolean disabled) {
                 entity.setAiDisabled(disabled);
+                if (disabled && !isGodMode()) {
+                    player.damage(DamageSource.mob(entity), 8);
+                    player.getHungerManager().add(-8, 0);
+                }
             }
         });
     }

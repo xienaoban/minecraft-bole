@@ -191,9 +191,11 @@
   "text.hint.bole.no_job": "无业游民：“只要我足够废物，就没有人能压榨我~”",
   "text.hint.bole.no_job_site": "这是一只失去工作方块的村民，看样子是就业形势不太好呢~",
   "text.hint.bole.job_site_different_dimension": "工作方块不在当前世界维度！",
-  "text.hint.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你左右手各持一把钻石剑威胁也不会屈服！",
+  "text.hint.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你拿着下届合金剑指着他也不会屈服！",
 
-  "setting.bole.lazily_unhighlight": "逐个地取消高亮",
+  "text.warning.bole.enable_ai": "也许只要把它的额叶塞回去就行了叭…",
+  "text.warning.bole.disable_ai": "你将尝试对其进行额叶切除手术而使之丧失行动能力。但它也会奋力反抗。\n\n你预计这场战斗与手术将花费：\n生命值 x%s\n饱食度 x%s",
+  "text.warning.bole.villager_reset_job": "在有此Mod之前，交易刷歪了的村民大多难逃玩家正义的击杀。想到这儿，村民转而欣然接受了你的好意。\n\n村民交易列表与经验等级均会清零，确认重置吗？",
 
   "text.bole.return_to_handbook": "返回手册主页",
   "text.bole.settings": "设置",
@@ -207,7 +209,6 @@
   "text.bole.never_grow_up": "永不成长",
   "text.bole.loading": "加载中……",
   "text.bole.empty_with_brackets": "（空）",
-  "text.bole.villager_agree_to_reset_job": "在有此Mod之前，交易刷歪了的村民大多难逃玩家正义的击杀。\n想到这儿，村民不仅欣然接受了玩家的好意，甚至还感恩起了Mod作者能给他一个重新做人的机会。",
   "text.bole.highlight": "%d只%s被高亮了。",
   "text.bole.main_gene": "显性",
   "text.bole.hidden_gene": "隐性"

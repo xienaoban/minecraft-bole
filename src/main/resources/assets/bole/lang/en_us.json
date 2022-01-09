@@ -191,9 +191,11 @@
   "text.hint.bole.no_job": "The villager has no job!",
   "text.hint.bole.no_job_site": "The villager has no job site!",
   "text.hint.bole.job_site_different_dimension": "The job site is not in this dimension!",
-  "text.hint.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (maybe you should hold two swords to threaten it).",
+  "text.hint.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (maybe you should hold a sword to threaten it).",
 
-  "setting.bole.lazily_unhighlight": "Lazily unhighlight",
+  "text.warning.bole.enable_ai": "Maybe just put its frontal lobe back in...",
+  "text.warning.bole.disable_ai": "You want to perform a frontal lobotomy to incapacitate it. But it will fight back. So you will spend:\nHealth x%s\nSatiety x%s",
+  "text.warning.bole.villager_reset_job": "Usually players tend to kill villagers with unsatisfactory trading lists. Thinking of this, the villager readily accepts your kindness.\n\nAre you sure to reset?",
 
   "text.bole.return_to_handbook": "Handbook",
   "text.bole.settings": "Settings",
@@ -207,7 +209,6 @@
   "text.bole.never_grow_up": "Never grow",
   "text.bole.loading": "Loading...",
   "text.bole.empty_with_brackets": "(Empty)",
-  "text.bole.villager_agree_to_reset_job": "Without this mod, villagers with unsatisfactory trading lists may be killed by the player.\nThinking of this, the villager readily accepted the player's kindness.",
   "text.bole.highlight": "%d %s have been highlighted.",
   "text.bole.main_gene": "Main",
   "text.bole.hidden_gene": "Hidden"

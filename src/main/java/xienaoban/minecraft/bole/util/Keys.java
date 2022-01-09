@@ -153,6 +153,10 @@ public interface Keys {
     String HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION = "text.hint.bole.job_site_different_dimension";
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.bole.refuse_to_reset_job";
 
+    String WARNING_TEXT_ENABLE_AI = "text.warning.bole.enable_ai";
+    String WARNING_TEXT_DISABLE_AI = "text.warning.bole.disable_ai";
+    String WARNING_TEXT_VILLAGER_RESET_JOB = "text.warning.bole.villager_reset_job";
+
     String TEXT_RETURN_TO_HANDBOOK = "text.bole.return_to_handbook";
     String TEXT_SETTINGS = "text.bole.settings";
     String TEXT_ABOUT = "text.bole.about";
@@ -165,7 +169,6 @@ public interface Keys {
     String TEXT_NEVER_GROW_UP = "text.bole.never_grow_up";
     String TEXT_LOADING = "text.bole.loading";
     String TEXT_EMPTY_WITH_BRACKETS = "text.bole.empty_with_brackets";
-    String TEXT_VILLAGER_AGREE_TO_RESET_JOB = "text.bole.villager_agree_to_reset_job";
     String TEXT_HIGHLIGHT = "text.bole.highlight";
     String TEXT_MAIN_GENE = "text.bole.main_gene";
     String TEXT_HIDDEN_GENE = "text.bole.hidden_gene";

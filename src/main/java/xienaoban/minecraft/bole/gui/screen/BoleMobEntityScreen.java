@@ -80,8 +80,12 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
                 return false;
             }
-            setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.TEXT_VILLAGER_AGREE_TO_RESET_JOB),
-                    () -> handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NO_AI, !handler.entity.isAiDisabled())));
+            boolean noAi = !handler.entity.isAiDisabled();
+            if (isGodMode()) handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NO_AI, noAi);
+            else setPopup(new PopUpConfirmWindow(
+                    new TranslatableText(noAi ? Keys.WARNING_TEXT_DISABLE_AI : Keys.WARNING_TEXT_ENABLE_AI, 8, 8),
+                    () -> handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NO_AI, noAi))
+            );
             return true;
         }
     }

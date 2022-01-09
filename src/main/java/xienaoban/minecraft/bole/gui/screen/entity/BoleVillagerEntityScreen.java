@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
+import net.minecraft.item.SwordItem;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -113,11 +113,11 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                 }
                 case IDX_BUTTON_BEGIN + 1 -> {
                     PlayerEntity player = handler.player;
-                    Ingredient swords = Ingredient.ofItems(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
-                    if (swords.test(player.getMainHandStack()) && swords.test(player.getOffHandStack())) {
-                        handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESET_JOB);
-                        onClose();
-                        player.sendMessage(new TranslatableText(Keys.TEXT_VILLAGER_AGREE_TO_RESET_JOB), false);
+                    if (player.getMainHandStack().getItem() instanceof SwordItem || player.getOffHandStack().getItem() instanceof SwordItem) {
+                        setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.WARNING_TEXT_VILLAGER_RESET_JOB), () -> {
+                            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESET_JOB);
+                            onClose();
+                        }));
                     }
                     else {
                         showOverlayMessage(Keys.HINT_TEXT_REFUSE_TO_RESET_JOB);

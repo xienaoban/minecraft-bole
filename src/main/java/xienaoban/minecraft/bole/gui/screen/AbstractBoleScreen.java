@@ -436,21 +436,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawTextureQuadrilateral(matrices, tw, th, z, x0, y0, x1, y0, x0, y1, x1, y1, u0, v0, u1, v0, u0, v1, u1, v1);
     }
 
+    public static void drawTextureFlippedHorizontally(MatrixStack matrices, float tw, float th, float w, float h, float z, float x, float y, float u, float v) {
+        drawTextureQuadrilateral(matrices, tw, th, z, x, y, x + w, y, x, y + h, x + w, y + h, u + w, v, u, v, u + w, v + h, u, v + h);
+    }
+
     /**
      * Draws a textured quadrilateral from a region in a horizontally flipped texture.
-     *
-     * @param matrices the matrix stack used for rendering
-     * @param tw the width of the entire texture
-     * @param th the height of the entire texture
-     * @param z the Z coordinate of the quadrilateral
-     * @param x0 the left-most coordinate of the quadrilateral
-     * @param y0 the top-most coordinate of the quadrilateral
-     * @param x1 the right-most coordinate of the quadrilateral
-     * @param y1 the bottom-most coordinate of the quadrilateral
-     * @param u0 the left-most coordinate of the texture region
-     * @param v0 the top-most coordinate of the texture region
-     * @param u1 the right-most coordinate of the texture region
-     * @param v1 the bottom-most coordinate of the texture region
      */
     public static void drawTextureFlippedHorizontally(MatrixStack matrices, float tw, float th, float z,
                                                       float x0, float y0, float x1, float y1,
@@ -460,19 +451,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     /**
      * Draws a textured quadrilateral from a region in a vertically flipped texture.
-     *
-     * @param matrices the matrix stack used for rendering
-     * @param tw the width of the entire texture
-     * @param th the height of the entire texture
-     * @param z the Z coordinate of the quadrilateral
-     * @param x0 the left-most coordinate of the quadrilateral
-     * @param y0 the top-most coordinate of the quadrilateral
-     * @param x1 the right-most coordinate of the quadrilateral
-     * @param y1 the bottom-most coordinate of the quadrilateral
-     * @param u0 the left-most coordinate of the texture region
-     * @param v0 the top-most coordinate of the texture region
-     * @param u1 the right-most coordinate of the texture region
-     * @param v1 the bottom-most coordinate of the texture region
      */
     public static void drawTextureFlippedVertically(MatrixStack matrices, float tw, float th, float z,
                                                     float x0, float y0, float x1, float y1,
@@ -482,19 +460,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     /**
      * Draws a textured quadrilateral from a region in a 180 rotated texture.
-     *
-     * @param matrices the matrix stack used for rendering
-     * @param tw the width of the entire texture
-     * @param th the height of the entire texture
-     * @param z the Z coordinate of the quadrilateral
-     * @param x0 the left-most coordinate of the quadrilateral
-     * @param y0 the top-most coordinate of the quadrilateral
-     * @param x1 the right-most coordinate of the quadrilateral
-     * @param y1 the bottom-most coordinate of the quadrilateral
-     * @param u0 the left-most coordinate of the texture region
-     * @param v0 the top-most coordinate of the texture region
-     * @param u1 the right-most coordinate of the texture region
-     * @param v1 the bottom-most coordinate of the texture region
      */
     public static void drawTextureRotated180(MatrixStack matrices, float tw, float th, float z,
                                              float x0, float y0, float x1, float y1,
@@ -780,8 +745,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         public PopUpConfirmWindow(Text text, Runnable onConfirm, Runnable onCancel) {
-            super(160, 100);
-            this.lines = textRenderer.wrapLines(text, this.box.width() - 16);
+            super(180, 120);
+            this.lines = textRenderer.wrapLines(text, this.box.width() - 24);
             this.confirm = new PopUpButton(new TranslatableText(Keys.GUI_OK), onConfirm);
             this.cancel = new PopUpButton(new TranslatableText(Keys.GUI_CANCEL), onCancel);
         }
@@ -790,13 +755,17 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             super.draw(matrices, x, y, mouseX, mouseY);
             renderBackground(matrices);
-            setTexture(Textures.POPUP);
-            drawTextureNormally(matrices, 256, 256, this.box.width(), this.box.height(), getZOffset(), this.box.left(), this.box.top(), 0, 0);
+            setTexture(Textures.BOOK);
+            final int bookRight = 160, bookTop = 7, bookBottom = 175, bookWidth = (this.box.width() >> 1) + 1, bookHeight = (this.box.height() >> 1) + 1;
+            drawTextureNormally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.right() - bookWidth, this.box.top(), bookRight - bookWidth, bookTop);
+            drawTextureNormally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.right() - bookWidth, this.box.bottom() - bookHeight, bookRight - bookWidth, bookBottom - bookHeight);
+            drawTextureFlippedHorizontally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.left(), this.box.top(), bookRight - bookWidth, bookTop);
+            drawTextureFlippedHorizontally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.left(), this.box.bottom() - bookHeight, bookRight - bookWidth, bookBottom - bookHeight);
             for (int i = 0; i < lines.size(); ++i) {
-                textRenderer.draw(matrices, lines.get(i), x + 8, y + 8 + i * 10, DARK_TEXT_COLOR);
+                textRenderer.draw(matrices, lines.get(i), x + 12, y + 12 + i * 10, DARK_TEXT_COLOR);
             }
-            this.confirm.draw(matrices, this.box.right() - this.confirm.box.width() - this.cancel.box.width() - 15, this.box.bottom() - this.confirm.box.height() - 8, mouseX, mouseY);
-            this.cancel.draw(matrices, this.box.right() - this.cancel.box.width() - 10, this.box.bottom() - this.cancel.box.height() - 8, mouseX, mouseY);
+            this.confirm.draw(matrices, this.box.right() - this.confirm.box.width() - this.cancel.box.width() - 25, this.box.bottom() - this.confirm.box.height() - 12, mouseX, mouseY);
+            this.cancel.draw(matrices, this.box.right() - this.cancel.box.width() - 20, this.box.bottom() - this.cancel.box.height() - 12, mouseX, mouseY);
             drawDebugBox(matrices, this.box, 0x66dd001b);
         }
 
