@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
-import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
+import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
@@ -40,24 +40,27 @@ public class BoleClient implements ClientModInitializer {
         this.screenTicks = -1;
         this.inWorld = false;
         this.highlightManager = new HighlightManager();
-        ScreenRegistryManager.initClient();
+        ScreenManager.initClient();
         ClientNetworkManager.init();
         KeyBindingManager.init();
     }
 
     public void onJoinWorld() {
         ClientWorld world = MinecraftClient.getInstance().world;
-        this.inWorld = world != null;
         preventMemoryLeak();
-        if (world != null) Bole.LOGGER.info("Joining the world: " + MinecraftClient.getInstance().world.getRegistryKey().getValue());
+        if (world != null) {
+            EntityManager.getInstance();
+            Bole.LOGGER.info("Joining the world: " + world.getRegistryKey().getValue());
+        }
         else Bole.LOGGER.info("Joining the world: null?!");
+        this.inWorld = world != null;
     }
 
     public void onDisconnect() {
         this.inWorld = false;
         preventMemoryLeak();
         ClientWorld world = MinecraftClient.getInstance().world;
-        if (world != null) Bole.LOGGER.info("Disconnecting from the world: " + MinecraftClient.getInstance().world.getRegistryKey().getValue());
+        if (world != null) Bole.LOGGER.info("Disconnecting from the world: " + world.getRegistryKey().getValue());
         else Bole.LOGGER.info("Disconnecting from the world: null");
     }
 
@@ -67,9 +70,9 @@ public class BoleClient implements ClientModInitializer {
         if (this.isScreenOpen) {
             MinecraftClient client = MinecraftClient.getInstance();
             ClientPlayerEntity player = client.player;
-            if (player != null && player.currentScreenHandler instanceof AbstractBoleScreenHandler) {
+            if (player != null && player.currentScreenHandler instanceof AbstractBoleScreenHandler boleScreenHandler) {
                 ++screenTicks;
-                ((AbstractBoleScreenHandler<?>) player.currentScreenHandler).clientTick(screenTicks);
+                boleScreenHandler.clientTick(screenTicks);
             }
         }
         this.highlightManager.tick();
@@ -94,6 +97,10 @@ public class BoleClient implements ClientModInitializer {
 
     public int getScreenTicks() {
         return this.screenTicks;
+    }
+
+    public boolean isInWorld() {
+        return inWorld;
     }
 
     public PacketByteBuf getHandlerBufCache() {

@@ -1,24 +1,32 @@
 package xienaoban.minecraft.bole.gui;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.clothconfig2.api.ConfigBuilder;
+import me.shedaniel.clothconfig2.api.ConfigCategory;
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.Bole;
+import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.*;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
 import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreen;
 import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenHandler;
+import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ScreenRegistryManager {
+public class ScreenManager {
     private static final Map<Class<? extends Entity>, BoleScreenHandlerFactory<?, ?>> ENTITY_TO_HANDLER = new HashMap<>();
 
     public static <E extends Entity, H extends AbstractBoleScreenHandler<E>> void registerEntityToHandler(
@@ -42,6 +50,29 @@ public class ScreenRegistryManager {
             }
         }
         return factory.create(syncId, playerInventory, entity);
+    }
+
+    public static Screen getConfigScreen(Screen parent) {
+        return getAutoConfigScreen(parent);
+    }
+
+    private static Screen getAutoConfigScreen(Screen parent) {
+        return AutoConfig.getConfigScreen(Configs.class, parent).get();
+    }
+
+    private static Screen getClothConfigScreen(Screen parent) {
+        ConfigBuilder builder = ConfigBuilder.create()
+                .setParentScreen(parent)
+                .setTitle(new TranslatableText("title.examplemod.config"))
+                .setSavingRunnable(() -> {});
+        ConfigCategory general = builder.getOrCreateCategory(new TranslatableText("category.examplemod.general"));
+        ConfigEntryBuilder entryBuilder = builder.entryBuilder();
+        general.addEntry(entryBuilder.startStrField(new TranslatableText(Keys.OPTION_INVULNERABLE_PETS), "123")
+                .setDefaultValue("This is the default value") // Recommended: Used when user click "Reset"
+                .setTooltip(new TranslatableText("This option is awesome!")) // Optional: Shown when the user hover over this option
+                .setSaveConsumer(newValue -> {}) // Recommended: Called when user save the config
+                .build()); // Builds the option entry for cloth config
+        return builder.build();
     }
 
     /**
@@ -73,6 +104,7 @@ public class ScreenRegistryManager {
         registerEntityToHandler(ParrotEntity.class, BoleParrotEntityScreenHandler::new);
         registerEntityToHandler(CatEntity.class, BoleCatEntityScreenHandler::new);
         registerEntityToHandler(PandaEntity.class, BolePandaEntityScreenHandler::new);
+        registerEntityToHandler(AxolotlEntity.class, BoleAxolotlEntityScreenHandler::new);
     }
 
     @Environment(EnvType.CLIENT)
@@ -96,5 +128,6 @@ public class ScreenRegistryManager {
         ScreenRegistry.register(BoleParrotEntityScreenHandler.HANDLER, BoleParrotEntityScreen<ParrotEntity, BoleParrotEntityScreenHandler<ParrotEntity>>::new);
         ScreenRegistry.register(BoleCatEntityScreenHandler.HANDLER, BoleCatEntityScreen<CatEntity, BoleCatEntityScreenHandler<CatEntity>>::new);
         ScreenRegistry.register(BolePandaEntityScreenHandler.HANDLER, BolePandaEntityScreen<PandaEntity, BolePandaEntityScreenHandler<PandaEntity>>::new);
+        ScreenRegistry.register(BoleAxolotlEntityScreenHandler.HANDLER, BoleAxolotlEntityScreen<AxolotlEntity, BoleAxolotlEntityScreenHandler<AxolotlEntity>>::new);
     }
 }

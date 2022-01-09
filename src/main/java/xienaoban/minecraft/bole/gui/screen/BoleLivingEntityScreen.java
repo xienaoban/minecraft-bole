@@ -31,7 +31,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
     protected void initPages() {
         super.initPages();
         this.pages.get(0).addSlotLazyAfter(new HealthPropertyWidget(), null);
-        this.pages.get(0).addSlotLazyAfter(new StatusEffectsPropertyWidget(), HealthPropertyWidget.class);
+        this.pages.get(0).addSlotLazyAfter(new StatusEffectsPropertyWidget(), AirPropertyWidget.class);
     }
 
     @Override

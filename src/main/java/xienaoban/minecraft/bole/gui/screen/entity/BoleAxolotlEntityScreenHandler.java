@@ -1,54 +1,49 @@
-package xienaoban.minecraft.bole.gui.screen;
+package xienaoban.minecraft.bole.gui.screen.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreenHandler;
+import xienaoban.minecraft.bole.mixin.IMixinAxolotlEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleMobEntityScreenHandler<MobEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "mob_entity"), BoleMobEntityScreenHandler::new);
+public class BoleAxolotlEntityScreenHandler<E extends AxolotlEntity> extends BoleAnimalEntityScreenHandler<E> {
+    public static final ScreenHandlerType<BoleAxolotlEntityScreenHandler<AxolotlEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
+            new Identifier(Keys.NAMESPACE, "axolotl_entity"), BoleAxolotlEntityScreenHandler::new);
 
-    public BoleMobEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public BoleAxolotlEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }
 
-    public BoleMobEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleAxolotlEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
         this(HANDLER, syncId, playerInventory, entity);
     }
 
-    public BoleMobEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
+    public BoleAxolotlEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
         this(handler, syncId, playerInventory, clientEntity());
     }
 
-    public BoleMobEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleAxolotlEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
         registerEntitySettingsBufHandlers();
     }
 
     private void registerEntitySettingsBufHandlers() {
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_NO_AI, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_AXOLOTL_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                set(buf.readBoolean());
+                AxolotlEntity.Variant variant = AxolotlEntity.Variant.VARIANTS[buf.readInt()];
+                if (isGodMode()) ((IMixinAxolotlEntity) entity).callSetVariant(variant);
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
-                boolean disabled = (Boolean) args[0];
-                buf.writeBoolean(disabled);
-                set(disabled);
-            }
-            private void set(boolean disabled) {
-                entity.setAiDisabled(disabled);
-                if (disabled && !isGodMode()) {
-                    player.damage(DamageSource.mob(entity), 8);
-                    player.getHungerManager().add(-8, 0);
-                }
+                AxolotlEntity.Variant variant = (AxolotlEntity.Variant) args[0];
+                buf.writeInt(variant.getId());
+                ((IMixinAxolotlEntity) entity).callSetVariant(variant);
             }
         });
     }

@@ -6,13 +6,16 @@ import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
@@ -44,11 +47,16 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
+                if (entity instanceof PlayerEntity && entity != player
+                        && Configs.getInstance().isForbidToSetNetherPortalCooldownOfOtherPlayers()) {
+                    sendOverlayMessage(new TranslatableText(Keys.HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS));
+                    return;
+                }
                 ((IMixinEntity)entity).setNetherPortalCooldown(buf.readInt());
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 int cooldown = (Integer) args[0];
-                ((IMixinEntity)entity).setNetherPortalCooldown(cooldown);
+                ((IMixinEntity) entity).setNetherPortalCooldown(cooldown);
                 buf.writeInt(cooldown);
             }
         });
@@ -100,7 +108,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
 
     @Override
     protected void writeServerEntityToBuf(PacketByteBuf buf) {
-        buf.writeInt(this.entity.getId());
+        buf.writeInt(this.syncId);
         buf.writeInt(((IMixinEntity)this.entity).getNetherPortalCooldown());
         buf.writeBoolean(this.entity.isInvulnerable());
     }
@@ -109,7 +117,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     @Override
     protected void readServerEntityFromBuf(PacketByteBuf buf) {
         int id = buf.readInt();
-        if (this.entity.getId() != id) {
+        if (this.syncId != id) {
             throw new RuntimeException("Expired packet of the server entity.");
         }
         ((IMixinEntity)this.entity).setNetherPortalCooldown(buf.readInt());

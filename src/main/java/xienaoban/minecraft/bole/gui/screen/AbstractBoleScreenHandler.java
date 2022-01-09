@@ -4,7 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,6 +14,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.Nullable;
 import xienaoban.minecraft.bole.Bole;
@@ -37,12 +37,8 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         this.entity = MiscUtil.cast(entity);
         this.player = playerInventory.player;
         this.entitySettingsBufHandlers = new HashMap<>();
-        if (this.player instanceof ServerPlayerEntity) {
-            initServer();
-        }
-        else if (this.player instanceof ClientPlayerEntity) {
-            initClient();
-        }
+        if (this.player instanceof ServerPlayerEntity) initServer();
+        else initClient();
         initCustom();
     }
 
@@ -118,15 +114,20 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     }
 
     public GameMode getGameMode() {
-        if (this.player instanceof ClientPlayerEntity) {
-            ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
-            return manager != null ? manager.getCurrentGameMode() : null;
+        if (this.player instanceof ServerPlayerEntity serverPlayer) {
+            return serverPlayer.interactionManager.getGameMode();
         }
-        return ((ServerPlayerEntity) this.player).interactionManager.getGameMode();
+        ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
+        return manager != null ? manager.getCurrentGameMode() : null;
     }
 
     public boolean isGodMode() {
         return getGameMode() == GameMode.CREATIVE;
+    }
+
+    public void sendOverlayMessage(Text text) {
+        ServerPlayerEntity player = (ServerPlayerEntity) this.player;
+        ServerNetworkManager.sendOverlayMessage(text, player.server, player);
     }
 
     /**

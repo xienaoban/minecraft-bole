@@ -19,8 +19,8 @@ public class HighlightedFakeInstance extends HighlightedInstance {
         fakeEntity.setId(findAUsableEntityId());
         fakeEntity.setInvisible(true);
         fakeEntity.setNoGravity(true);
-        if (fakeEntity instanceof MobEntity) {
-            ((MobEntity) fakeEntity).setAiDisabled(true);
+        if (fakeEntity instanceof MobEntity mob) {
+            mob.setAiDisabled(true);
         }
         addEntity();
     }

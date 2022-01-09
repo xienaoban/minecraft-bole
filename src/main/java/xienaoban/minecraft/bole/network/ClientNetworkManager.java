@@ -7,10 +7,12 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 
@@ -22,6 +24,7 @@ public class ClientNetworkManager {
     public static void init() {
         registerSendServerEntityData();
         registerSendServerEntitiesGlowing();
+        registerSendOverlayMessage();
     }
 
     private static void registerSendServerEntityData() {
@@ -57,6 +60,17 @@ public class ClientNetworkManager {
                         ((IMixinEntity) entity).callSetFlag(IMixinEntity.getGlowingFlagIndex(), entityGlowing[i]);
                         Bole.LOGGER.debug(entity.getType().getTranslationKey() + ", " + entityGlowing[i]);
                     }
+                }
+            });
+        });
+    }
+
+    private static void registerSendOverlayMessage() {
+        ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_OVERLAY_MESSAGE, (client, handler, buf, responseSender) -> {
+            Text text = buf.readText();
+            client.execute(() -> {
+                if (client.currentScreen instanceof AbstractBoleScreen boleScreen) {
+                    boleScreen.showOverlayMessage(text);
                 }
             });
         });
@@ -98,9 +112,9 @@ public class ClientNetworkManager {
     }
 
     public static AbstractBoleScreenHandler<?> getBoleScreenHandler(MinecraftClient client) {
-        if (client.player == null || !(client.player.currentScreenHandler instanceof AbstractBoleScreenHandler)) {
-            return null;
+        if (client.player != null && client.player.currentScreenHandler instanceof AbstractBoleScreenHandler boleScreenHandler) {
+            return boleScreenHandler;
         }
-        return (AbstractBoleScreenHandler<?>) client.player.currentScreenHandler;
+        return null;
     }
 }

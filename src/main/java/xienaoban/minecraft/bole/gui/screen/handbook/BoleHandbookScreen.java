@@ -3,10 +3,12 @@ package xienaoban.minecraft.bole.gui.screen.handbook;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -24,6 +26,7 @@ import net.minecraft.world.entity.EntityLookup;
 import xienaoban.minecraft.bole.client.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
+import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.mixin.IMixinWorld;
@@ -36,6 +39,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookScreenHandler> {
     public BoleHandbookScreen(BoleHandbookScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        BoleHandbookScreenState state = BoleClient.getInstance().getHandbookState();
+        if (state != null && this.client != null) {
+            BoleClient.getInstance().setHandbookState(null);
+            InputUtil.setCursorParameters(this.client.getWindow().getHandle(), 212993, state.getMouseX(), state.getMouseY());
+            this.bookmarks.get(state.getBookmarkIndex()).onPress();
+            setPageIndex(state.getPageIndex());
+        }
     }
 
     @Override
@@ -55,16 +70,15 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             ++cnt;
         }
         addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
-            resetPages();
-            Page page0 = this.pages.get(0);
-            page0.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.SETTING_LAZILY_UNHIGHLIGHT), DARK_TEXT_COLOR, 0.5F));
-            setPageIndex(0);
+            assert this.client != null;
+            this.client.setScreen(ScreenManager.getConfigScreen(this));
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
             resetPages();
             Page page0 = this.pages.get(0);
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_NAME_IS, new TranslatableText(Keys.MOD_NAME)), DARK_TEXT_COLOR, 0.5F));
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_AUTHOR_IS, new TranslatableText(Keys.XIENAOBAN)), DARK_TEXT_COLOR, 0.5F));
+            FabricLoader.getInstance().getModContainer(Keys.BOLE).ifPresent(modContainer -> page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_VERSION_IS, modContainer.getMetadata().getVersion()), DARK_TEXT_COLOR, 0.5F)));
             setPageIndex(0);
         });
     }
@@ -195,8 +209,8 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
                 drawRectangle(matrices, 0x77794500, getZOffset(), this.box.left(), this.box.top(), this.box.right(), this.box.bottom());
                 drawTextCenteredX(matrices, this.entityName, 0xffffffff, 0.5F, this.box.left() + (this.box.width() >> 1), this.box.bottom() - (Page.PROPERTY_WIDGET_HEIGHT >> 1));
                 boolean whichButton = mouseY > this.box.top() + BUTTONS_CUT;
-                drawRectangle(matrices, !whichButton ? 0xbaffffff : 0x66ffffff, getZOffset(), this.box.left() + 1, this.box.top() + 1, this.box.right() - 1, this.box.top() + BUTTONS_CUT);
-                drawRectangle(matrices, whichButton ? 0xbaffffff : 0x66ffffff, getZOffset(), this.box.left() + 1, this.box.top() + BUTTONS_CUT, this.box.right() - 1, this.box.bottom() - 6);
+                drawRectangle(matrices, !whichButton ? 0xd4ffffff : 0xaaffffff, getZOffset(), this.box.left() + 1, this.box.top() + 1, this.box.right() - 1, this.box.top() + BUTTONS_CUT);
+                drawRectangle(matrices, whichButton ? 0xd4ffffff : 0xaaffffff, getZOffset(), this.box.left() + 1, this.box.top() + BUTTONS_CUT, this.box.right() - 1, this.box.bottom() - 6);
                 int mid = this.box.left() + this.box.right() >> 1;
                 float size = 2.0F;
                 MatrixStack matrixStack = matrixScaleOn(size, size, size);

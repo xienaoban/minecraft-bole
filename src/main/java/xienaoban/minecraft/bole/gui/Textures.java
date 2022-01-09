@@ -5,5 +5,9 @@ import xienaoban.minecraft.bole.util.Keys;
 
 public interface Textures {
     Identifier BOOK = new Identifier("minecraft", "textures/gui/book.png");
+
+    Identifier ICON = new Identifier(Keys.NAMESPACE, "icon.png");
     Identifier ICONS = new Identifier(Keys.NAMESPACE, "textures/gui/icons.png");
+    Identifier POPUP = new Identifier(Keys.NAMESPACE, "textures/gui/popup.png");
+
 }

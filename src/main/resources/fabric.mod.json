@@ -3,7 +3,7 @@
   "id": "bole",
   "version": "${version}",
   "name": "Bole",
-  "description": "A mod to show info of entities.",
+  "description": "A mod to display or modify the properties and states of entities.\nIn case you don't know, Bo Le is a historical figure in ancient China who is a great horse connoisseur.",
   "authors": [
     "XieNaoban"
   ],
@@ -20,6 +20,9 @@
     ],
     "main": [
       "xienaoban.minecraft.bole.Bole"
+    ],
+    "modmenu": [
+      "xienaoban.minecraft.bole.config.ModMenuImpl"
     ]
   },
   "mixins": [

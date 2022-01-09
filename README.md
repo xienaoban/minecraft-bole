@@ -1,64 +1,72 @@
 Functions:
-- [X] **`Highlight Entities Around The Player`**
-- [X] **`Offer a Spawn Egg`**
+- [X] **`Highlight entities around the player`**
+- [X] **`Offer a spawn egg`**
+- [X] **`Open the handbook screen when looking up`**
+- [X] **`Open the player or mount screen when looking down`**
 - Entity:
   - [ ] ~~`UUID`~~
-  - [X] `Bounding Box`
-  - [X] `Custom Name`
-  - [X] `Nether Portal Cooldown`
-  - [X] `Set Nether Portal Cooldown`
-  - [X] `Set Custom Name Visible`
-  - [X] `Shut Up` (isSilent)
-  - [X] `Set Invulnerable`
+  - [X] `Bounding box`
+  - [X] `Custom name`
+  - [X] `Nether portal cooldown`
+  - [X] `Set nether portal cooldown`
+    - [X] `Players can only change their own cooldown`
+  - [X] `Set custom name visible`
+  - [X] `Shut up`
+  - [X] `Set invulnerable`
+  - [X] `Air`
   - LivingEntity:
     - [X] `Health`
-    - [X] `Max Health`
-    - [X] `Is Baby`
-    - [X] `Status Effects`
+    - [X] `Max health`
+    - [X] `Is baby`
+    - [X] `Status effects`
     - MobEntity:
       - [ ] ~~`Speed` (goalSelector)~~
-      - [X] `Attractive Items` (goalSelector - TemptGoal)
-      - [X] `Can Be Leashed` (canBeLeashedBy)
-      - [ ] ~~`Loot Table`~~
-      - [ ] ~~`Hand Item`~~
-      - [ ] ~~`Grab Hand Item`~~
+      - [X] `Attractive items` (goalSelector - TemptGoal)
+      - [X] `Can be leashed` (canBeLeashedBy)
+      - [ ] ~~`Loot table`~~
+      - [ ] ~~`Hand item`~~
+      - [ ] ~~`Grab hand item`~~
+      - [X] `No AI`
       - PathAwareEntity:
         - PassiveEntity:
-          - [X] `Set Baby / Never Grow Up` (breedingAge)
+          - [X] `Set baby / Never grow up` (breedingAge)
           - AnimalEntity:
-            - [X] `Breeding Item` (isBreedingItem)
+            - [X] `Breeding item` (isBreedingItem)
             - TameableEntity:
-              - [X] `Is Tamed`
-              - [ ] `Set Owner`
-              - [ ] `Invulnerable Pets`
+              - [X] `Is tamed`
+              - [ ] `Set owner`
+              - [X] `Invulnerable pets`
               - TameableShoulderEntity:
-                - [X] `Set Cooldown of Sitting On Player`
+                - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:
-                  - [X] `Set Parrot Variant`
+                  - [X] `Set parrot variant`
               - CatEntity:
-                - [X] `Set Cat Variant`
+                - [X] `Set cat variant`
             - HorseBaseEntity:
               - AbstractDonkeyEntity
-                - [X] `Chest Size`
+                - [X] `Chest size`
               - HorseEntity:
-                - [X] `Running Speed`
-                - [X] `Jump Height`
+                - [X] `Running speed`
+                - [X] `Jump height`
             - BeeEntity:
-              - [X] `Beehive Position`
-              - [X] `Reset Beehive Position`
+              - [X] `Beehive position`
+              - [X] `Reset beehive position`
             - SheepEntity:
-              - [X] `Force Eat Grass`
+              - [X] `Force eat grass`
             - ChickenEntity:
-              - [ ] `No Egg Laying`
+              - [ ] `No egg laying`
             - PandaEntity:
-              - [X] `Set Gene`
+              - [X] `Set gene`
+            - AxolotlEntity:
+              - [x] `Set axolotl variant`
           - MerchantEntity:
-            - [X] `Get Inventory`
-            - [ ] `Set Inventory` (Open a new HandledScreen? Just like HorseScreen?)
+            - [X] `Get inventory`
+            - [ ] `Set inventory` (Open a new HandledScreen? Just like HorseScreen?)
             - VillagerEntity:
-              - [X] `Highlight Job Site`
-              - [ ] ~~`Reset Job Site`~~
-              - [X] `Reset Level 0`
-              - [X] `Force Restock`
-              - [X] `Change Clothes`
+              - [X] `Highlight job site`
+              - [ ] ~~`Reset job site`~~
+              - [X] `Reset level 0`
+              - [X] `Force restock`
+              - [X] `Change clothes`
         - HostileEntity:
+          - Nothing here yet

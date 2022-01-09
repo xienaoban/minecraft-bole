@@ -17,7 +17,7 @@ public class BoleAbstractDonkeyEntityScreen<E extends AbstractDonkeyEntity, H ex
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazyAfter(new DonkeyChestPropertyWidget(), HorseRunAndJumpPropertyWidget.class);
+        this.pages.get(0).addSlotLazyBefore(new DonkeyChestPropertyWidget(), BoundingBoxPropertyWidget.class);
     }
 
     @Override

@@ -1,8 +1,11 @@
 package xienaoban.minecraft.bole.gui.screen;
 
+import com.mojang.authlib.GameProfile;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,9 +14,12 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
@@ -30,10 +36,11 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     @Override
     protected void initPages() {
         this.entityDisplayPlan = chooseEntityDisplayPlan(this.pages.get(0));
-        this.pages.get(0).addSlotLazy(new BoundingBoxPropertyWidget());
-        this.pages.get(1).addSlotLazy(new CustomNamePropertyWidget())
-                .addSlotLazy(new InvulnerablePropertyWidget())
-                .addSlotLazyBefore(new SilentPropertyWidget(), InvulnerablePropertyWidget.class)
+        this.pages.get(0).addSlotLazy(new AirPropertyWidget())
+                .addSlotLazy(new BoundingBoxPropertyWidget());
+        this.pages.get(1).addSlotLazy(new InvulnerablePropertyWidget())
+                .addSlotLazy(new SilentPropertyWidget())
+                .addSlotLazy(new CustomNamePropertyWidget())
                 .addSlotLazy(new NetherPortalCooldownPropertyWidget());
     }
 
@@ -45,7 +52,18 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     @Override
     protected void initButtons() {
         super.initButtons();
-        addBookmark(0, new TranslatableText(Keys.TEXT_RETURN_TO_HANDBOOK), button -> ClientNetworkManager.requestBoleScreen());
+        addBookmark(0, new TranslatableText(Keys.TEXT_RETURN_TO_HANDBOOK), button -> {
+            BoleClient.getInstance().setHandbookState(new BoleHandbookScreenState());
+            ClientNetworkManager.requestBoleScreen();
+        });
+        addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
+            assert this.client != null;
+            this.client.setScreen(ScreenManager.getConfigScreen(this));
+        });
+        addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
+            BoleClient.getInstance().setHandbookState(new BoleHandbookScreenState(9, 0));
+            ClientNetworkManager.requestBoleScreen();
+        });
     }
 
     @Override
@@ -104,12 +122,14 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            boolean nothingChosen = true;
             for (int i = 0; i < this.variantsSize; ++i) {
                 E entity = this.variants[i];
                 int xx = x + this.eachWidth * i + this.margin;
                 drawEntity(matrices, entity, xx, y, xx + this.eachWidth, this.box.bottom() - 10, mouseX, mouseY);
                 drawName(matrices, this.names[i], xx + this.eachWidth / 2, this.box.bottom() - 8);
                 if (isChosen(this.variants[i])) {
+                    nothingChosen = false;
                     if (this.lastChosen != i) {
                         if (this.lastChosen != -1 && targetDisplayedEntityPropertyWidget != null) {
                             targetDisplayedEntityPropertyWidget.updateDisplayedEntity();
@@ -119,6 +139,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                     drawSelectedTick(matrices, i, true);
                 }
             }
+            if (nothingChosen) this.lastChosen = -2;
             if (isHovered() && canChoose()) {
                 int i = calIndex(mouseX, mouseY);
                 if (i >= 0 && i < this.variantsSize && !isChosen(this.variants[i])) {
@@ -200,7 +221,17 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             this.targetEntity = targetEntity;
             this.displayedEntity = targetEntity.getType().create(MinecraftClient.getInstance().world);
             if (this.displayedEntity == null) {
-                this.displayedEntity = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
+                if (targetEntity instanceof AbstractClientPlayerEntity clientPlayer) {
+                    GameProfile profile = clientPlayer.getGameProfile();
+                    this.displayedEntity = new OtherClientPlayerEntity(clientPlayer.clientWorld, new GameProfile(profile.getId(), profile.getName()));
+                    // to make name label invisible
+                    // @see net.minecraft.client.render.entity.LivingEntityRenderer#hasLabel
+                    Vec3d targetPos = targetEntity.getPos();
+                    this.displayedEntity.setPosition(targetPos.getX(), targetPos.getY() - 4097, targetPos.getZ());
+                }
+                else {
+                    this.displayedEntity = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
+                }
             }
             updateDisplayedEntity();
         }
@@ -432,6 +463,29 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         private boolean isCurrentInvulnerable() {
             return handler.entity.isInvulnerable();
+        }
+    }
+
+    public class AirPropertyWidget extends TemplatePropertyWidget1 {
+        public AirPropertyWidget() {
+            super(2, true, 0);
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            initTooltipTitle(Keys.PROPERTY_WIDGET_AIR);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_AIR_DESCRIPTION);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            drawIcon(matrices, 0, 130);
+            drawBar(matrices, 1.0F, 10, 130);
+            drawBar(matrices, handler.entity.getAir() / (float) handler.entity.getMaxAir(), 50, 130);
+            String text;
+            if (debugMode) text = handler.entity.getMaxAir() + "t/" + handler.entity.getAir() + "t";
+            else text = (handler.entity.getAir() / 20) + "s";
+            drawBarText(matrices, text, LIGHT_TEXT_COLOR);
         }
     }
 }

@@ -17,6 +17,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
+import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.TreeNodeExecutor;
 
@@ -47,6 +48,7 @@ public class EntityManager {
         if (instance == null) {
             // It should be single-threaded here, so there is no need for thread synchronization.
             instance = new EntityManager();
+            Bole.LOGGER.info("EntityManager of Bole initialized.");
         }
         return instance;
     }
@@ -56,8 +58,8 @@ public class EntityManager {
         initJavaTags();
         initDefaultTags();
         registerTagGroup(this.defaultTags);
-        registerTagGroup(this.classTags);
-        registerTagGroup(this.interfaceTags);
+        registerTagGroup(this.classTags);       // todo 反混淆
+        registerTagGroup(this.interfaceTags);   // todo 反混淆
         registerTagGroup(this.namespaceTags);
         sortAllEntities();
 

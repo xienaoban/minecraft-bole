@@ -67,6 +67,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     protected final Map<Integer, ButtonWidget> bookmarks;
 
+    protected ScreenElement popup;
+
     protected final List<Page> pages;
     protected Page curLeftPage, curRightPage;
     protected int pageIndex;
@@ -167,6 +169,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     public ScreenElement getScreenElement(double mouseX, double mouseY) {
+        if (this.popup != null) return this.popup;
         if (mouseY >= this.contentTop && mouseY <= this.contentBottom) {
             if (mouseX >= this.contentLeft[0] && mouseX <= this.contentRight[0]) {
                 return this.curLeftPage;
@@ -274,10 +277,13 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
         MatrixStack matrixStack = RenderSystem.getModelViewStack();
         matrixStack.translate(-super.x, -super.y, 0.0F);
+        RenderSystem.applyModelViewMatrix();
+        if (this.popup != null) this.popup.draw(matrices, this.width - this.popup.box.width() >> 1, this.height - this.popup.box.height() - 32 >> 1, mouseX, mouseY);
         if (this.hovered != null) {
             this.hovered.drawHovered(matrices, mouseX, mouseY);
         }
         matrixStack.translate(super.x, super.y, 0.0F);
+        RenderSystem.applyModelViewMatrix();
     }
 
     public static void drawEntityAuto(Entity entity, int x0, int y0, int x1, int y1, float mouseX, float mouseY) {
@@ -430,21 +436,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         drawTextureQuadrilateral(matrices, tw, th, z, x0, y0, x1, y0, x0, y1, x1, y1, u0, v0, u1, v0, u0, v1, u1, v1);
     }
 
+    public static void drawTextureFlippedHorizontally(MatrixStack matrices, float tw, float th, float w, float h, float z, float x, float y, float u, float v) {
+        drawTextureQuadrilateral(matrices, tw, th, z, x, y, x + w, y, x, y + h, x + w, y + h, u + w, v, u, v, u + w, v + h, u, v + h);
+    }
+
     /**
      * Draws a textured quadrilateral from a region in a horizontally flipped texture.
-     *
-     * @param matrices the matrix stack used for rendering
-     * @param tw the width of the entire texture
-     * @param th the height of the entire texture
-     * @param z the Z coordinate of the quadrilateral
-     * @param x0 the left-most coordinate of the quadrilateral
-     * @param y0 the top-most coordinate of the quadrilateral
-     * @param x1 the right-most coordinate of the quadrilateral
-     * @param y1 the bottom-most coordinate of the quadrilateral
-     * @param u0 the left-most coordinate of the texture region
-     * @param v0 the top-most coordinate of the texture region
-     * @param u1 the right-most coordinate of the texture region
-     * @param v1 the bottom-most coordinate of the texture region
      */
     public static void drawTextureFlippedHorizontally(MatrixStack matrices, float tw, float th, float z,
                                                       float x0, float y0, float x1, float y1,
@@ -454,19 +451,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     /**
      * Draws a textured quadrilateral from a region in a vertically flipped texture.
-     *
-     * @param matrices the matrix stack used for rendering
-     * @param tw the width of the entire texture
-     * @param th the height of the entire texture
-     * @param z the Z coordinate of the quadrilateral
-     * @param x0 the left-most coordinate of the quadrilateral
-     * @param y0 the top-most coordinate of the quadrilateral
-     * @param x1 the right-most coordinate of the quadrilateral
-     * @param y1 the bottom-most coordinate of the quadrilateral
-     * @param u0 the left-most coordinate of the texture region
-     * @param v0 the top-most coordinate of the texture region
-     * @param u1 the right-most coordinate of the texture region
-     * @param v1 the bottom-most coordinate of the texture region
      */
     public static void drawTextureFlippedVertically(MatrixStack matrices, float tw, float th, float z,
                                                     float x0, float y0, float x1, float y1,
@@ -476,19 +460,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     /**
      * Draws a textured quadrilateral from a region in a 180 rotated texture.
-     *
-     * @param matrices the matrix stack used for rendering
-     * @param tw the width of the entire texture
-     * @param th the height of the entire texture
-     * @param z the Z coordinate of the quadrilateral
-     * @param x0 the left-most coordinate of the quadrilateral
-     * @param y0 the top-most coordinate of the quadrilateral
-     * @param x1 the right-most coordinate of the quadrilateral
-     * @param y1 the bottom-most coordinate of the quadrilateral
-     * @param u0 the left-most coordinate of the texture region
-     * @param v0 the top-most coordinate of the texture region
-     * @param u1 the right-most coordinate of the texture region
-     * @param v1 the bottom-most coordinate of the texture region
      */
     public static void drawTextureRotated180(MatrixStack matrices, float tw, float th, float z,
                                              float x0, float y0, float x1, float y1,
@@ -662,6 +633,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         nbt.remove("CustomName");
         nbt.remove("CustomNameVisible");
         nbt.remove("AngryAt");
+        nbt.remove("HurtTime");
+        nbt.remove("Pos");
         try {
             to.readNbt(nbt);
         }
@@ -684,6 +657,11 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     public void setHovered(ScreenElement hovered) {
         this.hovered = hovered;
+    }
+
+    public void setPopup(ScreenElement popup) {
+        this.popup = popup;
+        this.setHovered(null);
     }
 
     public GameMode getGameMode() {
@@ -758,6 +736,88 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
     }
 
+    public class PopUpConfirmWindow extends ScreenElement {
+        private final Text title;
+        private final List<OrderedText> lines;
+        private final PopUpButton confirm, cancel;
+
+        public PopUpConfirmWindow(Text text, Runnable onConfirm) {
+            this(text, onConfirm, () -> {});
+        }
+
+        public PopUpConfirmWindow(Text text, Runnable onConfirm, Runnable onCancel) {
+            super(180, 120);
+            this.title = new TranslatableText(Keys.TEXT_ANTI_MISTOUCH_WARNING);
+            this.lines = textRenderer.wrapLines(text, this.box.width() - 24);
+            this.confirm = new PopUpButton(new TranslatableText(Keys.GUI_OK), onConfirm);
+            this.cancel = new PopUpButton(new TranslatableText(Keys.GUI_CANCEL), onCancel);
+        }
+
+        @Override
+        public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            super.draw(matrices, x, y, mouseX, mouseY);
+            renderBackground(matrices);
+            setTexture(Textures.BOOK);
+            final int bookRight = 160, bookTop = 7, bookBottom = 175, bookWidth = (this.box.width() >> 1) + 1, bookHeight = (this.box.height() >> 1) + 1;
+            drawTextureNormally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.right() - bookWidth, this.box.top(), bookRight - bookWidth, bookTop);
+            drawTextureNormally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.right() - bookWidth, this.box.bottom() - bookHeight, bookRight - bookWidth, bookBottom - bookHeight);
+            drawTextureFlippedHorizontally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.left(), this.box.top(), bookRight - bookWidth, bookTop);
+            drawTextureFlippedHorizontally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.left(), this.box.bottom() - bookHeight, bookRight - bookWidth, bookBottom - bookHeight);
+            textRenderer.draw(matrices, this.title, x + 12.5F, y + 8.7F, 0x66e67417);
+            textRenderer.draw(matrices, this.title, x + 12, y + 8, 0xff612f08);
+            for (int i = 0; i < lines.size(); ++i) {
+                textRenderer.draw(matrices, lines.get(i), x + 12, y + 22 + i * 10, DARK_TEXT_COLOR);
+            }
+            this.confirm.draw(matrices, this.box.right() - this.confirm.box.width() - this.cancel.box.width() - 25, this.box.bottom() - this.confirm.box.height() - 12, mouseX, mouseY);
+            this.cancel.draw(matrices, this.box.right() - this.cancel.box.width() - 20, this.box.bottom() - this.cancel.box.height() - 12, mouseX, mouseY);
+            drawDebugBox(matrices, this.box, 0x66dd001b);
+        }
+
+        @Override
+        public ScreenElement getSubScreenElement(double mouseX, double mouseY) {
+            if (confirm.isMouseOver(mouseX, mouseY)) return confirm;
+            if (cancel.isMouseOver(mouseX, mouseY)) return cancel;
+            return null;
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            ScreenElement sub = getSubScreenElement(mouseX, mouseY);
+            if (sub != null) sub.mouseClicked(mouseX, mouseY, button);
+            else if (!isMouseOver(mouseX, mouseY)) {
+                cancel.mouseClicked(mouseX, mouseY, button);
+            }
+            return true;
+        }
+    }
+
+    public class PopUpButton extends ScreenElement {
+        private final Text title;
+        private final Runnable onClick;
+
+        public PopUpButton(Text title, Runnable onClick) {
+            super(40, 20);
+            this.title = title;
+            this.onClick = onClick;
+        }
+
+        @Override
+        public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            super.draw(matrices, x, y, mouseX, mouseY);
+            setTexture(Textures.POPUP);
+            drawTextureNormally(matrices, 256, 256, this.box.width(), this.box.height(), getZOffset(), x, y, getHovered() == this ? this.box.width() : 0, 200);
+            drawTextCenteredX(matrices, this.title, DARK_TEXT_COLOR, x + (this.box.width() >> 1), y + (this.box.height() - 7 >> 1));
+            drawDebugBox(matrices, this.box, getHovered() == this ? 0x88b9ac67 : 0x88c55c2d);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            setPopup(null);
+            this.onClick.run();
+            return true;
+        }
+    }
+
     /**
      * Manages all widgets on a page.
      */
@@ -789,14 +849,16 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         @Override
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             super.draw(matrices, x, y, mouseX, mouseY);
-            for (int i = 0; i < COLS; ++i) {
-                for (int j = 0; j < ROWS; ++j) {
-                    AbstractPropertyWidget w = this.widgets.get(i).get(j);
-                    if (w != null) {
-                        w.draw(matrices,
-                                x + i * (PROPERTY_WIDGET_WIDTH + PROPERTY_WIDGET_MARGIN_WIDTH),
-                                y + j * (PROPERTY_WIDGET_HEIGHT + PROPERTY_WIDGET_MARGIN_HEIGHT),
-                                mouseX, mouseY);
+            if (popup == null) {
+                for (int i = 0; i < COLS; ++i) {
+                    for (int j = 0; j < ROWS; ++j) {
+                        AbstractPropertyWidget w = this.widgets.get(i).get(j);
+                        if (w != null) {
+                            w.draw(matrices,
+                                    x + i * (PROPERTY_WIDGET_WIDTH + PROPERTY_WIDGET_MARGIN_WIDTH),
+                                    y + j * (PROPERTY_WIDGET_HEIGHT + PROPERTY_WIDGET_MARGIN_HEIGHT),
+                                    mouseX, mouseY);
+                        }
                     }
                 }
             }
@@ -819,16 +881,15 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         public boolean addSlot(AbstractPropertyWidget widget) {
+            final int addCnt = widget.getColSlots() == 2 ? 2 : 1;
             for (int i = 0; i < ROWS; ++i) {
                 if (i + widget.getRowSlots() > ROWS) break;
                 BAD:
-                for (int j = 0; j < COLS; ++j) {
+                for (int j = 0; j < COLS; j += addCnt) {
                     if (j + widget.getColSlots() > COLS) break;
                     for (int p = 0; p < widget.getRowSlots(); ++p) {
                         for (int q = 0; q < widget.getColSlots(); ++q) {
-                            if (this.widgets.get(j + q).get(i + p) != null) {
-                                continue BAD;
-                            }
+                            if (this.widgets.get(j + q).get(i + p) != null) continue BAD;
                         }
                     }
                     return setSlot(j, i, widget);
@@ -892,8 +953,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                 return null;
             }
             AbstractPropertyWidget widget = this.widgets.get(col).get(row);
-            if (widget instanceof AbstractBoleScreen.EmptyPropertyWidget) {
-                widget = ((EmptyPropertyWidget) widget).father;
+            if (widget instanceof EmptyPropertyWidget emptyWidget) {
+                widget = emptyWidget.father;
             }
             if (widget == null || mouseX > widget.box.right() || mouseY > widget.box.bottom()) {
                 return null;
@@ -918,6 +979,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public abstract class AbstractPropertyWidget extends ScreenElement {
         protected final int colSlots, rowSlots;
         protected final List<OrderedText> tooltipLines;
+        private final OrderedText widgetClassText;
 
         public AbstractPropertyWidget(int colSlots, int rowSlots) {
             super(colSlots * (Page.PROPERTY_WIDGET_WIDTH + Page.PROPERTY_WIDGET_MARGIN_WIDTH) - Page.PROPERTY_WIDGET_MARGIN_WIDTH,
@@ -926,6 +988,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             this.rowSlots = rowSlots;
             this.tooltipLines = new ArrayList<>();
             initTooltipLines();
+            String name = this.getClass().getName();
+            name = name.substring(name.lastIndexOf('.') + 1).replaceFirst("\\$", " -> ");
+            this.widgetClassText = new LiteralText(name).formatted(Formatting.DARK_GRAY).asOrderedText();
         }
 
         protected abstract void initTooltipLines();
@@ -959,7 +1024,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         public void draw(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             super.draw(matrices, x, y, mouseX, mouseY);
             drawContent(matrices, x, y, mouseX, mouseY);
-            drawDebugBox(matrices, this.box, this == getHovered() ? 0x88b9ac67 : 0x88c55c2d);
+            drawDebugBox(matrices, this.box, isHovered() ? 0x88b9ac67 : 0x88c55c2d);
         }
 
         protected abstract void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY);
@@ -970,7 +1035,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         protected void drawTooltip(MatrixStack matrices) {
-            renderTooltip(matrices, this.tooltipLines, 0.5F, this.box.left(), this.box.bottom());
+            if (debugMode) {
+                this.tooltipLines.add(this.widgetClassText);
+                renderTooltip(matrices, this.tooltipLines, 0.5F, this.box.left(), this.box.bottom());
+                this.tooltipLines.remove(this.tooltipLines.size() - 1);
+            }
+            else renderTooltip(matrices, this.tooltipLines, 0.5F, this.box.left(), this.box.bottom());
         }
 
         @Override
@@ -1032,12 +1102,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         protected void drawBar(MatrixStack matrices, float p, int u, int v) {
-            if (p < 0.0F) {
-                p = 0.0F;
-            }
-            else if (p > 1.0F) {
-                p = 1.0F;
-            }
+            if (p < 0.0F) p = 0.0F;
+            else if (p > 1.0F) p = 1.0F;
             drawTextureNormally(matrices, 256, 256, this.barWidth * p, 10, getZOffset(), this.box.left() + BAR_LEFT, this.box.top(), u, v);
         }
 

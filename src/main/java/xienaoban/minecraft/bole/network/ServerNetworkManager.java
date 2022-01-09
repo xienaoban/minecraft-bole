@@ -19,7 +19,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.gui.ScreenRegistryManager;
+import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -38,7 +38,7 @@ public class ServerNetworkManager {
             server.execute(() -> player.openHandledScreen(new NamedScreenHandlerFactory() {
                 @Override
                 public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-                    return ScreenRegistryManager.getHandler(syncId, inv, entity);
+                    return ScreenManager.getHandler(syncId, inv, entity);
                 }
 
                 @Override
@@ -107,6 +107,12 @@ public class ServerNetworkManager {
         PacketByteBuf entityBuf = PacketByteBufs.create();
         boleScreenHandler.tryWriteServerEntityFromBuf(entityBuf);
         server.execute(() -> ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITY_DATA, entityBuf));
+    }
+
+    public static void sendOverlayMessage(Text text, MinecraftServer server, ServerPlayerEntity player) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeText(text);
+        server.execute(() -> ServerPlayNetworking.send(player, Channels.SEND_OVERLAY_MESSAGE, buf));
     }
 
     private static AbstractBoleScreenHandler<?> getBoleScreenHandler(ServerPlayerEntity player) {
