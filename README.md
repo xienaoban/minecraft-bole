@@ -26,7 +26,7 @@ Functions:
       - [ ] ~~`Loot table`~~
       - [ ] ~~`Hand item`~~
       - [ ] ~~`Grab hand item`~~
-      - [ ] `No AI`
+      - [X] `No AI`
       - PathAwareEntity:
         - PassiveEntity:
           - [X] `Set baby / Never grow up` (breedingAge)

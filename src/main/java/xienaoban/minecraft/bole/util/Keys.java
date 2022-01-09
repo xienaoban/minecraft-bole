@@ -157,6 +157,7 @@ public interface Keys {
     String WARNING_TEXT_DISABLE_AI = "text.warning.bole.disable_ai";
     String WARNING_TEXT_VILLAGER_RESET_JOB = "text.warning.bole.villager_reset_job";
 
+    String TEXT_ANTI_MISTOUCH_WARNING = "text.bole.anti_mistouch_warning";
     String TEXT_RETURN_TO_HANDBOOK = "text.bole.return_to_handbook";
     String TEXT_SETTINGS = "text.bole.settings";
     String TEXT_ABOUT = "text.bole.about";

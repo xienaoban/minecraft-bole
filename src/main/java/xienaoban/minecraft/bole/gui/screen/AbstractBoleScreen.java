@@ -737,6 +737,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     public class PopUpConfirmWindow extends ScreenElement {
+        private final Text title;
         private final List<OrderedText> lines;
         private final PopUpButton confirm, cancel;
 
@@ -746,6 +747,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         public PopUpConfirmWindow(Text text, Runnable onConfirm, Runnable onCancel) {
             super(180, 120);
+            this.title = new TranslatableText(Keys.TEXT_ANTI_MISTOUCH_WARNING);
             this.lines = textRenderer.wrapLines(text, this.box.width() - 24);
             this.confirm = new PopUpButton(new TranslatableText(Keys.GUI_OK), onConfirm);
             this.cancel = new PopUpButton(new TranslatableText(Keys.GUI_CANCEL), onCancel);
@@ -761,8 +763,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             drawTextureNormally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.right() - bookWidth, this.box.bottom() - bookHeight, bookRight - bookWidth, bookBottom - bookHeight);
             drawTextureFlippedHorizontally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.left(), this.box.top(), bookRight - bookWidth, bookTop);
             drawTextureFlippedHorizontally(matrices, 256, 256, bookWidth, bookHeight, getZOffset(), this.box.left(), this.box.bottom() - bookHeight, bookRight - bookWidth, bookBottom - bookHeight);
+            textRenderer.draw(matrices, this.title, x + 12.5F, y + 8.7F, 0x66e67417);
+            textRenderer.draw(matrices, this.title, x + 12, y + 8, 0xff612f08);
             for (int i = 0; i < lines.size(); ++i) {
-                textRenderer.draw(matrices, lines.get(i), x + 12, y + 12 + i * 10, DARK_TEXT_COLOR);
+                textRenderer.draw(matrices, lines.get(i), x + 12, y + 22 + i * 10, DARK_TEXT_COLOR);
             }
             this.confirm.draw(matrices, this.box.right() - this.confirm.box.width() - this.cancel.box.width() - 25, this.box.bottom() - this.confirm.box.height() - 12, mouseX, mouseY);
             this.cancel.draw(matrices, this.box.right() - this.cancel.box.width() - 20, this.box.bottom() - this.cancel.box.height() - 12, mouseX, mouseY);

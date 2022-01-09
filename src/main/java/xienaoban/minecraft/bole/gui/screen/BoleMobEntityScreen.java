@@ -65,7 +65,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
         @Override
         protected void initTooltipLines() {
             initTooltipTitle(Keys.PROPERTY_WIDGET_HAS_AI);
-            initTooltipDescription(Keys.PROPERTY_WIDGET_HAS_AI_DESCRIPTION_BUTTON1);
+            initTooltipButtonDescription(Keys.PROPERTY_WIDGET_HAS_AI_DESCRIPTION_BUTTON1);
         }
 
         @Override
