@@ -119,6 +119,18 @@ public class ServerNetworkManager {
         });
     }
 
+    public static void sendServerBoleConfigsToAllPlayers(MinecraftServer server) {
+        server.execute(() -> {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String str = gson.toJson(Configs.getInstance());
+            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeString(str);
+                ServerPlayNetworking.send(player, Channels.SEND_SERVER_BOLE_CONFIGS, buf);
+            }
+        });
+    }
+
     public static void sendServerEntityData(AbstractBoleScreenHandler<?> boleScreenHandler, MinecraftServer server, ServerPlayerEntity player) {
         server.execute(() -> {
             PacketByteBuf entityBuf = PacketByteBufs.create();

@@ -11,6 +11,7 @@ import net.minecraft.network.PacketByteBuf;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
+import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;
@@ -25,6 +26,7 @@ public class BoleClient implements ClientModInitializer {
     private int ticks;
     private int screenTicks;
     private boolean inWorld;
+    private Configs serverConfigs;
     private PacketByteBuf handlerBufCache = null;
     private BoleHandbookScreenState handbookState;
     private HighlightManager highlightManager;
@@ -40,6 +42,7 @@ public class BoleClient implements ClientModInitializer {
         this.ticks = -1;
         this.screenTicks = -1;
         this.inWorld = false;
+        setServerConfigs(Configs.getInstance());
         this.highlightManager = new HighlightManager();
         ScreenManager.initClient();
         ClientNetworkManager.init();
@@ -51,7 +54,7 @@ public class BoleClient implements ClientModInitializer {
         preventMemoryLeak();
         if (world != null) {
             EntityManager.getInstance();
-            if (!isHost()) ClientNetworkManager.requestServerBoleConfigs();
+            ClientNetworkManager.requestServerBoleConfigs();
             Bole.LOGGER.info("Joining the world: " + world.getRegistryKey().getValue());
         }
         else Bole.LOGGER.info("Joining the world: null?!");
@@ -60,7 +63,7 @@ public class BoleClient implements ClientModInitializer {
 
     public void onDisconnect() {
         this.inWorld = false;
-        Bole.getInstance().setServerConfigsOnServer();
+        setServerConfigs(Configs.getInstance());
         preventMemoryLeak();
         ClientWorld world = MinecraftClient.getInstance().world;
         if (world != null) Bole.LOGGER.info("Disconnecting from the world: " + world.getRegistryKey().getValue());
@@ -108,6 +111,14 @@ public class BoleClient implements ClientModInitializer {
 
     public boolean isInWorld() {
         return inWorld;
+    }
+
+    public Configs getServerConfigs() {
+        return serverConfigs;
+    }
+
+    public void setServerConfigs(Configs serverConfigs) {
+        this.serverConfigs = serverConfigs;
     }
 
     public PacketByteBuf getHandlerBufCache() {

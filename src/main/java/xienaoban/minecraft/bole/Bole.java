@@ -11,38 +11,10 @@ import xienaoban.minecraft.bole.util.Keys;
 public class Bole implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(Keys.BOLE);
 
-    private static Bole instance;
-
-    private ServerConfigsGetter serverConfigsGetter;
-
-    public static Bole getInstance() {
-        return instance;
-    }
-
     @Override
     public void onInitialize() {
-        System.out.println(1);
-        instance = this;
         ScreenManager.initServer();
         ServerNetworkManager.init();
         Configs.init();
-        setServerConfigsOnServer();
-    }
-
-    public Configs getServerConfigs() {
-        return this.serverConfigsGetter.get();
-    }
-
-    public void setServerConfigsOnClient(Configs serverConfigs) {
-        this.serverConfigsGetter = () -> serverConfigs;
-    }
-
-    public void setServerConfigsOnServer() {
-        this.serverConfigsGetter = Configs::getInstance;
-    }
-
-    @FunctionalInterface
-    public interface ServerConfigsGetter {
-        Configs get();
     }
 }

@@ -38,7 +38,7 @@ public class ClientNetworkManager {
             client.execute(() -> {
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 Configs configs = gson.fromJson(str, Configs.class);
-                Bole.getInstance().setServerConfigsOnClient(configs);
+                BoleClient.getInstance().setServerConfigs(configs);
             });
         });
     }
