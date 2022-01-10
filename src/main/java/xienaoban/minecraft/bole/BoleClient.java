@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.client;
+package xienaoban.minecraft.bole;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -8,7 +8,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
-import xienaoban.minecraft.bole.Bole;
+import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
@@ -45,11 +46,12 @@ public class BoleClient implements ClientModInitializer {
         KeyBindingManager.init();
     }
 
-    public void onJoinWorld() {
+    public void onJoin() {
         ClientWorld world = MinecraftClient.getInstance().world;
         preventMemoryLeak();
         if (world != null) {
             EntityManager.getInstance();
+            if (!isHost()) ClientNetworkManager.requestServerBoleConfigs();
             Bole.LOGGER.info("Joining the world: " + world.getRegistryKey().getValue());
         }
         else Bole.LOGGER.info("Joining the world: null?!");
@@ -58,6 +60,7 @@ public class BoleClient implements ClientModInitializer {
 
     public void onDisconnect() {
         this.inWorld = false;
+        Bole.getInstance().setServerConfigsOnServer();
         preventMemoryLeak();
         ClientWorld world = MinecraftClient.getInstance().world;
         if (world != null) Bole.LOGGER.info("Disconnecting from the world: " + world.getRegistryKey().getValue());
@@ -76,6 +79,10 @@ public class BoleClient implements ClientModInitializer {
             }
         }
         this.highlightManager.tick();
+    }
+
+    public boolean isHost() {
+        return MinecraftClient.getInstance().getServer() != null;
     }
 
     public Entity getBoleTarget() {

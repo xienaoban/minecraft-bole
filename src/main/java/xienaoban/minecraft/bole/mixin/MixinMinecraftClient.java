@@ -5,13 +5,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
 
 @Mixin(MinecraftClient.class)
 public class MixinMinecraftClient {
     @Inject(method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V", at = @At("TAIL"))
     private void joinWorld(CallbackInfo callbackInfo) {
-        BoleClient.getInstance().onJoinWorld();
+        // BoleClient.getInstance().onJoin();
     }
 
     @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("HEAD"))

@@ -1,5 +1,7 @@
 package xienaoban.minecraft.bole.network;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -11,7 +13,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
+import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
@@ -22,9 +25,22 @@ import java.util.Queue;
 @Environment(EnvType.CLIENT)
 public class ClientNetworkManager {
     public static void init() {
+        registerSendServerBoleConfigs();
         registerSendServerEntityData();
         registerSendServerEntitiesGlowing();
         registerSendOverlayMessage();
+    }
+
+    private static void registerSendServerBoleConfigs() {
+        ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_SERVER_BOLE_CONFIGS, (client, handler, buf, responseSender) -> {
+            String str = buf.readString();
+            Bole.LOGGER.info("New Bole configs from the server: " + str);
+            client.execute(() -> {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                Configs configs = gson.fromJson(str, Configs.class);
+                Bole.getInstance().setServerConfigsOnClient(configs);
+            });
+        });
     }
 
     private static void registerSendServerEntityData() {
@@ -74,6 +90,10 @@ public class ClientNetworkManager {
                 }
             });
         });
+    }
+
+    public static void requestServerBoleConfigs() {
+        ClientPlayNetworking.send(Channels.REQUEST_SERVER_BOLE_CONFIGS, PacketByteBufs.empty());
     }
 
     public static void requestBoleScreen() {

@@ -31,7 +31,7 @@ import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.gui.ElementBox;
 import xienaoban.minecraft.bole.gui.ScreenElement;

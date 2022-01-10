@@ -16,7 +16,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;

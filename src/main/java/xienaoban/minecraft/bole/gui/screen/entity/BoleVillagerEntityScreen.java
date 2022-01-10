@@ -15,7 +15,7 @@ import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.screen.BoleMerchantEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;

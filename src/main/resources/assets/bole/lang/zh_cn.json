@@ -108,7 +108,7 @@
 
   "minecraft": "我的世界",
 
-  "text.autoconfig.bole.title": "伯乐模组设置",
+  "text.autoconfig.bole.title": "伯乐模组设置（仅在本地游戏生效，不影响服务器）",
   "text.autoconfig.bole.option.invulnerablePets": "宠物无敌",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "禁止设置其他玩家的地狱传送冷却值",
 

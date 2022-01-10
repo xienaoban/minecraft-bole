@@ -108,9 +108,9 @@
 
   "minecraft": "Minecraft",
 
-  "text.autoconfig.bole.title": "Settings of Bole",
+  "text.autoconfig.bole.title": "Settings of Bole (only affects local games)",
   "text.autoconfig.bole.option.invulnerablePets": "Invulnerable pets",
-  "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "Forbid to set nether portal cooldown of other players",
+  "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "Disable setting others' portal cooldown",
 
   "property_widget.bole.air": "Oxygen",
   "property_widget.bole.air.description": "The entity will lose health when oxygen is depleted.",

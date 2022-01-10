@@ -1,5 +1,7 @@
 package xienaoban.minecraft.bole.network;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
@@ -19,17 +21,23 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
+import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class ServerNetworkManager {
     public static void init() {
+        registerRequestServerBoleConfigs();
         registerRequestBoleScreen();
         registerRequestServerEntityData();
         registerSendClientEntitySettings();
         registerRequestServerEntitiesGlowing();
         registerSendHighlightEvent();
+    }
+
+    private static void registerRequestServerBoleConfigs() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_SERVER_BOLE_CONFIGS, (server, player, handler, buf, responseSender) -> sendServerBoleConfigs(server, player));
     }
 
     private static void registerRequestBoleScreen() {
@@ -97,22 +105,34 @@ public class ServerNetworkManager {
 
     private static void registerSendHighlightEvent() {
         ServerPlayNetworking.registerGlobalReceiver(Channels.SEND_HIGHLIGHT_EVENT, (server, player, handler, buf, responseSender) -> {
-            server.execute(() -> {
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 2 * 20));
-            });
+            server.execute(() -> player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 2 * 20)));
+        });
+    }
+
+    public static void sendServerBoleConfigs(MinecraftServer server, ServerPlayerEntity player) {
+        server.execute(() -> {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String str = gson.toJson(Configs.getInstance());
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeString(str);
+            ServerPlayNetworking.send(player, Channels.SEND_SERVER_BOLE_CONFIGS, buf);
         });
     }
 
     public static void sendServerEntityData(AbstractBoleScreenHandler<?> boleScreenHandler, MinecraftServer server, ServerPlayerEntity player) {
-        PacketByteBuf entityBuf = PacketByteBufs.create();
-        boleScreenHandler.tryWriteServerEntityFromBuf(entityBuf);
-        server.execute(() -> ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITY_DATA, entityBuf));
+        server.execute(() -> {
+            PacketByteBuf entityBuf = PacketByteBufs.create();
+            boleScreenHandler.tryWriteServerEntityFromBuf(entityBuf);
+            ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITY_DATA, entityBuf);
+        });
     }
 
     public static void sendOverlayMessage(Text text, MinecraftServer server, ServerPlayerEntity player) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeText(text);
-        server.execute(() -> ServerPlayNetworking.send(player, Channels.SEND_OVERLAY_MESSAGE, buf));
+        server.execute(() -> {
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeText(text);
+            ServerPlayNetworking.send(player, Channels.SEND_OVERLAY_MESSAGE, buf);
+        });
     }
 
     private static AbstractBoleScreenHandler<?> getBoleScreenHandler(ServerPlayerEntity player) {
