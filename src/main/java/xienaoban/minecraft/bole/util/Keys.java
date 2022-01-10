@@ -71,6 +71,8 @@ public interface Keys {
     String TAG_DEFAULT_OTHER =              "tag.bole.default.other";
 
     String OPTION_INVULNERABLE_PETS = "option.bole.invulnerable_pets";
+    String AUTO_CONFIG_PREFIX = "text.autoconfig.bole.option.";
+    String AUTO_CONFIG_POSTFIX = ".@Tooltip";
 
     String PROPERTY_WIDGET_AIR = "property_widget.bole.air";
     String PROPERTY_WIDGET_AIR_DESCRIPTION = "property_widget.bole.air.description";
@@ -152,6 +154,9 @@ public interface Keys {
     String HINT_TEXT_NO_JOB_SITE = "text.hint.bole.no_job_site";
     String HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION = "text.hint.bole.job_site_different_dimension";
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.bole.refuse_to_reset_job";
+
+    String ERROR_TEXT_DATA_LOAD = "text.error.bole.data_load";
+    String ERROR_TEXT_CLIENT_SERVER_MOD_VERSION_NOT_MATCH = "text.error.bole.client_server_mod_version_not_match";
 
     String WARNING_TEXT_ENABLE_AI = "text.warning.bole.enable_ai";
     String WARNING_TEXT_DISABLE_AI = "text.warning.bole.disable_ai";

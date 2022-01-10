@@ -10,6 +10,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
@@ -18,6 +19,7 @@ import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
+import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.Objects;
 import java.util.Queue;
@@ -36,9 +38,16 @@ public class ClientNetworkManager {
             String str = buf.readString();
             Bole.LOGGER.info("New Bole configs from the server: " + str);
             client.execute(() -> {
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                Configs configs = gson.fromJson(str, Configs.class);
-                BoleClient.getInstance().setServerConfigs(configs);
+                try {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    Configs configs = gson.fromJson(str, Configs.class);
+                    BoleClient.getInstance().setServerConfigs(configs);
+                } catch (Exception e) {
+                    Bole.LOGGER.error("The mod version of the client does not match the mod version of the server!");
+                    if (client.player != null) {
+                        client.player.sendMessage(new TranslatableText(Keys.ERROR_TEXT_CLIENT_SERVER_MOD_VERSION_NOT_MATCH), false);
+                    }
+                }
             });
         });
     }

@@ -1,6 +1,7 @@
 package xienaoban.minecraft.bole.gui.screen.handbook;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -26,13 +27,14 @@ import net.minecraft.world.entity.EntityLookup;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
-import xienaoban.minecraft.bole.gui.ScreenManager;
+import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.mixin.IMixinWorld;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Environment(EnvType.CLIENT)
@@ -70,8 +72,22 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             ++cnt;
         }
         addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
-            assert this.client != null;
-            this.client.setScreen(ScreenManager.getConfigScreen(this));
+            resetPages();
+            Page page = this.pages.get(0);
+            for (Field field : Configs.class.getDeclaredFields()) {
+                if (field.isAnnotationPresent(ConfigEntry.Gui.Excluded.class)) continue;
+                String name = field.getName();
+                boolean success = page.addSlot(new ConfigItemPropertyWidget(name));
+                if (!success) {
+                    page = new Page();
+                    this.pages.add(page);
+                    page.addSlot(new ConfigItemPropertyWidget(name));
+                }
+            }
+            setPageIndex(0);
+            // todo              test two clients
+            // assert this.client != null;
+            // this.client.setScreen(ScreenManager.getConfigScreen(this));
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
             resetPages();
@@ -294,6 +310,44 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             matrixStack.pop();
             RenderSystem.applyModelViewMatrix();
             DiffuseLighting.enableGuiDepthLighting();
+        }
+    }
+
+    public class ConfigItemPropertyWidget extends AbstractPropertyWidget {
+        private final Field field;
+        private final Text name;
+
+        public ConfigItemPropertyWidget(String attr) {
+            super(4, 1);
+            try {
+                this.field = Configs.class.getDeclaredField(attr);
+                this.field.setAccessible(true);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            this.name = new TranslatableText(Keys.AUTO_CONFIG_PREFIX + attr);
+            initTooltipDescription(Keys.AUTO_CONFIG_PREFIX + attr + Keys.AUTO_CONFIG_POSTFIX);
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            // "attr" isn't accessible here   x   initTooltipDescription(Keys.AUTO_CONFIG_PREFIX + attr);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            String value;
+            try { value = this.field.get(BoleClient.getInstance().getServerConfigs()).toString(); }
+            catch (Exception e) {
+                e.printStackTrace();
+                value = Keys.ERROR_TEXT_DATA_LOAD;
+            }
+            Text valueText = new TranslatableText(value);
+            setTexture(Textures.ICONS);
+            drawTextureNormally(matrices, 256, 256, 40, 10, getZOffset(), x, y, 0, 200);
+            drawTextureRotated180(matrices, 256, 256, 40, 10, getZOffset(), x + this.box.width() - 40, y, 0, 200);
+            drawText(matrices, this.name, 0xff003e6a, 0.5F, this.box.left() + 2, this.box.top() + 3.25F);
+            drawText(matrices, valueText, 0xff0162a6, 0.5F, this.box.right() - (textRenderer.getWidth(valueText) >> 1) - 3, this.box.top() + 3F);
         }
     }
 }

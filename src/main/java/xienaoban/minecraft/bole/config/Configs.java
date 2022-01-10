@@ -34,8 +34,10 @@ public class Configs implements ConfigData {
         return holder.getConfig();
     }
 
+    @ConfigEntry.Gui.Tooltip()
     boolean invulnerablePets = false;
 
+    @ConfigEntry.Gui.Tooltip()
     boolean forbidToSetNetherPortalCooldownOfOtherPlayers = false;
 
     public boolean isInvulnerablePets() {

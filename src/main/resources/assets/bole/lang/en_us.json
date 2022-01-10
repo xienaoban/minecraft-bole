@@ -5,6 +5,9 @@
   "key.bole.open_bole_gui": "Open Bole GUI",
   "title.bole.bole_handbook": "Bole Handbook",
 
+  "true": "True",
+  "false": "False",
+
   "entity.minecraft.cat.variant.tabby": "Tabby",
   "entity.minecraft.cat.variant.black": "Black",
   "entity.minecraft.cat.variant.red": "Red",
@@ -110,7 +113,9 @@
 
   "text.autoconfig.bole.title": "Settings of Bole (only affects local games)",
   "text.autoconfig.bole.option.invulnerablePets": "Invulnerable pets",
+  "text.autoconfig.bole.option.invulnerablePets.@Tooltip": "Tamed animals will never lose health (unless damaged by DROWN, DRYOUT and ANVIL).",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "Disable setting others' portal cooldown",
+  "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "You will not be allowed to modify other players' nether portal cooldown.",
 
   "property_widget.bole.air": "Oxygen",
   "property_widget.bole.air.description": "The entity will lose health when oxygen is depleted.",
@@ -192,6 +197,9 @@
   "text.hint.bole.no_job_site": "The villager has no job site!",
   "text.hint.bole.job_site_different_dimension": "The job site is not in this dimension!",
   "text.hint.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (maybe you should hold a sword to threaten it).",
+
+  "text.error.bole.data_load": "Data Error",
+  "text.error.bole.client_server_mod_version_not_match": "Mod Bole: The mod version of the client does not match the mod version of the server!",
 
   "text.warning.bole.enable_ai": "Maybe just put its frontal lobe back in...",
   "text.warning.bole.disable_ai": "You want to perform a frontal lobotomy to incapacitate it. But it will fight back. So you will spend:\nHealth x%s\nSatiety x%s",

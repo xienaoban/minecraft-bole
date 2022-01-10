@@ -5,6 +5,9 @@
   "key.bole.open_bole_gui": "打开伯乐界面",
   "title.bole.bole_handbook": "伯乐手册",
 
+  "true": "是",
+  "false": "否",
+
   "entity.minecraft.cat.variant.tabby": "虎斑",
   "entity.minecraft.cat.variant.black": "西服",
   "entity.minecraft.cat.variant.red": "大橘",
@@ -110,7 +113,9 @@
 
   "text.autoconfig.bole.title": "伯乐模组设置（仅在本地游戏生效，不影响服务器）",
   "text.autoconfig.bole.option.invulnerablePets": "宠物无敌",
+  "text.autoconfig.bole.option.invulnerablePets.@Tooltip": "被驯服的动物受到的所有伤害值一律改为 0（但仍会溺亡、渴死和被铁砧砸死）。",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "禁止设置其他玩家的地狱传送冷却值",
+  "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "玩家将只能修改自己的地狱传送冷却值，防止熊孩子捣乱。",
 
   "property_widget.bole.air": "氧气",
   "property_widget.bole.air.description": "氧气耗尽后持续掉血。",
@@ -192,6 +197,9 @@
   "text.hint.bole.no_job_site": "这是一只失去工作方块的村民，看样子是就业形势不太好呢~",
   "text.hint.bole.job_site_different_dimension": "工作方块不在当前世界维度！",
   "text.hint.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你拿着下届合金剑指着他也不会屈服！",
+
+  "text.error.bole.data_load": "数据读取失败",
+  "text.error.bole.client_server_mod_version_not_match": "伯乐模组：客户端与服务端的模组版本差距过大，无法完全兼容！",
 
   "text.warning.bole.enable_ai": "也许只要把它的额叶塞回去就行了叭…",
   "text.warning.bole.disable_ai": "你将尝试对其进行额叶切除手术而使之丧失行动能力。但它也会奋力反抗。\n\n你预计这场战斗与手术将花费：\n生命值 x%s\n饱食度 x%s",
