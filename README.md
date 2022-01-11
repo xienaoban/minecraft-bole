@@ -1,4 +1,5 @@
 Functions:
+- [ ] **`Buy Bole handbook from villagers`**
 - [X] **`Highlight entities around the player`**
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**

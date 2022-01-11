@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
@@ -45,9 +46,10 @@ public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingE
             }
             private void set(boolean disabled) {
                 entity.setAiDisabled(disabled);
+                int healthAndSatiety = entity instanceof HostileEntity ? 8 : 2;
                 if (disabled && !isGodMode()) {
-                    player.damage(DamageSource.mob(entity), 8);
-                    player.getHungerManager().add(-8, 0);
+                    player.damage(DamageSource.mob(entity), healthAndSatiety);
+                    player.getHungerManager().add(-healthAndSatiety, 0);
                 }
             }
         });
