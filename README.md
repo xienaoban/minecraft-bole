@@ -53,6 +53,8 @@ Functions:
               - [X] `Reset beehive position`
             - SheepEntity:
               - [X] `Force eat grass`
+            - GoatEntity:
+              - [X] `Set screamer`
             - ChickenEntity:
               - [ ] `No egg laying`
             - PandaEntity:

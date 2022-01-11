@@ -1,5 +1,5 @@
 {
-  "xienaoban": "屑老板（XieNaoban）",
+  "xienaoban": "屑牢板（XieNaoban）",
   "bole": "伯乐",
   "key.category.bole": "伯乐",
   "key.bole.open_bole_gui": "打开伯乐界面",
@@ -205,6 +205,11 @@
   "text.warning.bole.disable_ai": "你将尝试对其进行额叶切除手术而使之丧失行动能力。但它也会奋力反抗。\n\n你预计这场战斗与手术将花费：\n生命值 x%s\n饱食度 x%s",
   "text.warning.bole.villager_reset_job": "在有此Mod之前，交易刷歪了的村民大多难逃玩家正义的击杀。想到这儿，村民转而欣然接受了你的好意。\n\n村民交易列表与经验等级均会清零，确认重置吗？",
 
+  "text.bole.open_local_configs": "打开本地配置界面",
+  "text.bole.set_configs_local_is_remote": "客户端配置（您是主机，会影响当前世界）：",
+  "text.bole.set_configs_local_is_not_remote": "客户端配置（您不是主机，不影响当前世界）：",
+  "text.bole.get_configs_local_is_remote": "服务端配置（也是客户端配置）：",
+  "text.bole.get_configs_local_is_not_remote": "服务端配置（非客户端配置）：",
   "text.bole.anti_mistouch_warning": "防误触警告",
   "text.bole.return_to_handbook": "返回手册主页",
   "text.bole.settings": "设置",

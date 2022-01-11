@@ -17,7 +17,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.BoleClient;
-import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
@@ -57,8 +56,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             ClientNetworkManager.requestBoleScreen();
         });
         addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
-            assert this.client != null;
-            this.client.setScreen(ScreenManager.getConfigScreen(this));
+            BoleClient.getInstance().setHandbookState(new BoleHandbookScreenState(8, 0));
+            ClientNetworkManager.requestBoleScreen();
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
             BoleClient.getInstance().setHandbookState(new BoleHandbookScreenState(9, 0));

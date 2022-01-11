@@ -28,6 +28,7 @@ import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.config.Configs;
+import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.mixin.IMixinWorld;
@@ -74,6 +75,13 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
             resetPages();
             Page page = this.pages.get(0);
+            String setConfigKey = BoleClient.getInstance().isHost() ? Keys.TEXT_SET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE;
+            page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(setConfigKey), DARK_TEXT_COLOR, 0.5F));
+            page.addSlot(new OpenLocalConfigsPropertyWidget());
+            page.addSlot(new EmptyPropertyWidget(4, 1));
+
+            String curConfigKey = BoleClient.getInstance().isHost() ? Keys.TEXT_GET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE;
+            page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(curConfigKey), DARK_TEXT_COLOR, 0.5F));
             for (Field field : Configs.class.getDeclaredFields()) {
                 if (field.isAnnotationPresent(ConfigEntry.Gui.Excluded.class)) continue;
                 String name = field.getName();
@@ -85,9 +93,6 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
                 }
             }
             setPageIndex(0);
-            // todo              test two clients
-            // assert this.client != null;
-            // this.client.setScreen(ScreenManager.getConfigScreen(this));
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
             resetPages();
@@ -344,10 +349,38 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             }
             Text valueText = new TranslatableText(value);
             setTexture(Textures.ICONS);
-            drawTextureNormally(matrices, 256, 256, 40, 10, getZOffset(), x, y, 0, 200);
-            drawTextureRotated180(matrices, 256, 256, 40, 10, getZOffset(), x + this.box.width() - 40, y, 0, 200);
-            drawText(matrices, this.name, 0xff003e6a, 0.5F, this.box.left() + 2, this.box.top() + 3.25F);
+            drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), x, y, 0, 200);
+            drawTextureRotated180(matrices, 256, 256, 30, 10, getZOffset(), x + this.box.width() - 30, y, 0, 200);
+            drawText(matrices, this.name, 0xff003e6a, 0.5F, this.box.left() + 2, this.box.top() + 3F);
             drawText(matrices, valueText, 0xff0162a6, 0.5F, this.box.right() - (textRenderer.getWidth(valueText) >> 1) - 3, this.box.top() + 3F);
+        }
+    }
+
+    public class OpenLocalConfigsPropertyWidget extends AbstractPropertyWidget {
+        private final Text title;
+        public OpenLocalConfigsPropertyWidget() {
+            super(4, 1);
+            this.title = new TranslatableText(Keys.TEXT_OPEN_LOCAL_CONFIGS);
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            setTexture(Textures.ICONS);
+            int u = isHovered() ? 30 : 0;
+            drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), x, y, u, 200);
+            drawTextureRotated180(matrices, 256, 256, 30, 10, getZOffset(), x + this.box.width() - 30, y, u, 200);
+            drawTextCenteredX(matrices, this.title, DARK_TEXT_COLOR, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            setHovered(null);
+            assert client != null;
+            client.setScreen(ScreenManager.getConfigScreen(BoleHandbookScreen.this));
+            return true;
         }
     }
 }
