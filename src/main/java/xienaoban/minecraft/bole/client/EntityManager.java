@@ -21,7 +21,10 @@ import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.TreeNodeExecutor;
 
+import java.io.*;
 import java.lang.reflect.Modifier;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,6 +36,8 @@ public class EntityManager {
     private final Map<Class<?>, EntityTreeNode> tree = new HashMap<>();
     private final Map<EntityType<?>, EntityInfo> infos = new HashMap<>();
     private final List<EntityInfo> sortedInfos = new ArrayList<>();
+
+    private final Map<Class<?>, String> deobfuscation = new HashMap<>();
 
     private final List<TagGroup> tagGroups = new ArrayList<>();
 
@@ -50,11 +55,13 @@ public class EntityManager {
             instance = new EntityManager();
             Bole.LOGGER.info("EntityManager of Bole initialized.");
         }
+        // instance.generateEntityDependencyFile();
         return instance;
     }
 
     private EntityManager() {
         initEntityInfos();
+        initDeobfuscation();
         initJavaTags();
         initDefaultTags();
         registerTagGroup(this.defaultTags);
@@ -106,6 +113,10 @@ public class EntityManager {
         for (int i = this.sortedInfos.size() - 1; i >= 0; --i) {
             this.sortedInfos.get(i).setSortId(i);
         }
+    }
+
+    private void initDeobfuscation() {
+        readEntityDependencyFile();
     }
 
     private void initJavaTags() {
@@ -221,23 +232,98 @@ public class EntityManager {
     }
 
     private String getClassId(Class<?> clazz) {
-        return clazz.getName();
+        return this.deobfuscation.getOrDefault(clazz, clazz.getName());
     }
 
     public void dfsEntityTree(boolean skipRoot, TreeNodeExecutor<EntityTreeNode> executor) {
+        dfsEntityTree(skipRoot, executor, TreeNodeExecutor.empty());
+    }
+
+    public void dfsEntityTree(boolean skipRoot, TreeNodeExecutor<EntityTreeNode> frontExecutor, TreeNodeExecutor<EntityTreeNode> rearExecutor) {
         EntityTreeNode root = getEntityTreeNode(Entity.class);
         if (skipRoot) {
-            root.getSons().forEach(son -> dfsEntityTreePrivate(son, 1, executor));
+            root.getSons().forEach(son -> dfsEntityTreePrivate(son, 1, frontExecutor, rearExecutor));
         }
         else {
-            dfsEntityTreePrivate(root, 0, executor);
+            dfsEntityTreePrivate(root, 0, frontExecutor, rearExecutor);
         }
     }
 
-    private void dfsEntityTreePrivate(EntityTreeNode root, int depth, TreeNodeExecutor<EntityTreeNode> executor) {
-        if (executor.execute(root, depth)) {
+    private void dfsEntityTreePrivate(EntityTreeNode root, int depth, TreeNodeExecutor<EntityTreeNode> frontExecutor, TreeNodeExecutor<EntityTreeNode> rearExecutor) {
+        if (frontExecutor.execute(root, depth)) {
             int d2 = depth + 1;
-            root.getSons().forEach(son -> dfsEntityTreePrivate(son, d2, executor));
+            root.getSons().forEach(son -> dfsEntityTreePrivate(son, d2, frontExecutor, rearExecutor));
+        }
+        rearExecutor.execute(root, depth);
+    }
+
+    /**
+     * for deobfuscation
+     */
+    public void generateEntityDependencyFile() {
+        System.out.println(Path.of("entity_classes.txt").toAbsolutePath());
+        try (BufferedWriter writer = Files.newBufferedWriter(Path.of("entity_classes.txt"))) {
+            for (EntityInfo entityInfo : getEntityInfos()) {
+                Identifier id = EntityType.getId(entityInfo.getType());
+                if (!Objects.equals(id.getNamespace(), Identifier.DEFAULT_NAMESPACE)) continue;
+                writer.write(id + " " + entityInfo.getClazz().getName());
+                writer.newLine();
+            }
+            writer.newLine();
+            dfsEntityTree(true, (cur, depth) -> {
+                try {
+                    if (cur.getClazz().getName().indexOf("net.minecraft") != 0) return true;
+                    writer.write(cur.getClazz().getName() + " " + cur.getFather().getClazz().getName());
+                    writer.newLine();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                return true;
+            });
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * for deobfuscation
+     */
+    private void readEntityDependencyFile() {
+        InputStream path = this.getClass().getResourceAsStream("/entity_classes.txt");
+        Map<Class<?>, String> classMap = this.deobfuscation;
+        if (path == null) {
+            Bole.LOGGER.error("Resource entity_classes.txt not found.");
+            return;
+        }
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(path));
+            String line;
+            while ((line = reader.readLine()).length() != 0) {
+                String[] tmp = line.split(" ", 2);
+                String name = tmp[0], clazz = tmp[1];
+                Optional<EntityType<?>> type = EntityType.get(name);
+                if (type.isEmpty()) Bole.LOGGER.error("EntityType \"" + name + "\" in entity_classes.txt not found!");
+                else classMap.put(this.getEntityInfo(type.get()).getClazz(), clazz);
+            }
+            Map<String, String> sonToFather = new HashMap<>();
+            while ((line = reader.readLine()) != null) {
+                String[] tmp = line.split(" ", 2);
+                String son = tmp[0], father = tmp[1];
+                sonToFather.put(son, father);
+            }
+            dfsEntityTree(true, TreeNodeExecutor.empty(), (cur, depth) -> {
+                String son = classMap.get(cur.getClazz());
+                if (son == null) return true;
+                String father = sonToFather.get(son);
+                classMap.put(cur.getFather().getClazz(), father);
+                return true;
+            });
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
