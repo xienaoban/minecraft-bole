@@ -4,6 +4,7 @@ Functions:
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**
 - [X] **`Open the player or mount screen when looking down`**
+- [ ] **`Check beehive state``**
 - Entity:
   - [ ] ~~`UUID`~~
   - [X] `Bounding box`
@@ -67,7 +68,6 @@ Functions:
             - [ ] `Set inventory` (Open a new HandledScreen? Just like HorseScreen?)
             - VillagerEntity:
               - [X] `Highlight job site`
-              - [ ] ~~`Reset job site`~~
               - [X] `Reset level 0`
               - [X] `Force restock`
               - [X] `Change clothes`

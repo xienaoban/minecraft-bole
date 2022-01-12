@@ -9,7 +9,9 @@
   ],
   "contact": {
     "website": "https://xienaoban.github.io",
-    "repo": "https://github.com/XieNaoban/minecraft-bole"
+    "repo": "https://github.com/XieNaoban/minecraft-bole",
+    "homepage": "https://github.com/XieNaoban/minecraft-bole",
+    "issues": "https://github.com/XieNaoban/minecraft-bole/issues"
   },
   "license": "MIT",
   "icon": "assets/bole/icon.png",
