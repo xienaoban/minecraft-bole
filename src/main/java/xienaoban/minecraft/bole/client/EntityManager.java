@@ -33,6 +33,11 @@ import java.util.stream.Stream;
 public class EntityManager {
     private static EntityManager instance = null;
 
+    private static final String DEOBFUSCATION_PATH = "deobfuscation/";
+    private static final String DEOBFUSCATION_ENTITY_TO_CLASS_PATH = DEOBFUSCATION_PATH + "entity_ro_class.txt";
+    private static final String DEOBFUSCATION_INTERFACE_TO_ENTITY_PATH = DEOBFUSCATION_PATH + "interface_to_entity.txt";
+    private static final String DEOBFUSCATION_SUB_TO_SUPER_PATH = DEOBFUSCATION_PATH + "sub_to_super.txt";
+
     private final Map<Class<?>, EntityTreeNode> tree = new HashMap<>();
     private final Map<EntityType<?>, EntityInfo> infos = new HashMap<>();
     private final List<EntityInfo> sortedInfos = new ArrayList<>();
@@ -55,7 +60,7 @@ public class EntityManager {
             instance = new EntityManager();
             Bole.LOGGER.info("EntityManager of Bole initialized.");
         }
-        // instance.generateEntityDependencyFile();
+        // instance.generateDeobfuscationFiles();
         return instance;
     }
 
@@ -65,16 +70,10 @@ public class EntityManager {
         initJavaTags();
         initDefaultTags();
         registerTagGroup(this.defaultTags);
-        registerTagGroup(this.classTags);       // todo 反混淆
-        registerTagGroup(this.interfaceTags);   // todo 反混淆
+        registerTagGroup(this.classTags);
+        registerTagGroup(this.interfaceTags);
         registerTagGroup(this.namespaceTags);
         sortAllEntities();
-
-        // this.tree.values().forEach(node -> System.out.println("1 " + node.getClazz().getSimpleName() + " " + node.getSons()));
-        // this.infos.values().forEach(info -> System.out.println("2 " + info.getType().toString()));
-        // this.classTags.getTags().forEach(tag -> System.out.println("3 " + tag.getName() + " " + tag.getEntities()));
-        // this.interfaceTags.getTags().forEach(tag -> System.out.println("4 " + tag.getName() + " " + tag.getEntities()));
-        // this.namespaceTags.getTags().forEach(tag -> System.out.println("5 " + tag.getName() + " " + tag.getEntities()));
     }
 
     private void initEntityInfos() {
@@ -258,23 +257,40 @@ public class EntityManager {
     }
 
     /**
-     * for deobfuscation
+     * Generates files for deobfuscation (to get real names of the entity classes).
+     * This method can only be invoked in the debug environment of the project (or you will get obfuscated classes
+     * like "net.minecraft.entity.class_12345").
      */
-    public void generateEntityDependencyFile() {
-        System.out.println(Path.of("entity_classes.txt").toAbsolutePath());
-        try (BufferedWriter writer = Files.newBufferedWriter(Path.of("entity_classes.txt"))) {
+    public void generateDeobfuscationFiles() {
+        System.out.println("Generating " + Path.of(DEOBFUSCATION_PATH).toAbsolutePath());
+        try {
+            Files.createDirectories(Path.of(DEOBFUSCATION_PATH));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        try (BufferedWriter ecWriter = Files.newBufferedWriter(Path.of(DEOBFUSCATION_ENTITY_TO_CLASS_PATH));
+             BufferedWriter ieWriter = Files.newBufferedWriter(Path.of(DEOBFUSCATION_INTERFACE_TO_ENTITY_PATH));
+             BufferedWriter ssWriter = Files.newBufferedWriter(Path.of(DEOBFUSCATION_SUB_TO_SUPER_PATH))
+             ) {
             for (EntityInfo entityInfo : getEntityInfos()) {
                 Identifier id = EntityType.getId(entityInfo.getType());
                 if (!Objects.equals(id.getNamespace(), Identifier.DEFAULT_NAMESPACE)) continue;
-                writer.write(id + " " + entityInfo.getClazz().getName());
-                writer.newLine();
+                ecWriter.write(id + " " + entityInfo.getClazz().getName());
+                ecWriter.newLine();
             }
-            writer.newLine();
+            Map<String, List<Class<?>>> entityToInterface = calEntityToInterfaceMap();
+            for (Map.Entry<String, List<Class<?>>> entry : entityToInterface.entrySet()) {
+                for (Class<?> clazz : entry.getValue()) {
+                    ieWriter.write(clazz.getName() + " " + entry.getKey());
+                    ieWriter.newLine();
+                }
+            }
             dfsEntityTree(true, (cur, depth) -> {
                 try {
                     if (cur.getClazz().getName().indexOf("net.minecraft") != 0) return true;
-                    writer.write(cur.getClazz().getName() + " " + cur.getFather().getClazz().getName());
-                    writer.newLine();
+                    ssWriter.write(cur.getClazz().getName() + " " + cur.getFather().getClazz().getName());
+                    ssWriter.newLine();
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -289,42 +305,87 @@ public class EntityManager {
     }
 
     /**
-     * for deobfuscation
+     * To get the real names of the obfuscated entity classes.
+     * It infers class names based on the dependency graph of the classes.
      */
     private void readEntityDependencyFile() {
-        InputStream path = this.getClass().getResourceAsStream("/entity_classes.txt");
-        Map<Class<?>, String> classMap = this.deobfuscation;
-        if (path == null) {
-            Bole.LOGGER.error("Resource entity_classes.txt not found.");
+        InputStream ecStream = this.getClass().getResourceAsStream("/" + DEOBFUSCATION_ENTITY_TO_CLASS_PATH);
+        InputStream ieStream = this.getClass().getResourceAsStream("/" + DEOBFUSCATION_INTERFACE_TO_ENTITY_PATH);
+        InputStream ssStream = this.getClass().getResourceAsStream("/" + DEOBFUSCATION_SUB_TO_SUPER_PATH);
+        if (ecStream == null || ieStream == null || ssStream == null) {
+            Bole.LOGGER.error("Resource in /deobfuscation/ not found.");
             return;
         }
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(path));
+        Map<Class<?>, String> classMap = this.deobfuscation;
+        try (BufferedReader ecReader = new BufferedReader(new InputStreamReader(ecStream));
+             BufferedReader ieReader = new BufferedReader(new InputStreamReader(ieStream));
+             BufferedReader ssReader = new BufferedReader(new InputStreamReader(ssStream))) {
             String line;
-            while ((line = reader.readLine()).length() != 0) {
+            while ((line = ecReader.readLine()) != null) {
                 String[] tmp = line.split(" ", 2);
                 String name = tmp[0], clazz = tmp[1];
                 Optional<EntityType<?>> type = EntityType.get(name);
                 if (type.isEmpty()) Bole.LOGGER.error("EntityType \"" + name + "\" in entity_classes.txt not found!");
+                // 1. infer entity class names from EntityType id.
                 else classMap.put(this.getEntityInfo(type.get()).getClazz(), clazz);
             }
-            Map<String, String> sonToFather = new HashMap<>();
-            while ((line = reader.readLine()) != null) {
+            Map<String, String> subToSuper = new HashMap<>();
+            while ((line = ssReader.readLine()) != null) {
                 String[] tmp = line.split(" ", 2);
                 String son = tmp[0], father = tmp[1];
-                sonToFather.put(son, father);
+                subToSuper.put(son, father);
             }
             dfsEntityTree(true, TreeNodeExecutor.empty(), (cur, depth) -> {
                 String son = classMap.get(cur.getClazz());
                 if (son == null) return true;
-                String father = sonToFather.get(son);
+                String father = subToSuper.get(son);
+                // 2. infer abstract entity class names from subclasses.
                 classMap.put(cur.getFather().getClazz(), father);
                 return true;
             });
+            Map<String, List<Class<?>>> entityToInterface = calEntityToInterfaceMap();
+            while ((line = ieReader.readLine()) != null) {
+                String[] tmp = line.split(" ", 2);
+                String interfaze = tmp[0], entity = tmp[1];
+                // 3. infer entity interface names based on the entities that implement it.
+                List<Class<?>> list = entityToInterface.get(entity);
+                classMap.put(list.get(0), interfaze);
+                list.remove(0);
+            }
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+        // classMap.forEach((key, value) -> Bole.LOGGER.info(key.getName() + " -> " + value));
+    }
+
+    /**
+     * All entities of an interface are packed into a string.
+     */
+    private Map<String, List<Class<?>>> calEntityToInterfaceMap() {
+        Map<String, List<Class<?>>> map = new HashMap<>();
+        Map<Class<?>, Set<String>> interfaceToEntity = new HashMap<>();
+        final Class<?> root = Entity.class;
+        for (EntityInfo entityInfo : getEntityInfos()) {
+            Class<?> clazz = entityInfo.getClazz();
+            while (!root.equals(clazz)) {
+                for (Class<?> interfaze : clazz.getInterfaces()) {
+                    if (interfaze.getPackageName().indexOf("net.minecraft") != 0) continue;
+                    Set<String> set = interfaceToEntity.computeIfAbsent(interfaze, key -> new HashSet<>());
+                    set.add(EntityType.getId(entityInfo.getType()).toString());
+                }
+                clazz = clazz.getSuperclass();
+            }
+        }
+        for (Map.Entry<Class<?>, Set<String>> entry : interfaceToEntity.entrySet()) {
+            StringBuilder builder = new StringBuilder();
+            entry.getValue().stream().sorted().forEach(s -> builder.append(s).append(' '));
+            builder.deleteCharAt(builder.length() - 1);
+            String entity = builder.substring(0, builder.length() - 1);
+            List<Class<?>> list = map.computeIfAbsent(entity, key -> new ArrayList<>());
+            list.add(entry.getKey());
+        }
+        return map;
     }
 
     public static class EntityTreeNode {
