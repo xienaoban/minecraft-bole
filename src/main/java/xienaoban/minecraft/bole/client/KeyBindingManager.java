@@ -12,6 +12,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 

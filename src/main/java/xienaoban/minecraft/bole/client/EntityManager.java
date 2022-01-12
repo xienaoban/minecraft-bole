@@ -21,7 +21,10 @@ import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.TreeNodeExecutor;
 
+import java.io.*;
 import java.lang.reflect.Modifier;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,9 +33,16 @@ import java.util.stream.Stream;
 public class EntityManager {
     private static EntityManager instance = null;
 
+    private static final String DEOBFUSCATION_PATH = "deobfuscation/";
+    private static final String DEOBFUSCATION_ENTITY_TO_CLASS_PATH = DEOBFUSCATION_PATH + "entity_ro_class.txt";
+    private static final String DEOBFUSCATION_INTERFACE_TO_ENTITY_PATH = DEOBFUSCATION_PATH + "interface_to_entity.txt";
+    private static final String DEOBFUSCATION_SUB_TO_SUPER_PATH = DEOBFUSCATION_PATH + "sub_to_super.txt";
+
     private final Map<Class<?>, EntityTreeNode> tree = new HashMap<>();
     private final Map<EntityType<?>, EntityInfo> infos = new HashMap<>();
     private final List<EntityInfo> sortedInfos = new ArrayList<>();
+
+    private final Map<Class<?>, String> deobfuscation = new HashMap<>();
 
     private final List<TagGroup> tagGroups = new ArrayList<>();
 
@@ -50,24 +60,20 @@ public class EntityManager {
             instance = new EntityManager();
             Bole.LOGGER.info("EntityManager of Bole initialized.");
         }
+        // instance.generateDeobfuscationFiles();
         return instance;
     }
 
     private EntityManager() {
         initEntityInfos();
+        initDeobfuscation();
         initJavaTags();
         initDefaultTags();
         registerTagGroup(this.defaultTags);
-        registerTagGroup(this.classTags);       // todo 反混淆
-        registerTagGroup(this.interfaceTags);   // todo 反混淆
+        registerTagGroup(this.classTags);
+        registerTagGroup(this.interfaceTags);
         registerTagGroup(this.namespaceTags);
         sortAllEntities();
-
-        // this.tree.values().forEach(node -> System.out.println("1 " + node.getClazz().getSimpleName() + " " + node.getSons()));
-        // this.infos.values().forEach(info -> System.out.println("2 " + info.getType().toString()));
-        // this.classTags.getTags().forEach(tag -> System.out.println("3 " + tag.getName() + " " + tag.getEntities()));
-        // this.interfaceTags.getTags().forEach(tag -> System.out.println("4 " + tag.getName() + " " + tag.getEntities()));
-        // this.namespaceTags.getTags().forEach(tag -> System.out.println("5 " + tag.getName() + " " + tag.getEntities()));
     }
 
     private void initEntityInfos() {
@@ -108,6 +114,10 @@ public class EntityManager {
         }
     }
 
+    private void initDeobfuscation() {
+        readEntityDependencyFile();
+    }
+
     private void initJavaTags() {
         dfsEntityTree(true, (root, depth) -> {
             if (!Modifier.isAbstract(root.getClazz().getModifiers())) {
@@ -119,8 +129,8 @@ public class EntityManager {
         for (EntityInfo entityInfo : getEntityInfos()) {
             this.namespaceTags.addToTag(EntityType.getId(entityInfo.getType()).getNamespace(), entityInfo);
             Class<?> clazz = entityInfo.getClazz();
-            Class<?> t = Entity.class.getSuperclass();
-            while (!t.equals(clazz)) {
+            Class<?> root = Entity.class;
+            while (!root.equals(clazz)) {
                 if (Modifier.isAbstract(clazz.getModifiers())) {
                     this.classTags.addToTag(getClassId(clazz), entityInfo);
                 }
@@ -185,7 +195,17 @@ public class EntityManager {
     private void sortAllEntities() {
         for (TagGroup group : getTagGroups()) {
             boolean noSkip = !group.getName().equals(Keys.TAG_GROUP_DEFAULT);
-            if (noSkip) Collections.sort(group.getRootTags());
+            if (noSkip) {
+                if (group.getName().equals(Keys.TAG_GROUP_INTERFACE)) {
+                    group.getRootTags().sort((a, b) -> {
+                        boolean mca = a.getName().indexOf("net.minecraft") == 0;
+                        boolean mcb = b.getName().indexOf("net.minecraft") == 0;
+                        if (mca ^ mcb) return mca ? -1 : 1;
+                        return a.getName().compareTo(b.getName());
+                    });
+                }
+                else Collections.sort(group.getRootTags());
+            }
             for (Tag tag : group.getTags()) {
                 if (noSkip) Collections.sort(tag.getSons());
                 Collections.sort(tag.getEntities());
@@ -221,24 +241,161 @@ public class EntityManager {
     }
 
     private String getClassId(Class<?> clazz) {
-        return clazz.getName();
+        return this.deobfuscation.getOrDefault(clazz, clazz.getName());
     }
 
     public void dfsEntityTree(boolean skipRoot, TreeNodeExecutor<EntityTreeNode> executor) {
+        dfsEntityTree(skipRoot, executor, TreeNodeExecutor.empty());
+    }
+
+    public void dfsEntityTree(boolean skipRoot, TreeNodeExecutor<EntityTreeNode> frontExecutor, TreeNodeExecutor<EntityTreeNode> rearExecutor) {
         EntityTreeNode root = getEntityTreeNode(Entity.class);
         if (skipRoot) {
-            root.getSons().forEach(son -> dfsEntityTreePrivate(son, 1, executor));
+            root.getSons().forEach(son -> dfsEntityTreePrivate(son, 1, frontExecutor, rearExecutor));
         }
         else {
-            dfsEntityTreePrivate(root, 0, executor);
+            dfsEntityTreePrivate(root, 0, frontExecutor, rearExecutor);
         }
     }
 
-    private void dfsEntityTreePrivate(EntityTreeNode root, int depth, TreeNodeExecutor<EntityTreeNode> executor) {
-        if (executor.execute(root, depth)) {
+    private void dfsEntityTreePrivate(EntityTreeNode root, int depth, TreeNodeExecutor<EntityTreeNode> frontExecutor, TreeNodeExecutor<EntityTreeNode> rearExecutor) {
+        if (frontExecutor.execute(root, depth)) {
             int d2 = depth + 1;
-            root.getSons().forEach(son -> dfsEntityTreePrivate(son, d2, executor));
+            root.getSons().forEach(son -> dfsEntityTreePrivate(son, d2, frontExecutor, rearExecutor));
         }
+        rearExecutor.execute(root, depth);
+    }
+
+    /**
+     * Generates files for deobfuscation (to get real names of the entity classes).
+     * This method can only be invoked in the debug environment of the project (or you will get obfuscated classes
+     * like "net.minecraft.entity.class_12345").
+     */
+    public void generateDeobfuscationFiles() {
+        System.out.println("Generating " + Path.of(DEOBFUSCATION_PATH).toAbsolutePath());
+        try {
+            Files.createDirectories(Path.of(DEOBFUSCATION_PATH));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        try (BufferedWriter ecWriter = Files.newBufferedWriter(Path.of(DEOBFUSCATION_ENTITY_TO_CLASS_PATH));
+             BufferedWriter ieWriter = Files.newBufferedWriter(Path.of(DEOBFUSCATION_INTERFACE_TO_ENTITY_PATH));
+             BufferedWriter ssWriter = Files.newBufferedWriter(Path.of(DEOBFUSCATION_SUB_TO_SUPER_PATH))
+             ) {
+            for (EntityInfo entityInfo : getEntityInfos()) {
+                Identifier id = EntityType.getId(entityInfo.getType());
+                if (!Objects.equals(id.getNamespace(), Identifier.DEFAULT_NAMESPACE)) continue;
+                ecWriter.write(id + " " + entityInfo.getClazz().getName());
+                ecWriter.newLine();
+            }
+            Map<String, List<Class<?>>> entityToInterface = calEntityToInterfaceMap();
+            for (Map.Entry<String, List<Class<?>>> entry : entityToInterface.entrySet()) {
+                for (Class<?> clazz : entry.getValue()) {
+                    ieWriter.write(clazz.getName() + " " + entry.getKey());
+                    ieWriter.newLine();
+                }
+            }
+            dfsEntityTree(true, (cur, depth) -> {
+                try {
+                    if (cur.getClazz().getName().indexOf("net.minecraft") != 0) return true;
+                    ssWriter.write(cur.getClazz().getName() + " " + cur.getFather().getClazz().getName());
+                    ssWriter.newLine();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                return true;
+            });
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * To get the real names of the obfuscated entity classes.
+     * It infers class names based on the dependency graph of the classes.
+     */
+    private void readEntityDependencyFile() {
+        InputStream ecStream = this.getClass().getResourceAsStream("/" + DEOBFUSCATION_ENTITY_TO_CLASS_PATH);
+        InputStream ieStream = this.getClass().getResourceAsStream("/" + DEOBFUSCATION_INTERFACE_TO_ENTITY_PATH);
+        InputStream ssStream = this.getClass().getResourceAsStream("/" + DEOBFUSCATION_SUB_TO_SUPER_PATH);
+        if (ecStream == null || ieStream == null || ssStream == null) {
+            Bole.LOGGER.error("Resource in /deobfuscation/ not found.");
+            return;
+        }
+        Map<Class<?>, String> classMap = this.deobfuscation;
+        try (BufferedReader ecReader = new BufferedReader(new InputStreamReader(ecStream));
+             BufferedReader ieReader = new BufferedReader(new InputStreamReader(ieStream));
+             BufferedReader ssReader = new BufferedReader(new InputStreamReader(ssStream))) {
+            String line;
+            while ((line = ecReader.readLine()) != null) {
+                String[] tmp = line.split(" ", 2);
+                String name = tmp[0], clazz = tmp[1];
+                Optional<EntityType<?>> type = EntityType.get(name);
+                if (type.isEmpty()) Bole.LOGGER.error("EntityType \"" + name + "\" in entity_classes.txt not found!");
+                // 1. infer entity class names from EntityType id.
+                else classMap.put(this.getEntityInfo(type.get()).getClazz(), clazz);
+            }
+            Map<String, String> subToSuper = new HashMap<>();
+            while ((line = ssReader.readLine()) != null) {
+                String[] tmp = line.split(" ", 2);
+                String son = tmp[0], father = tmp[1];
+                subToSuper.put(son, father);
+            }
+            dfsEntityTree(true, TreeNodeExecutor.empty(), (cur, depth) -> {
+                String son = classMap.get(cur.getClazz());
+                if (son == null) return true;
+                String father = subToSuper.get(son);
+                // 2. infer abstract entity class names from subclasses.
+                classMap.put(cur.getFather().getClazz(), father);
+                return true;
+            });
+            Map<String, List<Class<?>>> entityToInterface = calEntityToInterfaceMap();
+            while ((line = ieReader.readLine()) != null) {
+                String[] tmp = line.split(" ", 2);
+                String interfaze = tmp[0], entity = tmp[1];
+                // 3. infer entity interface names based on the entities that implement it.
+                List<Class<?>> list = entityToInterface.get(entity);
+                classMap.put(list.get(0), interfaze);
+                list.remove(0);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        // classMap.forEach((key, value) -> Bole.LOGGER.info(key.getName() + " -> " + value));
+    }
+
+    /**
+     * All entities of an interface are packed into a string.
+     */
+    private Map<String, List<Class<?>>> calEntityToInterfaceMap() {
+        Map<String, List<Class<?>>> map = new HashMap<>();
+        Map<Class<?>, Set<String>> interfaceToEntity = new HashMap<>();
+        final Class<?> root = Entity.class;
+        for (EntityInfo entityInfo : getEntityInfos()) {
+            Class<?> clazz = entityInfo.getClazz();
+            while (!root.equals(clazz)) {
+                for (Class<?> interfaze : clazz.getInterfaces()) {
+                    if (interfaze.getPackageName().indexOf("net.minecraft") != 0) continue;
+                    Set<String> set = interfaceToEntity.computeIfAbsent(interfaze, key -> new HashSet<>());
+                    set.add(EntityType.getId(entityInfo.getType()).toString());
+                }
+                clazz = clazz.getSuperclass();
+            }
+        }
+        for (Map.Entry<Class<?>, Set<String>> entry : interfaceToEntity.entrySet()) {
+            StringBuilder builder = new StringBuilder();
+            entry.getValue().stream().sorted().forEach(s -> builder.append(s).append(' '));
+            builder.deleteCharAt(builder.length() - 1);
+            String entity = builder.substring(0, builder.length() - 1);
+            List<Class<?>> list = map.computeIfAbsent(entity, key -> new ArrayList<>());
+            list.add(entry.getKey());
+        }
+        return map;
     }
 
     public static class EntityTreeNode {

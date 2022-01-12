@@ -18,7 +18,7 @@ import net.minecraft.text.Text;
 import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.Nullable;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
 import xienaoban.minecraft.bole.util.MiscUtil;

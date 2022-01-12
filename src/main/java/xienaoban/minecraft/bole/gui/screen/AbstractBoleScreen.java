@@ -31,7 +31,7 @@ import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.gui.ElementBox;
 import xienaoban.minecraft.bole.gui.ScreenElement;
@@ -456,6 +456,13 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                                                     float x0, float y0, float x1, float y1,
                                                     float u0, float v0, float u1, float v1) {
         drawTextureQuadrilateral(matrices, tw, th, z, x0, y0, x1, y0, x0, y1, x1, y1, u0, v1, u1, v1, u0, v0, u1, v0);
+    }
+
+    /**
+     * Draws a textured quadrilateral from a region in a 180 rotated texture.
+     */
+    public static void drawTextureRotated180(MatrixStack matrices, float tw, float th, float w, float h, float z, float x, float y, float u, float v) {
+        drawTextureQuadrilateral(matrices, tw, th, z, x, y, x + w, y, x, y + h, x + w, y + h, u + w, v + h, u, v + h, u + w, v, u, v);
     }
 
     /**

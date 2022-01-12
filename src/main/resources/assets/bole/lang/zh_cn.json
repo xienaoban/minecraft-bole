@@ -1,9 +1,12 @@
 {
-  "xienaoban": "屑老板（XieNaoban）",
+  "xienaoban": "屑牢板（XieNaoban）",
   "bole": "伯乐",
   "key.category.bole": "伯乐",
   "key.bole.open_bole_gui": "打开伯乐界面",
   "title.bole.bole_handbook": "伯乐手册",
+
+  "true": "是",
+  "false": "否",
 
   "entity.minecraft.cat.variant.tabby": "虎斑",
   "entity.minecraft.cat.variant.black": "西服",
@@ -85,9 +88,7 @@
   "net.minecraft.entity.mob.Angerable": "可生气",
   "net.minecraft.entity.AngledModelEntity": "模型有角度",
   "net.minecraft.entity.Bucketable": "可装入水桶",
-  "net.minecraft.server.command.CommandOutput": "可以接收命令反馈（包括所有生物）",
   "net.minecraft.entity.CrossbowUser": "弩手",
-  "net.minecraft.world.entity.EntityLike": "类实体（包括所有生物）",
   "net.minecraft.entity.Flutterer": "可颤动",
   "net.minecraft.entity.mob.Hoglin": "疣猪兽",
   "net.minecraft.entity.InteractionObserver": "交互受监听",
@@ -97,7 +98,6 @@
   "net.minecraft.entity.JumpingMount": "可跳跃的坐骑",
   "net.minecraft.village.Merchant": "商人",
   "net.minecraft.entity.mob.Monster": "怪物",
-  "net.minecraft.util.Nameable": "可命名",
   "net.minecraft.entity.Npc": "非玩家角色",
   "net.minecraft.entity.ai.RangedAttackMob": "可远程攻击",
   "net.minecraft.entity.Saddleable": "可安鞍",
@@ -108,9 +108,11 @@
 
   "minecraft": "我的世界",
 
-  "text.autoconfig.bole.title": "伯乐模组设置",
+  "text.autoconfig.bole.title": "伯乐模组设置（仅在本地游戏生效，不影响服务器）",
   "text.autoconfig.bole.option.invulnerablePets": "宠物无敌",
+  "text.autoconfig.bole.option.invulnerablePets.@Tooltip": "被驯服的动物受到的所有伤害值一律改为 0（但仍会溺亡、渴死和被铁砧砸死）。",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "禁止设置其他玩家的地狱传送冷却值",
+  "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "玩家将只能修改自己的地狱传送冷却值，防止熊孩子捣乱。",
 
   "property_widget.bole.air": "氧气",
   "property_widget.bole.air.description": "氧气耗尽后持续掉血。",
@@ -193,10 +195,18 @@
   "text.hint.bole.job_site_different_dimension": "工作方块不在当前世界维度！",
   "text.hint.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你拿着下届合金剑指着他也不会屈服！",
 
+  "text.error.bole.data_load": "数据读取失败",
+  "text.error.bole.client_server_mod_version_not_match": "伯乐模组：客户端与服务端的模组版本差距过大，无法完全兼容！",
+
   "text.warning.bole.enable_ai": "也许只要把它的额叶塞回去就行了叭…",
   "text.warning.bole.disable_ai": "你将尝试对其进行额叶切除手术而使之丧失行动能力。但它也会奋力反抗。\n\n你预计这场战斗与手术将花费：\n生命值 x%s\n饱食度 x%s",
   "text.warning.bole.villager_reset_job": "在有此Mod之前，交易刷歪了的村民大多难逃玩家正义的击杀。想到这儿，村民转而欣然接受了你的好意。\n\n村民交易列表与经验等级均会清零，确认重置吗？",
 
+  "text.bole.open_local_configs": "打开本地配置界面",
+  "text.bole.set_configs_local_is_remote": "客户端配置（同时也是当前世界服务端配置）：",
+  "text.bole.set_configs_local_is_not_remote": "客户端配置（您不是主机，对当前世界无效）：",
+  "text.bole.get_configs_local_is_remote": "服务端配置（与当前客户端配置一致）：",
+  "text.bole.get_configs_local_is_not_remote": "服务端配置（当前世界的配置）：",
   "text.bole.anti_mistouch_warning": "防误触警告",
   "text.bole.return_to_handbook": "返回手册主页",
   "text.bole.settings": "设置",

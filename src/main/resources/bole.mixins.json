@@ -18,6 +18,7 @@
     "IMixinVillagerEntity",
     "IMixinWorld",
     "MixinAnimalEntity",
+    "MixinClientPlayNetworkHandler",
     "MixinEatGrassGoal",
     "MixinEntity",
     "MixinMinecraftClient",

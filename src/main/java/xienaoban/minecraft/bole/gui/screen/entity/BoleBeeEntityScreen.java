@@ -10,7 +10,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.glfw.GLFW;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;

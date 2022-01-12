@@ -2,7 +2,7 @@ package xienaoban.minecraft.bole.client.highlight;
 
 import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.NotNull;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 
 public class HighlightedInstance implements Comparable<HighlightedInstance> {

@@ -1,6 +1,7 @@
 package xienaoban.minecraft.bole.gui.screen.handbook;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -23,9 +24,10 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.entity.EntityLookup;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
+import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
@@ -33,6 +35,7 @@ import xienaoban.minecraft.bole.mixin.IMixinWorld;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Environment(EnvType.CLIENT)
@@ -70,8 +73,26 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             ++cnt;
         }
         addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
-            assert this.client != null;
-            this.client.setScreen(ScreenManager.getConfigScreen(this));
+            resetPages();
+            Page page = this.pages.get(0);
+            String setConfigKey = BoleClient.getInstance().isHost() ? Keys.TEXT_SET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE;
+            page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(setConfigKey), DARK_TEXT_COLOR, 0.5F));
+            page.addSlot(new OpenLocalConfigsPropertyWidget());
+            page.addSlot(new EmptyPropertyWidget(4, 1));
+
+            String curConfigKey = BoleClient.getInstance().isHost() ? Keys.TEXT_GET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE;
+            page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(curConfigKey), DARK_TEXT_COLOR, 0.5F));
+            for (Field field : Configs.class.getDeclaredFields()) {
+                if (field.isAnnotationPresent(ConfigEntry.Gui.Excluded.class)) continue;
+                String name = field.getName();
+                boolean success = page.addSlot(new ConfigItemPropertyWidget(name));
+                if (!success) {
+                    page = new Page();
+                    this.pages.add(page);
+                    page.addSlot(new ConfigItemPropertyWidget(name));
+                }
+            }
+            setPageIndex(0);
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
             resetPages();
@@ -79,6 +100,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_NAME_IS, new TranslatableText(Keys.MOD_NAME)), DARK_TEXT_COLOR, 0.5F));
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_AUTHOR_IS, new TranslatableText(Keys.XIENAOBAN)), DARK_TEXT_COLOR, 0.5F));
             FabricLoader.getInstance().getModContainer(Keys.BOLE).ifPresent(modContainer -> page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_VERSION_IS, modContainer.getMetadata().getVersion()), DARK_TEXT_COLOR, 0.5F)));
+            page0.addSlot(new CrashClientPropertyWidget());
             setPageIndex(0);
         });
     }
@@ -294,6 +316,94 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             matrixStack.pop();
             RenderSystem.applyModelViewMatrix();
             DiffuseLighting.enableGuiDepthLighting();
+        }
+    }
+
+    public class ConfigItemPropertyWidget extends AbstractPropertyWidget {
+        private final Field field;
+        private final Text name;
+
+        public ConfigItemPropertyWidget(String attr) {
+            super(4, 1);
+            try {
+                this.field = Configs.class.getDeclaredField(attr);
+                this.field.setAccessible(true);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            this.name = new TranslatableText(Keys.AUTO_CONFIG_PREFIX + attr);
+            initTooltipDescription(Keys.AUTO_CONFIG_PREFIX + attr + Keys.AUTO_CONFIG_POSTFIX);
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            // "attr" isn't accessible here   x   initTooltipDescription(Keys.AUTO_CONFIG_PREFIX + attr);
+        }
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            String value;
+            try { value = this.field.get(BoleClient.getInstance().getServerConfigs()).toString(); }
+            catch (Exception e) {
+                e.printStackTrace();
+                value = Keys.ERROR_TEXT_DATA_LOAD;
+            }
+            Text valueText = new TranslatableText(value);
+            setTexture(Textures.ICONS);
+            drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), x, y, 0, 200);
+            drawTextureRotated180(matrices, 256, 256, 30, 10, getZOffset(), x + this.box.width() - 30, y, 0, 200);
+            drawText(matrices, this.name, 0xff003e6a, 0.5F, this.box.left() + 2, this.box.top() + 3F);
+            drawText(matrices, valueText, 0xff0162a6, 0.5F, this.box.right() - (textRenderer.getWidth(valueText) >> 1) - 3, this.box.top() + 3F);
+        }
+    }
+
+    public class OpenLocalConfigsPropertyWidget extends AbstractPropertyWidget {
+        private final Text title;
+        public OpenLocalConfigsPropertyWidget() {
+            super(4, 1);
+            this.title = new TranslatableText(Keys.TEXT_OPEN_LOCAL_CONFIGS);
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            setTexture(Textures.ICONS);
+            int u = isHovered() ? 30 : 0;
+            drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), x, y, u, 200);
+            drawTextureRotated180(matrices, 256, 256, 30, 10, getZOffset(), x + this.box.width() - 30, y, u, 200);
+            drawTextCenteredX(matrices, this.title, DARK_TEXT_COLOR, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            setHovered(null);
+            assert client != null;
+            client.setScreen(ScreenManager.getConfigScreen(BoleHandbookScreen.this));
+            return true;
+        }
+    }
+
+    public class CrashClientPropertyWidget extends AbstractPropertyWidget {
+
+        public CrashClientPropertyWidget() {
+            super(4, 1);
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            if (!debugMode) return;
+            drawTextCenteredX(matrices, "-= Click me to crash the client =-", 0xffff2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (!debugMode) return false;
+            throw new NullPointerException("Surprise~~");
         }
     }
 }

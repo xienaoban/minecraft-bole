@@ -12,7 +12,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
-import xienaoban.minecraft.bole.client.BoleClient;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreen;
 import xienaoban.minecraft.bole.mixin.IMixinEatGrassGoal;
 import xienaoban.minecraft.bole.mixin.IMixinSheepEntity;

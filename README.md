@@ -1,8 +1,10 @@
 Functions:
+- [ ] **`Buy Bole handbook from villagers`**
 - [X] **`Highlight entities around the player`**
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**
 - [X] **`Open the player or mount screen when looking down`**
+- [ ] **`Check beehive state``**
 - Entity:
   - [ ] ~~`UUID`~~
   - [X] `Bounding box`
@@ -53,6 +55,8 @@ Functions:
               - [X] `Reset beehive position`
             - SheepEntity:
               - [X] `Force eat grass`
+            - GoatEntity:
+              - [X] `Set screamer`
             - ChickenEntity:
               - [ ] `No egg laying`
             - PandaEntity:
@@ -64,7 +68,6 @@ Functions:
             - [ ] `Set inventory` (Open a new HandledScreen? Just like HorseScreen?)
             - VillagerEntity:
               - [X] `Highlight job site`
-              - [ ] ~~`Reset job site`~~
               - [X] `Reset level 0`
               - [X] `Force restock`
               - [X] `Change clothes`

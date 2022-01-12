@@ -9,14 +9,16 @@
   ],
   "contact": {
     "website": "https://xienaoban.github.io",
-    "repo": "https://github.com/XieNaoban/minecraft-bole"
+    "repo": "https://github.com/XieNaoban/minecraft-bole",
+    "homepage": "https://github.com/XieNaoban/minecraft-bole",
+    "issues": "https://github.com/XieNaoban/minecraft-bole/issues"
   },
   "license": "MIT",
   "icon": "assets/bole/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
-      "xienaoban.minecraft.bole.client.BoleClient"
+      "xienaoban.minecraft.bole.BoleClient"
     ],
     "main": [
       "xienaoban.minecraft.bole.Bole"

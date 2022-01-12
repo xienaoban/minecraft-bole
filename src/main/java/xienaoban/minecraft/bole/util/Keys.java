@@ -71,6 +71,8 @@ public interface Keys {
     String TAG_DEFAULT_OTHER =              "tag.bole.default.other";
 
     String OPTION_INVULNERABLE_PETS = "option.bole.invulnerable_pets";
+    String AUTO_CONFIG_PREFIX = "text.autoconfig.bole.option.";
+    String AUTO_CONFIG_POSTFIX = ".@Tooltip";
 
     String PROPERTY_WIDGET_AIR = "property_widget.bole.air";
     String PROPERTY_WIDGET_AIR_DESCRIPTION = "property_widget.bole.air.description";
@@ -153,10 +155,18 @@ public interface Keys {
     String HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION = "text.hint.bole.job_site_different_dimension";
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.bole.refuse_to_reset_job";
 
+    String ERROR_TEXT_DATA_LOAD = "text.error.bole.data_load";
+    String ERROR_TEXT_CLIENT_SERVER_MOD_VERSION_NOT_MATCH = "text.error.bole.client_server_mod_version_not_match";
+
     String WARNING_TEXT_ENABLE_AI = "text.warning.bole.enable_ai";
     String WARNING_TEXT_DISABLE_AI = "text.warning.bole.disable_ai";
     String WARNING_TEXT_VILLAGER_RESET_JOB = "text.warning.bole.villager_reset_job";
 
+    String TEXT_OPEN_LOCAL_CONFIGS = "text.bole.open_local_configs";
+    String TEXT_SET_CONFIGS_LOCAL_IS_REMOTE = "text.bole.set_configs_local_is_remote";
+    String TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.set_configs_local_is_not_remote";
+    String TEXT_GET_CONFIGS_LOCAL_IS_REMOTE = "text.bole.get_configs_local_is_remote";
+    String TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.get_configs_local_is_not_remote";
     String TEXT_ANTI_MISTOUCH_WARNING = "text.bole.anti_mistouch_warning";
     String TEXT_RETURN_TO_HANDBOOK = "text.bole.return_to_handbook";
     String TEXT_SETTINGS = "text.bole.settings";
