@@ -100,6 +100,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_NAME_IS, new TranslatableText(Keys.MOD_NAME)), DARK_TEXT_COLOR, 0.5F));
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_AUTHOR_IS, new TranslatableText(Keys.XIENAOBAN)), DARK_TEXT_COLOR, 0.5F));
             FabricLoader.getInstance().getModContainer(Keys.BOLE).ifPresent(modContainer -> page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_VERSION_IS, modContainer.getMetadata().getVersion()), DARK_TEXT_COLOR, 0.5F)));
+            page0.addSlot(new CrashClientPropertyWidget());
             setPageIndex(0);
         });
     }
@@ -381,6 +382,28 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             assert client != null;
             client.setScreen(ScreenManager.getConfigScreen(BoleHandbookScreen.this));
             return true;
+        }
+    }
+
+    public class CrashClientPropertyWidget extends AbstractPropertyWidget {
+
+        public CrashClientPropertyWidget() {
+            super(4, 1);
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            if (!debugMode) return;
+            drawTextCenteredX(matrices, "-= Click me to crash the client =-", 0xffff2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (!debugMode) return false;
+            throw new NullPointerException("Surprise~~");
         }
     }
 }

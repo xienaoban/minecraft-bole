@@ -129,8 +129,8 @@ public class EntityManager {
         for (EntityInfo entityInfo : getEntityInfos()) {
             this.namespaceTags.addToTag(EntityType.getId(entityInfo.getType()).getNamespace(), entityInfo);
             Class<?> clazz = entityInfo.getClazz();
-            Class<?> t = Entity.class.getSuperclass();
-            while (!t.equals(clazz)) {
+            Class<?> root = Entity.class;
+            while (!root.equals(clazz)) {
                 if (Modifier.isAbstract(clazz.getModifiers())) {
                     this.classTags.addToTag(getClassId(clazz), entityInfo);
                 }
@@ -195,7 +195,17 @@ public class EntityManager {
     private void sortAllEntities() {
         for (TagGroup group : getTagGroups()) {
             boolean noSkip = !group.getName().equals(Keys.TAG_GROUP_DEFAULT);
-            if (noSkip) Collections.sort(group.getRootTags());
+            if (noSkip) {
+                if (group.getName().equals(Keys.TAG_GROUP_INTERFACE)) {
+                    group.getRootTags().sort((a, b) -> {
+                        boolean mca = a.getName().indexOf("net.minecraft") == 0;
+                        boolean mcb = b.getName().indexOf("net.minecraft") == 0;
+                        if (mca ^ mcb) return mca ? -1 : 1;
+                        return a.getName().compareTo(b.getName());
+                    });
+                }
+                else Collections.sort(group.getRootTags());
+            }
             for (Tag tag : group.getTags()) {
                 if (noSkip) Collections.sort(tag.getSons());
                 Collections.sort(tag.getEntities());
