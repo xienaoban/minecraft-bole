@@ -220,7 +220,7 @@
   "text.bole.never_grow_up": "永不成长",
   "text.bole.loading": "加载中……",
   "text.bole.empty_with_brackets": "（空）",
-  "text.bole.highlight": "%d只%s被高亮了。",
+  "text.bole.highlight": "%d 只%s被高亮了（当前生物视距 %d 米）。",
   "text.bole.main_gene": "显性",
   "text.bole.hidden_gene": "隐性"
 }
