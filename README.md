@@ -1,10 +1,12 @@
-Functions:
+add pic to readme
+
+Features:
 - [ ] **`Buy Bole handbook from villagers`**
 - [X] **`Highlight entities around the player`**
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**
 - [X] **`Open the player or mount screen when looking down`**
-- [ ] **`Check beehive state``**
+- [ ] **`Check beehive state`**
 - Entity:
   - [ ] ~~`UUID`~~
   - [X] `Bounding box`
