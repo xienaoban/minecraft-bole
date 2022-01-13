@@ -220,7 +220,7 @@
   "text.bole.never_grow_up": "Never grow",
   "text.bole.loading": "Loading...",
   "text.bole.empty_with_brackets": "(Empty)",
-  "text.bole.highlight": "%d %s have been highlighted.",
+  "text.bole.highlight": "%d %s highlighted (current view distance: %dm).",
   "text.bole.main_gene": "Main",
   "text.bole.hidden_gene": "Hidden"
 }

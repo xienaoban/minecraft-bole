@@ -255,13 +255,17 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
                 assert MinecraftClient.getInstance().world != null;
                 EntityLookup<Entity> lookup = ((IMixinWorld) MinecraftClient.getInstance().world).callGetEntityLookup();
                 AtomicInteger cnt = new AtomicInteger();
+                // @see net.minecraft.entity.Entity#shouldRender(double)
+                double d = this.entity.getBoundingBox().getAverageSideLength();
+                if (Double.isNaN(d)) d = 1.0;
+                double dis2 = (d *= 64.0 * Entity.getRenderDistanceMultiplier()) * d;
                 lookup.forEach(entityType, entity -> {
-                    if (entity.distanceTo(handler.player) < 66 * 66) {
+                    if (entity.squaredDistanceTo(handler.player) < dis2) {
                         hl.highlight(entity, 8 * 20);
                         cnt.incrementAndGet();
                     }
                 });
-                handler.player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey())).formatted(Formatting.GOLD), false);
+                handler.player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.GOLD), false);
                 ClientNetworkManager.sendHighlightEvent();
                 onClose();
                 return true;
