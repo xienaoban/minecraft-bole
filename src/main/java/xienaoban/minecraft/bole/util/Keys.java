@@ -22,6 +22,8 @@ public interface Keys {
     String ENTITY_SETTING_PARROT_VARIANT =                  "parrot_variant";
     String ENTITY_SETTING_PANDA_VARIANT =                   "panda_variant";
     String ENTITY_SETTING_AXOLOTL_VARIANT =                 "axolotl_variant";
+    String ENTITY_SETTING_HORSE_COLOR_VARIANT =             "horse_color_variant";
+    String ENTITY_SETTING_HORSE_MARKING_VARIANT =           "horse_marking_variant";
     String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =          "sit_on_player_cooldown";
 
     // Translation Keys
@@ -51,6 +53,20 @@ public interface Keys {
     String PARROT_VARIANT_GREEN =   "entity.minecraft.parrot.variant.green";
     String PARROT_VARIANT_CYAN =    "entity.minecraft.parrot.variant.cyan";
     String PARROT_VARIANT_GRAY =    "entity.minecraft.parrot.variant.gray";
+
+    String HORSE_COLOR_VARIANT_WHITE = "entity.minecraft.horse.variant.color.white";
+    String HORSE_COLOR_VARIANT_CREAMY = "entity.minecraft.horse.variant.color.creamy";
+    String HORSE_COLOR_VARIANT_CHESTNUT = "entity.minecraft.horse.variant.color.chestnut";
+    String HORSE_COLOR_VARIANT_BROWN = "entity.minecraft.horse.variant.color.brown";
+    String HORSE_COLOR_VARIANT_BLACK = "entity.minecraft.horse.variant.color.black";
+    String HORSE_COLOR_VARIANT_GRAY = "entity.minecraft.horse.variant.color.gray";
+    String HORSE_COLOR_VARIANT_DARKBROWN = "entity.minecraft.horse.variant.color.darkbrown";
+
+    String HORSE_MARKING_VARIANT_NONE = "entity.minecraft.horse.variant.marking.none";
+    String HORSE_MARKING_VARIANT_WHITE = "entity.minecraft.horse.variant.marking.white";
+    String HORSE_MARKING_VARIANT_WHITE_FIELD = "entity.minecraft.horse.variant.marking.white_field";
+    String HORSE_MARKING_VARIANT_WHITE_DOTS = "entity.minecraft.horse.variant.marking.white_dots";
+    String HORSE_MARKING_VARIANT_BLACK_DOTS = "entity.minecraft.horse.variant.marking.black_dots";
 
     String PANDA_VARIANT_PREFIX = "entity.minecraft.panda.variant.";
 
@@ -134,6 +150,10 @@ public interface Keys {
     String PROPERTY_WIDGET_CAT_VARIANT_DESCRIPTION = "property_widget.bole.cat_variant.description";
     String PROPERTY_WIDGET_PARROT_VARIANT = "property_widget.bole.parrot_variant";
     String PROPERTY_WIDGET_PARROT_VARIANT_DESCRIPTION = "property_widget.bole.parrot_variant.description";
+    String PROPERTY_WIDGET_HORSE_COLOR_VARIANT = "property_widget.bole.horse_color_variant";
+    String PROPERTY_WIDGET_HORSE_COLOR_VARIANT_DESCRIPTION = "property_widget.bole.horse_color_variant.description";
+    String PROPERTY_WIDGET_HORSE_MARKING_VARIANT = "property_widget.bole.horse_marking_variant";
+    String PROPERTY_WIDGET_HORSE_MARKING_VARIANT_DESCRIPTION = "property_widget.bole.horse_marking_variant.description";
     String PROPERTY_WIDGET_PANDA_MAIN_GENE = "property_widget.bole.panda_main_gene";
     String PROPERTY_WIDGET_PANDA_MAIN_GENE_DESCRIPTION = "property_widget.bole.panda_main_gene.description";
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE = "property_widget.bole.panda_hidden_gene";

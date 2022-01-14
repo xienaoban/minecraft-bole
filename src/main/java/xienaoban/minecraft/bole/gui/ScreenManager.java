@@ -105,6 +105,8 @@ public class ScreenManager {
         registerEntityToHandler(CatEntity.class, BoleCatEntityScreenHandler::new);
         registerEntityToHandler(PandaEntity.class, BolePandaEntityScreenHandler::new);
         registerEntityToHandler(AxolotlEntity.class, BoleAxolotlEntityScreenHandler::new);
+        registerEntityToHandler(HorseEntity.class, BoleHorseEntityScreenHandler::new);
+        registerEntityToHandler(WanderingTraderEntity.class, BoleWanderingTraderEntityScreenHandler::new);
     }
 
     @Environment(EnvType.CLIENT)
@@ -129,5 +131,7 @@ public class ScreenManager {
         ScreenRegistry.register(BoleCatEntityScreenHandler.HANDLER, BoleCatEntityScreen<CatEntity, BoleCatEntityScreenHandler<CatEntity>>::new);
         ScreenRegistry.register(BolePandaEntityScreenHandler.HANDLER, BolePandaEntityScreen<PandaEntity, BolePandaEntityScreenHandler<PandaEntity>>::new);
         ScreenRegistry.register(BoleAxolotlEntityScreenHandler.HANDLER, BoleAxolotlEntityScreen<AxolotlEntity, BoleAxolotlEntityScreenHandler<AxolotlEntity>>::new);
+        ScreenRegistry.register(BoleHorseEntityScreenHandler.HANDLER, BoleHorseEntityScreen<HorseEntity, BoleHorseEntityScreenHandler<HorseEntity>>::new);
+        ScreenRegistry.register(BoleWanderingTraderEntityScreenHandler.HANDLER, BoleWanderingTraderEntityScreen<WanderingTraderEntity, BoleWanderingTraderEntityScreenHandler<WanderingTraderEntity>>::new);
     }
 }

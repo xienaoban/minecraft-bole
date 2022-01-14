@@ -3,6 +3,8 @@ add pic to readme
 Features:
 - [ ] **`Buy Bole handbook from villagers`**
 - [X] **`Highlight entities around the player`**
+  - [X] `Dyanamic view distance`
+  - [ ] `Costs experience`
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**
 - [X] **`Open the player or mount screen when looking down`**
@@ -52,6 +54,7 @@ Features:
               - HorseEntity:
                 - [X] `Running speed`
                 - [X] `Jump height`
+                - [X] `Set horse variant`
             - BeeEntity:
               - [X] `Beehive position`
               - [X] `Reset beehive position`
@@ -64,7 +67,7 @@ Features:
             - PandaEntity:
               - [X] `Set gene`
             - AxolotlEntity:
-              - [x] `Set axolotl variant`
+              - [X] `Set axolotl variant`
           - MerchantEntity:
             - [X] `Get inventory`
             - [ ] `Set inventory` (Open a new HandledScreen? Just like HorseScreen?)
@@ -73,5 +76,8 @@ Features:
               - [X] `Reset level 0`
               - [X] `Force restock`
               - [X] `Change clothes`
+            - WanderingTraderEntity:
+              - [ ] `Notify players when spawned`
+              - [ ] `Despawn time`
         - HostileEntity:
           - Nothing here yet
