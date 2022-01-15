@@ -14,6 +14,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
@@ -250,6 +251,11 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             if (mouseY < this.box.top() + BUTTONS_CUT) {
+                PlayerEntity player = handler.player;
+                if (!(player.isSpectator() || player.isCreative()) && player.totalExperience < Keys.HIGHLIGHT_EXPERIENCE_COST) {
+                    showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_HIGHLIGHT_NOT_ENOUGH_EXPERIENCE));
+                    return true;
+                }
                 EntityType<?> entityType = this.entity.getType();
                 HighlightManager hl = BoleClient.getInstance().getHighlightManager();
                 assert MinecraftClient.getInstance().world != null;
@@ -260,12 +266,12 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
                 if (Double.isNaN(d)) d = 1.0;
                 double dis2 = (d *= 64.0 * Entity.getRenderDistanceMultiplier()) * d;
                 lookup.forEach(entityType, entity -> {
-                    if (entity.squaredDistanceTo(handler.player) < dis2) {
+                    if (entity.squaredDistanceTo(player) < dis2) {
                         hl.highlight(entity, 8 * 20);
                         cnt.incrementAndGet();
                     }
                 });
-                handler.player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.GOLD), false);
+                player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.GOLD), false);
                 ClientNetworkManager.sendHighlightEvent();
                 onClose();
                 return true;

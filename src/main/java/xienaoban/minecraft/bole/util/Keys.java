@@ -163,6 +163,7 @@ public interface Keys {
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.bole.only_in_god_mode";
+    String HINT_TEXT_HIGHLIGHT_NOT_ENOUGH_EXPERIENCE = "text.hint.bole.highlight_not_enough_experience";
     String HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS = "text.hint.bole.forbid_to_set_nether_portal_cooldown_of_other_players";
     String HINT_TEXT_NOT_BABY = "text.hint.bole.not_baby";
     String HINT_TEXT_NO_BEEHIVE = "text.hint.bole.no_beehive";
@@ -205,6 +206,7 @@ public interface Keys {
     String TEXT_HIDDEN_GENE = "text.bole.hidden_gene";
 
     // Other
+    int HIGHLIGHT_EXPERIENCE_COST = 2;
     int NETHER_PORTAL_LOCK = 1200;
     int SIT_ON_PLAYER_LOCK = -300;
 }

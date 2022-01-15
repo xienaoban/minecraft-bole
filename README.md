@@ -4,7 +4,7 @@ Features:
 - [ ] **`Buy Bole handbook from villagers`**
 - [X] **`Highlight entities around the player`**
   - [X] `Dyanamic view distance`
-  - [ ] `Costs experience`
+  - [X] `Costs experience`
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**
 - [X] **`Open the player or mount screen when looking down`**
@@ -25,6 +25,8 @@ Features:
     - [X] `Max health`
     - [X] `Is baby`
     - [X] `Status effects`
+    - PlayerEntity
+      - [X] `Experience`
     - MobEntity:
       - [ ] ~~`Speed` (goalSelector)~~
       - [X] `Attractive items` (goalSelector - TemptGoal)

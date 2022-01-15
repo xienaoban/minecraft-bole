@@ -105,7 +105,12 @@ public class ServerNetworkManager {
 
     private static void registerSendHighlightEvent() {
         ServerPlayNetworking.registerGlobalReceiver(Channels.SEND_HIGHLIGHT_EVENT, (server, player, handler, buf, responseSender) -> {
-            server.execute(() -> player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 2 * 20)));
+            server.execute(() -> {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 2 * 20));
+                if (!(player.isSpectator() || player.isCreative())) {
+                    player.addExperience(-2);
+                }
+            });
         });
     }
 
