@@ -91,6 +91,8 @@ public interface Keys {
     String AUTO_CONFIG_PREFIX = "text.autoconfig.bole.option.";
     String AUTO_CONFIG_POSTFIX = ".@Tooltip";
 
+    String PROPERTY_WIDGET_HANDBOOK_ENTITY_DESCRIPTION_BUTTON1 = "property_widget.bole.handbook_entity.description.button1";
+    String PROPERTY_WIDGET_HANDBOOK_ENTITY_DESCRIPTION_BUTTON2 = "property_widget.bole.handbook_entity.description.button2";
     String PROPERTY_WIDGET_AIR = "property_widget.bole.air";
     String PROPERTY_WIDGET_AIR_DESCRIPTION = "property_widget.bole.air.description";
     String PROPERTY_WIDGET_BOUNDING_BOX = "property_widget.bole.bounding_box";

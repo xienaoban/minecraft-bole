@@ -18,6 +18,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -25,6 +26,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.entity.EntityLookup;
+import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
@@ -216,7 +218,19 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         }
 
         @Override
-        protected void initTooltipLines() {}
+        protected void initTooltipLines() {
+            initTooltipButtonDescription(Keys.PROPERTY_WIDGET_HANDBOOK_ENTITY_DESCRIPTION_BUTTON1);
+            initTooltipButtonDescription(Keys.PROPERTY_WIDGET_HANDBOOK_ENTITY_DESCRIPTION_BUTTON2);
+        }
+
+        @Override
+        protected void drawTooltip(MatrixStack matrices) {
+            int maxWidth = 0;
+            for (OrderedText line : this.tooltipLines) {
+                maxWidth = Math.max(maxWidth, textRenderer.getWidth(line));
+            }
+            renderTooltip(matrices, this.tooltipLines, 0.5F, (this.box.left() + this.box.right() >> 1) - (maxWidth >> 2), this.box.bottom());
+        }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
@@ -250,6 +264,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return true;
             if (mouseY < this.box.top() + BUTTONS_CUT) {
                 PlayerEntity player = handler.player;
                 if (!(player.isSpectator() || player.isCreative()) && player.totalExperience < Keys.HIGHLIGHT_EXPERIENCE_COST) {

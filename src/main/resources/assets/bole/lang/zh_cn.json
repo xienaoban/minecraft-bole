@@ -128,6 +128,8 @@
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "禁止设置其他玩家的地狱传送冷却值",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "玩家将只能修改自己的地狱传送冷却值，防止熊孩子捣乱。",
 
+  "property_widget.bole.handbook_entity.description.button1": "按钮1：高亮附近的实体。",
+  "property_widget.bole.handbook_entity.description.button2": "按钮2：发放一个刷怪蛋。",
   "property_widget.bole.air": "氧气",
   "property_widget.bole.air.description": "氧气耗尽后持续掉血。",
   "property_widget.bole.bounding_box": "碰撞箱",

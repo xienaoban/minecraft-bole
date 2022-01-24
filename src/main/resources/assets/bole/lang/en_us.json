@@ -128,6 +128,8 @@
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "Can't set others' portal cooldown",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "You will not be allowed to modify other players' nether portal cooldown.",
 
+  "property_widget.bole.handbook_entity.description.button1": "Button1: highlights nearby entities for 8 seconds.",
+  "property_widget.bole.handbook_entity.description.button2": "Button2: Get a spawn egg.",
   "property_widget.bole.air": "Oxygen",
   "property_widget.bole.air.description": "The entity will lose health when oxygen is depleted.",
   "property_widget.bole.bounding_box": "Bounding Box",

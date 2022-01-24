@@ -10,7 +10,6 @@ Features:
 - [X] **`Open the player or mount screen when looking down`**
 - [ ] **`Check beehive state`**
 - Entity:
-  - [ ] ~~`UUID`~~
   - [X] `Bounding box`
   - [X] `Custom name`
   - [X] `Nether portal cooldown`
@@ -80,6 +79,7 @@ Features:
               - [X] `Change clothes`
             - WanderingTraderEntity:
               - [ ] `Notify players when spawned`
-              - [ ] `Despawn time`
+              - [X] `Despawn time`
+              - [X] `Add Despawn time`
         - HostileEntity:
           - Nothing here yet
