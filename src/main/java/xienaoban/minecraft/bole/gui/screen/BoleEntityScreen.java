@@ -474,8 +474,8 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             drawBar(matrices, 1.0F, 10, 20);
             drawBar(matrices, handler.entity.getAir() / (float) handler.entity.getMaxAir(), 50, 20);
             String text;
-            if (debugMode) text = handler.entity.getMaxAir() + "t/" + handler.entity.getAir() + "t";
-            else text = (handler.entity.getAir() / 20) + "s";
+            if (debugMode) text = handler.entity.getAir() + "t/" + handler.entity.getMaxAir() + "t";
+            else text = (handler.entity.getAir() / 20) + "s/" + (handler.entity.getMaxAir() / 20) + "s";
             drawBarText(matrices, text, LIGHT_TEXT_COLOR);
         }
     }
