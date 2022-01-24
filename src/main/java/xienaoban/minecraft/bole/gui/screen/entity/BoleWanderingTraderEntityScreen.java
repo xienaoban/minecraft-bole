@@ -64,9 +64,7 @@ public class BoleWanderingTraderEntityScreen<E extends WanderingTraderEntity, H 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
-            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                return false;   // todo one line
-            }
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             if (!handler.trySpendBuckets(handler.addDespawnDelayCost)) {
                 showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
             }

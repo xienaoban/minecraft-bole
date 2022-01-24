@@ -164,9 +164,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
-            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                return false;
-            }
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             if (!handler.hasJob()) {
                 showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
             }

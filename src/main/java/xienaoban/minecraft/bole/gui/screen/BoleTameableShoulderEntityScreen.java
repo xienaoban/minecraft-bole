@@ -69,9 +69,7 @@ public class BoleTameableShoulderEntityScreen<E extends TameableShoulderEntity, 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
-            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                return false;
-            }
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             int ticks;
             if (isLocked()) ticks = 123;
             else ticks = Keys.SIT_ON_PLAYER_LOCK;

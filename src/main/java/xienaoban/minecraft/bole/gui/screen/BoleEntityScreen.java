@@ -305,9 +305,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
-            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                return false;
-            }
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             int cooldown;
             if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == Keys.NETHER_PORTAL_LOCK) {
                 cooldown = 0;
@@ -356,9 +354,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
-            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                return false;
-            }
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             Entity entity = handler.entity;
             boolean visible = entity.isCustomNameVisible();
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CUSTOM_NAME_VISIBLE, !visible);
@@ -415,9 +411,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
-            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                return false;
-            }
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             boolean newState = !isCurrentSilent();
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_SILENT, newState);
             return true;
@@ -449,9 +443,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
-            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                return false;
-            }
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             if (isGodMode()) {
                 boolean newState = !isCurrentInvulnerable();
                 handler.sendClientEntitySettings(Keys.ENTITY_SETTING_INVULNERABLE, newState);
