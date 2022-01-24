@@ -198,6 +198,9 @@
   "property_widget.bole.panda_hidden_gene.description": "隐藏基因一般不表达，除非与主要基因为同一隐形基因。\n你只能在创造模式中更换基因。",
   "property_widget.bole.axolotl_variant": "美西螈的品种",
   "property_widget.bole.axolotl_variant.description": "你只能在创造模式中更换品种。",
+  "property_widget.bole.wandering_trader_despawn_delay": "流浪商人的离开时间",
+  "property_widget.bole.wandering_trader_despawn_delay.description": "到点就消失，不带一点留恋。",
+  "property_widget.bole.wandering_trader_despawn_delay.description.button1": "按钮1：给它一桶水喝，它愿意再多逗留两分钟。",
 
   "text.hint.bole.offer_or_drop": "%s已发放到背包。",
   "text.hint.bole.only_in_god_mode": "只能在创造模式中使用。",
@@ -207,7 +210,7 @@
   "text.hint.bole.no_beehive": "看样子是只无家可归的小蜜蜂呢~",
   "text.hint.bole.eating_grass": "草正吃着呢~",
   "text.hint.bole.far_from_grass": "然而它脚底下并没有没草可以吃~",
-  "text.hint.bole.not_enough_items": "你这点钱很难让人给你办事啊~",
+  "text.hint.bole.not_enough_items": "你这点礼物很难让人给你办事啊~",
   "text.hint.bole.far_from_job_site": "离工作方块太远啦！所谓“巧妇难为无米之炊”~",
   "text.hint.bole.no_job": "无业游民：“只要我足够废物，就没有人能压榨我~”",
   "text.hint.bole.no_job_site": "这是一只失去工作方块的村民，看样子是就业形势不太好呢~",

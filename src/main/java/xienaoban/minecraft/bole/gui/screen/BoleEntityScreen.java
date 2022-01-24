@@ -478,9 +478,9 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawIcon(matrices, 0, 130);
-            drawBar(matrices, 1.0F, 10, 130);
-            drawBar(matrices, handler.entity.getAir() / (float) handler.entity.getMaxAir(), 50, 130);
+            drawIcon(matrices, 0, 20);
+            drawBar(matrices, 1.0F, 10, 20);
+            drawBar(matrices, handler.entity.getAir() / (float) handler.entity.getMaxAir(), 50, 20);
             String text;
             if (debugMode) text = handler.entity.getMaxAir() + "t/" + handler.entity.getAir() + "t";
             else text = (handler.entity.getAir() / 20) + "s";

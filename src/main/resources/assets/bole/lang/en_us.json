@@ -198,6 +198,9 @@
   "property_widget.bole.panda_hidden_gene.description": "You can only change the gene in creative mode.",
   "property_widget.bole.axolotl_variant": "Variants of Axolotls",
   "property_widget.bole.axolotl_variant.description": "You can only change the variant in creative mode.",
+  "property_widget.bole.wandering_trader_despawn_delay": "Despawn Delay of the Wandering Trader",
+  "property_widget.bole.wandering_trader_despawn_delay.description": "The trader will leave (disappear) when the time is up.",
+  "property_widget.bole.wandering_trader_despawn_delay.description.button1": "Button1: give it a bucket of water to drink, and it will stay for two more minutes.",
 
   "text.hint.bole.offer_or_drop": "%s is offered to you.",
   "text.hint.bole.only_in_god_mode": "Can only be used in creative mode.",

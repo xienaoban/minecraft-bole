@@ -103,7 +103,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
                     drawCustomLengthHealthBar(matrices, this.barCache[i][1], x + 11, y + barOffset - (i << 1), 50, 0, health >= maxHealth);
                 }
             }
-            drawText(matrices, maxHealth + "/" + health, LIGHT_TEXT_COLOR, 0.5F, x + 13, y + textOffset);
+            drawText(matrices, health + "/" + maxHealth, LIGHT_TEXT_COLOR, 0.5F, x + 13, y + textOffset);
         }
 
         /**

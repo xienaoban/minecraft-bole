@@ -8,8 +8,10 @@ import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
@@ -191,6 +193,43 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     }
 
     public final boolean trySpendItems(ItemStack ...targetStacks) {
+        if (!hasEnoughItems(targetStacks)) return false;
+        PlayerInventory inventory = player.getInventory();
+        for (ItemStack target : targetStacks) {
+            Item item = target.getItem();
+            int leftCount = target.getCount();
+            for (int i = inventory.size() - 1; i >= 0; --i) {
+                ItemStack stack = inventory.getStack(i);
+                if (!stack.getItem().equals(item) || stack.hasNbt()) continue;
+                int decrementCount = Math.min(stack.getCount(), leftCount);
+                stack.decrement(decrementCount);
+                leftCount -= decrementCount;
+                if (leftCount == 0) break;
+            }
+        }
+        return true;
+    }
+
+    public final boolean trySpendBuckets(ItemStack ...targetStacks) {
+        if (!hasEnoughItems(targetStacks)) return false;
+        PlayerInventory inventory = player.getInventory();
+        for (ItemStack target : targetStacks) {
+            BucketItem item = (BucketItem) target.getItem();
+            int leftCount = target.getCount();
+            for (int i = inventory.size() - 1; i >= 0; --i) {
+                ItemStack stack = inventory.getStack(i);
+                if (!stack.getItem().equals(item) || stack.hasNbt()) continue;
+                if (stack.getCount() == 1) {    // only supports unstackable buckets
+                    inventory.setStack(i, new ItemStack(Items.BUCKET, 1));
+                    leftCount -= 1;
+                    if (leftCount == 0) break;
+                }
+            }
+        }
+        return true;
+    }
+
+    public final boolean hasEnoughItems(ItemStack ...targetStacks) {
         PlayerInventory inventory = player.getInventory();
         for (ItemStack target : targetStacks) {
             Item item = target.getItem();
@@ -198,33 +237,11 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
             int count = 0;
             for (int i = inventory.size() - 1; i >= 0; --i) {
                 ItemStack stack = inventory.getStack(i);
-                if (!stack.getItem().equals(item) || stack.hasNbt()) {
-                    continue;
-                }
+                if (!stack.getItem().equals(item) || stack.hasNbt()) continue;
                 count += stack.getCount();
-                if (count >= neededCount) {
-                    break;
-                }
+                if (count >= neededCount) break;
             }
-            if (count < neededCount) {
-                return false;
-            }
-        }
-        for (ItemStack target : targetStacks) {
-            Item item = target.getItem();
-            int leftCount = target.getCount();
-            for (int i = inventory.size() - 1; i >= 0; --i) {
-                ItemStack stack = inventory.getStack(i);
-                if (!stack.getItem().equals(item) || stack.hasNbt()) {
-                    continue;
-                }
-                int decrementCount = Math.min(stack.getCount(), leftCount);
-                stack.decrement(decrementCount);
-                leftCount -= decrementCount;
-                if (leftCount == 0) {
-                    break;
-                }
-            }
+            if (count < neededCount) return false;
         }
         return true;
     }

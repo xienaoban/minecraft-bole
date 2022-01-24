@@ -17,6 +17,7 @@ public interface Keys {
     String ENTITY_SETTING_RESET_JOB =                       "reset_job";
     String ENTITY_SETTING_RESTOCK =                         "restock";
     String ENTITY_SETTING_VILLAGER_CLOTHING =               "villager_clothing";
+    String ENTITY_SETTING_ADD_WANDERING_TIME =              "add_wandering_time";
     String ENTITY_SETTING_EAT_GRASS =                       "eat_grass";
     String ENTITY_SETTING_CAT_VARIANT =                     "cat_variant";
     String ENTITY_SETTING_PARROT_VARIANT =                  "parrot_variant";
@@ -160,6 +161,9 @@ public interface Keys {
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE_DESCRIPTION = "property_widget.bole.panda_hidden_gene.description";
     String PROPERTY_WIDGET_AXOLOTL_VARIANT = "property_widget.bole.axolotl_variant";
     String PROPERTY_WIDGET_AXOLOTL_VARIANT_DESCRIPTION = "property_widget.bole.axolotl_variant.description";
+    String PROPERTY_WIDGET_WANDERING_TRADER_DESPAWN_DELAY = "property_widget.bole.wandering_trader_despawn_delay";
+    String PROPERTY_WIDGET_WANDERING_TRADER_DESPAWN_DELAY_DESCRIPTION = "property_widget.bole.wandering_trader_despawn_delay.description";
+    String PROPERTY_WIDGET_WANDERING_TRADER_DESPAWN_DELAY_DESCRIPTION_BUTTON1 = "property_widget.bole.wandering_trader_despawn_delay.description.button1";
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.bole.only_in_god_mode";

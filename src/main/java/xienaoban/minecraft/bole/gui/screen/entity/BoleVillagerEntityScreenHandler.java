@@ -73,9 +73,7 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
                     entity.playWorkSound();
                     entity.restock();
                 }
-                else {
-                    Bole.LOGGER.error("The player inventory data on the client and server are inconsistent.");
-                }
+                else Bole.LOGGER.error("The player inventory data on the client and server are inconsistent.");
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 ItemStack overTime = (ItemStack) args[0];
