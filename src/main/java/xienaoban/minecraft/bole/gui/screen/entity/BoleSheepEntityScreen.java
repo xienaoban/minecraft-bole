@@ -89,15 +89,15 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
 
         private boolean canEat() {
             World world = MinecraftClient.getInstance().world;
-            if (world == null) {
-                return false;
-            }
+            if (world == null) return false;
             BlockPos blockPos = handler.entity.getBlockPos();
-            return GRASS_PREDICATE.test(world.getBlockState(blockPos)) || world.getBlockState(blockPos.down()).isOf(Blocks.GRASS_BLOCK);
+            return GRASS_PREDICATE.test(world.getBlockState(blockPos))
+                    || world.getBlockState(blockPos.down()).isOf(Blocks.GRASS_BLOCK);
         }
 
         private boolean isEating() {
-            return ((IMixinSheepEntity) handler.entity).getEatGrassTimer() > 0 || this.interval > BoleClient.getInstance().getScreenTicks();
+            return ((IMixinSheepEntity) handler.entity).getEatGrassTimer() > 0
+                    || this.interval > BoleClient.getInstance().getScreenTicks();
         }
     }
 }

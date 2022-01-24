@@ -55,10 +55,18 @@ public class BoleWanderingTraderEntityScreen<E extends WanderingTraderEntity, H 
             drawBar(matrices, 1.0F, 10, 130);
             drawBar(matrices, delay / (float) maxDelay, 50, 130);
             drawButton(matrices, 0, handler.addDespawnDelayCost);
-            if (debugMode) drawBarText(matrices, delay + "t/" + maxDelay + "t", LIGHT_TEXT_COLOR);
-            else if (delay == 0) drawBarText(matrices, "∞/" + (maxDelay / (60 * 20)) + "min", LIGHT_TEXT_COLOR);
-            else if (delay < 3 * 60 * 20) drawBarText(matrices, (delay / 20) + "s/" + (maxDelay / (60 * 20)) + "min", LIGHT_TEXT_COLOR);
-            else drawBarText(matrices, (delay / (60 * 20)) + "min/" + (maxDelay / (60 * 20)) + "min", LIGHT_TEXT_COLOR);
+            if (debugMode) {
+                drawBarText(matrices, delay + "t/" + maxDelay + "t", LIGHT_TEXT_COLOR);
+            }
+            else if (delay == 0) {
+                drawBarText(matrices, "∞/" + (maxDelay / (60 * 20)) + "min", LIGHT_TEXT_COLOR);
+            }
+            else if (delay < 3 * 60 * 20) {
+                drawBarText(matrices, (delay / 20) + "s/" + (maxDelay / (60 * 20)) + "min", LIGHT_TEXT_COLOR);
+            }
+            else {
+                drawBarText(matrices, (delay / (60 * 20)) + "min/" + (maxDelay / (60 * 20)) + "min", LIGHT_TEXT_COLOR);
+            }
         }
 
         @Override
@@ -68,7 +76,9 @@ public class BoleWanderingTraderEntityScreen<E extends WanderingTraderEntity, H 
             if (!handler.trySpendBuckets(handler.addDespawnDelayCost)) {
                 showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
             }
-            else handler.sendClientEntitySettings(Keys.ENTITY_SETTING_ADD_WANDERING_TIME);
+            else {
+                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_ADD_WANDERING_TIME);
+            }
             return true;
         }
     }
