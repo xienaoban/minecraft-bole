@@ -136,6 +136,17 @@ public class ServerNetworkManager {
         });
     }
 
+    public static void sendWanderingTraderSpawnMessageToAllPlayers(MinecraftServer server, ServerPlayerEntity target) {
+        server.execute(() -> {
+            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeBoolean(target != null);
+                if (target != null) buf.writeText(target.getName());
+                ServerPlayNetworking.send(player, Channels.SEND_WANDERING_TRADER_SPAWN_MESSAGE, buf);
+            }
+        });
+    }
+
     public static void sendServerEntityData(AbstractBoleScreenHandler<?> boleScreenHandler, MinecraftServer server, ServerPlayerEntity player) {
         server.execute(() -> {
             PacketByteBuf entityBuf = PacketByteBufs.create();

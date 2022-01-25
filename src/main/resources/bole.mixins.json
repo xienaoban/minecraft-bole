@@ -27,7 +27,8 @@
     "MixinMinecraftClient",
     "MixinPassiveEntity",
     "MixinPolarBearEntity",
-    "MixinTameableShoulderEntity"
+    "MixinTameableShoulderEntity",
+    "MixinWanderingTraderManager"
   ],
   "client": [
   ],

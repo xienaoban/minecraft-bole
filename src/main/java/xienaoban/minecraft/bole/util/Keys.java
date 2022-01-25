@@ -210,6 +210,8 @@ public interface Keys {
     String TEXT_HIGHLIGHT = "text.bole.highlight";
     String TEXT_MAIN_GENE = "text.bole.main_gene";
     String TEXT_HIDDEN_GENE = "text.bole.hidden_gene";
+    String TEXT_WANDERING_TRADER_SPAWN_MESSAGE = "text.bole.wandering_trader_spawn_message";
+    String TEXT_UNKNOWN_PLAYER = "text.bole.unknown_player";
 
     // Other
     int HIGHLIGHT_EXPERIENCE_COST = 2;

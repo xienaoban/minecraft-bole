@@ -286,7 +286,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
                         cnt.incrementAndGet();
                     }
                 });
-                player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.GOLD), false);
+                player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.GREEN), false);
                 ClientNetworkManager.sendHighlightEvent();
                 onClose();
                 return true;

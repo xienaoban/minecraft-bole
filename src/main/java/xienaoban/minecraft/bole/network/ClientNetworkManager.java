@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
@@ -30,6 +31,7 @@ public class ClientNetworkManager {
         registerSendServerBoleConfigs();
         registerSendServerEntityData();
         registerSendServerEntitiesGlowing();
+        registerSendWanderingTraderSpawnMessage();
         registerSendOverlayMessage();
     }
 
@@ -85,6 +87,20 @@ public class ClientNetworkManager {
                         ((IMixinEntity) entity).callSetFlag(IMixinEntity.getGlowingFlagIndex(), entityGlowing[i]);
                         Bole.LOGGER.debug(entity.getType().getTranslationKey() + ", " + entityGlowing[i]);
                     }
+                }
+            });
+        });
+    }
+
+    private static void registerSendWanderingTraderSpawnMessage() {
+        ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_WANDERING_TRADER_SPAWN_MESSAGE, (client, handler, buf, responseSender) -> {
+            Text playerName;
+            if (buf.readBoolean()) playerName = buf.readText();
+            else playerName = new TranslatableText(Keys.TEXT_UNKNOWN_PLAYER);
+            client.execute(() -> {
+                assert client.player != null;
+                if (Configs.getInstance().isReceiveWanderingTraderSpawnBroadcasts()) {
+                    client.player.sendMessage(new TranslatableText(Keys.TEXT_WANDERING_TRADER_SPAWN_MESSAGE, playerName).formatted(Formatting.GRAY), false);
                 }
             });
         });

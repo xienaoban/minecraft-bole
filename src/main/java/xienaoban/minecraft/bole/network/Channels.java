@@ -17,4 +17,5 @@ public interface Channels {
     Identifier SEND_SERVER_ENTITY_DATA = new Identifier(Keys.NAMESPACE, "send_server_entity_data");
     Identifier SEND_SERVER_ENTITIES_GLOWING = new Identifier(Keys.NAMESPACE, "send_server_entities_glowing");
     Identifier SEND_OVERLAY_MESSAGE = new Identifier(Keys.NAMESPACE, "send_overlay_message");
+    Identifier SEND_WANDERING_TRADER_SPAWN_MESSAGE = new Identifier(Keys.NAMESPACE, "send_wandering_trader_spawn_message");
 }

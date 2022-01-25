@@ -122,11 +122,17 @@
 
   "minecraft": "我的世界",
 
-  "text.autoconfig.bole.title": "伯乐模组设置（仅在本地游戏生效，不影响服务器）",
+  "text.autoconfig.bole.title": "伯乐模组设置",
+  "text.autoconfig.bole.category.default": "客户端",
+  "text.autoconfig.bole.category.server": "服务端",
+  "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "接收流浪商人生成广播",
+  "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "需要开启服务器选项“广播流浪商人的生成”。",
   "text.autoconfig.bole.option.invulnerablePets": "宠物无敌",
   "text.autoconfig.bole.option.invulnerablePets.@Tooltip": "被驯服的动物受到的所有伤害值一律改为 0（但仍会溺亡、渴死和被铁砧砸死）。",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "禁止设置其他玩家的地狱传送冷却值",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "玩家将只能修改自己的地狱传送冷却值，防止熊孩子捣乱。",
+  "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "广播流浪商人的生成",
+  "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn.@Tooltip": "当流浪商人刷新时通知所有玩家。",
 
   "property_widget.bole.handbook_entity.description.button1": "按钮1：高亮附近的实体。",
   "property_widget.bole.handbook_entity.description.button2": "按钮2：发放一个刷怪蛋。",
@@ -246,5 +252,7 @@
   "text.bole.empty_with_brackets": "（空）",
   "text.bole.highlight": "%d 只%s被高亮了（当前生物视距 %d 米）。",
   "text.bole.main_gene": "显性",
-  "text.bole.hidden_gene": "隐性"
+  "text.bole.hidden_gene": "隐性",
+  "text.bole.wandering_trader_spawn_message": "流浪商人在玩家 %s 附近出没了。",
+  "text.bole.unknown_player": "<未知玩家>"
 }

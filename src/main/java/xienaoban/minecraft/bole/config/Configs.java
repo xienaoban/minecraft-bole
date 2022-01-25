@@ -15,6 +15,9 @@ import xienaoban.minecraft.bole.util.Keys;
 @Config(name = Keys.MOD_NAME)
 public class Configs implements ConfigData {
     @ConfigEntry.Gui.Excluded
+    private static final String CLIENT = "default", SERVER = "server";
+
+    @ConfigEntry.Gui.Excluded
     private static ConfigHolder<Configs> holder;
 
     public static void init() {
@@ -34,11 +37,29 @@ public class Configs implements ConfigData {
         return holder.getConfig();
     }
 
+    ///////// Configs /////////
+
+    @ConfigEntry.Category(CLIENT)
+    @ConfigEntry.Gui.Tooltip()
+    boolean receiveWanderingTraderSpawnBroadcasts = false;
+
+    @ConfigEntry.Category(SERVER)
     @ConfigEntry.Gui.Tooltip()
     boolean invulnerablePets = false;
 
+    @ConfigEntry.Category(SERVER)
     @ConfigEntry.Gui.Tooltip()
     boolean forbidToSetNetherPortalCooldownOfOtherPlayers = false;
+
+    @ConfigEntry.Category(SERVER)
+    @ConfigEntry.Gui.Tooltip()
+    boolean broadcastWhenWanderingTraderSpawn = false;
+
+    ///////// Getters /////////
+
+    public boolean isReceiveWanderingTraderSpawnBroadcasts() {
+        return receiveWanderingTraderSpawnBroadcasts;
+    }
 
     public boolean isInvulnerablePets() {
         return invulnerablePets;
@@ -46,5 +67,9 @@ public class Configs implements ConfigData {
 
     public boolean isForbidToSetNetherPortalCooldownOfOtherPlayers() {
         return forbidToSetNetherPortalCooldownOfOtherPlayers;
+    }
+
+    public boolean isBroadcastWhenWanderingTraderSpawn() {
+        return broadcastWhenWanderingTraderSpawn;
     }
 }
