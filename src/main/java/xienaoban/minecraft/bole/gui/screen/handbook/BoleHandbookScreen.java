@@ -87,6 +87,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(curConfigKey), DARK_TEXT_COLOR, 0.5F));
             for (Field field : Configs.class.getDeclaredFields()) {
                 if (field.isAnnotationPresent(ConfigEntry.Gui.Excluded.class)) continue;
+                if (Configs.CLIENT.equals(field.getAnnotation(ConfigEntry.Category.class).value())) continue;
                 String name = field.getName();
                 boolean success = page.addSlot(new ConfigItemPropertyWidget(name));
                 if (!success) {

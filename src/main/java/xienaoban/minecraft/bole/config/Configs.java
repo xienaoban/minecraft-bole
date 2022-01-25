@@ -15,7 +15,7 @@ import xienaoban.minecraft.bole.util.Keys;
 @Config(name = Keys.MOD_NAME)
 public class Configs implements ConfigData {
     @ConfigEntry.Gui.Excluded
-    private static final String CLIENT = "default", SERVER = "server";
+    public static final String CLIENT = "default", SERVER = "server";
 
     @ConfigEntry.Gui.Excluded
     private static ConfigHolder<Configs> holder;
