@@ -131,6 +131,10 @@ public class ClientNetworkManager {
         ClientPlayNetworking.send(Channels.REQUEST_BOLE_SCREEN, buf);
     }
 
+    public static void requestBoleHandbook() {
+        ClientPlayNetworking.send(Channels.REQUEST_BOLE_HANDBOOK, PacketByteBufs.empty());
+    }
+
     public static void requestServerEntityData() {
         ClientPlayNetworking.send(Channels.REQUEST_SERVER_ENTITY_DATA, PacketByteBufs.empty());
     }

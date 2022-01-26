@@ -1,5 +1,6 @@
 {
-  "xienaoban": "屑牢板（XieNaoban）",
+  "xienaoban": "屑牢板",
+  "xienaoban.trans": "屑牢板（XieNaoban）",
   "bole": "伯乐",
   "key.category.bole": "伯乐",
   "key.bole.open_bole_gui": "打开伯乐界面",
@@ -232,6 +233,8 @@
   "text.warning.bole.disable_ai": "你将尝试对其进行额叶切除手术而使之丧失行动能力。但它也会奋力反抗。\n\n你预计这场战斗与手术将花费：\n生命值 x%s\n饱食度 x%s",
   "text.warning.bole.villager_reset_job": "在有此Mod之前，交易刷歪了的村民大多难逃玩家正义的击杀。想到这儿，村民转而欣然接受了你的好意。\n\n村民交易列表与经验等级均会清零，确认重置吗？",
 
+  "text.bole.mod_not_installed": "如果您看到了此段文字，说明您并未安装“伯乐”模组，您可以前往以下网址下载本模组：",
+  "text.bole.click_me": "点我点我点我！（≧.≦）",
   "text.bole.open_local_configs": "打开本地配置界面",
   "text.bole.set_configs_local_is_remote": "本地配置：",
   "text.bole.set_configs_local_is_not_remote": "本地配置：",

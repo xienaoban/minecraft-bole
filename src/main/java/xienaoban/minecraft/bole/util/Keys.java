@@ -4,6 +4,7 @@ public interface Keys {
     // ID
     String BOLE = "bole";
     String NAMESPACE = "bole";
+    String GITHUB_RELEASE = "https://github.com/XieNaoban/minecraft-bole/releases";
 
     // Entity Setting Channels
     String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =     "offer_or_drop";
@@ -31,9 +32,10 @@ public interface Keys {
     String GUI_OK = "gui.ok";
     String GUI_CANCEL = "gui.cancel";
 
-    String XIENAOBAN =              "xienaoban";
+    String AUTHOR =                 "xienaoban";
+    String AUTHOR_TRANS =           "xienaoban.trans";
     String MOD_NAME =               "bole";
-    String TITLE_BOLE_OVERVIEW =    "title.bole.bole_handbook";
+    String BOLE_HANDBOOK_TITLE =    "title.bole.bole_handbook";
     String KEY_CATEGORY_BOLE =      "key.category.bole";
     String KEY_OPEN_BOLE_GUI =      "key.bole.open_bole_gui";
 
@@ -189,6 +191,8 @@ public interface Keys {
     String WARNING_TEXT_DISABLE_AI = "text.warning.bole.disable_ai";
     String WARNING_TEXT_VILLAGER_RESET_JOB = "text.warning.bole.villager_reset_job";
 
+    String TEXT_MOD_NOT_INSTALLED = "text.bole.mod_not_installed";
+    String TEXT_CLICK_ME = "text.bole.click_me";
     String TEXT_OPEN_LOCAL_CONFIGS = "text.bole.open_local_configs";
     String TEXT_SET_CONFIGS_LOCAL_IS_REMOTE = "text.bole.set_configs_local_is_remote";
     String TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.set_configs_local_is_not_remote";

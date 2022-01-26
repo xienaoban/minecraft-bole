@@ -22,6 +22,7 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.config.Configs;
+import xienaoban.minecraft.bole.core.BoleHandbookItem;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
@@ -30,6 +31,7 @@ public class ServerNetworkManager {
     public static void init() {
         registerRequestServerBoleConfigs();
         registerRequestBoleScreen();
+        registerRequestBoleHandbook();
         registerRequestServerEntityData();
         registerSendClientEntitySettings();
         registerRequestServerEntitiesGlowing();
@@ -51,10 +53,18 @@ public class ServerNetworkManager {
 
                 @Override
                 public Text getDisplayName() {
-                    String titleKey = entity == null ? Keys.TITLE_BOLE_OVERVIEW : entity.getType().getTranslationKey();
+                    String titleKey = entity == null ? Keys.BOLE_HANDBOOK_TITLE : entity.getType().getTranslationKey();
                     return new TranslatableText(titleKey);
                 }
             }));
+        });
+    }
+
+    private static void registerRequestBoleHandbook() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BOLE_HANDBOOK, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> {
+                if (player.isCreative()) player.getInventory().insertStack(BoleHandbookItem.createBook());
+            });
         });
     }
 

@@ -31,6 +31,7 @@ import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.config.Configs;
+import xienaoban.minecraft.bole.core.BoleHandbookItem;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
@@ -102,8 +103,9 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             resetPages();
             Page page0 = this.pages.get(0);
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_NAME_IS, new TranslatableText(Keys.MOD_NAME)), DARK_TEXT_COLOR, 0.5F));
-            page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_AUTHOR_IS, new TranslatableText(Keys.XIENAOBAN)), DARK_TEXT_COLOR, 0.5F));
+            page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_AUTHOR_IS, new TranslatableText(Keys.AUTHOR_TRANS)), DARK_TEXT_COLOR, 0.5F));
             FabricLoader.getInstance().getModContainer(Keys.BOLE).ifPresent(modContainer -> page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_VERSION_IS, modContainer.getMetadata().getVersion()), DARK_TEXT_COLOR, 0.5F)));
+            page0.addSlot(new GiveBookPropertyWidget());
             page0.addSlot(new CrashClientPropertyWidget());
             setPageIndex(0);
         });
@@ -411,8 +413,35 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         }
     }
 
-    public class CrashClientPropertyWidget extends AbstractPropertyWidget {
+    public class GiveBookPropertyWidget extends AbstractPropertyWidget {
+        public GiveBookPropertyWidget() {
+            super(4, 1);
+        }
 
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            if (!debugMode) return;
+            drawTextCenteredX(matrices, "-= Click me to get a book =-", 0xff22cc22, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (!debugMode) return false;
+            if (isGodMode()) {
+                if (client != null && client.player != null) {
+                    client.player.getInventory().insertStack(BoleHandbookItem.createBook());
+                }
+                ClientNetworkManager.requestBoleHandbook();
+            }
+            else showOverlayMessage(Keys.HINT_TEXT_ONLY_IN_GOD_MODE);
+            return true;
+        }
+    }
+
+    public class CrashClientPropertyWidget extends AbstractPropertyWidget {
         public CrashClientPropertyWidget() {
             super(4, 1);
         }

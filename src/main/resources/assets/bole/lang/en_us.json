@@ -1,5 +1,6 @@
 {
-  "xienaoban": "XieNaoban (屑老板)",
+  "xienaoban": "XieNaoban",
+  "xienaoban.trans": "XieNaoban (屑牢板)",
   "bole": "Bole",
   "key.category.bole": "Bole",
   "key.bole.open_bole_gui": "Open Bole GUI",
@@ -232,6 +233,8 @@
   "text.warning.bole.disable_ai": "You want to perform a frontal lobotomy to incapacitate it. But it will fight back. So you will spend:\nHealth x%s\nSatiety x%s",
   "text.warning.bole.villager_reset_job": "Usually players tend to kill villagers with unsatisfactory trading lists. Thinking of this, the villager readily accepts your kindness.\nAre you sure to reset?",
 
+  "text.bole.mod_not_installed": "It means that you haven't installed the mod \"Bole\" if you see this text. You may download this mod at:",
+  "text.bole.click_me": "Click me! (≧.≦)",
   "text.bole.open_local_configs": "Open client configs screen",
   "text.bole.set_configs_local_is_remote": "Local configs:",
   "text.bole.set_configs_local_is_not_remote": "Local configs:",
