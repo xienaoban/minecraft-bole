@@ -20,6 +20,7 @@ public class BoleHandbookItem {
         ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
         NbtCompound nbt = new NbtCompound();
         nbt.putString(ID, createVersion());
+        nbt.putInt("CustomModelData", 14489768);
         nbt.putString(WrittenBookItem.TITLE_KEY, new TranslatableText(Keys.BOLE_HANDBOOK_TITLE).getString());
         nbt.putString(WrittenBookItem.AUTHOR_KEY, new TranslatableText(Keys.BOLE).getString());
         nbt.putBoolean(WrittenBookItem.RESOLVED_KEY, true);
