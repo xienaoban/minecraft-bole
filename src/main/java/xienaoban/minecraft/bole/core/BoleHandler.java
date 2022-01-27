@@ -5,19 +5,28 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
+import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleHandler {
     @Environment(EnvType.CLIENT)
     public static void tryOpenBoleScreen(MinecraftClient client) {
+        BoleClient boleClient = BoleClient.getInstance();
         ClientPlayerEntity player = client.player;
-        BoleClient.getInstance().setBoleTarget(null);
+        boleClient.setBoleTarget(null);
         if (player == null) {
             Bole.LOGGER.error("Client player is null. Fail to open the Bole Screen.");
+            return;
+        }
+        if (!Bole.isDetached(player) && !boleClient.getServerConfigs().isAllowHotKeyToOpenBoleHandbookScreen()
+                && !Bole.isBoleHandbook(player.getMainHandStack()) && !Bole.isBoleHandbook(player.getOffHandStack())) {
+            player.sendMessage(new TranslatableText(Keys.TEXT_SERVER_BAN_HOTKEY).formatted(Formatting.GOLD), false);
             return;
         }
         Entity target;
@@ -31,7 +40,7 @@ public class BoleHandler {
 
         if (target == null) ClientNetworkManager.requestBoleScreen();
         else {
-            BoleClient.getInstance().setBoleTarget(target);
+            boleClient.setBoleTarget(target);
             ClientNetworkManager.requestBoleScreen(target);
         }
     }

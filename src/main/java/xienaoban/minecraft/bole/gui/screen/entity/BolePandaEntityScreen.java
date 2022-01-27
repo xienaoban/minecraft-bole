@@ -79,7 +79,7 @@ public class BolePandaEntityScreen<E extends PandaEntity, H extends BolePandaEnt
 
         @Override
         protected boolean canChoose() {
-            return isGodMode();
+            return isGod();
         }
 
         @Override

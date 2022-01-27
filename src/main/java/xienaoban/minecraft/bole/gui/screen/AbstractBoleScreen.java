@@ -9,7 +9,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
@@ -27,7 +26,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
-import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
@@ -671,13 +669,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.setHovered(null);
     }
 
-    public GameMode getGameMode() {
-        ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
-        return manager != null ? manager.getCurrentGameMode() : null;
+    public boolean isGod() {
+        return Bole.isGod(this.handler.player);
     }
 
-    public boolean isGodMode() {
-        return getGameMode() == GameMode.CREATIVE;
+    public boolean isDetached() {
+        return Bole.isDetached(this.handler.player);
     }
 
     public final class OverlayMessageHud extends ScreenElement {

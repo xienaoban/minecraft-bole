@@ -36,7 +36,7 @@ public class BoleCatEntityScreenHandler<E extends CatEntity> extends BoleTameabl
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_CAT_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (isGodMode()) entity.setCatType(buf.readInt());
+                if (isGod()) entity.setCatType(buf.readInt());
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 int variant = (Integer) args[0];

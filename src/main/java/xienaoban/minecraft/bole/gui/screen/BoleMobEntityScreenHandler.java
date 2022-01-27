@@ -47,7 +47,7 @@ public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingE
             private void set(boolean disabled) {
                 entity.setAiDisabled(disabled);
                 int healthAndSatiety = entity instanceof HostileEntity ? 8 : 2;
-                if (disabled && !isGodMode()) {
+                if (disabled && !isGod()) {
                     player.damage(DamageSource.mob(entity), healthAndSatiety);
                     player.getHungerManager().add(-healthAndSatiety, 0);
                 }

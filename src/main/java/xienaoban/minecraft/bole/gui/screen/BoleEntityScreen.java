@@ -444,7 +444,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
-            if (isGodMode()) {
+            if (isGod()) {
                 boolean newState = !isCurrentInvulnerable();
                 handler.sendClientEntitySettings(Keys.ENTITY_SETTING_INVULNERABLE, newState);
             }

@@ -82,7 +82,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
         });
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_INVULNERABLE, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (isGodMode()) entity.setInvulnerable(buf.readBoolean());
+                if (isGod()) entity.setInvulnerable(buf.readBoolean());
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 boolean invulnerable = (Boolean) args[0];

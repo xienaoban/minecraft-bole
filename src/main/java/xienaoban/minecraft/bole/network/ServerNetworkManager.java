@@ -16,6 +16,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -45,18 +46,25 @@ public class ServerNetworkManager {
     private static void registerRequestBoleScreen() {
         ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BOLE_SCREEN, (server, player, handler, buf, responseSender) -> {
             final Entity entity = buf.isReadable() ? player.world.getEntityById(buf.readInt()) : null;
-            server.execute(() -> player.openHandledScreen(new NamedScreenHandlerFactory() {
-                @Override
-                public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-                    return ScreenManager.getHandler(syncId, inv, entity);
+            server.execute(() -> {
+                if (!Bole.isDetached(player) && !Configs.getInstance().isAllowHotKeyToOpenBoleHandbookScreen()
+                        && !Bole.isBoleHandbook(player.getMainHandStack()) && !Bole.isBoleHandbook(player.getOffHandStack())) {
+                    player.sendMessage(new TranslatableText(Keys.TEXT_SERVER_BAN_HOTKEY).formatted(Formatting.GOLD), false);
+                    return;
                 }
+                player.openHandledScreen(new NamedScreenHandlerFactory() {
+                    @Override
+                    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+                        return ScreenManager.getHandler(syncId, inv, entity);
+                    }
 
-                @Override
-                public Text getDisplayName() {
-                    String titleKey = entity == null ? Keys.BOLE_HANDBOOK_TITLE : entity.getType().getTranslationKey();
-                    return new TranslatableText(titleKey);
-                }
-            }));
+                    @Override
+                    public Text getDisplayName() {
+                        String titleKey = entity == null ? Keys.BOLE_HANDBOOK_TITLE : entity.getType().getTranslationKey();
+                        return new TranslatableText(titleKey);
+                    }
+                });
+            });
         });
     }
 

@@ -80,7 +80,7 @@ public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEnt
 
         @Override
         protected boolean canChoose() {
-            return isGodMode();
+            return isGod();
         }
 
         @Override
@@ -128,7 +128,7 @@ public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEnt
 
         @Override
         protected boolean canChoose() {
-            return isGodMode();
+            return isGod();
         }
 
         @Override

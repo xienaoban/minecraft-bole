@@ -127,13 +127,15 @@
   "text.autoconfig.bole.title": "Settings of Bole",
   "text.autoconfig.bole.category.default": "Client",
   "text.autoconfig.bole.category.server": "Server",
-  "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "Receive WanderingTrader spawn broadcasts",
-  "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "See server option \"Broadcast when WanderingTrader spawn\".",
-  "text.autoconfig.bole.option.invulnerablePets": "Invulnerable pets",
-  "text.autoconfig.bole.option.invulnerablePets.@Tooltip": "Tamed animals will never lose health (unless damaged by DROWN, DRYOUT and ANVIL).",
-  "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "Can't set others' portal cooldown",
+  "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "ReceiveWanderingTraderSpawnBroadcast",
+  "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "See server option \"BroadcastWanderingTraderSpawn\".",
+  "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "OpenHandbookScreenByHotkey",
+  "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen.@Tooltip": "So you don't have to hold a book in your hand in survival mode.",
+  "text.autoconfig.bole.option.invulnerablePets": "InvulnerablePet",
+  "text.autoconfig.bole.option.invulnerablePets.@Tooltip": "Tamed animals will never lose health\n(unless damaged by DROWN, DRYOUT and ANVIL).",
+  "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "CannotSetOthersPortalCooldown",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "You will not be allowed to modify other players' nether portal cooldown.",
-  "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "Broadcast when WanderingTrader spawn",
+  "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "BroadcastWanderingTraderSpawn",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn.@Tooltip": "Broadcast the spawn information of WanderingTrader to every player.",
 
   "property_widget.bole.handbook_entity.description.button1": "Button1: highlights nearby entities for 8 seconds.",
@@ -258,5 +260,6 @@
   "text.bole.main_gene": "Main",
   "text.bole.hidden_gene": "Hidden",
   "text.bole.wandering_trader_spawn_message": "A wandering trader spawns around the player %s.",
-  "text.bole.unknown_player": "<unknown player>"
+  "text.bole.unknown_player": "<unknown player>",
+  "text.bole.server_ban_hotkey": "The hotkey is banned on this server. Find a bole handbook item first."
 }

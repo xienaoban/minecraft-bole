@@ -81,7 +81,7 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
 
         @Override
         protected boolean canChoose() {
-            return isGodMode();
+            return isGod();
         }
 
         @Override

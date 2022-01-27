@@ -38,7 +38,7 @@ public class BoleAxolotlEntityScreenHandler<E extends AxolotlEntity> extends Bol
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_AXOLOTL_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 AxolotlEntity.Variant variant = AxolotlEntity.Variant.VARIANTS[buf.readInt()];
-                if (isGodMode()) ((IMixinAxolotlEntity) entity).callSetVariant(variant);
+                if (isGod()) ((IMixinAxolotlEntity) entity).callSetVariant(variant);
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 AxolotlEntity.Variant variant = (AxolotlEntity.Variant) args[0];

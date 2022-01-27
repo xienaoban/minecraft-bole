@@ -40,7 +40,7 @@ public class BoleHorseEntityScreenHandler<E extends HorseEntity> extends BoleHor
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_HORSE_COLOR_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 HorseColor color = HorseColor.byIndex(buf.readInt());
-                if (isGodMode()) ((IMixinHorseEntity) entity).callSetVariant(color, entity.getMarking());
+                if (isGod()) ((IMixinHorseEntity) entity).callSetVariant(color, entity.getMarking());
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 HorseColor color = (HorseColor) args[0];
@@ -51,7 +51,7 @@ public class BoleHorseEntityScreenHandler<E extends HorseEntity> extends BoleHor
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_HORSE_MARKING_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 HorseMarking marking = HorseMarking.byIndex(buf.readInt());
-                if (isGodMode()) ((IMixinHorseEntity) entity).callSetVariant(entity.getColor(), marking);
+                if (isGod()) ((IMixinHorseEntity) entity).callSetVariant(entity.getColor(), marking);
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 HorseMarking marking = (HorseMarking) args[0];

@@ -129,8 +129,10 @@
   "text.autoconfig.bole.category.server": "服务端",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "接收流浪商人生成广播",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "需要开启服务器选项“广播流浪商人的生成”。",
+  "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "允许使用热键开启伯乐手册",
+  "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen.@Tooltip": "直接打开界面，无需手持手册。\n该设置针对生存模式，创造模式始终可以使用热键。",
   "text.autoconfig.bole.option.invulnerablePets": "宠物无敌",
-  "text.autoconfig.bole.option.invulnerablePets.@Tooltip": "被驯服的动物受到的所有伤害值一律改为 0（但仍会溺亡、渴死和被铁砧砸死）。",
+  "text.autoconfig.bole.option.invulnerablePets.@Tooltip": "被驯服的动物受到的所有伤害值一律改为 0\n（但仍会溺亡、渴死和被铁砧砸死）。",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "禁止设置其他玩家的地狱传送冷却值",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "玩家将只能修改自己的地狱传送冷却值，防止熊孩子捣乱。",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "广播流浪商人的生成",
@@ -258,5 +260,6 @@
   "text.bole.main_gene": "显性",
   "text.bole.hidden_gene": "隐性",
   "text.bole.wandering_trader_spawn_message": "流浪商人在玩家 %s 附近出没了。",
-  "text.bole.unknown_player": "<未知玩家>"
+  "text.bole.unknown_player": "<未知玩家>",
+  "text.bole.server_ban_hotkey": "本服禁止热键，先设法获得一本伯乐手册吧。"
 }

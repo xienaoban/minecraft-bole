@@ -217,6 +217,7 @@ public interface Keys {
     String TEXT_HIDDEN_GENE = "text.bole.hidden_gene";
     String TEXT_WANDERING_TRADER_SPAWN_MESSAGE = "text.bole.wandering_trader_spawn_message";
     String TEXT_UNKNOWN_PLAYER = "text.bole.unknown_player";
+    String TEXT_SERVER_BAN_HOTKEY = "text.bole.server_ban_hotkey";
 
     // Other
     int HIGHLIGHT_EXPERIENCE_COST = 2;

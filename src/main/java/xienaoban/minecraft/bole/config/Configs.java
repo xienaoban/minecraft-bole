@@ -45,6 +45,10 @@ public class Configs implements ConfigData {
 
     @ConfigEntry.Category(SERVER)
     @ConfigEntry.Gui.Tooltip()
+    boolean allowHotKeyToOpenBoleHandbookScreen = false;
+
+    @ConfigEntry.Category(SERVER)
+    @ConfigEntry.Gui.Tooltip()
     boolean invulnerablePets = false;
 
     @ConfigEntry.Category(SERVER)
@@ -59,6 +63,10 @@ public class Configs implements ConfigData {
 
     public boolean isReceiveWanderingTraderSpawnBroadcasts() {
         return receiveWanderingTraderSpawnBroadcasts;
+    }
+
+    public boolean isAllowHotKeyToOpenBoleHandbookScreen() {
+        return allowHotKeyToOpenBoleHandbookScreen;
     }
 
     public boolean isInvulnerablePets() {

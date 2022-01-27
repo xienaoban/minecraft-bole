@@ -270,7 +270,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return true;
             if (mouseY < this.box.top() + BUTTONS_CUT) {
                 PlayerEntity player = handler.player;
-                if (!(player.isSpectator() || player.isCreative()) && player.totalExperience < Keys.HIGHLIGHT_EXPERIENCE_COST) {
+                if (!(isDetached()) && player.totalExperience < Keys.HIGHLIGHT_EXPERIENCE_COST) {
                     showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_HIGHLIGHT_NOT_ENOUGH_EXPERIENCE));
                     return true;
                 }
@@ -295,7 +295,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
                 return true;
             }
             else if (mouseY < this.box.bottom() - 6) {
-                if (isGodMode()) {
+                if (isGod()) {
                     handler.sendClientEntitySettings(Keys.ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY, new ItemStack(this.spawnEgg.getItem()));
                     showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_OFFER_OR_DROP, new TranslatableText(this.spawnEgg.getTranslationKey())));
                 }
@@ -430,7 +430,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             if (!debugMode) return false;
-            if (isGodMode()) {
+            if (isGod()) {
                 if (client != null && client.player != null) {
                     client.player.getInventory().insertStack(BoleHandbookItem.createBook());
                 }

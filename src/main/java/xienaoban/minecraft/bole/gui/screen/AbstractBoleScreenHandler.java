@@ -3,8 +3,6 @@ package xienaoban.minecraft.bole.gui.screen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,7 +15,6 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.Nullable;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
@@ -115,16 +112,12 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         return entity;
     }
 
-    public GameMode getGameMode() {
-        if (this.player instanceof ServerPlayerEntity serverPlayer) {
-            return serverPlayer.interactionManager.getGameMode();
-        }
-        ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
-        return manager != null ? manager.getCurrentGameMode() : null;
+    public boolean isGod() {
+        return Bole.isGod(this.player);
     }
 
-    public boolean isGodMode() {
-        return getGameMode() == GameMode.CREATIVE;
+    public boolean isDetached() {
+        return Bole.isDetached(this.player);
     }
 
     public void sendOverlayMessage(Text text) {

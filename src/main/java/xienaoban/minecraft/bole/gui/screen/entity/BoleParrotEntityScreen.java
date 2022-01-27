@@ -75,7 +75,7 @@ public class BoleParrotEntityScreen<E extends ParrotEntity, H extends BoleParrot
 
         @Override
         protected boolean canChoose() {
-            return isGodMode();
+            return isGod();
         }
 
         @Override

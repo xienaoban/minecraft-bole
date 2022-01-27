@@ -76,7 +76,7 @@ public class BoleAxolotlEntityScreen<E extends AxolotlEntity, H extends BoleAxol
 
         @Override
         protected boolean canChoose() {
-            return isGodMode();
+            return isGod();
         }
 
         @Override

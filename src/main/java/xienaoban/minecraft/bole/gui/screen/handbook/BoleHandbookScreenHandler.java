@@ -27,7 +27,7 @@ public final class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<E
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (isGodMode()) player.getInventory().offerOrDrop(buf.readItemStack());
+                if (isGod()) player.getInventory().offerOrDrop(buf.readItemStack());
             }
 
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
