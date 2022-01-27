@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/writable_book"
+  },
+  "overrides": [
+    { "predicate": {  "custom_model_data": 14489768 }, "model": "bole:item/bole_handbook"}
+  ]
+}

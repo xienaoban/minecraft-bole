@@ -432,7 +432,8 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
             if (!debugMode) return false;
             if (isGodMode()) {
                 if (client != null && client.player != null) {
-                    client.player.getInventory().insertStack(BoleHandbookItem.createBook());
+                    client.player.getInventory().insertStack(BoleHandbookItem.createWritableBook());
+                    client.player.getInventory().insertStack(BoleHandbookItem.createWrittenBook());
                 }
                 ClientNetworkManager.requestBoleHandbook();
             }

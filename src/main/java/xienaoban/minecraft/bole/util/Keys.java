@@ -32,12 +32,13 @@ public interface Keys {
     String GUI_OK = "gui.ok";
     String GUI_CANCEL = "gui.cancel";
 
-    String AUTHOR =                 "xienaoban";
-    String AUTHOR_TRANS =           "xienaoban.trans";
-    String MOD_NAME =               "bole";
-    String BOLE_HANDBOOK_TITLE =    "title.bole.bole_handbook";
-    String KEY_CATEGORY_BOLE =      "key.category.bole";
-    String KEY_OPEN_BOLE_GUI =      "key.bole.open_bole_gui";
+    String AUTHOR =                     "xienaoban";
+    String AUTHOR_TRANS =               "xienaoban.trans";
+    String MOD_NAME =                   "bole";
+    String BOLE_HANDBOOK_TITLE =        "title.bole.bole_handbook";
+    String BOLE_HANDBOOK_DESCRIPTION =  "description.bole.bole_handbook";
+    String KEY_CATEGORY_BOLE =          "key.category.bole";
+    String KEY_OPEN_BOLE_GUI =          "key.bole.open_bole_gui";
 
     String CAT_VARIANT_TABBY =             "entity.minecraft.cat.variant.tabby";
     String CAT_VARIANT_BLACK =             "entity.minecraft.cat.variant.black";

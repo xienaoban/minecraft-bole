@@ -63,7 +63,10 @@ public class ServerNetworkManager {
     private static void registerRequestBoleHandbook() {
         ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BOLE_HANDBOOK, (server, player, handler, buf, responseSender) -> {
             server.execute(() -> {
-                if (player.isCreative()) player.getInventory().insertStack(BoleHandbookItem.createBook());
+                if (player.isCreative()) {
+                    player.getInventory().insertStack(BoleHandbookItem.createWritableBook());
+                    player.getInventory().insertStack(BoleHandbookItem.createWrittenBook());
+                }
             });
         });
     }

@@ -5,6 +5,7 @@
   "key.category.bole": "Bole",
   "key.bole.open_bole_gui": "Open Bole GUI",
   "title.bole.bole_handbook": "Bole Handbook",
+  "description.bole.bole_handbook": "Let you know more about entities.",
 
   "true": "True",
   "false": "False",
@@ -233,7 +234,7 @@
   "text.warning.bole.disable_ai": "You want to perform a frontal lobotomy to incapacitate it. But it will fight back. So you will spend:\nHealth x%s\nSatiety x%s",
   "text.warning.bole.villager_reset_job": "Usually players tend to kill villagers with unsatisfactory trading lists. Thinking of this, the villager readily accepts your kindness.\nAre you sure to reset?",
 
-  "text.bole.mod_not_installed": "It means that you haven't installed the mod \"Bole\" if you see this text. You may download this mod at:",
+  "text.bole.mod_not_installed": "It means that you have not installed the mod `Bole` if you see this text. You may download this mod at:",
   "text.bole.click_me": "Click me! (≧.≦)",
   "text.bole.open_local_configs": "Open client configs screen",
   "text.bole.set_configs_local_is_remote": "Local configs:",
