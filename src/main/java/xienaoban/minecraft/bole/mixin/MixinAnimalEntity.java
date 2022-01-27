@@ -13,6 +13,9 @@ import xienaoban.minecraft.bole.config.Configs;
 
 @Mixin(AnimalEntity.class)
 public class MixinAnimalEntity {
+    /**
+     * Modify the damage amount to zero if the entity is tamed.
+     */
     @ModifyVariable(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private float damage(float amount, DamageSource source) {
         AnimalEntity that = (AnimalEntity)(Object) this;

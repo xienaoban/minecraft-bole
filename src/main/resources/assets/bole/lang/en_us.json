@@ -60,11 +60,11 @@
 
   "tag_group.bole.default": "Default",
   "tag_group.bole.default.description": "Default catalog.",
-  "tag_group.bole.class": "By Class",
+  "tag_group.bole.class": "Classes",
   "tag_group.bole.class.description": "Catalog classified by java class.",
-  "tag_group.bole.interface": "By Interface",
+  "tag_group.bole.interface": "Interfaces",
   "tag_group.bole.interface.description": "Catalog classified by java interface.",
-  "tag_group.bole.namespace": "By Mod",
+  "tag_group.bole.namespace": "Mods",
   "tag_group.bole.namespace.description": "Catalog classified by mod namespace.",
 
   "tag.bole.default.human": "Human",
