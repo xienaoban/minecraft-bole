@@ -24,7 +24,7 @@ import java.util.Optional;
  * displays the download address.
  */
 public class BoleHandbookItem {
-    private static final String ID = "bole_handbook";
+    public static final String ID = "bole_handbook";
 
     /**
      * It's a better solution to use WritableBook to implement the handbook,

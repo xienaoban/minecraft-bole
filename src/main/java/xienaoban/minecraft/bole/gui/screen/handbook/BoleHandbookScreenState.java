@@ -1,8 +1,11 @@
 package xienaoban.minecraft.bole.gui.screen.handbook;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 
+@Environment(EnvType.CLIENT)
 public class BoleHandbookScreenState {
     private final double mouseX, mouseY;
     private final int bookmarkIndex, pageIndex;
