@@ -26,13 +26,17 @@ import java.util.Optional;
 public class BoleHandbookItem {
     public static final String ID = "bole_handbook";
 
+    public static ItemStack createBook() {
+        return createWritableBook();
+    }
+
     /**
      * It's a better solution to use WritableBook to implement the handbook,
      * as it does not require access from the server.
      *
      * @see ClientPlayerEntity#useBook
      */
-    public static ItemStack createWritableBook() {
+    private static ItemStack createWritableBook() {
         ItemStack stack = new ItemStack(Items.WRITABLE_BOOK);
         NbtCompound nbt = new NbtCompound();
         addSameNbt(nbt);
@@ -48,7 +52,8 @@ public class BoleHandbookItem {
      * @see ServerPlayerEntity#useBook
      * @see ClientPlayNetworkHandler#onOpenWrittenBook
      */
-    public static ItemStack createWrittenBook() {
+    @Deprecated
+    private static ItemStack createWrittenBook() {
         ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
         NbtCompound nbt = new NbtCompound();
         addSameNbt(nbt);
