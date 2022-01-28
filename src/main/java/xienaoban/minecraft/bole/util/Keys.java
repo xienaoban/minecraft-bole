@@ -205,8 +205,9 @@ public interface Keys {
     String TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.set_configs_local_is_not_remote";
     String TEXT_GET_CONFIGS_LOCAL_IS_REMOTE = "text.bole.get_configs_local_is_remote";
     String TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.get_configs_local_is_not_remote";
+    String TEXT_SERVER_MOD_VERSION = "text.bole.server_mod_version";
     String TEXT_ANTI_MISTOUCH_WARNING = "text.bole.anti_mistouch_warning";
-    String TEXT_RETURN_TO_HANDBOOK = "text.bole.return_to_handbook";
+    String TEXT_RETURN_TO_HOMEPAGE = "text.bole.return_to_homepage";
     String TEXT_SETTINGS = "text.bole.settings";
     String TEXT_ABOUT = "text.bole.about";
     String TEXT_MOD_NAME_IS = "text.bole.mod_name_is";

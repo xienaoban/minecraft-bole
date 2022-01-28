@@ -19,8 +19,8 @@ import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.*;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
-import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreen;
-import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreen;
+import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public class ScreenManager {
 
     public static AbstractBoleScreenHandler<?> getHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
         if (entity == null) {
-            return new BoleHandbookScreenHandler(syncId, playerInventory);
+            return new BoleHomepageScreenHandler(syncId, playerInventory);
         }
         Class<?> clazz = entity.getClass();
         BoleScreenHandlerFactory<?, ?> factory;
@@ -112,7 +112,7 @@ public class ScreenManager {
 
     @Environment(EnvType.CLIENT)
     public static void initClient() {
-        ScreenRegistry.register(BoleHandbookScreenHandler.HANDLER, BoleHandbookScreen::new);
+        ScreenRegistry.register(BoleHomepageScreenHandler.HANDLER, BoleHomepageScreen::new);
 
         ScreenRegistry.register(BoleEntityScreenHandler.HANDLER, BoleEntityScreen<Entity, BoleEntityScreenHandler<Entity>>::new);
         ScreenRegistry.register(BoleLivingEntityScreenHandler.HANDLER, BoleLivingEntityScreen<LivingEntity, BoleLivingEntityScreenHandler<LivingEntity>>::new);

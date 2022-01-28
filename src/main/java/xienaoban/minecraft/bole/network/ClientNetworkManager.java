@@ -37,13 +37,16 @@ public class ClientNetworkManager {
 
     private static void registerSendServerBoleConfigs() {
         ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_SERVER_BOLE_CONFIGS, (client, handler, buf, responseSender) -> {
-            String str = buf.readString();
-            Bole.LOGGER.info("New Bole configs from the server: " + str);
+            String version = buf.readString();
+            String conf = buf.readString();
+            Bole.LOGGER.info("New Bole configs from the server: " + conf);
             client.execute(() -> {
+                BoleClient boleClient = BoleClient.getInstance();
+                boleClient.setServerVersion(version);
                 try {
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    Configs configs = gson.fromJson(str, Configs.class);
-                    BoleClient.getInstance().setServerConfigs(configs);
+                    Configs configs = gson.fromJson(conf, Configs.class);
+                    boleClient.setServerConfigs(configs);
                 } catch (Exception e) {
                     Bole.LOGGER.error("The mod version of the client does not match the mod version of the server!");
                     if (client.player != null) {

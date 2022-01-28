@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui.screen.handbook;
+package xienaoban.minecraft.bole.gui.screen.homepage;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -46,17 +46,17 @@ import java.util.concurrent.atomic.AtomicInteger;
  * The home page of the bole handbook.
  */
 @Environment(EnvType.CLIENT)
-public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookScreenHandler> {
-    public BoleHandbookScreen(BoleHandbookScreenHandler handler, PlayerInventory inventory, Text title) {
+public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHomepageScreenHandler> {
+    public BoleHomepageScreen(BoleHomepageScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Override
     protected void init() {
         super.init();
-        BoleHandbookScreenState state = BoleClient.getInstance().getHandbookState();
+        BoleHomepageScreenState state = BoleClient.getInstance().getHomepageScreenState();
         if (state != null && this.client != null) {
-            BoleClient.getInstance().setHandbookState(null);
+            BoleClient.getInstance().setHomepageScreenState(null);
             InputUtil.setCursorParameters(this.client.getWindow().getHandle(), 212993, state.getMouseX(), state.getMouseY());
             this.bookmarks.get(state.getBookmarkIndex()).onPress();
             setPageIndex(state.getPageIndex());
@@ -81,13 +81,15 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         }
         addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
             resetPages();
+            BoleClient boleClient = BoleClient.getInstance();
             Page page = this.pages.get(0);
-            String setConfigKey = BoleClient.getInstance().isHost() ? Keys.TEXT_SET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE;
+            String setConfigKey = boleClient.isHost() ? Keys.TEXT_SET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE;
             page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(setConfigKey), DARK_TEXT_COLOR, 0.5F));
             page.addSlot(new OpenLocalConfigsPropertyWidget());
             page.addSlot(new EmptyPropertyWidget(4, 1));
 
-            String curConfigKey = BoleClient.getInstance().isHost() ? Keys.TEXT_GET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE;
+            String curConfigKey = boleClient.isHost() ? Keys.TEXT_GET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE;
+            page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_SERVER_MOD_VERSION, boleClient.getServerVersion()), DARK_TEXT_COLOR, 0.5F));
             page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(curConfigKey), DARK_TEXT_COLOR, 0.5F));
             for (Field field : Configs.class.getDeclaredFields()) {
                 if (field.isAnnotationPresent(ConfigEntry.Gui.Excluded.class)) continue;
@@ -411,7 +413,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             setHovered(null);
             assert client != null;
-            client.setScreen(ScreenManager.getConfigScreen(BoleHandbookScreen.this));
+            client.setScreen(ScreenManager.getConfigScreen(BoleHomepageScreen.this));
             return true;
         }
     }

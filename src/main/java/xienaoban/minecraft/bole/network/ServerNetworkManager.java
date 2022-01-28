@@ -137,20 +137,23 @@ public class ServerNetworkManager {
     public static void sendServerBoleConfigs(MinecraftServer server, ServerPlayerEntity player) {
         server.execute(() -> {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String str = gson.toJson(Configs.getInstance());
+            String conf = gson.toJson(Configs.getInstance());
             PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeString(str);
+            buf.writeString(Bole.getModVersion());
+            buf.writeString(conf);
             ServerPlayNetworking.send(player, Channels.SEND_SERVER_BOLE_CONFIGS, buf);
         });
     }
 
     public static void sendServerBoleConfigsToAllPlayers(MinecraftServer server) {
         server.execute(() -> {
+            String version = Bole.getModVersion();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String str = gson.toJson(Configs.getInstance());
+            String conf = gson.toJson(Configs.getInstance());
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
                 PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeString(str);
+                buf.writeString(version);
+                buf.writeString(conf);
                 ServerPlayNetworking.send(player, Channels.SEND_SERVER_BOLE_CONFIGS, buf);
             }
         });

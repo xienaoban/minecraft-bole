@@ -18,7 +18,7 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.gui.Textures;
-import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;
+import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenState;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
@@ -51,16 +51,16 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     @Override
     protected void initButtons() {
         super.initButtons();
-        addBookmark(0, new TranslatableText(Keys.TEXT_RETURN_TO_HANDBOOK), button -> {
-            BoleClient.getInstance().setHandbookState(new BoleHandbookScreenState());
+        addBookmark(0, new TranslatableText(Keys.TEXT_RETURN_TO_HOMEPAGE), button -> {
+            BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState());
             ClientNetworkManager.requestBoleScreen();
         });
         addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
-            BoleClient.getInstance().setHandbookState(new BoleHandbookScreenState(8, 0));
+            BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState(8, 0));
             ClientNetworkManager.requestBoleScreen();
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
-            BoleClient.getInstance().setHandbookState(new BoleHandbookScreenState(9, 0));
+            BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState(9, 0));
             ClientNetworkManager.requestBoleScreen();
         });
     }

@@ -1,7 +1,5 @@
 package xienaoban.minecraft.bole.core;
 
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -13,10 +11,9 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
+import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.mixin.MixinMinecraftClient;
 import xienaoban.minecraft.bole.util.Keys;
-
-import java.util.Optional;
 
 /**
  * If the mod is installed correctly, a bole handbook screen will be opened when the player right-clicks the book.
@@ -74,10 +71,7 @@ public class BoleHandbookItem {
     }
 
     private static String createVersion() {
-        String version = "<unknown>";
-        Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(Keys.BOLE);
-        if (modContainer.isPresent()) version = modContainer.get().getMetadata().getVersion().toString();
-        return version;
+        return Bole.getModVersion();
     }
 
     private static NbtElement createDisplay() {

@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui.screen.handbook;
+package xienaoban.minecraft.bole.gui.screen.homepage;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,13 +13,13 @@ import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
-public final class BoleHandbookScreenHandler extends AbstractBoleScreenHandler<Entity> {
-    public static final ScreenHandlerType<BoleHandbookScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "handbook"), BoleHandbookScreenHandler::new);
+public final class BoleHomepageScreenHandler extends AbstractBoleScreenHandler<Entity> {
+    public static final ScreenHandlerType<BoleHomepageScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
+            new Identifier(Keys.NAMESPACE, "homepage"), BoleHomepageScreenHandler::new);
 
     EntityManager entityManager;
 
-    public BoleHandbookScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public BoleHomepageScreenHandler(int syncId, PlayerInventory playerInventory) {
         super(HANDLER, syncId, playerInventory, null);
         registerEntitySettingsBufHandlers();
     }

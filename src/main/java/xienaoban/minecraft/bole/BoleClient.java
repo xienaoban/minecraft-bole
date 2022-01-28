@@ -14,7 +14,7 @@ import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
-import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenState;
+import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenState;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 
 @Environment(EnvType.CLIENT)
@@ -26,10 +26,12 @@ public class BoleClient implements ClientModInitializer {
     private int ticks;
     private int screenTicks;
     private boolean inWorld;
-    private Configs serverConfigs;
     private PacketByteBuf handlerBufCache = null;
-    private BoleHandbookScreenState handbookState;
+    private BoleHomepageScreenState screenState;
     private HighlightManager highlightManager;
+
+    private String serverVersion;
+    private Configs serverConfigs;
 
     public static BoleClient getInstance() {
         return instance;
@@ -42,6 +44,7 @@ public class BoleClient implements ClientModInitializer {
         this.ticks = -1;
         this.screenTicks = -1;
         this.inWorld = false;
+        setServerVersion("<unknown>");
         setServerConfigs(Configs.getInstance());
         this.highlightManager = new HighlightManager();
         ScreenManager.initClient();
@@ -113,6 +116,14 @@ public class BoleClient implements ClientModInitializer {
         return inWorld;
     }
 
+    public String getServerVersion() {
+        return serverVersion;
+    }
+
+    public void setServerVersion(String serverVersion) {
+        this.serverVersion = serverVersion;
+    }
+
     public Configs getServerConfigs() {
         return serverConfigs;
     }
@@ -129,12 +140,12 @@ public class BoleClient implements ClientModInitializer {
         this.handlerBufCache = buf;
     }
 
-    public BoleHandbookScreenState getHandbookState() {
-        return this.handbookState;
+    public BoleHomepageScreenState getHomepageScreenState() {
+        return this.screenState;
     }
 
-    public void setHandbookState(BoleHandbookScreenState handbookState) {
-        this.handbookState = handbookState;
+    public void setHomepageScreenState(BoleHomepageScreenState screenState) {
+        this.screenState = screenState;
     }
 
     public HighlightManager getHighlightManager() {

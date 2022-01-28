@@ -1,6 +1,5 @@
-add pic to readme
+# Features
 
-Features:
 - [ ] **`Buy Bole handbook from villagers`**
 - [X] **`Highlight entities around the player`**
   - [X] `Dyanamic view distance`
@@ -71,7 +70,7 @@ Features:
               - [X] `Set axolotl variant`
           - MerchantEntity:
             - [X] `Get inventory`
-            - [ ] `Set inventory` (Open a new HandledScreen? Just like HorseScreen?)
+            - [ ] `Set inventory` (Open a new HandledScreen?)
             - VillagerEntity:
               - [X] `Highlight job site`
               - [X] `Reset level 0`
@@ -83,3 +82,11 @@ Features:
               - [X] `Add Despawn time`
         - HostileEntity:
           - Nothing here yet
+
+# Screenshots
+
+![Screenshot1](assets/screen1.png)
+
+![Screenshot2](assets/screen2.png)
+
+![Screenshot3](assets/screen3.png)

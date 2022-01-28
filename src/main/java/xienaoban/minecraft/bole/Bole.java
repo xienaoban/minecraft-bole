@@ -1,6 +1,8 @@
 package xienaoban.minecraft.bole;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -13,14 +15,26 @@ import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
+import java.util.Optional;
+
 public class Bole implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(Keys.BOLE);
+
+    private static String modVersion = null;
 
     @Override
     public void onInitialize() {
         ScreenManager.initServer();
         ServerNetworkManager.init();
         Configs.init();
+    }
+
+    public static String getModVersion() {
+        if (modVersion != null) return modVersion;
+        String version = "<unknown>";
+        Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(Keys.BOLE);
+        if (modContainer.isPresent()) version = modContainer.get().getMetadata().getVersion().toString();
+        return modVersion = version;
     }
 
     public static boolean isGod(PlayerEntity player) {

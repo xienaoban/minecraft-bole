@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui.screen.handbook;
+package xienaoban.minecraft.bole.gui.screen.homepage;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,15 +11,15 @@ import net.minecraft.client.Mouse;
  * So some data is stored in this class for smooth jumping.
  */
 @Environment(EnvType.CLIENT)
-public class BoleHandbookScreenState {
+public class BoleHomepageScreenState {
     private final double mouseX, mouseY;
     private final int bookmarkIndex, pageIndex;
 
-    public BoleHandbookScreenState() {
+    public BoleHomepageScreenState() {
         this(0, 0);
     }
 
-    public BoleHandbookScreenState(int bookmarkIndex, int pageIndex) {
+    public BoleHomepageScreenState(int bookmarkIndex, int pageIndex) {
         MinecraftClient client = MinecraftClient.getInstance();
         Mouse mouse = client.mouse;
         this.mouseX = mouse.getX();
