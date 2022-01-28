@@ -7,7 +7,7 @@ public interface Channels {
     // Client side
     Identifier REQUEST_SERVER_BOLE_CONFIGS = new Identifier(Keys.NAMESPACE, "request_server_bole_configs");
     Identifier REQUEST_BOLE_SCREEN = new Identifier(Keys.NAMESPACE, "request_bole_screen");
-    Identifier REQUEST_BOLE_HANDBOOK = new Identifier(Keys.NAMESPACE, "request_bole_handbook");
+    Identifier REQUEST_BOLE_HANDBOOK_ITEM = new Identifier(Keys.NAMESPACE, "request_bole_handbook_item");
     Identifier REQUEST_SERVER_ENTITY_DATA = new Identifier(Keys.NAMESPACE, "request_server_entity_data");
     Identifier SEND_CLIENT_ENTITY_SETTINGS = new Identifier(Keys.NAMESPACE, "send_client_entity_settings");
     Identifier REQUEST_SERVER_ENTITIES_GLOWING = new Identifier(Keys.NAMESPACE, "request_server_entities_glowing");

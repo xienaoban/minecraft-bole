@@ -132,7 +132,7 @@ public class ClientNetworkManager {
     }
 
     public static void requestBoleHandbook() {
-        ClientPlayNetworking.send(Channels.REQUEST_BOLE_HANDBOOK, PacketByteBufs.empty());
+        ClientPlayNetworking.send(Channels.REQUEST_BOLE_HANDBOOK_ITEM, PacketByteBufs.empty());
     }
 
     public static void requestServerEntityData() {

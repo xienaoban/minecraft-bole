@@ -69,9 +69,9 @@ public class ServerNetworkManager {
     }
 
     private static void registerRequestBoleHandbook() {
-        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BOLE_HANDBOOK, (server, player, handler, buf, responseSender) -> {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BOLE_HANDBOOK_ITEM, (server, player, handler, buf, responseSender) -> {
             server.execute(() -> {
-                if (player.isCreative()) {
+                if (Bole.isGod(player)) {
                     player.getInventory().insertStack(BoleHandbookItem.createBook());
                 }
             });
@@ -127,7 +127,7 @@ public class ServerNetworkManager {
         ServerPlayNetworking.registerGlobalReceiver(Channels.SEND_HIGHLIGHT_EVENT, (server, player, handler, buf, responseSender) -> {
             server.execute(() -> {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 2 * 20));
-                if (!(player.isSpectator() || player.isCreative())) {
+                if (!(Bole.isDetached(player))) {
                     player.addExperience(-2);
                 }
             });
