@@ -5,7 +5,7 @@
   "key.category.bole": "Bole",
   "key.bole.open_bole_gui": "Open Bole GUI",
   "title.bole.bole_handbook": "Bole Handbook",
-  "description.bole.bole_handbook": "Let you know more about entities.",
+  "description.bole.bole_handbook": "Helps you know more about entities.",
 
   "true": "True",
   "false": "False",
@@ -179,7 +179,7 @@
   "property_widget.bole.beehive": "Bee Nest or Beehive",
   "property_widget.bole.beehive.description": "Shows the distance between the bee and its bee nest or beehive.",
   "property_widget.bole.beehive.description.button1": "Button1: highlight the bee nest or beehive for 6 seconds.",
-  "property_widget.bole.beehive.description.button2": "Button2: let the bee to find a new bee nest or beehive.",
+  "property_widget.bole.beehive.description.button2": "Button2: lets the bee to find a new bee nest or beehive.",
   "property_widget.bole.eat_grass": "Force to Eat Grass",
   "property_widget.bole.eat_grass.description": "Force the sheep to eat grass under it.\nSince you can force the sheep to eat wheat, of course you can also force it to eat grass (:P) ~",
   "property_widget.bole.eat_grass.description.button1": "Button1: click to eat grass. You can't click it when there's no grass under the sheep.",

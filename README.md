@@ -1,3 +1,5 @@
+todo: test on server
+
 # Features
 
 - [ ] **`Buy Bole handbook from villagers`**
@@ -77,7 +79,7 @@
               - [X] `Force restock`
               - [X] `Change clothes`
             - WanderingTraderEntity:
-              - [ ] `Notify players when spawned`
+              - [X] `Notify players when spawned`
               - [X] `Despawn time`
               - [X] `Add Despawn time`
         - HostileEntity:

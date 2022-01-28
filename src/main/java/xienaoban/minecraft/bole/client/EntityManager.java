@@ -157,14 +157,14 @@ public class EntityManager {
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, this.classTags.getTag(getClassId(AnimalEntity.class)).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_HUMAN).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, List.of(getEntityInfo(EntityType.BAT), getEntityInfo(EntityType.SPIDER), getEntityInfo(EntityType.CAVE_SPIDER), getEntityInfo(EntityType.SILVERFISH)));
+        this.defaultTags.removeFromTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.AXOLOTL));
 
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, this.classTags.getTag(getClassId(WaterCreatureEntity.class)).getEntities());
+        this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.TURTLE));
+        this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.AXOLOTL));
 
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL).getEntities());
-
-        // Duplicate Entity
-        this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.TURTLE));
 
         List<EntityInfo> cHumanoid = this.getEntityInfos().stream().filter(entityInfo -> {
             if (entityInfo.getInstance() instanceof HostileEntity) {
@@ -496,6 +496,12 @@ public class EntityManager {
             entityInfos.forEach(entityInfo -> entityInfo.addTag(tag));
         }
 
+        public void removeFromTag(String tagName, EntityInfo entityInfo) {
+            Tag tag = getTag(tagName);
+            tag.removeEntity(entityInfo);
+            entityInfo.removeTag(tag);
+        }
+
         public void dfsTags(TreeNodeExecutor<Tag> executor) {
             for (Tag root : getRootTags()) {
                 dfsTagsPrivate(root, 0, executor);
@@ -550,6 +556,10 @@ public class EntityManager {
 
         protected void addEntities(Collection<EntityInfo> infos) {
             this.entities.addAll(infos);
+        }
+
+        protected void removeEntity(EntityInfo info) {
+            this.entities.remove(info);
         }
 
         public Tag getFather() {
@@ -613,6 +623,10 @@ public class EntityManager {
 
         protected void addTag(Tag tag) {
             this.tags.add(tag);
+        }
+
+        protected void removeTag(Tag tag) {
+            this.tags.remove(tag);
         }
 
         public void setSortId(int sortId) {

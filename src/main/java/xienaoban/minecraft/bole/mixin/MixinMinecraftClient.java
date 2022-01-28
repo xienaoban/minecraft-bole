@@ -16,6 +16,8 @@ import xienaoban.minecraft.bole.core.BoleHandler;
 
 @Mixin(MinecraftClient.class)
 public class MixinMinecraftClient {
+    @Unique private ClientPlayerEntity player;
+    @Unique private Hand hand;
     @Unique private ItemStack handItem;
 
     // /**
@@ -38,6 +40,8 @@ public class MixinMinecraftClient {
 
     @Redirect(method = "doItemUse()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;"))
     private ItemStack getHandItem(ClientPlayerEntity player, Hand hand) {
+        this.player = player;
+        this.hand = hand;
         return this.handItem = player.getStackInHand(hand);
     }
 
@@ -47,6 +51,7 @@ public class MixinMinecraftClient {
     @Inject(method = "doItemUse()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;", shift = At.Shift.AFTER), cancellable = true)
     private void onUseBoleHandbook(CallbackInfo ci) {
         if (Bole.isBoleHandbook(this.handItem)) {
+            this.player.swingHand(this.hand);
             BoleHandler.tryOpenBoleScreen((MinecraftClient)(Object) this);
             ci.cancel();
         }
