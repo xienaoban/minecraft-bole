@@ -20,7 +20,7 @@ public abstract class MixinCreativeInventoryScreen extends AbstractInventoryScre
     /**
      * Add the bole handbook item to the misc item group.
      * I didn't define a new item called "bole handbook", instead I just created a writable book with custom NBT.
-     * So it can't be registered in the traditional way. So I have to use mixin.
+     * So the item can't be registered in the traditional way.
      */
     @Inject(method = "setSelectedTab(Lnet/minecraft/item/ItemGroup;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemGroup;appendStacks(Lnet/minecraft/util/collection/DefaultedList;)V", shift = At.Shift.AFTER))
     private void addBoleHandbook(ItemGroup group, CallbackInfo ci) {

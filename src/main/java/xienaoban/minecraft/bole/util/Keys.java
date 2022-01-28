@@ -223,4 +223,5 @@ public interface Keys {
     int HIGHLIGHT_EXPERIENCE_COST = 2;
     int NETHER_PORTAL_LOCK = 1200;
     int SIT_ON_PLAYER_LOCK = -300;
+    int BABY_LOCK = -0x70000000;     // Do not use 0x80000000, as it may overflow into positive.
 }

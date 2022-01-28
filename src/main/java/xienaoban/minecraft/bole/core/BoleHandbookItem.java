@@ -13,17 +13,21 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
+import xienaoban.minecraft.bole.mixin.MixinMinecraftClient;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.Optional;
 
 /**
- * If the mod has been installed correctly, a bole handbook screen will be opened
- * when the player right-clicks the book.
- * But if the mod is not installed, a vanilla book screen will be opened which
- * displays the download address.
+ * If the mod is installed correctly, a bole handbook screen will be opened when the player right-clicks the book.
+ * But if the mod is not installed, a vanilla book screen will be opened which displays the download address.
+ *
+ * I didn't choose to define a new book item, instead I just made a book with custom NBT to ensure a good compatibility.
+ * And I implemented the opening of the book in the mixin.
+ * @see MixinMinecraftClient#onUseBoleHandbook
  */
 public class BoleHandbookItem {
+    // Any writable book with this nbt key will be recognized as a bole handbook.
     public static final String ID = "bole_handbook";
 
     public static ItemStack createBook() {
@@ -33,7 +37,6 @@ public class BoleHandbookItem {
     /**
      * It's a better solution to use WritableBook to implement the handbook,
      * as it does not require access from the server.
-     *
      * @see ClientPlayerEntity#useBook
      */
     private static ItemStack createWritableBook() {
@@ -48,7 +51,6 @@ public class BoleHandbookItem {
     /**
      * It's not a good choice to use WrittenBook to implement the handbook,
      * as opening this screen requires server-side permission.
-     *
      * @see ServerPlayerEntity#useBook
      * @see ClientPlayNetworkHandler#onOpenWrittenBook
      */

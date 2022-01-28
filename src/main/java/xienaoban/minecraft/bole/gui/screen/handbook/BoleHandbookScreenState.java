@@ -5,6 +5,11 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 
+/**
+ * Jumping between the entity screen and the handbook screen brings some problems.
+ * For example, the mouse position will be reset to the center.
+ * So some data is stored in this class for smooth jumping.
+ */
 @Environment(EnvType.CLIENT)
 public class BoleHandbookScreenState {
     private final double mouseX, mouseY;

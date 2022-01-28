@@ -18,10 +18,13 @@ import xienaoban.minecraft.bole.core.BoleHandler;
 public class MixinMinecraftClient {
     @Unique private ItemStack handItem;
 
-    @Inject(method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V", at = @At("TAIL"))
-    private void joinWorld(CallbackInfo callbackInfo) {
-        // BoleClient.getInstance().onJoin();
-    }
+    // /**
+    //  * @see MixinClientPlayNetworkHandler
+    //  */
+    // @Inject(method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V", at = @At("TAIL"))
+    // private void joinWorld(CallbackInfo callbackInfo) {
+    //     BoleClient.getInstance().onJoin();
+    // }
 
     @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("HEAD"))
     private void disconnect(CallbackInfo callbackInfo) {
@@ -38,6 +41,9 @@ public class MixinMinecraftClient {
         return this.handItem = player.getStackInHand(hand);
     }
 
+    /**
+     * The logic of using the bole handbook item.
+     */
     @Inject(method = "doItemUse()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;", shift = At.Shift.AFTER), cancellable = true)
     private void onUseBoleHandbook(CallbackInfo ci) {
         if (Bole.isBoleHandbook(this.handItem)) {

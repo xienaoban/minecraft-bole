@@ -42,6 +42,9 @@ import xienaoban.minecraft.bole.util.Keys;
 import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * The home page of the bole handbook.
+ */
 @Environment(EnvType.CLIENT)
 public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHandbookScreenHandler> {
     public BoleHandbookScreen(BoleHandbookScreenHandler handler, PlayerInventory inventory, Text title) {

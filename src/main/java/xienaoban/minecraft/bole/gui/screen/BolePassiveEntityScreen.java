@@ -40,8 +40,7 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
      * You can set the child to never grow up.
      */
     public class BabyPropertyWidget extends TemplatePropertyWidget1 {
-        public static final int BABY_MIN_AGE = -24000;
-        public static final int LOCK = -0x70000000; // Do not use 0x80000000, as it may overflow into positive.
+        public static final int BABY_MIN_AGE = PassiveEntity.BABY_AGE;
 
         public BabyPropertyWidget() {
             super(2, true, 1);
@@ -85,7 +84,7 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
                 showOverlayMessage(Keys.HINT_TEXT_NOT_BABY);
                 return true;
             }
-            if (age >= BABY_MIN_AGE) age = LOCK;
+            if (age >= BABY_MIN_AGE) age = Keys.BABY_LOCK;
             else age = BABY_MIN_AGE;
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_BABY, age);
             return true;
