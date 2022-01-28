@@ -1139,19 +1139,19 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             if (offsetX < ICON_LEFT + ICON_WIDTH) {
                 if (offsetX > ICON_LEFT + 1 && offsetX < ICON_LEFT + ICON_WIDTH - 1
                         && offsetY > 1 && offsetY < 9) {
-                    index = 0;
+                    index = IDX_ICON;
                 }
             }
             else if (offsetX < BAR_LEFT + this.barWidth) {
                 if (offsetX > BAR_LEFT && offsetY > 2 && offsetY < 8) {
-                    index = 1;
+                    index = IDX_BAR;
                 }
             }
             else {
                 for (int i = this.buttons.length - 1; i >= 0; --i) {
                     if (offsetX > this.buttons[i]) {
                         if (offsetX < this.buttons[i] + BUTTON_WIDTH && offsetY > 1 && offsetY < 9) {
-                            index = 2 + i;
+                            index = IDX_BUTTON_BEGIN + i;
                         }
                         break;
                     }

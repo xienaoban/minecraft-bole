@@ -28,6 +28,11 @@
   "entity.minecraft.parrot.variant.cyan": "Cyan",
   "entity.minecraft.parrot.variant.gray": "Gray",
 
+  "entity.minecraft.llama.variant.sand": "Sand",
+  "entity.minecraft.llama.variant.snow": "Snow",
+  "entity.minecraft.llama.variant.wood": "Wood",
+  "entity.minecraft.llama.variant.dirty": "Dirty",
+
   "entity.minecraft.horse.variant.color.white": "WH",
   "entity.minecraft.horse.variant.color.creamy":"Cream",
   "entity.minecraft.horse.variant.color.chestnut": "Nut",

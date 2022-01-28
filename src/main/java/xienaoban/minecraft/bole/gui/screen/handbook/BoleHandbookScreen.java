@@ -251,7 +251,7 @@ public final class BoleHandbookScreen extends AbstractBoleScreen<Entity, BoleHan
                 else u = 220;
                 drawRectangle(matrices, 0x77794500, getZOffset(), this.box.left(), this.box.top(), this.box.right(), this.box.bottom());
                 drawTextCenteredX(matrices, this.entityName, 0xffffffff, 0.5F, this.box.left() + (this.box.width() >> 1), this.box.bottom() - (Page.PROPERTY_WIDGET_HEIGHT >> 1));
-                boolean whichButton = mouseY > this.box.top() + BUTTONS_CUT;
+                boolean whichButton = mouseY >= this.box.top() + BUTTONS_CUT;
                 drawRectangle(matrices, !whichButton ? 0xd4ffffff : 0xaaffffff, getZOffset(), this.box.left() + 1, this.box.top() + 1, this.box.right() - 1, this.box.top() + BUTTONS_CUT);
                 drawRectangle(matrices, whichButton ? 0xd4ffffff : 0xaaffffff, getZOffset(), this.box.left() + 1, this.box.top() + BUTTONS_CUT, this.box.right() - 1, this.box.bottom() - 6);
                 int mid = this.box.left() + this.box.right() >> 1;

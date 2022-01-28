@@ -22,6 +22,7 @@ public interface Keys {
     String ENTITY_SETTING_EAT_GRASS =                       "eat_grass";
     String ENTITY_SETTING_CAT_VARIANT =                     "cat_variant";
     String ENTITY_SETTING_PARROT_VARIANT =                  "parrot_variant";
+    String ENTITY_SETTING_LLAMA_VARIANT =                   "llama_variant";
     String ENTITY_SETTING_PANDA_VARIANT =                   "panda_variant";
     String ENTITY_SETTING_AXOLOTL_VARIANT =                 "axolotl_variant";
     String ENTITY_SETTING_HORSE_COLOR_VARIANT =             "horse_color_variant";
@@ -57,6 +58,11 @@ public interface Keys {
     String PARROT_VARIANT_GREEN =   "entity.minecraft.parrot.variant.green";
     String PARROT_VARIANT_CYAN =    "entity.minecraft.parrot.variant.cyan";
     String PARROT_VARIANT_GRAY =    "entity.minecraft.parrot.variant.gray";
+
+    String LLAMA_VARIANT_SAND =     "entity.minecraft.llama.variant.sand";
+    String LLAMA_VARIANT_SNOW =     "entity.minecraft.llama.variant.snow";
+    String LLAMA_VARIANT_WOOD =     "entity.minecraft.llama.variant.wood";
+    String LLAMA_VARIANT_DIRTY =    "entity.minecraft.llama.variant.dirty";
 
     String HORSE_COLOR_VARIANT_WHITE = "entity.minecraft.horse.variant.color.white";
     String HORSE_COLOR_VARIANT_CREAMY = "entity.minecraft.horse.variant.color.creamy";

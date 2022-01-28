@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.hit.EntityHitResult;
@@ -43,5 +44,6 @@ public class BoleHandler {
             boleClient.setBoleTarget(target);
             ClientNetworkManager.requestBoleScreen(target);
         }
+        player.playSound(SoundEvents.ITEM_BOOK_PAGE_TURN, 1.0F, 0.8F);
     }
 }

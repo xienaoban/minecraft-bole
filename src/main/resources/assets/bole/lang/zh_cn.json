@@ -28,6 +28,11 @@
   "entity.minecraft.parrot.variant.cyan": "青",
   "entity.minecraft.parrot.variant.gray": "灰",
 
+  "entity.minecraft.llama.variant.sand": "沙",
+  "entity.minecraft.llama.variant.snow": "雪",
+  "entity.minecraft.llama.variant.wood": "木",
+  "entity.minecraft.llama.variant.dirty": "脏",
+
   "entity.minecraft.horse.variant.color.white": "白色",
   "entity.minecraft.horse.variant.color.creamy":"奶油色",
   "entity.minecraft.horse.variant.color.chestnut": "板栗色",
@@ -221,7 +226,7 @@
   "text.hint.bole.not_baby": "锁住已成年生物的成长阶段，是怕它返老还童吗~",
   "text.hint.bole.no_beehive": "看样子是只无家可归的小蜜蜂呢~",
   "text.hint.bole.eating_grass": "草正吃着呢~",
-  "text.hint.bole.far_from_grass": "然而它脚底下并没有没草可以吃~",
+  "text.hint.bole.far_from_grass": "草呢，脚底下没草啊~",
   "text.hint.bole.not_enough_items": "你这点礼很难让人给你办事啊~",
   "text.hint.bole.far_from_job_site": "离工作方块太远啦！所谓“巧妇难为无米之炊”~",
   "text.hint.bole.no_job": "无业游民：“只要我足够废物，就没有人能压榨我~”",

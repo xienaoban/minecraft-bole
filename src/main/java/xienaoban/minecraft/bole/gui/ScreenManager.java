@@ -95,6 +95,7 @@ public class ScreenManager {
         registerEntityToHandler(AnimalEntity.class, BoleAnimalEntityScreenHandler::new);
         registerEntityToHandler(HorseBaseEntity.class, BoleHorseBaseEntityScreenHandler::new);
         registerEntityToHandler(AbstractDonkeyEntity.class, BoleAbstractDonkeyEntityScreenHandler::new);
+        registerEntityToHandler(LlamaEntity.class, BoleLlamaEntityScreenHandler::new);
         registerEntityToHandler(MerchantEntity.class, BoleMerchantEntityScreenHandler::new);
         registerEntityToHandler(VillagerEntity.class, BoleVillagerEntityScreenHandler::new);
         registerEntityToHandler(SheepEntity.class, BoleSheepEntityScreenHandler::new);
@@ -121,6 +122,7 @@ public class ScreenManager {
         ScreenRegistry.register(BoleAnimalEntityScreenHandler.HANDLER, BoleAnimalEntityScreen<AnimalEntity, BoleAnimalEntityScreenHandler<AnimalEntity>>::new);
         ScreenRegistry.register(BoleHorseBaseEntityScreenHandler.HANDLER, BoleHorseBaseEntityScreen<HorseBaseEntity, BoleHorseBaseEntityScreenHandler<HorseBaseEntity>>::new);
         ScreenRegistry.register(BoleAbstractDonkeyEntityScreenHandler.HANDLER, BoleAbstractDonkeyEntityScreen<AbstractDonkeyEntity, BoleAbstractDonkeyEntityScreenHandler<AbstractDonkeyEntity>>::new);
+        ScreenRegistry.register(BoleLlamaEntityScreenHandler.HANDLER, BoleLlamaEntityScreen<LlamaEntity, BoleLlamaEntityScreenHandler<LlamaEntity>>::new);
         ScreenRegistry.register(BoleMerchantEntityScreenHandler.HANDLER, BoleMerchantEntityScreen<MerchantEntity, BoleMerchantEntityScreenHandler<MerchantEntity>>::new);
         ScreenRegistry.register(BoleVillagerEntityScreenHandler.HANDLER, BoleVillagerEntityScreen<VillagerEntity, BoleVillagerEntityScreenHandler<VillagerEntity>>::new);
         ScreenRegistry.register(BoleSheepEntityScreenHandler.HANDLER, BoleSheepEntityScreen<SheepEntity, BoleSheepEntityScreenHandler<SheepEntity>>::new);
