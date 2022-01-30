@@ -1,4 +1,4 @@
-package xienaoban.minecraft.bole.gui.screen;
+package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -12,6 +12,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.Comparator;
@@ -32,7 +33,7 @@ public class BoleAnimalEntityScreenHandler<E extends AnimalEntity> extends BoleP
     }
 
     public BoleAnimalEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
-        this(handler, syncId, playerInventory, clientEntity());
+        this(handler, syncId, playerInventory, AbstractBoleScreenHandler.clientEntity());
     }
 
     public BoleAnimalEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {

@@ -12,7 +12,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreenHandler;
 import xienaoban.minecraft.bole.mixin.IMixinBeeEntity;
 import xienaoban.minecraft.bole.util.Keys;
 

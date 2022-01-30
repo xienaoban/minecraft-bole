@@ -21,6 +21,7 @@ import xienaoban.minecraft.bole.gui.screen.*;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreen;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.*;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.HashMap;

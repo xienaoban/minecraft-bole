@@ -7,7 +7,7 @@ import net.minecraft.entity.passive.WanderingTraderEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
-import xienaoban.minecraft.bole.gui.screen.BoleMerchantEntityScreen;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleMerchantEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)

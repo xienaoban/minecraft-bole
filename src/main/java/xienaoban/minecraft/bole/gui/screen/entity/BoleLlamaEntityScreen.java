@@ -8,7 +8,7 @@ import net.minecraft.entity.passive.LlamaEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import xienaoban.minecraft.bole.gui.screen.BoleAbstractDonkeyEntityScreen;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAbstractDonkeyEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 

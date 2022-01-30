@@ -1,23 +1,23 @@
-package xienaoban.minecraft.bole.gui.screen;
+package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.passive.AbstractDonkeyEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
-public class BoleAbstractDonkeyEntityScreen<E extends AbstractDonkeyEntity, H extends BoleAbstractDonkeyEntityScreenHandler<E>> extends BoleHorseBaseEntityScreen<E, H> {
-    public BoleAbstractDonkeyEntityScreen(H handler, PlayerInventory inventory, Text title) {
+public class BoleTameableEntityScreen<E extends TameableEntity, H extends BoleTameableEntityScreenHandler<E>> extends BoleAnimalEntityScreen<E, H> {
+    public BoleTameableEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazyBefore(new DonkeyChestPropertyWidget(), BoundingBoxPropertyWidget.class);
+        this.pages.get(0).addSlotLazyAfter(new TamePropertyWidget(), LeashPropertyWidget.class);
     }
 
     @Override
@@ -33,22 +33,22 @@ public class BoleAbstractDonkeyEntityScreen<E extends AbstractDonkeyEntity, H ex
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class DonkeyChestPropertyWidget extends TemplatePropertyWidget1 {
+    public class TamePropertyWidget extends TemplatePropertyWidget1 {
 
-        public DonkeyChestPropertyWidget() {
-            super(1, false, 0);
+        public TamePropertyWidget() {
+            super(1, true, 0);
         }
 
         @Override
         protected void initTooltipLines() {
-            initTooltipTitle(Keys.PROPERTY_WIDGET_DONKEY_CHEST);
-            initTooltipDescription(Keys.PROPERTY_WIDGET_DONKEY_CHEST_DESCRIPTION);
+            initTooltipTitle(Keys.PROPERTY_WIDGET_TAME);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_TAME_DESCRIPTION);
         }
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawIcon(matrices, 140, 0);
-            drawBarText(matrices, String.valueOf(handler.entity.getInventoryColumns() * 3), DARK_TEXT_COLOR);
+            drawIcon(matrices, 150, 10);
+            drawBar(matrices, 1.0F, 220 + (handler.entity.isTamed() ? 0 : 10), 20);
         }
     }
 }

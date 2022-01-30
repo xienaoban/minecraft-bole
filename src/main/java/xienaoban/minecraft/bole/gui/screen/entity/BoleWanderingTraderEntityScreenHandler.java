@@ -13,7 +13,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.Bole;
-import xienaoban.minecraft.bole.gui.screen.BoleMerchantEntityScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleMerchantEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleWanderingTraderEntityScreenHandler<E extends WanderingTraderEntity> extends BoleMerchantEntityScreenHandler<E> {

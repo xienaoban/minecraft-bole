@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
-import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreen;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
 import xienaoban.minecraft.bole.mixin.IMixinAxolotlEntity;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;

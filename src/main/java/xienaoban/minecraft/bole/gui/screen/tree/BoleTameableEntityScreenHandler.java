@@ -1,33 +1,33 @@
-package xienaoban.minecraft.bole.gui.screen;
+package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleHorseBaseEntityScreenHandler<E extends HorseBaseEntity> extends BoleAnimalEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleHorseBaseEntityScreenHandler<HorseBaseEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "horse_base_entity"), BoleHorseBaseEntityScreenHandler::new);
+public class BoleTameableEntityScreenHandler<E extends TameableEntity> extends BoleAnimalEntityScreenHandler<E> {
+    public static final ScreenHandlerType<BoleTameableEntityScreenHandler<TameableEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
+            new Identifier(Keys.NAMESPACE, "tameable_entity"), BoleTameableEntityScreenHandler::new);
 
-    public BoleHorseBaseEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public BoleTameableEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }
 
-    public BoleHorseBaseEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleTameableEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
         this(HANDLER, syncId, playerInventory, entity);
     }
 
-    public BoleHorseBaseEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
+    public BoleTameableEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
         this(handler, syncId, playerInventory, clientEntity());
     }
 
-    public BoleHorseBaseEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleTameableEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
     }
 

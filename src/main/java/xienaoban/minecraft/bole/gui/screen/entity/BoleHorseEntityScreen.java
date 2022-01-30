@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
-import xienaoban.minecraft.bole.gui.screen.BoleHorseBaseEntityScreen;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleHorseBaseEntityScreen;
 import xienaoban.minecraft.bole.mixin.IMixinHorseColor;
 import xienaoban.minecraft.bole.mixin.IMixinHorseEntity;
 import xienaoban.minecraft.bole.mixin.IMixinHorseMarking;

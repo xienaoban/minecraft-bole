@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import xienaoban.minecraft.bole.gui.screen.BoleTameableShoulderEntityScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleTameableShoulderEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleParrotEntityScreenHandler<E extends ParrotEntity> extends BoleTameableShoulderEntityScreenHandler<E> {

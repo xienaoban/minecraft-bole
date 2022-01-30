@@ -1,50 +1,56 @@
-package xienaoban.minecraft.bole.gui.screen;
+package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import xienaoban.minecraft.bole.mixin.IMixinPassiveEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends BolePathAwareEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BolePassiveEntityScreenHandler<PassiveEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "passive_entity"), BolePassiveEntityScreenHandler::new);
+public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingEntityScreenHandler<E> {
+    public static final ScreenHandlerType<BoleMobEntityScreenHandler<MobEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
+            new Identifier(Keys.NAMESPACE, "mob_entity"), BoleMobEntityScreenHandler::new);
 
-    @Environment(EnvType.CLIENT)
-    protected int entityBreedingAge;
-
-    public BolePassiveEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public BoleMobEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }
 
-    public BolePassiveEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleMobEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
         this(HANDLER, syncId, playerInventory, entity);
     }
 
-    public BolePassiveEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
+    public BoleMobEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
         this(handler, syncId, playerInventory, clientEntity());
     }
 
-    public BolePassiveEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleMobEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
         registerEntitySettingsBufHandlers();
     }
 
     private void registerEntitySettingsBufHandlers() {
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_BABY, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_NO_AI, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                entity.setBreedingAge(buf.readInt());   // use setBreedingAge on the server side
+                set(buf.readBoolean());
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
-                int age = (Integer) args[0];
-                entityBreedingAge = age;
-                buf.writeInt(age);
+                boolean disabled = (Boolean) args[0];
+                buf.writeBoolean(disabled);
+                set(disabled);
+            }
+            private void set(boolean disabled) {
+                entity.setAiDisabled(disabled);
+                int healthAndSatiety = entity instanceof HostileEntity ? 8 : 2;
+                if (disabled && !isGod()) {
+                    player.damage(DamageSource.mob(entity), healthAndSatiety);
+                    player.getHungerManager().add(-healthAndSatiety, 0);
+                }
             }
         });
     }
@@ -67,34 +73,22 @@ public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends Bol
     @Override
     public void clientTick(int ticks) {
         super.clientTick(ticks);
-        calculateClientEntityBreedingAge();
     }
 
     @Override
     protected void writeServerEntityToBuf(PacketByteBuf buf) {
         super.writeServerEntityToBuf(buf);
-        buf.writeInt(((IMixinPassiveEntity)this.entity).getBreedingAgeValue());
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     protected void readServerEntityFromBuf(PacketByteBuf buf) {
         super.readServerEntityFromBuf(buf);
-        this.entityBreedingAge = buf.readInt();
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     protected void resetClientEntityServerProperties() {
         super.resetClientEntityServerProperties();
-    }
-
-    @Environment(EnvType.CLIENT)
-    private void calculateClientEntityBreedingAge() {
-        int age = this.entityBreedingAge;
-        if (age == 0x80000000 || age >= 0) {
-            return;
-        }
-        this.entityBreedingAge = age + 1;
     }
 }
