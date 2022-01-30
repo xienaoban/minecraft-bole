@@ -29,6 +29,7 @@
     "MixinPassiveEntity",
     "MixinPolarBearEntity",
     "MixinTameableShoulderEntity",
+    "MixinWanderingTraderEntity",
     "MixinWanderingTraderManager"
   ],
   "client": [
