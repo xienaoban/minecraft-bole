@@ -200,6 +200,7 @@ public interface Keys {
 
     String TEXT_MOD_NOT_INSTALLED = "text.bole.mod_not_installed";
     String TEXT_CLICK_ME = "text.bole.click_me";
+    String TEXT_TARGET_ENTITY_TOO_FAR = "text.bole.target_entity_too_far";
     String TEXT_OPEN_LOCAL_CONFIGS = "text.bole.open_local_configs";
     String TEXT_SET_CONFIGS_LOCAL_IS_REMOTE = "text.bole.set_configs_local_is_remote";
     String TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.set_configs_local_is_not_remote";

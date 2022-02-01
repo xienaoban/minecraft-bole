@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
+import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.gui.ElementBox;
 import xienaoban.minecraft.bole.gui.ScreenElement;
@@ -233,10 +234,14 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                 List<String> entitySuperclasses = new ArrayList<>();
                 Class<?> clazz = this.handler.entity.getClass();
                 while (!Entity.class.equals(clazz)) {
-                    entitySuperclasses.add(clazz.getSimpleName());
+                    String fullClassName = EntityManager.getInstance().getClassDeobfuscation(clazz);
+                    String simpleClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+                    entitySuperclasses.add(simpleClassName);
                     clazz = clazz.getSuperclass();
                 }
-                entitySuperclasses.add(clazz.getSimpleName());
+                String fullClassName = EntityManager.getInstance().getClassDeobfuscation(clazz);
+                String simpleClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+                entitySuperclasses.add(simpleClassName);
                 Collections.reverse(entitySuperclasses);
                 drawText(matrices, "Entity: " + String.join(" > ", entitySuperclasses), LIGHT_TEXT_COLOR, 0.5F, 1, 15);
                 drawText(matrices, "Screen: " + this.getClass().getSimpleName(), LIGHT_TEXT_COLOR, 0.5F, 1, 20);

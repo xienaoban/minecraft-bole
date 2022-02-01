@@ -11,11 +11,14 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.config.Configs;
+import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
@@ -24,6 +27,8 @@ import xienaoban.minecraft.bole.util.Keys;
 public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScreenHandler<E> {
     public static final ScreenHandlerType<BoleEntityScreenHandler<Entity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "entity"), BoleEntityScreenHandler::new);
+
+    private static final int CLOSE_SCREEN_DISTANCE = 10;
 
     // I didn't define a local variable "protected int entityNetherPortalCooldown" in this handler,
     // because the calculation logic of this value is inside Entity (and my mixin).
@@ -136,6 +141,13 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     @Override
     public void clientTick(int ticks) {
         if (ticks % 20 == 0) {
+            if (this.player.squaredDistanceTo(this.entity) > CLOSE_SCREEN_DISTANCE * CLOSE_SCREEN_DISTANCE) {
+                if (MinecraftClient.getInstance().currentScreen instanceof AbstractBoleScreen screen) {
+                    BoleClient.getInstance().getHighlightManager().highlight(this.entity, 2 * 20);
+                    screen.onClose();
+                    player.sendMessage(new TranslatableText(Keys.TEXT_TARGET_ENTITY_TOO_FAR).formatted(Formatting.YELLOW), true);
+                }
+            }
             ClientNetworkManager.requestServerEntityData();
         }
         calculateClientEntityNetherPortalCooldown();

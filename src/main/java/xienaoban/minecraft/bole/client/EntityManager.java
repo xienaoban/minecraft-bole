@@ -240,8 +240,12 @@ public class EntityManager {
         return this.sortedInfos;
     }
 
-    private String getClassId(Class<?> clazz) {
+    public String getClassDeobfuscation(Class<?> clazz) {
         return this.deobfuscation.getOrDefault(clazz, clazz.getName());
+    }
+
+    private String getClassId(Class<?> clazz) {
+        return getClassDeobfuscation(clazz);
     }
 
     public void dfsEntityTree(boolean skipRoot, TreeNodeExecutor<EntityTreeNode> executor) {

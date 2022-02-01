@@ -243,6 +243,7 @@
 
   "text.bole.mod_not_installed": "It means that you have not installed the mod `Bole` if you see this text. You may download this mod at:",
   "text.bole.click_me": "Click me! (≧.≦)",
+  "text.bole.target_entity_too_far": "The target entity is too far from you.",
   "text.bole.open_local_configs": "Open client configs screen",
   "text.bole.set_configs_local_is_remote": "Local configs:",
   "text.bole.set_configs_local_is_not_remote": "Local configs:",
