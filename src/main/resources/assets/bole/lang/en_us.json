@@ -239,6 +239,7 @@
 
   "text.warning.bole.enable_ai": "Maybe just put its frontal lobe back in...",
   "text.warning.bole.disable_ai": "You want to perform a frontal lobotomy to incapacitate it. But it will fight back. So you will spend:\nHealth x%s\nSatiety x%s",
+  "text.warning.bole.open_merchant_inventory": "If you are willing to pay %d %ss, the merchant will let you rummage through its inventory.",
   "text.warning.bole.villager_reset_job": "Usually players tend to kill villagers with unsatisfactory trading lists. Thinking of this, the villager readily accepts your kindness.\nAre you sure to reset?",
 
   "text.bole.mod_not_installed": "It means that you have not installed the mod `Bole` if you see this text. You may download this mod at:",

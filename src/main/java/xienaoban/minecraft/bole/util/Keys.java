@@ -196,6 +196,7 @@ public interface Keys {
 
     String WARNING_TEXT_ENABLE_AI = "text.warning.bole.enable_ai";
     String WARNING_TEXT_DISABLE_AI = "text.warning.bole.disable_ai";
+    String WARNING_TEXT_OPEN_MERCHANT_INVENTORY = "text.warning.bole.open_merchant_inventory";
     String WARNING_TEXT_VILLAGER_RESET_JOB = "text.warning.bole.villager_reset_job";
 
     String TEXT_MOD_NOT_INSTALLED = "text.bole.mod_not_installed";

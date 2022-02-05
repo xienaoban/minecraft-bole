@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
@@ -18,6 +19,8 @@ import xienaoban.minecraft.bole.util.Keys;
 public class BoleMerchantEntityScreenHandler<E extends MerchantEntity> extends BolePassiveEntityScreenHandler<E> {
     public static final ScreenHandlerType<BoleMerchantEntityScreenHandler<MerchantEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "merchant_entity"), BoleMerchantEntityScreenHandler::new);
+
+    public static final ItemStack OPEN_INVENTORY_COST = new ItemStack(Items.EMERALD, 12);
 
     @Environment(EnvType.CLIENT)
     protected SimpleInventory entityInventory; // do not init it here as it may be initialized in super()

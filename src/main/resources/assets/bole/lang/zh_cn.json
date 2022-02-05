@@ -227,7 +227,7 @@
   "text.hint.bole.no_beehive": "看样子是只无家可归的小蜜蜂呢~",
   "text.hint.bole.eating_grass": "草正吃着呢~",
   "text.hint.bole.far_from_grass": "草呢，脚底下没草啊~",
-  "text.hint.bole.not_enough_items": "你这点礼很难让人给你办事啊~",
+  "text.hint.bole.not_enough_items": "你这点钱/礼很难让人给你办事啊~",
   "text.hint.bole.far_from_job_site": "离工作方块太远啦！所谓“巧妇难为无米之炊”~",
   "text.hint.bole.no_job": "无业游民：“只要我足够废物，就没有人能压榨我~”",
   "text.hint.bole.no_job_site": "这是一只失去工作方块的村民，看样子是就业形势不太好呢~",
@@ -239,7 +239,8 @@
 
   "text.warning.bole.enable_ai": "也许只要把它的额叶塞回去就行了叭…",
   "text.warning.bole.disable_ai": "你将尝试对其进行额叶切除手术而使之丧失行动能力。但它也会奋力反抗。\n\n你预计这场战斗与手术将花费：\n生命值 x%s\n饱食度 x%s",
-  "text.warning.bole.villager_reset_job": "在有此Mod之前，交易刷歪了的村民大多难逃玩家正义的击杀。想到这儿，村民转而欣然接受了你的好意。\n\n村民交易列表与经验等级均会清零，确认重置吗？",
+  "text.warning.bole.open_merchant_inventory": "如果你愿意给商人支付 %d 个 %s 的话，商人倒是不介意让你随意翻它的随身小背包。",
+  "text.warning.bole.villager_reset_job": "在有此模组之前，交易刷歪了的村民大多难逃玩家正义的击杀。想到这儿，村民转而欣然接受了你的好意。\n\n村民交易列表与经验等级均会清零，确认重置吗？",
 
   "text.bole.mod_not_installed": "如果您看到了此段文字，说明您并未安装“伯乐”模组，您可以前往以下网址下载本模组：",
   "text.bole.click_me": "点我点我点我！（≧.≦）",

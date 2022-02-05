@@ -6,6 +6,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.BoleClient;
@@ -73,9 +74,15 @@ public class BoleMerchantEntityScreen<E extends MerchantEntity, H extends BoleMe
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            ItemStack cost = BoleMerchantEntityScreenHandler.OPEN_INVENTORY_COST;
             MerchantEntity merchantEntity = handler.entity;
-            BoleClient.getInstance().setBoleTarget(merchantEntity);
-            ClientNetworkManager.requestMerchantInventoryScreen(merchantEntity);
+            setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.WARNING_TEXT_OPEN_MERCHANT_INVENTORY, cost.getCount(), cost.getItem().getName()), () -> {
+                if (handler.trySpendItems(cost)) {
+                    BoleClient.getInstance().setBoleTarget(merchantEntity);
+                    ClientNetworkManager.requestMerchantInventoryScreen(merchantEntity);
+                }
+                else showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
+            }));
             return true;
         }
     }
