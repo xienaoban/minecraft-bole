@@ -8,7 +8,7 @@ import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import xienaoban.minecraft.bole.gui.screen.BoleTameableEntityScreen;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleTameableEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
@@ -81,7 +81,7 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
 
         @Override
         protected boolean canChoose() {
-            return isGodMode();
+            return isGod();
         }
 
         @Override

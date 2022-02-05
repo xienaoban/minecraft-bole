@@ -4,6 +4,7 @@ public interface Keys {
     // ID
     String BOLE = "bole";
     String NAMESPACE = "bole";
+    String GITHUB_RELEASE = "https://github.com/XieNaoban/minecraft-bole/releases";
 
     // Entity Setting Channels
     String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =     "offer_or_drop";
@@ -17,22 +18,28 @@ public interface Keys {
     String ENTITY_SETTING_RESET_JOB =                       "reset_job";
     String ENTITY_SETTING_RESTOCK =                         "restock";
     String ENTITY_SETTING_VILLAGER_CLOTHING =               "villager_clothing";
+    String ENTITY_SETTING_ADD_WANDERING_TIME =              "add_wandering_time";
     String ENTITY_SETTING_EAT_GRASS =                       "eat_grass";
     String ENTITY_SETTING_CAT_VARIANT =                     "cat_variant";
     String ENTITY_SETTING_PARROT_VARIANT =                  "parrot_variant";
+    String ENTITY_SETTING_LLAMA_VARIANT =                   "llama_variant";
     String ENTITY_SETTING_PANDA_VARIANT =                   "panda_variant";
     String ENTITY_SETTING_AXOLOTL_VARIANT =                 "axolotl_variant";
+    String ENTITY_SETTING_HORSE_COLOR_VARIANT =             "horse_color_variant";
+    String ENTITY_SETTING_HORSE_MARKING_VARIANT =           "horse_marking_variant";
     String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =          "sit_on_player_cooldown";
 
     // Translation Keys
     String GUI_OK = "gui.ok";
     String GUI_CANCEL = "gui.cancel";
 
-    String XIENAOBAN =              "xienaoban";
-    String MOD_NAME =               "bole";
-    String TITLE_BOLE_OVERVIEW =    "title.bole.bole_handbook";
-    String KEY_CATEGORY_BOLE =      "key.category.bole";
-    String KEY_OPEN_BOLE_GUI =      "key.bole.open_bole_gui";
+    String AUTHOR =                     "xienaoban";
+    String AUTHOR_TRANS =               "xienaoban.trans";
+    String MOD_NAME =                   "bole";
+    String BOLE_HANDBOOK_TITLE =        "title.bole.bole_handbook";
+    String BOLE_HANDBOOK_DESCRIPTION =  "description.bole.bole_handbook";
+    String KEY_CATEGORY_BOLE =          "key.category.bole";
+    String KEY_OPEN_BOLE_GUI =          "key.bole.open_bole_gui";
 
     String CAT_VARIANT_TABBY =             "entity.minecraft.cat.variant.tabby";
     String CAT_VARIANT_BLACK =             "entity.minecraft.cat.variant.black";
@@ -51,6 +58,25 @@ public interface Keys {
     String PARROT_VARIANT_GREEN =   "entity.minecraft.parrot.variant.green";
     String PARROT_VARIANT_CYAN =    "entity.minecraft.parrot.variant.cyan";
     String PARROT_VARIANT_GRAY =    "entity.minecraft.parrot.variant.gray";
+
+    String LLAMA_VARIANT_SAND =     "entity.minecraft.llama.variant.sand";
+    String LLAMA_VARIANT_SNOW =     "entity.minecraft.llama.variant.snow";
+    String LLAMA_VARIANT_WOOD =     "entity.minecraft.llama.variant.wood";
+    String LLAMA_VARIANT_DIRTY =    "entity.minecraft.llama.variant.dirty";
+
+    String HORSE_COLOR_VARIANT_WHITE = "entity.minecraft.horse.variant.color.white";
+    String HORSE_COLOR_VARIANT_CREAMY = "entity.minecraft.horse.variant.color.creamy";
+    String HORSE_COLOR_VARIANT_CHESTNUT = "entity.minecraft.horse.variant.color.chestnut";
+    String HORSE_COLOR_VARIANT_BROWN = "entity.minecraft.horse.variant.color.brown";
+    String HORSE_COLOR_VARIANT_BLACK = "entity.minecraft.horse.variant.color.black";
+    String HORSE_COLOR_VARIANT_GRAY = "entity.minecraft.horse.variant.color.gray";
+    String HORSE_COLOR_VARIANT_DARKBROWN = "entity.minecraft.horse.variant.color.darkbrown";
+
+    String HORSE_MARKING_VARIANT_NONE = "entity.minecraft.horse.variant.marking.none";
+    String HORSE_MARKING_VARIANT_WHITE = "entity.minecraft.horse.variant.marking.white";
+    String HORSE_MARKING_VARIANT_WHITE_FIELD = "entity.minecraft.horse.variant.marking.white_field";
+    String HORSE_MARKING_VARIANT_WHITE_DOTS = "entity.minecraft.horse.variant.marking.white_dots";
+    String HORSE_MARKING_VARIANT_BLACK_DOTS = "entity.minecraft.horse.variant.marking.black_dots";
 
     String PANDA_VARIANT_PREFIX = "entity.minecraft.panda.variant.";
 
@@ -74,6 +100,8 @@ public interface Keys {
     String AUTO_CONFIG_PREFIX = "text.autoconfig.bole.option.";
     String AUTO_CONFIG_POSTFIX = ".@Tooltip";
 
+    String PROPERTY_WIDGET_HANDBOOK_ENTITY_DESCRIPTION_BUTTON1 = "property_widget.bole.handbook_entity.description.button1";
+    String PROPERTY_WIDGET_HANDBOOK_ENTITY_DESCRIPTION_BUTTON2 = "property_widget.bole.handbook_entity.description.button2";
     String PROPERTY_WIDGET_AIR = "property_widget.bole.air";
     String PROPERTY_WIDGET_AIR_DESCRIPTION = "property_widget.bole.air.description";
     String PROPERTY_WIDGET_BOUNDING_BOX = "property_widget.bole.bounding_box";
@@ -134,15 +162,23 @@ public interface Keys {
     String PROPERTY_WIDGET_CAT_VARIANT_DESCRIPTION = "property_widget.bole.cat_variant.description";
     String PROPERTY_WIDGET_PARROT_VARIANT = "property_widget.bole.parrot_variant";
     String PROPERTY_WIDGET_PARROT_VARIANT_DESCRIPTION = "property_widget.bole.parrot_variant.description";
+    String PROPERTY_WIDGET_HORSE_COLOR_VARIANT = "property_widget.bole.horse_color_variant";
+    String PROPERTY_WIDGET_HORSE_COLOR_VARIANT_DESCRIPTION = "property_widget.bole.horse_color_variant.description";
+    String PROPERTY_WIDGET_HORSE_MARKING_VARIANT = "property_widget.bole.horse_marking_variant";
+    String PROPERTY_WIDGET_HORSE_MARKING_VARIANT_DESCRIPTION = "property_widget.bole.horse_marking_variant.description";
     String PROPERTY_WIDGET_PANDA_MAIN_GENE = "property_widget.bole.panda_main_gene";
     String PROPERTY_WIDGET_PANDA_MAIN_GENE_DESCRIPTION = "property_widget.bole.panda_main_gene.description";
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE = "property_widget.bole.panda_hidden_gene";
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE_DESCRIPTION = "property_widget.bole.panda_hidden_gene.description";
     String PROPERTY_WIDGET_AXOLOTL_VARIANT = "property_widget.bole.axolotl_variant";
     String PROPERTY_WIDGET_AXOLOTL_VARIANT_DESCRIPTION = "property_widget.bole.axolotl_variant.description";
+    String PROPERTY_WIDGET_WANDERING_TRADER_DESPAWN_DELAY = "property_widget.bole.wandering_trader_despawn_delay";
+    String PROPERTY_WIDGET_WANDERING_TRADER_DESPAWN_DELAY_DESCRIPTION = "property_widget.bole.wandering_trader_despawn_delay.description";
+    String PROPERTY_WIDGET_WANDERING_TRADER_DESPAWN_DELAY_DESCRIPTION_BUTTON1 = "property_widget.bole.wandering_trader_despawn_delay.description.button1";
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.bole.only_in_god_mode";
+    String HINT_TEXT_HIGHLIGHT_NOT_ENOUGH_EXPERIENCE = "text.hint.bole.highlight_not_enough_experience";
     String HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS = "text.hint.bole.forbid_to_set_nether_portal_cooldown_of_other_players";
     String HINT_TEXT_NOT_BABY = "text.hint.bole.not_baby";
     String HINT_TEXT_NO_BEEHIVE = "text.hint.bole.no_beehive";
@@ -160,15 +196,20 @@ public interface Keys {
 
     String WARNING_TEXT_ENABLE_AI = "text.warning.bole.enable_ai";
     String WARNING_TEXT_DISABLE_AI = "text.warning.bole.disable_ai";
+    String WARNING_TEXT_OPEN_MERCHANT_INVENTORY = "text.warning.bole.open_merchant_inventory";
     String WARNING_TEXT_VILLAGER_RESET_JOB = "text.warning.bole.villager_reset_job";
 
+    String TEXT_MOD_NOT_INSTALLED = "text.bole.mod_not_installed";
+    String TEXT_CLICK_ME = "text.bole.click_me";
+    String TEXT_TARGET_ENTITY_TOO_FAR = "text.bole.target_entity_too_far";
     String TEXT_OPEN_LOCAL_CONFIGS = "text.bole.open_local_configs";
     String TEXT_SET_CONFIGS_LOCAL_IS_REMOTE = "text.bole.set_configs_local_is_remote";
     String TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.set_configs_local_is_not_remote";
     String TEXT_GET_CONFIGS_LOCAL_IS_REMOTE = "text.bole.get_configs_local_is_remote";
     String TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.get_configs_local_is_not_remote";
+    String TEXT_SERVER_MOD_VERSION = "text.bole.server_mod_version";
     String TEXT_ANTI_MISTOUCH_WARNING = "text.bole.anti_mistouch_warning";
-    String TEXT_RETURN_TO_HANDBOOK = "text.bole.return_to_handbook";
+    String TEXT_RETURN_TO_HOMEPAGE = "text.bole.return_to_homepage";
     String TEXT_SETTINGS = "text.bole.settings";
     String TEXT_ABOUT = "text.bole.about";
     String TEXT_MOD_NAME_IS = "text.bole.mod_name_is";
@@ -183,8 +224,8 @@ public interface Keys {
     String TEXT_HIGHLIGHT = "text.bole.highlight";
     String TEXT_MAIN_GENE = "text.bole.main_gene";
     String TEXT_HIDDEN_GENE = "text.bole.hidden_gene";
-
-    // Other
-    int NETHER_PORTAL_LOCK = 1200;
-    int SIT_ON_PLAYER_LOCK = -300;
+    String TEXT_WANDERING_TRADER_SPAWN_MESSAGE = "text.bole.wandering_trader_spawn_message";
+    String TEXT_UNKNOWN_PLAYER = "text.bole.unknown_player";
+    String TEXT_SERVER_BAN_HOTKEY = "text.bole.server_ban_hotkey";
+    String TEXT_INVENTORY_OF = "text.bole.inventory_of";
 }

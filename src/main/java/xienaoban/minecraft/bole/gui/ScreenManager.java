@@ -17,10 +17,13 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.config.Configs;
-import xienaoban.minecraft.bole.gui.screen.*;
+import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
-import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreen;
-import xienaoban.minecraft.bole.gui.screen.handbook.BoleHandbookScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreen;
+import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreen;
+import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.*;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.HashMap;
@@ -39,7 +42,7 @@ public class ScreenManager {
 
     public static AbstractBoleScreenHandler<?> getHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
         if (entity == null) {
-            return new BoleHandbookScreenHandler(syncId, playerInventory);
+            return new BoleHomepageScreenHandler(syncId, playerInventory);
         }
         Class<?> clazz = entity.getClass();
         BoleScreenHandlerFactory<?, ?> factory;
@@ -95,6 +98,7 @@ public class ScreenManager {
         registerEntityToHandler(AnimalEntity.class, BoleAnimalEntityScreenHandler::new);
         registerEntityToHandler(HorseBaseEntity.class, BoleHorseBaseEntityScreenHandler::new);
         registerEntityToHandler(AbstractDonkeyEntity.class, BoleAbstractDonkeyEntityScreenHandler::new);
+        registerEntityToHandler(LlamaEntity.class, BoleLlamaEntityScreenHandler::new);
         registerEntityToHandler(MerchantEntity.class, BoleMerchantEntityScreenHandler::new);
         registerEntityToHandler(VillagerEntity.class, BoleVillagerEntityScreenHandler::new);
         registerEntityToHandler(SheepEntity.class, BoleSheepEntityScreenHandler::new);
@@ -105,11 +109,15 @@ public class ScreenManager {
         registerEntityToHandler(CatEntity.class, BoleCatEntityScreenHandler::new);
         registerEntityToHandler(PandaEntity.class, BolePandaEntityScreenHandler::new);
         registerEntityToHandler(AxolotlEntity.class, BoleAxolotlEntityScreenHandler::new);
+        registerEntityToHandler(HorseEntity.class, BoleHorseEntityScreenHandler::new);
+        registerEntityToHandler(WanderingTraderEntity.class, BoleWanderingTraderEntityScreenHandler::new);
     }
 
     @Environment(EnvType.CLIENT)
     public static void initClient() {
-        ScreenRegistry.register(BoleHandbookScreenHandler.HANDLER, BoleHandbookScreen::new);
+        ScreenRegistry.register(BoleHomepageScreenHandler.HANDLER, BoleHomepageScreen::new);
+
+        ScreenRegistry.register(MerchantInventoryScreenHandler.HANDLER, MerchantInventoryScreen::new);
 
         ScreenRegistry.register(BoleEntityScreenHandler.HANDLER, BoleEntityScreen<Entity, BoleEntityScreenHandler<Entity>>::new);
         ScreenRegistry.register(BoleLivingEntityScreenHandler.HANDLER, BoleLivingEntityScreen<LivingEntity, BoleLivingEntityScreenHandler<LivingEntity>>::new);
@@ -119,6 +127,7 @@ public class ScreenManager {
         ScreenRegistry.register(BoleAnimalEntityScreenHandler.HANDLER, BoleAnimalEntityScreen<AnimalEntity, BoleAnimalEntityScreenHandler<AnimalEntity>>::new);
         ScreenRegistry.register(BoleHorseBaseEntityScreenHandler.HANDLER, BoleHorseBaseEntityScreen<HorseBaseEntity, BoleHorseBaseEntityScreenHandler<HorseBaseEntity>>::new);
         ScreenRegistry.register(BoleAbstractDonkeyEntityScreenHandler.HANDLER, BoleAbstractDonkeyEntityScreen<AbstractDonkeyEntity, BoleAbstractDonkeyEntityScreenHandler<AbstractDonkeyEntity>>::new);
+        ScreenRegistry.register(BoleLlamaEntityScreenHandler.HANDLER, BoleLlamaEntityScreen<LlamaEntity, BoleLlamaEntityScreenHandler<LlamaEntity>>::new);
         ScreenRegistry.register(BoleMerchantEntityScreenHandler.HANDLER, BoleMerchantEntityScreen<MerchantEntity, BoleMerchantEntityScreenHandler<MerchantEntity>>::new);
         ScreenRegistry.register(BoleVillagerEntityScreenHandler.HANDLER, BoleVillagerEntityScreen<VillagerEntity, BoleVillagerEntityScreenHandler<VillagerEntity>>::new);
         ScreenRegistry.register(BoleSheepEntityScreenHandler.HANDLER, BoleSheepEntityScreen<SheepEntity, BoleSheepEntityScreenHandler<SheepEntity>>::new);
@@ -129,5 +138,7 @@ public class ScreenManager {
         ScreenRegistry.register(BoleCatEntityScreenHandler.HANDLER, BoleCatEntityScreen<CatEntity, BoleCatEntityScreenHandler<CatEntity>>::new);
         ScreenRegistry.register(BolePandaEntityScreenHandler.HANDLER, BolePandaEntityScreen<PandaEntity, BolePandaEntityScreenHandler<PandaEntity>>::new);
         ScreenRegistry.register(BoleAxolotlEntityScreenHandler.HANDLER, BoleAxolotlEntityScreen<AxolotlEntity, BoleAxolotlEntityScreenHandler<AxolotlEntity>>::new);
+        ScreenRegistry.register(BoleHorseEntityScreenHandler.HANDLER, BoleHorseEntityScreen<HorseEntity, BoleHorseEntityScreenHandler<HorseEntity>>::new);
+        ScreenRegistry.register(BoleWanderingTraderEntityScreenHandler.HANDLER, BoleWanderingTraderEntityScreen<WanderingTraderEntity, BoleWanderingTraderEntityScreenHandler<WanderingTraderEntity>>::new);
     }
 }

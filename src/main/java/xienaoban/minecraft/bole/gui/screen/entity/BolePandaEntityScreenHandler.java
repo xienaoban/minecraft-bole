@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BolePandaEntityScreenHandler<E extends PandaEntity> extends BoleAnimalEntityScreenHandler<E> {
@@ -36,7 +36,7 @@ public class BolePandaEntityScreenHandler<E extends PandaEntity> extends BoleAni
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_PANDA_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (isGodMode()) {
+                if (isGod()) {
                     boolean isMainGene = buf.readBoolean();
                     PandaEntity.Gene gene = PandaEntity.Gene.byId(buf.readInt());
                     if (isMainGene) entity.setMainGene(gene);

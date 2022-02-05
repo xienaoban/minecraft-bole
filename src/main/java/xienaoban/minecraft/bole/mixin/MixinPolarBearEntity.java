@@ -15,6 +15,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * Allow polar bears to multiply.
+ */
 @Mixin(PolarBearEntity.class)
 public abstract class MixinPolarBearEntity extends AnimalEntity implements Angerable {
     private static final Ingredient BREEDING_INGREDIENT = Ingredient.ofItems(Items.COD, Items.COOKED_COD, Items.SALMON, Items.COOKED_SALMON, Items.TROPICAL_FISH);

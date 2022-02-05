@@ -9,7 +9,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
@@ -27,11 +26,11 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
-import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
+import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.gui.ElementBox;
 import xienaoban.minecraft.bole.gui.ScreenElement;
@@ -235,10 +234,14 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
                 List<String> entitySuperclasses = new ArrayList<>();
                 Class<?> clazz = this.handler.entity.getClass();
                 while (!Entity.class.equals(clazz)) {
-                    entitySuperclasses.add(clazz.getSimpleName());
+                    String fullClassName = EntityManager.getInstance().getClassDeobfuscation(clazz);
+                    String simpleClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+                    entitySuperclasses.add(simpleClassName);
                     clazz = clazz.getSuperclass();
                 }
-                entitySuperclasses.add(clazz.getSimpleName());
+                String fullClassName = EntityManager.getInstance().getClassDeobfuscation(clazz);
+                String simpleClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+                entitySuperclasses.add(simpleClassName);
                 Collections.reverse(entitySuperclasses);
                 drawText(matrices, "Entity: " + String.join(" > ", entitySuperclasses), LIGHT_TEXT_COLOR, 0.5F, 1, 15);
                 drawText(matrices, "Screen: " + this.getClass().getSimpleName(), LIGHT_TEXT_COLOR, 0.5F, 1, 20);
@@ -671,13 +674,12 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.setHovered(null);
     }
 
-    public GameMode getGameMode() {
-        ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
-        return manager != null ? manager.getCurrentGameMode() : null;
+    public boolean isGod() {
+        return Bole.isGod(this.handler.player);
     }
 
-    public boolean isGodMode() {
-        return getGameMode() == GameMode.CREATIVE;
+    public boolean isDetached() {
+        return Bole.isDetached(this.handler.player);
     }
 
     public final class OverlayMessageHud extends ScreenElement {
@@ -1142,19 +1144,19 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             if (offsetX < ICON_LEFT + ICON_WIDTH) {
                 if (offsetX > ICON_LEFT + 1 && offsetX < ICON_LEFT + ICON_WIDTH - 1
                         && offsetY > 1 && offsetY < 9) {
-                    index = 0;
+                    index = IDX_ICON;
                 }
             }
             else if (offsetX < BAR_LEFT + this.barWidth) {
                 if (offsetX > BAR_LEFT && offsetY > 2 && offsetY < 8) {
-                    index = 1;
+                    index = IDX_BAR;
                 }
             }
             else {
                 for (int i = this.buttons.length - 1; i >= 0; --i) {
                     if (offsetX > this.buttons[i]) {
                         if (offsetX < this.buttons[i] + BUTTON_WIDTH && offsetY > 1 && offsetY < 9) {
-                            index = 2 + i;
+                            index = IDX_BUTTON_BEGIN + i;
                         }
                         break;
                     }

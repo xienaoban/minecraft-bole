@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreenHandler;
 import xienaoban.minecraft.bole.mixin.IMixinEatGrassGoal;
 import xienaoban.minecraft.bole.mixin.IMixinSheepEntity;
 import xienaoban.minecraft.bole.util.Keys;

@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
-import xienaoban.minecraft.bole.gui.screen.BoleMerchantEntityScreen;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleMerchantEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
@@ -164,9 +164,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
-            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                return false;
-            }
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             if (!handler.hasJob()) {
                 showOverlayMessage(Keys.HINT_TEXT_NO_JOB);
             }

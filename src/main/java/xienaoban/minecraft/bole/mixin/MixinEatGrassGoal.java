@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xienaoban.minecraft.bole.gui.screen.entity.BoleSheepEntityScreenHandler;
 
 import java.util.function.Predicate;
 
@@ -23,6 +24,10 @@ public abstract class MixinEatGrassGoal extends Goal {
     @Shadow @Final private World world;
     @Shadow private int timer;
 
+    /**
+     * Try to eat grass immediately if the timer is set to negative.
+     * @see BoleSheepEntityScreenHandler#registerEntitySettingsBufHandlers
+     */
     @Inject(method = "canStart()Z", at = @At("HEAD"), cancellable = true)
     private void canStart(CallbackInfoReturnable<Boolean> callbackInfo) {
         if (this.timer < 0) {

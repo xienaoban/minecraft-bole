@@ -8,6 +8,9 @@
     "IMixinBeeEntity",
     "IMixinEatGrassGoal",
     "IMixinEntity",
+    "IMixinHorseColor",
+    "IMixinHorseEntity",
+    "IMixinHorseMarking",
     "IMixinItemStack",
     "IMixinMobEntity",
     "IMixinPassiveEntity",
@@ -19,12 +22,15 @@
     "IMixinWorld",
     "MixinAnimalEntity",
     "MixinClientPlayNetworkHandler",
+    "MixinCreativeInventoryScreen",
     "MixinEatGrassGoal",
     "MixinEntity",
     "MixinMinecraftClient",
     "MixinPassiveEntity",
     "MixinPolarBearEntity",
-    "MixinTameableShoulderEntity"
+    "MixinTameableShoulderEntity",
+    "MixinWanderingTraderEntity",
+    "MixinWanderingTraderManager"
   ],
   "client": [
   ],

@@ -1,14 +1,17 @@
-add pic to readme
+todo: test on server
 
-Features:
-- [ ] **`Buy Bole handbook from villagers`**
+# Features
+
+- [X] **`Buy Bole handbook from villagers`**
+- [ ] **`Copy Bole handbook`**
 - [X] **`Highlight entities around the player`**
+  - [X] `Dyanamic view distance`
+  - [X] `Costs experience`
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**
 - [X] **`Open the player or mount screen when looking down`**
 - [ ] **`Check beehive state`**
 - Entity:
-  - [ ] ~~`UUID`~~
   - [X] `Bounding box`
   - [X] `Custom name`
   - [X] `Nether portal cooldown`
@@ -23,6 +26,8 @@ Features:
     - [X] `Max health`
     - [X] `Is baby`
     - [X] `Status effects`
+    - PlayerEntity
+      - [X] `Experience`
     - MobEntity:
       - [ ] ~~`Speed` (goalSelector)~~
       - [X] `Attractive items` (goalSelector - TemptGoal)
@@ -52,6 +57,7 @@ Features:
               - HorseEntity:
                 - [X] `Running speed`
                 - [X] `Jump height`
+                - [X] `Set horse variant`
             - BeeEntity:
               - [X] `Beehive position`
               - [X] `Reset beehive position`
@@ -64,14 +70,26 @@ Features:
             - PandaEntity:
               - [X] `Set gene`
             - AxolotlEntity:
-              - [x] `Set axolotl variant`
+              - [X] `Set axolotl variant`
           - MerchantEntity:
             - [X] `Get inventory`
-            - [ ] `Set inventory` (Open a new HandledScreen? Just like HorseScreen?)
+            - [X] `Set inventory`
             - VillagerEntity:
               - [X] `Highlight job site`
               - [X] `Reset level 0`
               - [X] `Force restock`
               - [X] `Change clothes`
+            - WanderingTraderEntity:
+              - [X] `Notify players when spawned`
+              - [X] `Despawn time`
+              - [X] `Add Despawn time`
         - HostileEntity:
           - Nothing here yet
+
+# Screenshots
+
+![Screenshot1](assets/screen1.png)
+
+![Screenshot2](assets/screen2.png)
+
+![Screenshot3](assets/screen3.png)

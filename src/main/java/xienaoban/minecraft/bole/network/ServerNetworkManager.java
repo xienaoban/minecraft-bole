@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
@@ -16,24 +17,30 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.config.Configs;
+import xienaoban.minecraft.bole.core.BoleHandbookItem;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleMerchantEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class ServerNetworkManager {
     public static void init() {
         registerRequestServerBoleConfigs();
         registerRequestBoleScreen();
+        registerRequestBoleHandbook();
         registerRequestServerEntityData();
         registerSendClientEntitySettings();
         registerRequestServerEntitiesGlowing();
         registerSendHighlightEvent();
+        registerRequestMerchantInventoryScreen();
     }
 
     private static void registerRequestServerBoleConfigs() {
@@ -43,18 +50,35 @@ public class ServerNetworkManager {
     private static void registerRequestBoleScreen() {
         ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BOLE_SCREEN, (server, player, handler, buf, responseSender) -> {
             final Entity entity = buf.isReadable() ? player.world.getEntityById(buf.readInt()) : null;
-            server.execute(() -> player.openHandledScreen(new NamedScreenHandlerFactory() {
-                @Override
-                public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-                    return ScreenManager.getHandler(syncId, inv, entity);
+            server.execute(() -> {
+                if (!Bole.isDetached(player) && !Configs.getInstance().isAllowHotKeyToOpenBoleHandbookScreen()
+                        && !Bole.isBoleHandbook(player.getMainHandStack()) && !Bole.isBoleHandbook(player.getOffHandStack())) {
+                    player.sendMessage(new TranslatableText(Keys.TEXT_SERVER_BAN_HOTKEY).formatted(Formatting.GOLD), false);
+                    return;
                 }
+                player.openHandledScreen(new NamedScreenHandlerFactory() {
+                    @Override
+                    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+                        return ScreenManager.getHandler(syncId, inv, entity);
+                    }
 
-                @Override
-                public Text getDisplayName() {
-                    String titleKey = entity == null ? Keys.TITLE_BOLE_OVERVIEW : entity.getType().getTranslationKey();
-                    return new TranslatableText(titleKey);
+                    @Override
+                    public Text getDisplayName() {
+                        String titleKey = entity == null ? Keys.BOLE_HANDBOOK_TITLE : entity.getType().getTranslationKey();
+                        return new TranslatableText(titleKey);
+                    }
+                });
+            });
+        });
+    }
+
+    private static void registerRequestBoleHandbook() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BOLE_HANDBOOK_ITEM, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> {
+                if (Bole.isGod(player)) {
+                    player.getInventory().insertStack(BoleHandbookItem.createBook());
                 }
-            }));
+            });
         });
     }
 
@@ -105,28 +129,71 @@ public class ServerNetworkManager {
 
     private static void registerSendHighlightEvent() {
         ServerPlayNetworking.registerGlobalReceiver(Channels.SEND_HIGHLIGHT_EVENT, (server, player, handler, buf, responseSender) -> {
-            server.execute(() -> player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 2 * 20)));
+            server.execute(() -> {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 2 * 20));
+                if (!(Bole.isDetached(player))) {
+                    player.addExperience(-2);
+                }
+            });
+        });
+    }
+
+    private static void registerRequestMerchantInventoryScreen() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_MERCHANT_INVENTORY_SCREEN, (server, player, handler, buf, responseSender) -> {
+            if (player.world.getEntityById(buf.readInt()) instanceof MerchantEntity merchantEntity
+                    && player.currentScreenHandler instanceof BoleMerchantEntityScreenHandler oldHandler) {
+                server.execute(() -> {
+                    if (oldHandler.trySpendItems(BoleMerchantEntityScreenHandler.OPEN_INVENTORY_COST)) {
+                        player.openHandledScreen(new NamedScreenHandlerFactory() {
+                            @Override
+                            public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+                                return new MerchantInventoryScreenHandler(syncId, inv, merchantEntity.getInventory());
+                            }
+
+                            @Override
+                            public Text getDisplayName() {
+                                return new TranslatableText(Keys.TEXT_INVENTORY_OF, new TranslatableText(merchantEntity.getType().getTranslationKey()));
+                            }
+                        });
+                    }
+                });
+            }
+            else Bole.LOGGER.error("Cannot open BoleMerchantEntityScreen.");
         });
     }
 
     public static void sendServerBoleConfigs(MinecraftServer server, ServerPlayerEntity player) {
         server.execute(() -> {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String str = gson.toJson(Configs.getInstance());
+            String conf = gson.toJson(Configs.getInstance());
             PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeString(str);
+            buf.writeString(Bole.getModVersion());
+            buf.writeString(conf);
             ServerPlayNetworking.send(player, Channels.SEND_SERVER_BOLE_CONFIGS, buf);
         });
     }
 
     public static void sendServerBoleConfigsToAllPlayers(MinecraftServer server) {
         server.execute(() -> {
+            String version = Bole.getModVersion();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String str = gson.toJson(Configs.getInstance());
+            String conf = gson.toJson(Configs.getInstance());
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
                 PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeString(str);
+                buf.writeString(version);
+                buf.writeString(conf);
                 ServerPlayNetworking.send(player, Channels.SEND_SERVER_BOLE_CONFIGS, buf);
+            }
+        });
+    }
+
+    public static void sendWanderingTraderSpawnMessageToAllPlayers(MinecraftServer server, ServerPlayerEntity target) {
+        server.execute(() -> {
+            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeBoolean(target != null);
+                if (target != null) buf.writeText(target.getName());
+                ServerPlayNetworking.send(player, Channels.SEND_WANDERING_TRADER_SPAWN_MESSAGE, buf);
             }
         });
     }

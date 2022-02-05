@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import xienaoban.minecraft.bole.gui.screen.BoleTameableEntityScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleTameableEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleCatEntityScreenHandler<E extends CatEntity> extends BoleTameableEntityScreenHandler<E> {
@@ -36,7 +36,7 @@ public class BoleCatEntityScreenHandler<E extends CatEntity> extends BoleTameabl
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_CAT_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (isGodMode()) entity.setCatType(buf.readInt());
+                if (isGod()) entity.setCatType(buf.readInt());
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 int variant = (Integer) args[0];

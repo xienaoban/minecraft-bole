@@ -8,7 +8,7 @@ import net.minecraft.entity.passive.PandaEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreen;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
@@ -79,7 +79,7 @@ public class BolePandaEntityScreen<E extends PandaEntity, H extends BolePandaEnt
 
         @Override
         protected boolean canChoose() {
-            return isGodMode();
+            return isGod();
         }
 
         @Override

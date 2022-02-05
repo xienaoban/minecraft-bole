@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.BoleClient;
-import xienaoban.minecraft.bole.gui.screen.BoleAnimalEntityScreen;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
 import xienaoban.minecraft.bole.mixin.IMixinEatGrassGoal;
 import xienaoban.minecraft.bole.mixin.IMixinSheepEntity;
 import xienaoban.minecraft.bole.util.Keys;
@@ -73,9 +73,7 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
-            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                return false;
-            }
+            if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             if (isEating()) {
                 showOverlayMessage(Keys.HINT_TEXT_EATING_GRASS);
             }
@@ -91,15 +89,15 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
 
         private boolean canEat() {
             World world = MinecraftClient.getInstance().world;
-            if (world == null) {
-                return false;
-            }
+            if (world == null) return false;
             BlockPos blockPos = handler.entity.getBlockPos();
-            return GRASS_PREDICATE.test(world.getBlockState(blockPos)) || world.getBlockState(blockPos.down()).isOf(Blocks.GRASS_BLOCK);
+            return GRASS_PREDICATE.test(world.getBlockState(blockPos))
+                    || world.getBlockState(blockPos.down()).isOf(Blocks.GRASS_BLOCK);
         }
 
         private boolean isEating() {
-            return ((IMixinSheepEntity) handler.entity).getEatGrassTimer() > 0 || this.interval > BoleClient.getInstance().getScreenTicks();
+            return ((IMixinSheepEntity) handler.entity).getEatGrassTimer() > 0
+                    || this.interval > BoleClient.getInstance().getScreenTicks();
         }
     }
 }

@@ -5,6 +5,7 @@ import xienaoban.minecraft.bole.util.Keys;
 
 public interface Textures {
     Identifier BOOK = new Identifier("minecraft", "textures/gui/book.png");
+    Identifier HORSE_SCREEN = new Identifier("minecraft", "textures/gui/container/horse.png");
 
     Identifier ICON = new Identifier(Keys.NAMESPACE, "icon.png");
     Identifier ICONS = new Identifier(Keys.NAMESPACE, "textures/gui/icons.png");

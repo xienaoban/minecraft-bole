@@ -8,7 +8,7 @@ import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import xienaoban.minecraft.bole.gui.screen.BoleTameableShoulderEntityScreen;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleTameableShoulderEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
@@ -75,7 +75,7 @@ public class BoleParrotEntityScreen<E extends ParrotEntity, H extends BoleParrot
 
         @Override
         protected boolean canChoose() {
-            return isGodMode();
+            return isGod();
         }
 
         @Override

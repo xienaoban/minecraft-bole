@@ -8,9 +8,11 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
@@ -30,18 +32,22 @@ public class ClientNetworkManager {
         registerSendServerBoleConfigs();
         registerSendServerEntityData();
         registerSendServerEntitiesGlowing();
+        registerSendWanderingTraderSpawnMessage();
         registerSendOverlayMessage();
     }
 
     private static void registerSendServerBoleConfigs() {
         ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_SERVER_BOLE_CONFIGS, (client, handler, buf, responseSender) -> {
-            String str = buf.readString();
-            Bole.LOGGER.info("New Bole configs from the server: " + str);
+            String version = buf.readString();
+            String conf = buf.readString();
+            Bole.LOGGER.info("New Bole configs from the server: " + conf);
             client.execute(() -> {
+                BoleClient boleClient = BoleClient.getInstance();
+                boleClient.setServerVersion(version);
                 try {
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    Configs configs = gson.fromJson(str, Configs.class);
-                    BoleClient.getInstance().setServerConfigs(configs);
+                    Configs configs = gson.fromJson(conf, Configs.class);
+                    boleClient.setServerConfigs(configs);
                 } catch (Exception e) {
                     Bole.LOGGER.error("The mod version of the client does not match the mod version of the server!");
                     if (client.player != null) {
@@ -90,6 +96,20 @@ public class ClientNetworkManager {
         });
     }
 
+    private static void registerSendWanderingTraderSpawnMessage() {
+        ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_WANDERING_TRADER_SPAWN_MESSAGE, (client, handler, buf, responseSender) -> {
+            Text playerName;
+            if (buf.readBoolean()) playerName = buf.readText();
+            else playerName = new TranslatableText(Keys.TEXT_UNKNOWN_PLAYER);
+            client.execute(() -> {
+                assert client.player != null;
+                if (Configs.getInstance().isReceiveWanderingTraderSpawnBroadcasts()) {
+                    client.player.sendMessage(new TranslatableText(Keys.TEXT_WANDERING_TRADER_SPAWN_MESSAGE, playerName).formatted(Formatting.GRAY), false);
+                }
+            });
+        });
+    }
+
     private static void registerSendOverlayMessage() {
         ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_OVERLAY_MESSAGE, (client, handler, buf, responseSender) -> {
             Text text = buf.readText();
@@ -115,6 +135,10 @@ public class ClientNetworkManager {
         ClientPlayNetworking.send(Channels.REQUEST_BOLE_SCREEN, buf);
     }
 
+    public static void requestBoleHandbook() {
+        ClientPlayNetworking.send(Channels.REQUEST_BOLE_HANDBOOK_ITEM, PacketByteBufs.empty());
+    }
+
     public static void requestServerEntityData() {
         ClientPlayNetworking.send(Channels.REQUEST_SERVER_ENTITY_DATA, PacketByteBufs.empty());
     }
@@ -138,6 +162,12 @@ public class ClientNetworkManager {
 
     public static void sendHighlightEvent() {
         ClientPlayNetworking.send(Channels.SEND_HIGHLIGHT_EVENT, PacketByteBufs.empty());
+    }
+
+    public static void requestMerchantInventoryScreen(MerchantEntity merchantEntity) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(merchantEntity.getId());
+        ClientPlayNetworking.send(Channels.REQUEST_MERCHANT_INVENTORY_SCREEN, buf);
     }
 
     public static AbstractBoleScreenHandler<?> getBoleScreenHandler(MinecraftClient client) {
