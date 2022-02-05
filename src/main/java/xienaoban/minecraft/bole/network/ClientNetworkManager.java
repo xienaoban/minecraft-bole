@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -161,6 +162,12 @@ public class ClientNetworkManager {
 
     public static void sendHighlightEvent() {
         ClientPlayNetworking.send(Channels.SEND_HIGHLIGHT_EVENT, PacketByteBufs.empty());
+    }
+
+    public static void requestMerchantInventoryScreen(MerchantEntity merchantEntity) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(merchantEntity.getId());
+        ClientPlayNetworking.send(Channels.REQUEST_MERCHANT_INVENTORY_SCREEN, buf);
     }
 
     public static AbstractBoleScreenHandler<?> getBoleScreenHandler(MinecraftClient client) {

@@ -2,7 +2,8 @@ todo: test on server
 
 # Features
 
-- [ ] **`Buy Bole handbook from villagers`**
+- [X] **`Buy Bole handbook from villagers`**
+- [ ] **`Copy Bole handbook`**
 - [X] **`Highlight entities around the player`**
   - [X] `Dyanamic view distance`
   - [X] `Costs experience`

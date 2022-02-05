@@ -8,7 +8,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.gui.Textures;
+import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
@@ -67,6 +69,14 @@ public class BoleMerchantEntityScreen<E extends MerchantEntity, H extends BoleMe
                 itemRenderer.renderGuiItemOverlay(textRenderer, inventory.getStack(i), px, py);
             }
             matrixScaleOff(matrixStack);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            MerchantEntity merchantEntity = handler.entity;
+            BoleClient.getInstance().setBoleTarget(merchantEntity);
+            ClientNetworkManager.requestMerchantInventoryScreen(merchantEntity);
+            return true;
         }
     }
 }

@@ -105,7 +105,7 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
      * Gets the entity the client-side player is aiming at.
      */
     @Environment(EnvType.CLIENT)
-    protected static Entity clientEntity() {
+    public static Entity clientEntity() {
         Entity entity = BoleClient.getInstance().getBoleTarget();
         // Set BoleTarget to null to avoid memory leak.
         BoleClient.getInstance().setBoleTarget(null);

@@ -17,10 +17,12 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.config.Configs;
-import xienaoban.minecraft.bole.gui.screen.*;
+import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreen;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreen;
+import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.tree.*;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -114,6 +116,8 @@ public class ScreenManager {
     @Environment(EnvType.CLIENT)
     public static void initClient() {
         ScreenRegistry.register(BoleHomepageScreenHandler.HANDLER, BoleHomepageScreen::new);
+
+        ScreenRegistry.register(MerchantInventoryScreenHandler.HANDLER, MerchantInventoryScreen::new);
 
         ScreenRegistry.register(BoleEntityScreenHandler.HANDLER, BoleEntityScreen<Entity, BoleEntityScreenHandler<Entity>>::new);
         ScreenRegistry.register(BoleLivingEntityScreenHandler.HANDLER, BoleLivingEntityScreen<LivingEntity, BoleLivingEntityScreenHandler<LivingEntity>>::new);

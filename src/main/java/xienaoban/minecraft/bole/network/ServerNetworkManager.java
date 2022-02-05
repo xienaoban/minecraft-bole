@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
@@ -26,6 +27,7 @@ import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.core.BoleHandbookItem;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class ServerNetworkManager {
@@ -37,6 +39,7 @@ public class ServerNetworkManager {
         registerSendClientEntitySettings();
         registerRequestServerEntitiesGlowing();
         registerSendHighlightEvent();
+        registerRequestMerchantInventoryScreen();
     }
 
     private static void registerRequestServerBoleConfigs() {
@@ -131,6 +134,27 @@ public class ServerNetworkManager {
                     player.addExperience(-2);
                 }
             });
+        });
+    }
+
+    private static void registerRequestMerchantInventoryScreen() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_MERCHANT_INVENTORY_SCREEN, (server, player, handler, buf, responseSender) -> {
+            if (player.world.getEntityById(buf.readInt()) instanceof MerchantEntity merchantEntity) {
+                server.execute(() -> {
+                    player.openHandledScreen(new NamedScreenHandlerFactory() {
+                        @Override
+                        public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+                            return new MerchantInventoryScreenHandler(syncId, inv, merchantEntity.getInventory());
+                        }
+
+                        @Override
+                        public Text getDisplayName() {
+                            return new TranslatableText(Keys.TEXT_INVENTORY_OF, new TranslatableText(merchantEntity.getType().getTranslationKey()));
+                        }
+                    });
+                });
+            }
+            else Bole.LOGGER.error("Target entity is not a merchant.");
         });
     }
 

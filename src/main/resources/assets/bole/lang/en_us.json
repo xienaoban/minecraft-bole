@@ -191,7 +191,7 @@
   "property_widget.bole.donkey_chest": "Inventory Size of the Chest",
   "property_widget.bole.donkey_chest.description": "Max size: 15.",
   "property_widget.bole.merchant_inventory": "The inventory of the Merchant",
-  "property_widget.bole.merchant_inventory.description": "Interaction with the inventory will be supported in the future.",
+  "property_widget.bole.merchant_inventory.description": "Click to open the interaction screen of the inventory.",
   "property_widget.bole.villager_job_site": "Job Site",
   "property_widget.bole.villager_job_site.description": "Shows the distance between the villager and the job site.",
   "property_widget.bole.villager_job_site.description.button1": "Button1: highlight the job site for 6 seconds.",
@@ -268,5 +268,6 @@
   "text.bole.hidden_gene": "Hidden",
   "text.bole.wandering_trader_spawn_message": "A wandering trader spawns around the player %s.",
   "text.bole.unknown_player": "<unknown player>",
-  "text.bole.server_ban_hotkey": "The hotkey is banned on this server. Find a bole handbook item first."
+  "text.bole.server_ban_hotkey": "The hotkey is banned on this server. Find a bole handbook item first.",
+  "text.bole.inventory_of": "Inventory of %s"
 }

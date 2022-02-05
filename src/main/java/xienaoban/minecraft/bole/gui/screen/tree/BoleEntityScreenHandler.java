@@ -168,9 +168,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     @Environment(EnvType.CLIENT)
     private int isClientEntityInNetherPortal() {
         World world = MinecraftClient.getInstance().world;
-        if (world == null || world.getEntityById(this.entity.getId()) == null) {
-            return 0;
-        }
+        if (world == null || world.getEntityById(this.entity.getId()) == null) return 0;
         Vec3d pos = this.entity.getPos();
         double x = pos.getX(), y = pos.getY(), z = pos.getZ();
         final double r = 0.3;
