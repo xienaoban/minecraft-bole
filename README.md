@@ -73,7 +73,7 @@ todo: test on server
               - [X] `Set axolotl variant`
           - MerchantEntity:
             - [X] `Get inventory`
-            - [ ] `Set inventory` (Open a new HandledScreen?)
+            - [X] `Set inventory`
             - VillagerEntity:
               - [X] `Highlight job site`
               - [X] `Reset level 0`
