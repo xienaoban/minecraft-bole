@@ -17,6 +17,8 @@ public final class BoleHomepageScreenHandler extends AbstractBoleScreenHandler<E
     public static final ScreenHandlerType<BoleHomepageScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "homepage"), BoleHomepageScreenHandler::new);
 
+    public static final int HIGHLIGHT_EXPERIENCE_COST = 2;
+
     EntityManager entityManager;
 
     public BoleHomepageScreenHandler(int syncId, PlayerInventory playerInventory) {

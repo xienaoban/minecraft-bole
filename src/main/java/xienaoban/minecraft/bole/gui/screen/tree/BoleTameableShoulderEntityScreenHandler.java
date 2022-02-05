@@ -16,6 +16,8 @@ public class BoleTameableShoulderEntityScreenHandler<E extends TameableShoulderE
     public static final ScreenHandlerType<BoleTameableShoulderEntityScreenHandler<TameableShoulderEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "tameable_shoulder_entity"), BoleTameableShoulderEntityScreenHandler::new);
 
+    public static final int SIT_ON_PLAYER_LOCK = -300;
+
     public BoleTameableShoulderEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }

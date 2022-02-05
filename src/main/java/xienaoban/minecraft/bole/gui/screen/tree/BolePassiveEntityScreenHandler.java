@@ -16,6 +16,8 @@ public class BolePassiveEntityScreenHandler<E extends PassiveEntity> extends Bol
     public static final ScreenHandlerType<BolePassiveEntityScreenHandler<PassiveEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "passive_entity"), BolePassiveEntityScreenHandler::new);
 
+    public static final int BABY_LOCK = -0x70000000;    // Do not use 0x80000000, as it may overflow into positive.
+
     @Environment(EnvType.CLIENT)
     protected int entityBreedingAge;
 

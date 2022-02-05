@@ -275,7 +275,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return true;
             if (mouseY < this.box.top() + BUTTONS_CUT) {
                 PlayerEntity player = handler.player;
-                if (!(isDetached()) && player.totalExperience < Keys.HIGHLIGHT_EXPERIENCE_COST) {
+                if (!(isDetached()) && player.totalExperience < BoleHomepageScreenHandler.HIGHLIGHT_EXPERIENCE_COST) {
                     showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_HIGHLIGHT_NOT_ENOUGH_EXPERIENCE));
                     return true;
                 }

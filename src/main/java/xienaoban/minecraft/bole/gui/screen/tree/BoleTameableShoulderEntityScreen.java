@@ -72,13 +72,13 @@ public class BoleTameableShoulderEntityScreen<E extends TameableShoulderEntity, 
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             int ticks;
             if (isLocked()) ticks = 123;
-            else ticks = Keys.SIT_ON_PLAYER_LOCK;
+            else ticks = BoleTameableShoulderEntityScreenHandler.SIT_ON_PLAYER_LOCK;
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN, ticks);
             return true;
         }
 
         private boolean isLocked() {
-            return ((IMixinTameableShoulderEntity)handler.entity).getTicks() <= Keys.SIT_ON_PLAYER_LOCK;
+            return ((IMixinTameableShoulderEntity)handler.entity).getTicks() <= BoleTameableShoulderEntityScreenHandler.SIT_ON_PLAYER_LOCK;
         }
     }
 }

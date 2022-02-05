@@ -221,7 +221,7 @@
 
   "text.hint.bole.offer_or_drop": "%s is offered to you.",
   "text.hint.bole.only_in_god_mode": "Can only be used in creative mode.",
-  "text.hint.bole.highlight_not_enough_experience": "You need at least two experience points to trigger this skill.",
+  "text.hint.bole.highlight_not_enough_experience": "You need at least two experience points to use this skill.",
   "text.hint.bole.forbid_to_set_nether_portal_cooldown_of_other_players": "The server prohibits setting nether portal cooldown of other players.",
   "text.hint.bole.not_baby": "It's meaningless to lock the growth stage of adult creatures...",
   "text.hint.bole.no_beehive": "This bee has no beehive or bee nest yet.",

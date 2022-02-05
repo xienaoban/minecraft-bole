@@ -28,6 +28,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     public static final ScreenHandlerType<BoleEntityScreenHandler<Entity>> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "entity"), BoleEntityScreenHandler::new);
 
+    public static final int NETHER_PORTAL_LOCK = 1200;  // don't set it too big to ensure compatibility with the vanilla
     private static final int CLOSE_SCREEN_DISTANCE = 10;
 
     // I didn't define a local variable "protected int entityNetherPortalCooldown" in this handler,

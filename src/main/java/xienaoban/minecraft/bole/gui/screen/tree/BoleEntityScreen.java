@@ -288,7 +288,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             int cooldown = ((IMixinEntity)handler.entity).getNetherPortalCooldown();
-            boolean lock = cooldown == Keys.NETHER_PORTAL_LOCK;
+            boolean lock = cooldown == BoleEntityScreenHandler.NETHER_PORTAL_LOCK;
             float p = Math.min(1.0F, (float)cooldown / handler.entity.getDefaultNetherPortalCooldown());
             drawIcon(matrices, 0, 30);
             drawBar(matrices, 1.0F, 10, 30);
@@ -308,11 +308,11 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             int index = calMousePosition(mouseX, mouseY);
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             int cooldown;
-            if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == Keys.NETHER_PORTAL_LOCK) {
+            if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == BoleEntityScreenHandler.NETHER_PORTAL_LOCK) {
                 cooldown = 0;
             }
             else {
-                cooldown = Keys.NETHER_PORTAL_LOCK;
+                cooldown = BoleEntityScreenHandler.NETHER_PORTAL_LOCK;
             }
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, cooldown);
             return true;
