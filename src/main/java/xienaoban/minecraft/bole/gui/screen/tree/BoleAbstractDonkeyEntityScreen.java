@@ -6,7 +6,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
@@ -34,7 +33,7 @@ public class BoleAbstractDonkeyEntityScreen<E extends AbstractDonkeyEntity, H ex
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class DonkeyChestPropertyWidget extends AbstractBoleScreen.TemplatePropertyWidget1 {
+    public class DonkeyChestPropertyWidget extends TemplatePropertyWidget1 {
 
         public DonkeyChestPropertyWidget() {
             super(1, false, 0);
@@ -49,7 +48,7 @@ public class BoleAbstractDonkeyEntityScreen<E extends AbstractDonkeyEntity, H ex
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(matrices, 140, 0);
-            drawBarText(matrices, String.valueOf(handler.entity.getInventoryColumns() * 3), AbstractBoleScreen.DARK_TEXT_COLOR);
+            drawBarText(matrices, String.valueOf(handler.entity.getInventoryColumns() * 3), DARK_TEXT_COLOR);
         }
     }
 }

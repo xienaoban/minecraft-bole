@@ -244,7 +244,7 @@
 
   "text.bole.mod_not_installed": "如果您看到了此段文字，说明您并未安装“伯乐”模组，您可以前往以下网址下载本模组：",
   "text.bole.click_me": "点我点我点我！（≧.≦）",
-  "text.bole.target_entity_too_far": "目标实体离你太远了。",
+  "text.bole.target_entity_too_far": "目标离你太远了。",
   "text.bole.open_local_configs": "打开本地配置界面",
   "text.bole.set_configs_local_is_remote": "本地配置：",
   "text.bole.set_configs_local_is_not_remote": "本地配置：",
