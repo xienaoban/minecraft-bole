@@ -270,5 +270,6 @@
   "text.bole.wandering_trader_spawn_message": "流浪商人在玩家 %s 附近出没了。",
   "text.bole.unknown_player": "<未知玩家>",
   "text.bole.server_ban_hotkey": "本服禁止热键，先设法获得一本伯乐手册吧。",
-  "text.bole.inventory_of": "%s的背包"
+  "text.bole.inventory_of": "%s的背包",
+  "text.bole.wait_for_server": "等待服务器响应……"
 }

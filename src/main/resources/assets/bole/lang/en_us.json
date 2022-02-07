@@ -270,5 +270,6 @@
   "text.bole.wandering_trader_spawn_message": "A wandering trader spawns around the player %s.",
   "text.bole.unknown_player": "<unknown player>",
   "text.bole.server_ban_hotkey": "The hotkey is banned on this server. Find a bole handbook item first.",
-  "text.bole.inventory_of": "Inventory of %s"
+  "text.bole.inventory_of": "Inventory of %s",
+  "text.bole.wait_for_server": "Wait for server response..."
 }

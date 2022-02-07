@@ -52,7 +52,7 @@ public class EntityManager {
     private final TagGroup namespaceTags = new TagGroup(Keys.TAG_GROUP_NAMESPACE);
 
     /**
-     * Don't invoke it before you join a world.
+     * Don't invoke it before joining a world.
      */
     public static EntityManager getInstance() {
         if (instance == null) {

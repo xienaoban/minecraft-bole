@@ -8,6 +8,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.util.ActionResult;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
@@ -16,6 +18,7 @@ import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenState;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
+import xienaoban.minecraft.bole.network.ServerNetworkManager;
 
 @Environment(EnvType.CLIENT)
 public class BoleClient implements ClientModInitializer {
@@ -47,9 +50,24 @@ public class BoleClient implements ClientModInitializer {
         setServerVersion("<unknown>");
         setServerConfigs(Configs.getInstance());
         this.highlightManager = new HighlightManager();
-        ScreenManager.initClient();
+        ScreenManager.init();
         ClientNetworkManager.init();
         KeyBindingManager.init();
+        initConfigsSaveListener();
+    }
+
+    /**
+     * Broadcasts new configs to the entire server after saving configs by the host via cloth-config screen.
+     * For DedicatedServer, there's no way to update configs in the game yet.
+     */
+    public static void initConfigsSaveListener() {
+        Configs.getHolder().registerSaveListener((configHolder, configs) -> {
+            IntegratedServer server = MinecraftClient.getInstance().getServer();
+            if (server != null) {
+                ServerNetworkManager.sendServerBoleConfigsToAllPlayers(server);
+            }
+            return ActionResult.SUCCESS;
+        });
     }
 
     public void onJoin() {

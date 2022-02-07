@@ -13,11 +13,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.*;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.TranslatableText;
-import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.config.Configs;
-import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreen;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenHandler;
@@ -26,35 +23,8 @@ import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.tree.*;
 import xienaoban.minecraft.bole.util.Keys;
 
-import java.util.HashMap;
-import java.util.Map;
-
+@Environment(EnvType.CLIENT)
 public class ScreenManager {
-    private static final Map<Class<? extends Entity>, BoleScreenHandlerFactory<?, ?>> ENTITY_TO_HANDLER = new HashMap<>();
-
-    public static <E extends Entity, H extends AbstractBoleScreenHandler<E>> void registerEntityToHandler(
-            Class<? extends E> entityClazz, BoleScreenHandlerFactory<E, H> factory) {
-        BoleScreenHandlerFactory<?, ?> previous = ENTITY_TO_HANDLER.put(entityClazz, factory);
-        if (previous != null) {
-            Bole.LOGGER.info("A new bole screen handler for " + entityClazz.getSimpleName() + " replaces the previous one.");
-        }
-    }
-
-    public static AbstractBoleScreenHandler<?> getHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
-        if (entity == null) {
-            return new BoleHomepageScreenHandler(syncId, playerInventory);
-        }
-        Class<?> clazz = entity.getClass();
-        BoleScreenHandlerFactory<?, ?> factory;
-        while ((factory = ENTITY_TO_HANDLER.get(clazz)) == null) {
-            clazz = clazz.getSuperclass();
-            if (clazz == null) {
-                throw new RuntimeException("No BoleScreenHandler registered. ENTITY_TO_HANDLER size: " + ENTITY_TO_HANDLER.size());
-            }
-        }
-        return factory.create(syncId, playerInventory, entity);
-    }
-
     public static Screen getConfigScreen(Screen parent) {
         return getAutoConfigScreen(parent);
     }
@@ -78,47 +48,14 @@ public class ScreenManager {
         return builder.build();
     }
 
-    /**
-     * To wrap <code>AbstractBoleScreenHandler::new</>.
-     */
-    @FunctionalInterface
-    public interface BoleScreenHandlerFactory<E extends Entity, H extends AbstractBoleScreenHandler<E>> {
-        /**
-         * Creates a new bole screen handler.
-         */
-        H create(int syncId, PlayerInventory playerInventory, Entity entity);
-    }
-
-    public static void initServer() {
-        registerEntityToHandler(Entity.class, BoleEntityScreenHandler::new);
-        registerEntityToHandler(LivingEntity.class, BoleLivingEntityScreenHandler::new);
-        registerEntityToHandler(MobEntity.class, BoleMobEntityScreenHandler::new);
-        registerEntityToHandler(PathAwareEntity.class, BolePathAwareEntityScreenHandler::new);
-        registerEntityToHandler(PassiveEntity.class, BolePassiveEntityScreenHandler::new);
-        registerEntityToHandler(AnimalEntity.class, BoleAnimalEntityScreenHandler::new);
-        registerEntityToHandler(HorseBaseEntity.class, BoleHorseBaseEntityScreenHandler::new);
-        registerEntityToHandler(AbstractDonkeyEntity.class, BoleAbstractDonkeyEntityScreenHandler::new);
-        registerEntityToHandler(LlamaEntity.class, BoleLlamaEntityScreenHandler::new);
-        registerEntityToHandler(MerchantEntity.class, BoleMerchantEntityScreenHandler::new);
-        registerEntityToHandler(VillagerEntity.class, BoleVillagerEntityScreenHandler::new);
-        registerEntityToHandler(SheepEntity.class, BoleSheepEntityScreenHandler::new);
-        registerEntityToHandler(BeeEntity.class, BoleBeeEntityScreenHandler::new);
-        registerEntityToHandler(TameableEntity.class, BoleTameableEntityScreenHandler::new);
-        registerEntityToHandler(TameableShoulderEntity.class, BoleTameableShoulderEntityScreenHandler::new);
-        registerEntityToHandler(ParrotEntity.class, BoleParrotEntityScreenHandler::new);
-        registerEntityToHandler(CatEntity.class, BoleCatEntityScreenHandler::new);
-        registerEntityToHandler(PandaEntity.class, BolePandaEntityScreenHandler::new);
-        registerEntityToHandler(AxolotlEntity.class, BoleAxolotlEntityScreenHandler::new);
-        registerEntityToHandler(HorseEntity.class, BoleHorseEntityScreenHandler::new);
-        registerEntityToHandler(WanderingTraderEntity.class, BoleWanderingTraderEntityScreenHandler::new);
-    }
-
-    @Environment(EnvType.CLIENT)
-    public static void initClient() {
+    public static void init() {
+        // package: homepage
         ScreenRegistry.register(BoleHomepageScreenHandler.HANDLER, BoleHomepageScreen::new);
 
+        // package: misc
         ScreenRegistry.register(MerchantInventoryScreenHandler.HANDLER, MerchantInventoryScreen::new);
 
+        // package: tree & entity
         ScreenRegistry.register(BoleEntityScreenHandler.HANDLER, BoleEntityScreen<Entity, BoleEntityScreenHandler<Entity>>::new);
         ScreenRegistry.register(BoleLivingEntityScreenHandler.HANDLER, BoleLivingEntityScreen<LivingEntity, BoleLivingEntityScreenHandler<LivingEntity>>::new);
         ScreenRegistry.register(BoleMobEntityScreenHandler.HANDLER, BoleMobEntityScreen<MobEntity, BoleMobEntityScreenHandler<MobEntity>>::new);

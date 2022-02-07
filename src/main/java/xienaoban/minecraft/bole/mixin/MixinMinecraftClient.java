@@ -1,5 +1,7 @@
 package xienaoban.minecraft.bole.mixin;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -14,6 +16,7 @@ import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.core.BoleHandler;
 
+@Environment(value= EnvType.CLIENT)
 @Mixin(MinecraftClient.class)
 public class MixinMinecraftClient {
     @Unique private ClientPlayerEntity player;

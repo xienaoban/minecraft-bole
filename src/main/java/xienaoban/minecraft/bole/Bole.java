@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.core.BoleHandbookItem;
-import xienaoban.minecraft.bole.gui.ScreenManager;
+import xienaoban.minecraft.bole.gui.ScreenHandlerManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -24,7 +24,7 @@ public class Bole implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ScreenManager.initServer();
+        ScreenHandlerManager.init();
         ServerNetworkManager.init();
         Configs.init();
     }
