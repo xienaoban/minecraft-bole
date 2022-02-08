@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.core.BoleHandbookItem;
-import xienaoban.minecraft.bole.gui.ScreenManager;
+import xienaoban.minecraft.bole.gui.ScreenHandlerManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleMerchantEntityScreenHandler;
@@ -59,7 +59,7 @@ public class ServerNetworkManager {
                 player.openHandledScreen(new NamedScreenHandlerFactory() {
                     @Override
                     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-                        return ScreenManager.getHandler(syncId, inv, entity);
+                        return ScreenHandlerManager.getHandler(syncId, inv, entity);
                     }
 
                     @Override

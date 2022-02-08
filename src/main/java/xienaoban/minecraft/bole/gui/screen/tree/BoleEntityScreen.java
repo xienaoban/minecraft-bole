@@ -9,6 +9,7 @@ import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -29,8 +30,11 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     protected int entityDisplayPlan;
     protected DisplayedEntityPropertyWidget targetDisplayedEntityPropertyWidget;
 
+    private final boolean drawIsMonsterOffset;
+
     public BoleEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+        this.drawIsMonsterOffset = handler.entity.getType().getSpawnGroup() == SpawnGroup.MONSTER;
     }
 
     @Override
@@ -68,11 +72,15 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
     @Override
     protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        setTexture(Textures.ILLUSTRATIONS);
+        drawTextureNormally(matrices, 64, 64, 32, 32, getZOffset(), x + 75, y + 102, this.drawIsMonsterOffset ? 32 : 0, 0);
         super.drawLeftContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
     @Override
     protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
+        setTexture(Textures.ILLUSTRATIONS);
+        drawTextureNormally(matrices, 64, 64, 16, 16, getZOffset(), x + 94, y  - 12, this.drawIsMonsterOffset ? 16 : 0, 32);
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 

@@ -6,10 +6,8 @@ import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.server.integrated.IntegratedServer;
-import net.minecraft.util.ActionResult;
-import xienaoban.minecraft.bole.network.ServerNetworkManager;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Config(name = Keys.MOD_NAME)
@@ -23,18 +21,15 @@ public class Configs implements ConfigData {
     public static void init() {
         AutoConfig.register(Configs.class, GsonConfigSerializer::new);
         holder = AutoConfig.getConfigHolder(Configs.class);
-        holder.registerSaveListener((configHolder, configs) -> {
-            // method "holder.save" should only be used on the client side.
-            IntegratedServer server = MinecraftClient.getInstance().getServer();
-            if (server != null) {
-                ServerNetworkManager.sendServerBoleConfigsToAllPlayers(server);
-            }
-            return ActionResult.SUCCESS;
-        });
     }
 
     public static Configs getInstance() {
         return holder.getConfig();
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static ConfigHolder<Configs> getHolder() {
+        return holder;
     }
 
     ///////// Configs /////////

@@ -29,12 +29,12 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
 
     @Override
     protected void drawLeftContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
-        this.curLeftPage.draw(matrices, x, y, mouseX, mouseY);
+        super.drawLeftContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
     @Override
     protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
-        this.curRightPage.draw(matrices, x, y, mouseX, mouseY);
+        super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
     public class LeashPropertyWidget extends TemplatePropertyWidget1 {

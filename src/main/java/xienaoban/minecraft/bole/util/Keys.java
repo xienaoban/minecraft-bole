@@ -228,4 +228,5 @@ public interface Keys {
     String TEXT_UNKNOWN_PLAYER = "text.bole.unknown_player";
     String TEXT_SERVER_BAN_HOTKEY = "text.bole.server_ban_hotkey";
     String TEXT_INVENTORY_OF = "text.bole.inventory_of";
+    String TEXT_WAIT_FOR_SERVER = "text.bole.wait_for_server";
 }

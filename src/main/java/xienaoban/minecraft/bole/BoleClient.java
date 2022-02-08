@@ -8,6 +8,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.util.ActionResult;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
@@ -16,6 +18,7 @@ import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenState;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
+import xienaoban.minecraft.bole.network.ServerNetworkManager;
 
 @Environment(EnvType.CLIENT)
 public class BoleClient implements ClientModInitializer {
@@ -30,9 +33,6 @@ public class BoleClient implements ClientModInitializer {
     private BoleHomepageScreenState screenState;
     private HighlightManager highlightManager;
 
-    private String serverVersion;
-    private Configs serverConfigs;
-
     public static BoleClient getInstance() {
         return instance;
     }
@@ -44,12 +44,27 @@ public class BoleClient implements ClientModInitializer {
         this.ticks = -1;
         this.screenTicks = -1;
         this.inWorld = false;
-        setServerVersion("<unknown>");
-        setServerConfigs(Configs.getInstance());
         this.highlightManager = new HighlightManager();
-        ScreenManager.initClient();
+        ScreenManager.init();
         ClientNetworkManager.init();
         KeyBindingManager.init();
+        initConfigsSaveListener();
+        Bole.getInstance().setServerVersion("<unknown>");
+        Bole.getInstance().setServerConfigs(Configs.getInstance());
+    }
+
+    /**
+     * Broadcasts new configs to the entire server after saving configs by the host via cloth-config screen.
+     * For DedicatedServer, there's no way to update configs in the game yet.
+     */
+    public static void initConfigsSaveListener() {
+        Configs.getHolder().registerSaveListener((configHolder, configs) -> {
+            IntegratedServer server = MinecraftClient.getInstance().getServer();
+            if (server != null) {
+                ServerNetworkManager.sendServerBoleConfigsToAllPlayers(server);
+            }
+            return ActionResult.SUCCESS;
+        });
     }
 
     public void onJoin() {
@@ -66,7 +81,8 @@ public class BoleClient implements ClientModInitializer {
 
     public void onDisconnect() {
         this.inWorld = false;
-        setServerConfigs(Configs.getInstance());
+        Bole.getInstance().setServerVersion("<unknown>");
+        Bole.getInstance().setServerConfigs(Configs.getInstance());
         preventMemoryLeak();
         ClientWorld world = MinecraftClient.getInstance().world;
         if (world != null) Bole.LOGGER.info("Disconnecting from the world: " + world.getRegistryKey().getValue());
@@ -116,22 +132,6 @@ public class BoleClient implements ClientModInitializer {
         return inWorld;
     }
 
-    public String getServerVersion() {
-        return serverVersion;
-    }
-
-    public void setServerVersion(String serverVersion) {
-        this.serverVersion = serverVersion;
-    }
-
-    public Configs getServerConfigs() {
-        return serverConfigs;
-    }
-
-    public void setServerConfigs(Configs serverConfigs) {
-        this.serverConfigs = serverConfigs;
-    }
-
     public PacketByteBuf getHandlerBufCache() {
         return this.handlerBufCache;
     }
@@ -153,8 +153,9 @@ public class BoleClient implements ClientModInitializer {
     }
 
     private void preventMemoryLeak() {
-        this.boleTarget = null;
-        this.handlerBufCache = null;
+        setBoleTarget(null);
+        setHandlerBufCache(null);
+        setHomepageScreenState(null);
         this.highlightManager.clear();
     }
 }

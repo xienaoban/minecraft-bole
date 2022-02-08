@@ -21,11 +21,8 @@
     "IMixinVillagerEntity",
     "IMixinWorld",
     "MixinAnimalEntity",
-    "MixinClientPlayNetworkHandler",
-    "MixinCreativeInventoryScreen",
     "MixinEatGrassGoal",
     "MixinEntity",
-    "MixinMinecraftClient",
     "MixinPassiveEntity",
     "MixinPolarBearEntity",
     "MixinTameableShoulderEntity",
@@ -33,6 +30,9 @@
     "MixinWanderingTraderManager"
   ],
   "client": [
+    "MixinClientPlayNetworkHandler",
+    "MixinCreativeInventoryScreen",
+    "MixinMinecraftClient"
   ],
   "injectors": {
     "defaultRequire": 1

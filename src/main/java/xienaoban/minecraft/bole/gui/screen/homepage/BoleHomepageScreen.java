@@ -27,6 +27,7 @@ import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.entity.EntityLookup;
 import org.lwjgl.glfw.GLFW;
+import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
@@ -89,7 +90,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             page.addSlot(new EmptyPropertyWidget(4, 1));
 
             String curConfigKey = boleClient.isHost() ? Keys.TEXT_GET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE;
-            page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_SERVER_MOD_VERSION, boleClient.getServerVersion()), DARK_TEXT_COLOR, 0.5F));
+            page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_SERVER_MOD_VERSION, Bole.getInstance().getServerVersion()), DARK_TEXT_COLOR, 0.5F));
             page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(curConfigKey), DARK_TEXT_COLOR, 0.5F));
             for (Field field : Configs.class.getDeclaredFields()) {
                 if (field.isAnnotationPresent(ConfigEntry.Gui.Excluded.class)) continue;
@@ -376,7 +377,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             String value;
-            try { value = this.field.get(BoleClient.getInstance().getServerConfigs()).toString(); }
+            try { value = this.field.get(Bole.getInstance().getServerConfigs()).toString(); }
             catch (Exception e) {
                 e.printStackTrace();
                 value = Keys.ERROR_TEXT_DATA_LOAD;

@@ -10,5 +10,5 @@ public interface Textures {
     Identifier ICON = new Identifier(Keys.NAMESPACE, "icon.png");
     Identifier ICONS = new Identifier(Keys.NAMESPACE, "textures/gui/icons.png");
     Identifier POPUP = new Identifier(Keys.NAMESPACE, "textures/gui/popup.png");
-
+    Identifier ILLUSTRATIONS = new Identifier(Keys.NAMESPACE, "textures/gui/illustrations.png");
 }
