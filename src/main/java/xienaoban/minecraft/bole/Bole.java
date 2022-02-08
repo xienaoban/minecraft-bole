@@ -1,5 +1,7 @@
 package xienaoban.minecraft.bole;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -22,11 +24,15 @@ public class Bole implements ModInitializer {
 
     private static String modVersion = null;
 
-    @Override
-    public void onInitialize() {
-        ScreenHandlerManager.init();
-        ServerNetworkManager.init();
-        Configs.init();
+    private static Bole instance;
+
+    // These two values are only used on the client side.
+    // But in order to prevent ClassNotFoundException on the dedicated server side, I can't define them in BoleClient.
+    @Environment(EnvType.CLIENT) private String serverVersion;
+    @Environment(EnvType.CLIENT) private Configs serverConfigs;
+
+    public static Bole getInstance() {
+        return instance;
     }
 
     public static String getModVersion() {
@@ -52,5 +58,33 @@ public class Bole implements ModInitializer {
         if (stack == null || !stack.isOf(Items.WRITABLE_BOOK) || !stack.hasNbt()) return false;
         assert stack.getNbt() != null;
         return stack.getNbt().contains(BoleHandbookItem.ID, NbtElement.STRING_TYPE);
+    }
+
+    @Override
+    public void onInitialize() {
+        instance = this;
+        ScreenHandlerManager.init();
+        ServerNetworkManager.init();
+        Configs.init();
+    }
+
+    @Environment(EnvType.CLIENT)
+    public String getServerVersion() {
+        return serverVersion;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void setServerVersion(String serverVersion) {
+        this.serverVersion = serverVersion;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public Configs getServerConfigs() {
+        return this.serverConfigs;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void setServerConfigs(Configs serverConfigs) {
+        this.serverConfigs = serverConfigs;
     }
 }

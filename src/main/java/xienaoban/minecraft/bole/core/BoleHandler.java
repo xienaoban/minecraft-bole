@@ -18,6 +18,7 @@ import xienaoban.minecraft.bole.util.Keys;
 public class BoleHandler {
     @Environment(EnvType.CLIENT)
     public static void tryOpenBoleScreen(MinecraftClient client) {
+        Bole bole = Bole.getInstance();
         BoleClient boleClient = BoleClient.getInstance();
         ClientPlayerEntity player = client.player;
         boleClient.setBoleTarget(null);
@@ -25,7 +26,7 @@ public class BoleHandler {
             Bole.LOGGER.error("Client player is null. Fail to open the Bole Screen.");
             return;
         }
-        if (!Bole.isDetached(player) && !boleClient.getServerConfigs().isAllowHotKeyToOpenBoleHandbookScreen()
+        if (!Bole.isDetached(player) && !bole.getServerConfigs().isAllowHotKeyToOpenBoleHandbookScreen()
                 && !Bole.isBoleHandbook(player.getMainHandStack()) && !Bole.isBoleHandbook(player.getOffHandStack())) {
             player.sendMessage(new TranslatableText(Keys.TEXT_SERVER_BAN_HOTKEY).formatted(Formatting.GOLD), false);
             return;

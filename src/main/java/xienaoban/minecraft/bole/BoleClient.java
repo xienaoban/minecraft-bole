@@ -33,9 +33,6 @@ public class BoleClient implements ClientModInitializer {
     private BoleHomepageScreenState screenState;
     private HighlightManager highlightManager;
 
-    private String serverVersion;
-    private Configs serverConfigs;
-
     public static BoleClient getInstance() {
         return instance;
     }
@@ -47,13 +44,13 @@ public class BoleClient implements ClientModInitializer {
         this.ticks = -1;
         this.screenTicks = -1;
         this.inWorld = false;
-        setServerVersion("<unknown>");
-        setServerConfigs(Configs.getInstance());
         this.highlightManager = new HighlightManager();
         ScreenManager.init();
         ClientNetworkManager.init();
         KeyBindingManager.init();
         initConfigsSaveListener();
+        Bole.getInstance().setServerVersion("<unknown>");
+        Bole.getInstance().setServerConfigs(Configs.getInstance());
     }
 
     /**
@@ -84,7 +81,8 @@ public class BoleClient implements ClientModInitializer {
 
     public void onDisconnect() {
         this.inWorld = false;
-        setServerConfigs(Configs.getInstance());
+        Bole.getInstance().setServerVersion("<unknown>");
+        Bole.getInstance().setServerConfigs(Configs.getInstance());
         preventMemoryLeak();
         ClientWorld world = MinecraftClient.getInstance().world;
         if (world != null) Bole.LOGGER.info("Disconnecting from the world: " + world.getRegistryKey().getValue());
@@ -134,22 +132,6 @@ public class BoleClient implements ClientModInitializer {
         return inWorld;
     }
 
-    public String getServerVersion() {
-        return serverVersion;
-    }
-
-    public void setServerVersion(String serverVersion) {
-        this.serverVersion = serverVersion;
-    }
-
-    public Configs getServerConfigs() {
-        return serverConfigs;
-    }
-
-    public void setServerConfigs(Configs serverConfigs) {
-        this.serverConfigs = serverConfigs;
-    }
-
     public PacketByteBuf getHandlerBufCache() {
         return this.handlerBufCache;
     }
@@ -171,8 +153,9 @@ public class BoleClient implements ClientModInitializer {
     }
 
     private void preventMemoryLeak() {
-        this.boleTarget = null;
-        this.handlerBufCache = null;
+        setBoleTarget(null);
+        setHandlerBufCache(null);
+        setHomepageScreenState(null);
         this.highlightManager.clear();
     }
 }
