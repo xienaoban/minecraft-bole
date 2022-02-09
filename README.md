@@ -1,5 +1,3 @@
-todo: test on server
-
 # Features
 
 - [X] **`Buy Bole handbook from villagers`**
@@ -44,16 +42,16 @@ todo: test on server
               - TameableShoulderEntity:
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:
-                  - [X] `Set parrot variant`
+                  - [X] `Set variant`
               - CatEntity:
-                - [X] `Set cat variant`
+                - [X] `Set variant`
             - HorseBaseEntity:
               - AbstractDonkeyEntity
                 - [X] `Chest size`
               - HorseEntity:
                 - [X] `Running speed`
                 - [X] `Jump height`
-                - [X] `Set horse variant`
+                - [X] `Set variant`
             - BeeEntity:
               - [X] `Beehive position`
               - [X] `Reset beehive position`
@@ -64,7 +62,7 @@ todo: test on server
             - PandaEntity:
               - [X] `Set gene`
             - AxolotlEntity:
-              - [X] `Set axolotl variant`
+              - [X] `Set variant`
           - MerchantEntity:
             - [X] `Get inventory`
             - [X] `Set inventory`
@@ -77,6 +75,11 @@ todo: test on server
               - [X] `Notify players when spawned`
               - [X] `Despawn time`
               - [X] `Add Despawn time`
+        - WaterCreatureEntity
+          - FishEntity
+            - SchoolingFishEntity
+              - TropicalFishEntity
+                - [ ] `Set variant`
         - HostileEntity:
           - Nothing here yet
 

@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
@@ -31,6 +32,8 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     public static final int NETHER_PORTAL_LOCK = 1200;  // don't set it too big to ensure compatibility with the vanilla
     private static final int CLOSE_SCREEN_DISTANCE = 10;
 
+    protected final boolean isMonster;
+
     // I didn't define a local variable "protected int entityNetherPortalCooldown" in this handler,
     // because the calculation logic of this value is inside Entity (and my mixin).
 
@@ -48,6 +51,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
 
     public BoleEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
+        this.isMonster = this.entity.getType().getSpawnGroup() == SpawnGroup.MONSTER;
         registerEntitySettingsBufHandlers();
     }
 

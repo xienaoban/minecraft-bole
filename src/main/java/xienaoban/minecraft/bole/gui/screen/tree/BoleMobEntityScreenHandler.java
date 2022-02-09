@@ -5,12 +5,12 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.Difficulty;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingEntityScreenHandler<E> {
@@ -46,9 +46,9 @@ public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingE
             }
             private void set(boolean disabled) {
                 entity.setAiDisabled(disabled);
-                int healthAndSatiety = entity instanceof HostileEntity ? 8 : 2;
+                int healthAndSatiety = isMonster ? 12 : 6;
                 if (disabled && !isGod()) {
-                    player.damage(DamageSource.mob(entity), healthAndSatiety);
+                    player.damage(DamageSource.mob(entity), entity.world.getDifficulty() == Difficulty.HARD ? healthAndSatiety / 1.5F : healthAndSatiety);
                     player.getHungerManager().add(-healthAndSatiety, 0);
                 }
             }
