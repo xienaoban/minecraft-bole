@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
@@ -36,6 +37,7 @@ public final class BoleHomepageScreenHandler extends AbstractBoleScreenHandler<E
                 ItemStack stack = (ItemStack) args[0];
                 buf.writeItemStack(stack);
                 player.getInventory().offerOrDrop(stack);
+                player.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 1.0F, 1.0F);
             }
         });
     }
