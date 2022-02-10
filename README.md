@@ -39,6 +39,7 @@
               - [X] `Is tamed`
               - [ ] `Set owner`
               - [X] `Invulnerable pets`
+              - [ ] `Invulnerable pets for players and environment`
               - TameableShoulderEntity:
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:

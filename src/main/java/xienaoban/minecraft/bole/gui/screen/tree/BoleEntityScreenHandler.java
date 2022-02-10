@@ -58,8 +58,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (entity instanceof PlayerEntity && entity != player
-                        && Configs.getInstance().isForbidToSetNetherPortalCooldownOfOtherPlayers()) {
+                if (isOtherPlayer() && Configs.getInstance().isForbidToSetNetherPortalCooldownOfOtherPlayers()) {
                     sendOverlayMessage(new TranslatableText(Keys.HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS));
                     return;
                 }
@@ -156,6 +155,10 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
             ClientNetworkManager.requestServerEntityData();
         }
         calculateClientEntityNetherPortalCooldown();
+    }
+
+    protected boolean isOtherPlayer() {
+        return this.entity instanceof PlayerEntity && this.entity != this.player;
     }
 
     @Environment(EnvType.CLIENT)

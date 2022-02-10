@@ -16,6 +16,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
+import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
@@ -311,13 +312,13 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             int index = calMousePosition(mouseX, mouseY);
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
+            if (handler.isOtherPlayer() && Bole.getInstance().getServerConfigs().isForbidToSetNetherPortalCooldownOfOtherPlayers()) {
+                showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS));
+                return true;
+            }
             int cooldown;
-            if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == BoleEntityScreenHandler.NETHER_PORTAL_LOCK) {
-                cooldown = 0;
-            }
-            else {
-                cooldown = BoleEntityScreenHandler.NETHER_PORTAL_LOCK;
-            }
+            if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == BoleEntityScreenHandler.NETHER_PORTAL_LOCK) cooldown = 0;
+            else cooldown = BoleEntityScreenHandler.NETHER_PORTAL_LOCK;
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, cooldown);
             return true;
         }
