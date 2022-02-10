@@ -80,7 +80,7 @@
           - FishEntity
             - SchoolingFishEntity
               - TropicalFishEntity
-                - [ ] `Set variant` (wait for 1.19)
+                - [X] `Set variant`
         - HostileEntity:
           - Nothing here yet
 

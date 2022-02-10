@@ -28,10 +28,12 @@ public interface Keys {
     String ENTITY_SETTING_HORSE_COLOR_VARIANT =             "horse_color_variant";
     String ENTITY_SETTING_HORSE_MARKING_VARIANT =           "horse_marking_variant";
     String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =          "sit_on_player_cooldown";
+    String ENTITY_SETTING_TROPICAL_FISH_VARIANT =           "tropical_fish_variant";
 
     // Translation Keys
     String GUI_OK = "gui.ok";
     String GUI_CANCEL = "gui.cancel";
+    String COLOR_PREFIX = "color.minecraft.";
 
     String AUTHOR =                     "xienaoban";
     String AUTHOR_TRANS =               "xienaoban.trans";
@@ -64,19 +66,33 @@ public interface Keys {
     String LLAMA_VARIANT_WOOD =     "entity.minecraft.llama.variant.wood";
     String LLAMA_VARIANT_DIRTY =    "entity.minecraft.llama.variant.dirty";
 
-    String HORSE_COLOR_VARIANT_WHITE = "entity.minecraft.horse.variant.color.white";
-    String HORSE_COLOR_VARIANT_CREAMY = "entity.minecraft.horse.variant.color.creamy";
-    String HORSE_COLOR_VARIANT_CHESTNUT = "entity.minecraft.horse.variant.color.chestnut";
-    String HORSE_COLOR_VARIANT_BROWN = "entity.minecraft.horse.variant.color.brown";
-    String HORSE_COLOR_VARIANT_BLACK = "entity.minecraft.horse.variant.color.black";
-    String HORSE_COLOR_VARIANT_GRAY = "entity.minecraft.horse.variant.color.gray";
-    String HORSE_COLOR_VARIANT_DARKBROWN = "entity.minecraft.horse.variant.color.darkbrown";
+    String HORSE_COLOR_VARIANT_WHITE =      "entity.minecraft.horse.variant.color.white";
+    String HORSE_COLOR_VARIANT_CREAMY =     "entity.minecraft.horse.variant.color.creamy";
+    String HORSE_COLOR_VARIANT_CHESTNUT =   "entity.minecraft.horse.variant.color.chestnut";
+    String HORSE_COLOR_VARIANT_BROWN =      "entity.minecraft.horse.variant.color.brown";
+    String HORSE_COLOR_VARIANT_BLACK =      "entity.minecraft.horse.variant.color.black";
+    String HORSE_COLOR_VARIANT_GRAY =       "entity.minecraft.horse.variant.color.gray";
+    String HORSE_COLOR_VARIANT_DARKBROWN =  "entity.minecraft.horse.variant.color.darkbrown";
 
-    String HORSE_MARKING_VARIANT_NONE = "entity.minecraft.horse.variant.marking.none";
-    String HORSE_MARKING_VARIANT_WHITE = "entity.minecraft.horse.variant.marking.white";
-    String HORSE_MARKING_VARIANT_WHITE_FIELD = "entity.minecraft.horse.variant.marking.white_field";
-    String HORSE_MARKING_VARIANT_WHITE_DOTS = "entity.minecraft.horse.variant.marking.white_dots";
-    String HORSE_MARKING_VARIANT_BLACK_DOTS = "entity.minecraft.horse.variant.marking.black_dots";
+    String HORSE_MARKING_VARIANT_NONE =         "entity.minecraft.horse.variant.marking.none";
+    String HORSE_MARKING_VARIANT_WHITE =        "entity.minecraft.horse.variant.marking.white";
+    String HORSE_MARKING_VARIANT_WHITE_FIELD =  "entity.minecraft.horse.variant.marking.white_field";
+    String HORSE_MARKING_VARIANT_WHITE_DOTS =   "entity.minecraft.horse.variant.marking.white_dots";
+    String HORSE_MARKING_VARIANT_BLACK_DOTS =   "entity.minecraft.horse.variant.marking.black_dots";
+
+    // The following variants (types) are already defined in official lang files.
+    String TROPICAL_FISH_VARIANT_KOB =          "entity.minecraft.tropical_fish.type.kob";
+    String TROPICAL_FISH_VARIANT_SUNSTREAK =    "entity.minecraft.tropical_fish.type.sunstreak";
+    String TROPICAL_FISH_VARIANT_SNOOPER =      "entity.minecraft.tropical_fish.type.snooper";
+    String TROPICAL_FISH_VARIANT_DASHER =       "entity.minecraft.tropical_fish.type.dasher";
+    String TROPICAL_FISH_VARIANT_BRINELY =      "entity.minecraft.tropical_fish.type.brinely";
+    String TROPICAL_FISH_VARIANT_SPOTTY =       "entity.minecraft.tropical_fish.type.spotty";
+    String TROPICAL_FISH_VARIANT_FLOPPER =      "entity.minecraft.tropical_fish.type.flopper";
+    String TROPICAL_FISH_VARIANT_STRIPEY =      "entity.minecraft.tropical_fish.type.stripey";
+    String TROPICAL_FISH_VARIANT_GLITTER =      "entity.minecraft.tropical_fish.type.glitter";
+    String TROPICAL_FISH_VARIANT_BLOCKFISH =    "entity.minecraft.tropical_fish.type.blockfish";
+    String TROPICAL_FISH_VARIANT_BETTY =        "entity.minecraft.tropical_fish.type.betty";
+    String TROPICAL_FISH_VARIANT_CLAYFISH =     "entity.minecraft.tropical_fish.type.clayfish";
 
     String PANDA_VARIANT_PREFIX = "entity.minecraft.panda.variant.";
 
@@ -96,7 +112,6 @@ public interface Keys {
     String TAG_DEFAULT_MONSTER =            "tag.bole.default.monster";
     String TAG_DEFAULT_OTHER =              "tag.bole.default.other";
 
-    String OPTION_INVULNERABLE_PETS = "option.bole.invulnerable_pets";
     String AUTO_CONFIG_PREFIX = "text.autoconfig.bole.option.";
     String AUTO_CONFIG_POSTFIX = ".@Tooltip";
 
@@ -175,6 +190,12 @@ public interface Keys {
     String PROPERTY_WIDGET_WANDERING_TRADER_DESPAWN_DELAY = "property_widget.bole.wandering_trader_despawn_delay";
     String PROPERTY_WIDGET_WANDERING_TRADER_DESPAWN_DELAY_DESCRIPTION = "property_widget.bole.wandering_trader_despawn_delay.description";
     String PROPERTY_WIDGET_WANDERING_TRADER_DESPAWN_DELAY_DESCRIPTION_BUTTON1 = "property_widget.bole.wandering_trader_despawn_delay.description.button1";
+    String PROPERTY_WIDGET_TROPICAL_FISH_VARIANT = "property_widget.bole.tropical_fish_variant";
+    String PROPERTY_WIDGET_TROPICAL_FISH_VARIANT_DESCRIPTION = "property_widget.bole.tropical_fish_variant.description";
+    String PROPERTY_WIDGET_TROPICAL_FISH_BASE_COLOR = "property_widget.bole.tropical_fish_base_color";
+    String PROPERTY_WIDGET_TROPICAL_FISH_BASE_COLOR_DESCRIPTION = "property_widget.bole.tropical_fish_base_color.description";
+    String PROPERTY_WIDGET_TROPICAL_FISH_PATTERN_COLOR = "property_widget.bole.tropical_fish_pattern_color";
+    String PROPERTY_WIDGET_TROPICAL_FISH_PATTERN_COLOR_DESCRIPTION = "property_widget.bole.tropical_fish_pattern_color.description";
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.bole.only_in_god_mode";
@@ -229,4 +250,5 @@ public interface Keys {
     String TEXT_SERVER_BAN_HOTKEY = "text.bole.server_ban_hotkey";
     String TEXT_INVENTORY_OF = "text.bole.inventory_of";
     String TEXT_WAIT_FOR_SERVER = "text.bole.wait_for_server";
+    String TEXT_TROPICAL_FISH_VARIANT_TURN_PAGE = "text.bole.tropical_fish_variant_turn_page";
 }

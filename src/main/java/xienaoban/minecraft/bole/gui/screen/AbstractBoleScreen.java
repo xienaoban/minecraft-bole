@@ -45,6 +45,8 @@ import java.util.stream.Collectors;
 public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBoleScreenHandler<E>> extends HandledScreen<H> {
     private static final int BOOK_TEXTURE_CUT = 29;
 
+    public static final int DEFAULT_LINE_HEIGHT = 8;
+
     public static final int BODY_WIDTH = (192 - BOOK_TEXTURE_CUT) * 2;
     public static final int BODY_HEIGHT = 192;
     public static final int CONTENT_WIDTH = 108;
@@ -328,7 +330,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         float fSize = -size;
         MatrixStack matrixStack = RenderSystem.getModelViewStack();
         matrixStack.push();
-        matrixStack.translate((float)x, (float)y, 1050.0F);
+        matrixStack.translate(x, y, 1050.0F);
         matrixStack.scale(1.0F, 1.0F, -1.0F);
         RenderSystem.applyModelViewMatrix();
         MatrixStack matrixStack2 = new MatrixStack();
@@ -1205,7 +1207,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
      * A widget that displays text in the center.
      */
     public class CenteredTextPropertyWidget extends AbstractPropertyWidget {
-        private static final int DEFAULT_LINE_HEIGHT = 8;
         private Text text;
         private int color;
         private float size;
@@ -1239,7 +1240,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     public class LeftTextPropertyWidget extends AbstractPropertyWidget {
-        private static final int DEFAULT_LINE_HEIGHT = 8;
         private Text text;
         private int color;
         private float size;

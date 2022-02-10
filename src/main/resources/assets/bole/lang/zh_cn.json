@@ -218,6 +218,12 @@
   "property_widget.bole.wandering_trader_despawn_delay": "流浪商人的离开时间",
   "property_widget.bole.wandering_trader_despawn_delay.description": "到点就消失，不带一点留恋。",
   "property_widget.bole.wandering_trader_despawn_delay.description.button1": "按钮1：给它一桶水喝，它愿意再多逗留两分钟。",
+  "property_widget.bole.tropical_fish_variant": "热带鱼品种",
+  "property_widget.bole.tropical_fish_variant.description": "你只能在创造模式中更换品种。",
+  "property_widget.bole.tropical_fish_base_color": "热带鱼主体颜色",
+  "property_widget.bole.tropical_fish_base_color.description": "你只能在创造模式中更换颜色。",
+  "property_widget.bole.tropical_fish_pattern_color": "热带鱼花纹颜色",
+  "property_widget.bole.tropical_fish_pattern_color.description": "你只能在创造模式中更换颜色。",
 
   "text.hint.bole.offer_or_drop": "%s已发放到背包。",
   "text.hint.bole.only_in_god_mode": "只能在创造模式中使用。",
@@ -271,5 +277,6 @@
   "text.bole.unknown_player": "<未知玩家>",
   "text.bole.server_ban_hotkey": "本服禁止热键，先设法获得一本伯乐手册吧。",
   "text.bole.inventory_of": "%s的背包",
-  "text.bole.wait_for_server": "等待服务器响应……"
+  "text.bole.wait_for_server": "等待服务器响应……",
+  "text.bole.tropical_fish_variant_turn_page": "品种与颜色设置在下一页"
 }

@@ -61,7 +61,7 @@ public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEnt
         protected E[] initEntities() {
             World world = MinecraftClient.getInstance().world;
             HorseMarking marking = handler.entity.getMarking();
-            HorseEntity[] entities = Arrays.stream(IMixinHorseColor.getValue()).map(color -> {
+            HorseEntity[] entities = Arrays.stream(IMixinHorseColor.getValues()).map(color -> {
                 HorseEntity entity = (HorseEntity) handler.entity.getType().create(world);
                 if (entity == null) {
                     throw new RuntimeException("Failed to create a HorseEntity on the client side.");
@@ -109,7 +109,7 @@ public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEnt
         protected E[] initEntities() {
             World world = MinecraftClient.getInstance().world;
             HorseColor color = handler.entity.getColor();
-            HorseEntity[] entities = Arrays.stream(IMixinHorseMarking.getValue()).map(marking -> {
+            HorseEntity[] entities = Arrays.stream(IMixinHorseMarking.getValues()).map(marking -> {
                 HorseEntity entity = (HorseEntity) handler.entity.getType().create(world);
                 if (entity == null) {
                     throw new RuntimeException("Failed to create a HorseEntity on the client side.");

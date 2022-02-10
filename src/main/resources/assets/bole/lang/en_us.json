@@ -218,6 +218,12 @@
   "property_widget.bole.wandering_trader_despawn_delay": "Despawn Delay of the Wandering Trader",
   "property_widget.bole.wandering_trader_despawn_delay.description": "The trader will leave (disappear) when the time is up.",
   "property_widget.bole.wandering_trader_despawn_delay.description.button1": "Button1: give it a bucket of water to drink, and it will stay for two more minutes.",
+  "property_widget.bole.tropical_fish_variant": "Variants of Tropical Fish",
+  "property_widget.bole.tropical_fish_variant.description": "You can only change the variant in creative mode.",
+  "property_widget.bole.tropical_fish_base_color": "Base Colors of Tropical Fish",
+  "property_widget.bole.tropical_fish_base_color.description": "You can only change the color in creative mode.",
+  "property_widget.bole.tropical_fish_pattern_color": "Pattern Colors of Tropical Fish",
+  "property_widget.bole.tropical_fish_pattern_color.description": "You can only change the color in creative mode.",
 
   "text.hint.bole.offer_or_drop": "%s is offered to you.",
   "text.hint.bole.only_in_god_mode": "Can only be used in creative mode.",
@@ -271,5 +277,6 @@
   "text.bole.unknown_player": "<unknown player>",
   "text.bole.server_ban_hotkey": "The hotkey is banned on this server. Find a bole handbook item first.",
   "text.bole.inventory_of": "Inventory of %s",
-  "text.bole.wait_for_server": "Wait for server response..."
+  "text.bole.wait_for_server": "Wait for server response...",
+  "text.bole.tropical_fish_variant_turn_page": "variety settings on next pages"
 }

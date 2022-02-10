@@ -1,9 +1,6 @@
 package xienaoban.minecraft.bole.gui;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.clothconfig2.api.ConfigBuilder;
-import me.shedaniel.clothconfig2.api.ConfigCategory;
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
@@ -12,8 +9,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.*;
-import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreen;
@@ -21,7 +18,6 @@ import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreen;
 import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.tree.*;
-import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
 public class ScreenManager {
@@ -31,21 +27,6 @@ public class ScreenManager {
 
     private static Screen getAutoConfigScreen(Screen parent) {
         return AutoConfig.getConfigScreen(Configs.class, parent).get();
-    }
-
-    private static Screen getClothConfigScreen(Screen parent) {
-        ConfigBuilder builder = ConfigBuilder.create()
-                .setParentScreen(parent)
-                .setTitle(new TranslatableText("title.examplemod.config"))
-                .setSavingRunnable(() -> {});
-        ConfigCategory general = builder.getOrCreateCategory(new TranslatableText("category.examplemod.general"));
-        ConfigEntryBuilder entryBuilder = builder.entryBuilder();
-        general.addEntry(entryBuilder.startStrField(new TranslatableText(Keys.OPTION_INVULNERABLE_PETS), "123")
-                .setDefaultValue("This is the default value") // Recommended: Used when user click "Reset"
-                .setTooltip(new TranslatableText("This option is awesome!")) // Optional: Shown when the user hover over this option
-                .setSaveConsumer(newValue -> {}) // Recommended: Called when user save the config
-                .build()); // Builds the option entry for cloth config
-        return builder.build();
     }
 
     public static void init() {
@@ -77,5 +58,9 @@ public class ScreenManager {
         ScreenRegistry.register(BoleAxolotlEntityScreenHandler.HANDLER, BoleAxolotlEntityScreen<AxolotlEntity, BoleAxolotlEntityScreenHandler<AxolotlEntity>>::new);
         ScreenRegistry.register(BoleHorseEntityScreenHandler.HANDLER, BoleHorseEntityScreen<HorseEntity, BoleHorseEntityScreenHandler<HorseEntity>>::new);
         ScreenRegistry.register(BoleWanderingTraderEntityScreenHandler.HANDLER, BoleWanderingTraderEntityScreen<WanderingTraderEntity, BoleWanderingTraderEntityScreenHandler<WanderingTraderEntity>>::new);
+        ScreenRegistry.register(BoleWaterCreatureEntityScreenHandler.HANDLER, BoleWaterCreatureEntityScreen<WaterCreatureEntity, BoleWaterCreatureEntityScreenHandler<WaterCreatureEntity>>::new);
+        ScreenRegistry.register(BoleFishEntityScreenHandler.HANDLER, BoleFishEntityScreen<FishEntity, BoleFishEntityScreenHandler<FishEntity>>::new);
+        ScreenRegistry.register(BoleSchoolingFishEntityScreenHandler.HANDLER, BoleSchoolingFishEntityScreen<SchoolingFishEntity, BoleSchoolingFishEntityScreenHandler<SchoolingFishEntity>>::new);
+        ScreenRegistry.register(BoleTropicalFishEntityScreenHandler.HANDLER, BoleTropicalFishEntityScreen<TropicalFishEntity, BoleTropicalFishEntityScreenHandler<TropicalFishEntity>>::new);
     }
 }

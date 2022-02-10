@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(HorseMarking.class)
 public interface IMixinHorseMarking {
     @Accessor("VALUES")
-    static HorseMarking[] getValue() {
+    static HorseMarking[] getValues() {
         throw new AssertionError();
     }
 }

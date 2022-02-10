@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerType;
@@ -98,5 +99,9 @@ public class ScreenHandlerManager {
         registerHandler(BoleAxolotlEntityScreenHandler.HANDLER, AxolotlEntity.class, BoleAxolotlEntityScreenHandler::new);
         registerHandler(BoleHorseEntityScreenHandler.HANDLER, HorseEntity.class, BoleHorseEntityScreenHandler::new);
         registerHandler(BoleWanderingTraderEntityScreenHandler.HANDLER, WanderingTraderEntity.class, BoleWanderingTraderEntityScreenHandler::new);
+        registerHandler(BoleWaterCreatureEntityScreenHandler.HANDLER, WaterCreatureEntity.class, BoleWaterCreatureEntityScreenHandler::new);
+        registerHandler(BoleFishEntityScreenHandler.HANDLER, FishEntity.class, BoleFishEntityScreenHandler::new);
+        registerHandler(BoleSchoolingFishEntityScreenHandler.HANDLER, SchoolingFishEntity.class, BoleSchoolingFishEntityScreenHandler::new);
+        registerHandler(BoleTropicalFishEntityScreenHandler.HANDLER, TropicalFishEntity.class, BoleTropicalFishEntityScreenHandler::new);
     }
 }
