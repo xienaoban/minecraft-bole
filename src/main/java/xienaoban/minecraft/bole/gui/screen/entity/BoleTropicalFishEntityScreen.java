@@ -19,12 +19,15 @@ import xienaoban.minecraft.bole.util.MiscUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Environment(EnvType.CLIENT)
 public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extends BoleTropicalFishEntityScreenHandler<E>> extends BoleSchoolingFishEntityScreen<E, H> {
     private static final int TITLE_COLOR = 0xff6d2d1a;
+
+    private List<Syncable> syncWidgets;
 
     public BoleTropicalFishEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -34,19 +37,35 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
     protected void initPages() {
         super.initPages();
         this.pages.get(1).addSlotLazyAfter(new VariantTurnPagePropertyWidget(), null);
+        BigFishPropertyWidget bigFishPropertyWidget = new BigFishPropertyWidget();
+        TropicalFishBigVariantsPropertyWidget tropicalFishBigVariantsPropertyWidget = new TropicalFishBigVariantsPropertyWidget();
+        TropicalFishSmallVariantsPropertyWidget tropicalFishSmallVariantsPropertyWidget = new TropicalFishSmallVariantsPropertyWidget();
+        TropicalFishBaseColorPropertyWidget1 tropicalFishBaseColorPropertyWidget1 = new TropicalFishBaseColorPropertyWidget1();
+        TropicalFishBaseColorPropertyWidget2 tropicalFishBaseColorPropertyWidget2 = new TropicalFishBaseColorPropertyWidget2();
+        TropicalFishPatternColorPropertyWidget1 tropicalFishPatternColorPropertyWidget1 = new TropicalFishPatternColorPropertyWidget1();
+        TropicalFishPatternColorPropertyWidget2 tropicalFishPatternColorPropertyWidget2 = new TropicalFishPatternColorPropertyWidget2();
         Page p1 = new Page()
+                .addSlotLazy(bigFishPropertyWidget)
                 .addSlotLazy(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.PROPERTY_WIDGET_TROPICAL_FISH_VARIANT).formatted(Formatting.BOLD, Formatting.UNDERLINE), TITLE_COLOR, 0.5F))
-                .addSlotLazy(new TropicalFishBigVariantsPropertyWidget())
-                .addSlotLazy(new TropicalFishSmallVariantsPropertyWidget());
+                .addSlotLazy(tropicalFishBigVariantsPropertyWidget)
+                .addSlotLazy(tropicalFishSmallVariantsPropertyWidget);
         Page p2 = new Page()
                 .addSlotLazy(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.PROPERTY_WIDGET_TROPICAL_FISH_BASE_COLOR).formatted(Formatting.BOLD, Formatting.UNDERLINE), TITLE_COLOR, 0.5F))
-                .addSlotLazy(new TropicalFishBaseColorPropertyWidget1())
-                .addSlotLazy(new TropicalFishBaseColorPropertyWidget2())
+                .addSlotLazy(tropicalFishBaseColorPropertyWidget1)
+                .addSlotLazy(tropicalFishBaseColorPropertyWidget2)
                 .addSlotLazy(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.PROPERTY_WIDGET_TROPICAL_FISH_PATTERN_COLOR).formatted(Formatting.BOLD, Formatting.UNDERLINE), TITLE_COLOR, 0.5F))
-                .addSlotLazy(new TropicalFishPatternColorPropertyWidget1())
-                .addSlotLazy(new TropicalFishPatternColorPropertyWidget2());
+                .addSlotLazy(tropicalFishPatternColorPropertyWidget1)
+                .addSlotLazy(tropicalFishPatternColorPropertyWidget2);
         this.pages.add(p1);
         this.pages.add(p2);
+        this.syncWidgets = new ArrayList<>();
+        this.syncWidgets.add(bigFishPropertyWidget);
+        this.syncWidgets.add(tropicalFishBigVariantsPropertyWidget);
+        this.syncWidgets.add(tropicalFishSmallVariantsPropertyWidget);
+        this.syncWidgets.add(tropicalFishBaseColorPropertyWidget1);
+        this.syncWidgets.add(tropicalFishBaseColorPropertyWidget2);
+        this.syncWidgets.add(tropicalFishPatternColorPropertyWidget1);
+        this.syncWidgets.add(tropicalFishPatternColorPropertyWidget2);
     }
 
     @Override
@@ -62,6 +81,12 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
+    private void syncAll(Syncable except) {
+        for (Syncable syncable : this.syncWidgets) {
+            if (syncable != except) syncable.sync();
+        }
+    }
+
     public class VariantTurnPagePropertyWidget extends AbstractPropertyWidget {
         private final Text text;
         private final TropicalFishEntity[] entities;
@@ -73,9 +98,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
             Collections.shuffle(commons);
             this.entities = commons.stream().limit(7).map(v -> {
                 TropicalFishEntity entity = (TropicalFishEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
-                if (entity == null) {
-                    throw new RuntimeException("Failed to create a TropicalFishEntity on the client side.");
-                }
+                if (entity == null) throw new RuntimeException("Failed to create a TropicalFishEntity on the client side.");
                 ((IMixinEntity) entity).setTouchingWater(true);
                 entity.setVariant(v);
                 return entity;
@@ -103,7 +126,36 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         }
     }
 
-    public class TropicalFishBigVariantsPropertyWidget extends VariantsPropertyWidget {
+
+    public class BigFishPropertyWidget extends AbstractPropertyWidget implements Syncable {
+        private final TropicalFishEntity entity;
+
+        public BigFishPropertyWidget() {
+            super(4, 4);
+            this.entity = (TropicalFishEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
+            if (this.entity == null) throw new RuntimeException("Failed to create a TropicalFishEntity on the client side.");
+            sync();
+            ((IMixinEntity) this.entity).setTouchingWater(true);
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            int t = (int) (System.currentTimeMillis() % 8000);
+            t = t > 4000 ? 6000 - t : t - 2000;
+            t >>= 4;
+            drawFishEntity(this.entity, 60, (this.box.left() + this.box.right() >> 1) - 6, this.box.bottom() - 8, 0, t);
+        }
+
+        @Override
+        public void sync() {
+            copyEntityNbtForDisplay(handler.entity, this.entity);
+        }
+    }
+
+    public class TropicalFishBigVariantsPropertyWidget extends VariantsPropertyWidget implements Syncable {
         private static final int VARIANTS = 6;
         private static final String[][] KEYS = {
                 {Keys.TROPICAL_FISH_VARIANT_KOB, Keys.TROPICAL_FISH_VARIANT_SUNSTREAK, Keys.TROPICAL_FISH_VARIANT_SNOOPER, Keys.TROPICAL_FISH_VARIANT_DASHER, Keys.TROPICAL_FISH_VARIANT_BRINELY, Keys.TROPICAL_FISH_VARIANT_SPOTTY},
@@ -126,9 +178,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
             TropicalFishEntity real = handler.entity;
             for (int i = 0; i < VARIANTS; ++i) {
                 TropicalFishEntity entity = (TropicalFishEntity) real.getType().create(MinecraftClient.getInstance().world);
-                if (entity == null) {
-                    throw new RuntimeException("Failed to create a TropicalFishEntity on the client side.");
-                }
+                if (entity == null) throw new RuntimeException("Failed to create a TropicalFishEntity on the client side.");
                 copyEntityNbtForDisplay(real, entity);
                 ((IMixinEntity) entity).setTouchingWater(true);
                 entity.setVariant((entity.getVariant() & (~0xFFFF)) | shape() | (i << 8));
@@ -155,6 +205,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         @Override
         protected void setChosen(E fake) {
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_TROPICAL_FISH_VARIANT, (handler.entity.getVariant() & (~0xFFFF)) | (fake.getVariant() & 0xFFFF));
+            syncAll(this);
         }
 
         @Override
@@ -165,6 +216,14 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         protected int shape() {
             return 1;
         }
+
+        public void sync() {
+            for (int i = 0; i < this.variants.length; ++i) {
+                TropicalFishEntity entity = this.variants[i];
+                copyEntityNbtForDisplay(handler.entity, entity);
+                entity.setVariant((entity.getVariant() & (~0xFFFF)) | shape() | (i << 8));
+            }
+        }
     }
 
     public class TropicalFishSmallVariantsPropertyWidget extends TropicalFishBigVariantsPropertyWidget {
@@ -174,7 +233,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         }
     }
 
-    public class TropicalFishBaseColorPropertyWidget1 extends VariantsPropertyWidget {
+    public class TropicalFishBaseColorPropertyWidget1 extends VariantsPropertyWidget implements Syncable {
         private static final int MID = IMixinDyeColor.getValues().length >> 1;
 
         public TropicalFishBaseColorPropertyWidget1() {
@@ -193,9 +252,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
             TropicalFishEntity real = handler.entity;
             for (int i = indexFrom(); i < indexTo(); ++i) {
                 TropicalFishEntity entity = (TropicalFishEntity) real.getType().create(MinecraftClient.getInstance().world);
-                if (entity == null) {
-                    throw new RuntimeException("Failed to create a TropicalFishEntity on the client side.");
-                }
+                if (entity == null) throw new RuntimeException("Failed to create a TropicalFishEntity on the client side.");
                 copyEntityNbtForDisplay(real, entity);
                 ((IMixinEntity) entity).setTouchingWater(true);
                 entity.setVariant((entity.getVariant() & ~(0xFF << offset())) | (i << offset()));
@@ -223,6 +280,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         @Override
         protected void setChosen(E fake) {
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_TROPICAL_FISH_VARIANT, (handler.entity.getVariant() & ~(0xFF << offset())) | (fake.getVariant() & (0xFF << offset())));
+            syncAll(this);
         }
 
         @Override
@@ -244,6 +302,14 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
 
         protected int offset() {
             return 16;
+        }
+
+        public void sync() {
+            for (int i = indexFrom(); i < indexTo(); ++i) {
+                TropicalFishEntity entity = this.variants[i - indexFrom()];
+                copyEntityNbtForDisplay(handler.entity, entity);
+                entity.setVariant((entity.getVariant() & ~(0xFF << offset())) | (i << offset()));
+            }
         }
     }
 
@@ -277,5 +343,9 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         protected boolean low() {
             return false;
         }
+    }
+
+    private interface Syncable {
+        void sync();
     }
 }

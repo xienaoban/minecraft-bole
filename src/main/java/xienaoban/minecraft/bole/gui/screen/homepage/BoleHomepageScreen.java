@@ -14,6 +14,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.FishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -36,6 +37,7 @@ import xienaoban.minecraft.bole.core.BoleHandbookItem;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
+import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.mixin.IMixinWorld;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
@@ -208,9 +210,8 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         public LivingEntityPropertyWidget(EntityType<?> entityType) {
             super(1, 3);
             LivingEntity tmp = (LivingEntity) entityType.create(MinecraftClient.getInstance().world);
-            if (tmp == null) {
-                tmp = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
-            }
+            if (tmp == null) tmp = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
+            if (tmp instanceof FishEntity) ((IMixinEntity) tmp).setTouchingWater(true);
             this.entity = tmp;
             this.spawnEgg = new ItemStack(SpawnEggItem.forEntity(entityType));
             this.entityName = entityType.getName();

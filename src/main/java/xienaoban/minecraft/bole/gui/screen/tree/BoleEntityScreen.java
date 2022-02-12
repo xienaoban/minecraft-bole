@@ -9,6 +9,7 @@ import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.FishEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -109,7 +110,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     }
 
     public abstract class VariantsPropertyWidget extends AbstractPropertyWidget {
-        private final E[] variants;
+        protected final E[] variants;
         private final Text[] names;
         private final int variantsSize;
         private final int eachWidth, margin;
@@ -238,6 +239,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                     this.displayedEntity = EntityType.ARMOR_STAND.create(MinecraftClient.getInstance().world);
                 }
             }
+            if (this.displayedEntity instanceof FishEntity) ((IMixinEntity) this.displayedEntity).setTouchingWater(true);
             updateDisplayedEntity();
         }
     }
