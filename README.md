@@ -38,14 +38,15 @@
             - TameableEntity:
               - [X] `Is tamed`
               - [ ] `Set owner`
-              - [X] `Invulnerable pets`
-              - [ ] `Invulnerable pets for players and environment`
+              - [X] `Block accidental injury`
               - TameableShoulderEntity:
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:
                   - [X] `Set variant`
               - CatEntity:
                 - [X] `Set variant`
+              - WolfEntity:
+                - [ ] `Tamed wolfs never attack players`
             - HorseBaseEntity:
               - AbstractDonkeyEntity
                 - [X] `Chest size`

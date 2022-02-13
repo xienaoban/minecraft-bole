@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
@@ -17,6 +16,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
@@ -51,7 +51,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
 
     public BoleEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
-        this.isMonster = this.entity.getType().getSpawnGroup() == SpawnGroup.MONSTER;
+        this.isMonster = Bole.isMonster(this.entity);
         registerEntitySettingsBufHandlers();
     }
 

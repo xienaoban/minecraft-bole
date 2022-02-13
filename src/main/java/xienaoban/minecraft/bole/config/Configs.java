@@ -46,7 +46,7 @@ public class Configs implements ConfigData {
 
     @ConfigEntry.Category(SERVER)
     @ConfigEntry.Gui.Tooltip()
-    boolean invulnerablePets = false;
+    boolean blockAccidentalInjuryToPets = false;
 
     @ConfigEntry.Category(SERVER)
     @ConfigEntry.Gui.Tooltip()
@@ -66,8 +66,8 @@ public class Configs implements ConfigData {
         return allowHotKeyToOpenBoleHandbookScreen;
     }
 
-    public boolean isInvulnerablePets() {
-        return invulnerablePets;
+    public boolean isBlockAccidentalInjuryToPets() {
+        return blockAccidentalInjuryToPets;
     }
 
     public boolean isForbidToSetNetherPortalCooldownOfOtherPlayers() {
