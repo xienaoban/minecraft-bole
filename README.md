@@ -58,9 +58,11 @@
               - [X] `Beehive position`
               - [X] `Reset beehive position`
             - SheepEntity:
-              - [X] `Force eat grass`
+              - [X] `Force to eat grass`
             - GoatEntity:
               - [X] `Set screamer`
+            - RabbitEntity:
+              - [ ] `Set variant`
             - PandaEntity:
               - [X] `Set gene`
             - AxolotlEntity:
@@ -71,7 +73,7 @@
             - VillagerEntity:
               - [X] `Highlight job site`
               - [X] `Reset level 0`
-              - [X] `Force restock`
+              - [X] `Force  to restock`
               - [X] `Change clothes`
             - WanderingTraderEntity:
               - [X] `Notify players when spawned`
@@ -83,7 +85,9 @@
               - TropicalFishEntity
                 - [X] `Set variant`
         - HostileEntity:
-          - Nothing here yet
+          - AbstractPiglinEntity:
+            - PiglinEntity:
+              - [ ] `Force to dance`
 
 # Screenshots
 
