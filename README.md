@@ -45,8 +45,6 @@
                   - [X] `Set variant`
               - CatEntity:
                 - [X] `Set variant`
-              - WolfEntity:
-                - [ ] `Tamed wolfs never attack players`
             - HorseBaseEntity:
               - AbstractDonkeyEntity
                 - [X] `Chest size`

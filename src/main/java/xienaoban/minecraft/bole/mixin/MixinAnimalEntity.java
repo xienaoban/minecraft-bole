@@ -4,9 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.damage.ProjectileDamageSource;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.HorseBaseEntity;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.*;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,10 +28,18 @@ public class MixinAnimalEntity {
                 Entity attacker;
                 if (source instanceof ProjectileDamageSource projectileDamageSource) attacker = projectileDamageSource.getAttacker();
                 else attacker = entityDamageSource.getSource();
-                return Bole.isMonster(attacker) ? amount : 0.0F;
+                return Bole.isMonster(attacker) || isOtherPlayer(that, attacker) ? amount : 0.0F;
             }
             return source == DamageSource.ANVIL || source == DamageSource.OUT_OF_WORLD ? amount : 0.0F;
         }
         return amount;
+    }
+
+    private static boolean isOtherPlayer(AnimalEntity that, Entity attacker) {
+        if (attacker instanceof PlayerEntity) {
+             if (that instanceof TameableEntity t) return t.getOwnerUuid() != attacker.getUuid();
+            if (that instanceof HorseBaseEntity t) return t.getOwnerUuid() != attacker.getUuid();
+        }
+        return false;
     }
 }
