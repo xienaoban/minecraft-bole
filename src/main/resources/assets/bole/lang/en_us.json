@@ -146,6 +146,8 @@
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen.@Tooltip": "So you don't have to hold a book in your hand in survival mode.",
   "text.autoconfig.bole.option.blockAccidentalInjuryToPets": "BlockAccidentalInjuryToPets",
   "text.autoconfig.bole.option.blockAccidentalInjuryToPets.@Tooltip": "Tamed animals will only take damage from\nhostile mobs, non-owner players and anvils.",
+  "text.autoconfig.bole.option.petsCanTeleportToMoreBlocks": "PetsCanTeleportToMoreBlocks",
+  "text.autoconfig.bole.option.petsCanTeleportToMoreBlocks.@Tooltip": "Pets can be teleport onto leaves or water.",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "CannotSetOthersPortalCooldown",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "You will not be allowed to modify other players' nether portal cooldown.",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "BroadcastWanderingTraderSpawn",

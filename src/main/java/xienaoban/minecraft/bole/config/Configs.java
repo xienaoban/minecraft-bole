@@ -13,7 +13,7 @@ import xienaoban.minecraft.bole.util.Keys;
 @Config(name = Keys.MOD_NAME)
 @Config.Gui.CategoryBackground(category = Configs.CLIENT, background = "minecraft:textures/block/moss_block.png")
 @Config.Gui.CategoryBackground(category = Configs.SERVER, background = "minecraft:textures/block/tube_coral_block.png")
-public class Configs implements ConfigData {
+public final class Configs implements ConfigData {
     @ConfigEntry.Gui.Excluded
     public static final String CLIENT = "default", SERVER = "server";
 
@@ -50,6 +50,10 @@ public class Configs implements ConfigData {
 
     @ConfigEntry.Category(SERVER)
     @ConfigEntry.Gui.Tooltip()
+    boolean petsCanTeleportToMoreBlocks = false;
+
+    @ConfigEntry.Category(SERVER)
+    @ConfigEntry.Gui.Tooltip()
     boolean forbidToSetNetherPortalCooldownOfOtherPlayers = false;
 
     @ConfigEntry.Category(SERVER)
@@ -68,6 +72,10 @@ public class Configs implements ConfigData {
 
     public boolean isBlockAccidentalInjuryToPets() {
         return blockAccidentalInjuryToPets;
+    }
+
+    public boolean isPetsCanTeleportToMoreBlocks() {
+        return petsCanTeleportToMoreBlocks;
     }
 
     public boolean isForbidToSetNetherPortalCooldownOfOtherPlayers() {

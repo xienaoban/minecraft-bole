@@ -24,6 +24,7 @@
     "MixinAnimalEntity",
     "MixinEatGrassGoal",
     "MixinEntity",
+    "MixinFollowOwnerGoal",
     "MixinPassiveEntity",
     "MixinPolarBearEntity",
     "MixinTameableShoulderEntity",

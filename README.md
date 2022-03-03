@@ -39,6 +39,7 @@
               - [X] `Is tamed`
               - [ ] `Set owner`
               - [X] `Block accidental injury`
+              - [X] `Teleport to the owner on the sea and leaves`
               - TameableShoulderEntity:
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:
