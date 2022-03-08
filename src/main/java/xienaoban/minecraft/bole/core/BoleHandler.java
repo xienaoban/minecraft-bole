@@ -25,7 +25,8 @@ public class BoleHandler {
         Bole bole = Bole.getInstance();
         BoleClient boleClient = BoleClient.getInstance();
         ClientPlayerEntity player = client.player;
-        boleClient.setBoleTarget(null);
+        boleClient.setHitEntity(null);
+        boleClient.setHitBlock(null);
         if (player == null) {
             Bole.LOGGER.error("Client player is null. Fail to open the Bole Screen.");
             return;
@@ -45,6 +46,7 @@ public class BoleHandler {
         else if (hit.getType() != HitResult.Type.ENTITY) {
             if (hit.getType() == HitResult.Type.BLOCK) {
                 BlockPos pos = ((BlockHitResult) hit).getBlockPos();
+                boleClient.setHitBlock(pos);
                 BlockState blockState = player.world.getBlockState(pos);
                 if (blockState.getBlock() instanceof BeehiveBlock) {
                     ClientNetworkManager.requestBeehiveScreen(pos);
@@ -57,7 +59,7 @@ public class BoleHandler {
 
         if (target == null) ClientNetworkManager.requestBoleScreen();
         else {
-            boleClient.setBoleTarget(target);
+            boleClient.setHitEntity(target);
             ClientNetworkManager.requestBoleScreen(target);
         }
         player.playSound(SoundEvents.ITEM_BOOK_PAGE_TURN, 1.0F, 0.8F);

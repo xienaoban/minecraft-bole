@@ -79,7 +79,7 @@ public class BoleMerchantEntityScreen<E extends MerchantEntity, H extends BoleMe
             setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.WARNING_TEXT_OPEN_MERCHANT_INVENTORY, cost.getCount(), cost.getItem().getName()), () -> {
                 if (handler.trySpendItems(cost)) {
                     setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.TEXT_WAIT_FOR_SERVER), () -> {}));
-                    BoleClient.getInstance().setBoleTarget(merchantEntity);
+                    BoleClient.getInstance().setHitEntity(merchantEntity);
                     ClientNetworkManager.requestMerchantInventoryScreen(merchantEntity);
                 }
                 else showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);

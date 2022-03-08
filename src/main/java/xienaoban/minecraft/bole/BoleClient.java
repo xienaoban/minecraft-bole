@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.math.BlockPos;
 import xienaoban.minecraft.bole.client.EntityManager;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
@@ -25,7 +26,8 @@ public class BoleClient implements ClientModInitializer {
     private static BoleClient instance;
 
     private boolean isScreenOpen;
-    private Entity boleTarget;
+    private Entity hitEntity;
+    private BlockPos hitBlock;
     private int ticks;
     private int screenTicks;
     private boolean inWorld;
@@ -107,17 +109,25 @@ public class BoleClient implements ClientModInitializer {
         return MinecraftClient.getInstance().getServer() != null;
     }
 
-    public Entity getBoleTarget() {
-        return this.boleTarget;
-    }
-
     public void setScreenOpen(boolean isScreenOpen) {
         this.isScreenOpen = isScreenOpen;
         this.screenTicks = -1;
     }
 
-    public void setBoleTarget(Entity boleTarget) {
-        this.boleTarget = boleTarget;
+    public Entity getHitEntity() {
+        return this.hitEntity;
+    }
+
+    public void setHitEntity(Entity hitEntity) {
+        this.hitEntity = hitEntity;
+    }
+
+    public BlockPos getHitBlock() {
+        return this.hitBlock;
+    }
+
+    public void setHitBlock(BlockPos hitBlock) {
+        this.hitBlock = hitBlock;
     }
 
     public int getTicks() {
@@ -153,7 +163,8 @@ public class BoleClient implements ClientModInitializer {
     }
 
     private void preventMemoryLeak() {
-        setBoleTarget(null);
+        setHitEntity(null);
+        setHitBlock(null);
         setHandlerBufCache(null);
         setHomepageScreenState(null);
         this.highlightManager.clear();

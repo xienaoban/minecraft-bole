@@ -21,6 +21,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
@@ -144,13 +145,14 @@ public class ServerNetworkManager {
 
     private static void registerRequestBeehiveScreen() {
         ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BEEHIVE_SCREEN, (server, player, handler, buf, responseSender) -> {
-            BlockState blockState = player.world.getBlockState(buf.readBlockPos());
+            BlockPos pos = buf.readBlockPos();
+            BlockState blockState = player.world.getBlockState(pos);
             if (blockState.getBlock() instanceof BeehiveBlock) {
                 server.execute(() -> {
                     player.openHandledScreen(new NamedScreenHandlerFactory() {
                         @Override
                         public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-                            return new BeehiveScreenHandler(syncId, inv);
+                            return new BeehiveScreenHandler(syncId, inv, pos);
                         }
 
                         @Override
