@@ -284,7 +284,7 @@
   "text.bole.never_grow_up": "永不成长",
   "text.bole.loading": "加载中……",
   "text.bole.empty_with_brackets": "（空）",
-  "text.bole.highlight": "感受到了 %d 只%s（当前生物视距 %d 米）。",
+  "text.bole.highlight": "感受到了 %d 只%s（当前感知半径 %d 米）。",
   "text.bole.main_gene": "显性",
   "text.bole.hidden_gene": "隐性",
   "text.bole.wandering_trader_spawn_message": "玩家 %s 附近传来了流浪商人的哼哼声。",

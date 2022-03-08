@@ -8,7 +8,6 @@
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**
 - [X] **`Open the player or mount screen when looking down`**
-- [ ] **`Check beehive state`**
 - Entity:
   - [X] `Bounding box`
   - [X] `Custom name`
@@ -44,6 +43,8 @@
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:
                   - [X] `Set variant`
+                  - [ ] `Show GUI when on shoulder`
+                  - [ ] `Won't leave shoulder when player jumps`
               - CatEntity:
                 - [X] `Set variant`
             - HorseBaseEntity:
@@ -56,12 +57,13 @@
             - BeeEntity:
               - [X] `Beehive position`
               - [X] `Reset beehive position`
+              - [ ] `Check beehive state`
             - SheepEntity:
               - [X] `Force to eat grass`
             - GoatEntity:
               - [X] `Set screamer`
             - RabbitEntity:
-              - [ ] `Set variant`
+              - [x] `Set variant`
             - PandaEntity:
               - [X] `Set gene`
             - AxolotlEntity:

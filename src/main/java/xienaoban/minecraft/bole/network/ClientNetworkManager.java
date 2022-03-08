@@ -14,6 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
@@ -162,6 +163,12 @@ public class ClientNetworkManager {
 
     public static void sendHighlightEvent() {
         ClientPlayNetworking.send(Channels.SEND_HIGHLIGHT_EVENT, PacketByteBufs.empty());
+    }
+
+    public static void requestBeehiveScreen(BlockPos beehivePos) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeBlockPos(beehivePos);
+        ClientPlayNetworking.send(Channels.REQUEST_BEEHIVE_SCREEN, buf);
     }
 
     public static void requestMerchantInventoryScreen(MerchantEntity merchantEntity) {

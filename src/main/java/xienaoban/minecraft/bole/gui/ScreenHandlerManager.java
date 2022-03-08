@@ -13,6 +13,7 @@ import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.misc.BeehiveScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.tree.*;
 
@@ -75,6 +76,7 @@ public class ScreenHandlerManager {
         registerHandler(BoleHomepageScreenHandler.HANDLER);
 
         // package: misc
+        registerHandler(BeehiveScreenHandler.HANDLER);
         registerHandler(MerchantInventoryScreenHandler.HANDLER);
 
         // package: tree & entity

@@ -28,8 +28,8 @@ public class MerchantInventoryScreen extends HandledScreen<MerchantInventoryScre
         RenderSystem.setShaderTexture(0, Textures.HORSE_SCREEN);
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
-        this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
-        this.drawTexture(matrices, i + 79, j + 17 + 18, 0, this.backgroundHeight, 4 * 18, 2 * 18);
+        drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        drawTexture(matrices, i + 79, j + 17 + 18, 0, this.backgroundHeight, 4 * 18, 2 * 18);
         InventoryScreen.drawEntity(i + 52, j + 64, 20, (float)(i + 51) - mouseX, (float)(j + 75 - 50) - mouseY, this.merchantEntity);
     }
 }

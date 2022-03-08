@@ -15,6 +15,8 @@ import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreen;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.misc.BeehiveScreen;
+import xienaoban.minecraft.bole.gui.screen.misc.BeehiveScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreen;
 import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.tree.*;
@@ -34,6 +36,7 @@ public class ScreenManager {
         ScreenRegistry.register(BoleHomepageScreenHandler.HANDLER, BoleHomepageScreen::new);
 
         // package: misc
+        ScreenRegistry.register(BeehiveScreenHandler.HANDLER, BeehiveScreen::new);
         ScreenRegistry.register(MerchantInventoryScreenHandler.HANDLER, MerchantInventoryScreen::new);
 
         // package: tree & entity

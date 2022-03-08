@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.block.BeehiveBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -27,6 +29,7 @@ import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.core.BoleHandbookItem;
 import xienaoban.minecraft.bole.gui.ScreenHandlerManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.misc.BeehiveScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleMerchantEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
@@ -40,6 +43,7 @@ public class ServerNetworkManager {
         registerSendClientEntitySettings();
         registerRequestServerEntitiesGlowing();
         registerSendHighlightEvent();
+        registerRequestBeehiveScreen();
         registerRequestMerchantInventoryScreen();
     }
 
@@ -135,6 +139,28 @@ public class ServerNetworkManager {
                     player.addExperience(-2);
                 }
             });
+        });
+    }
+
+    private static void registerRequestBeehiveScreen() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BEEHIVE_SCREEN, (server, player, handler, buf, responseSender) -> {
+            BlockState blockState = player.world.getBlockState(buf.readBlockPos());
+            if (blockState.getBlock() instanceof BeehiveBlock) {
+                server.execute(() -> {
+                    player.openHandledScreen(new NamedScreenHandlerFactory() {
+                        @Override
+                        public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+                            return new BeehiveScreenHandler(syncId, inv);
+                        }
+
+                        @Override
+                        public Text getDisplayName() {
+                            return new TranslatableText(Keys.TEXT_INVENTORY_OF, new TranslatableText(blockState.getBlock().getTranslationKey()));
+                        }
+                    });
+                });
+            }
+            else Bole.LOGGER.error("Cannot open BeehiveScreen.");
         });
     }
 

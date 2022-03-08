@@ -12,6 +12,7 @@ public interface Channels {
     Identifier SEND_CLIENT_ENTITY_SETTINGS = new Identifier(Keys.NAMESPACE, "send_client_entity_settings");
     Identifier REQUEST_SERVER_ENTITIES_GLOWING = new Identifier(Keys.NAMESPACE, "request_server_entities_glowing");
     Identifier SEND_HIGHLIGHT_EVENT = new Identifier(Keys.NAMESPACE, "send_highlight_event");
+    Identifier REQUEST_BEEHIVE_SCREEN = new Identifier(Keys.NAMESPACE, "request_beehive_screen");
     Identifier REQUEST_MERCHANT_INVENTORY_SCREEN = new Identifier(Keys.NAMESPACE, "request_merchant_inventory_screen");
 
     // Server side
