@@ -45,6 +45,7 @@
                   - [X] `Set variant`
                   - [ ] `Show GUI when on shoulder`
                   - [ ] `Won't leave shoulder when player jumps`
+                  - [ ] `Breedable`
               - CatEntity:
                 - [X] `Set variant`
             - HorseBaseEntity:
@@ -80,15 +81,17 @@
               - [X] `Notify players when spawned`
               - [X] `Despawn time`
               - [X] `Add Despawn time`
-        - WaterCreatureEntity
-          - FishEntity
-            - SchoolingFishEntity
-              - TropicalFishEntity
+        - WaterCreatureEntity:
+          - FishEntity:
+            - SchoolingFishEntity:
+              - TropicalFishEntity:
                 - [X] `Set variant`
+          - DolphinEntity:
+            - [ ] `Moistness`
         - HostileEntity:
           - AbstractPiglinEntity:
             - PiglinEntity:
-              - [ ] `Force to dance`
+              - [ ] `Pay to dance`
 
 # Screenshots
 

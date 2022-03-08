@@ -264,4 +264,5 @@ public interface Keys {
     String TEXT_INVENTORY_OF = "text.bole.inventory_of";
     String TEXT_WAIT_FOR_SERVER = "text.bole.wait_for_server";
     String TEXT_TROPICAL_FISH_VARIANT_TURN_PAGE = "text.bole.tropical_fish_variant_turn_page";
+    String TEXT_HONEY = "text.bole.honey";
 }

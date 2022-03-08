@@ -292,5 +292,6 @@
   "text.bole.server_ban_hotkey": "The hotkey is banned on this server. Find a bole handbook item first.",
   "text.bole.inventory_of": "Inventory of %s",
   "text.bole.wait_for_server": "Wait for server response...",
-  "text.bole.tropical_fish_variant_turn_page": "variety settings on next pages"
+  "text.bole.tropical_fish_variant_turn_page": "variety settings on next pages",
+  "text.bole.honey": "Honey"
 }

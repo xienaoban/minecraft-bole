@@ -625,7 +625,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         RenderSystem.setShaderTexture(0, id);
     }
 
-    public MatrixStack matrixScaleOn(float x, float y, float z) {
+    public static MatrixStack matrixScaleOn(float x, float y, float z) {
         MatrixStack matrixStack = RenderSystem.getModelViewStack();
         matrixStack.push();
         matrixStack.scale(x, y, z);
@@ -633,7 +633,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         return matrixStack;
     }
 
-    public void matrixScaleOff(MatrixStack matrixStack) {
+    public static void matrixScaleOff(MatrixStack matrixStack) {
         matrixStack.pop();
         RenderSystem.applyModelViewMatrix();
     }
