@@ -20,12 +20,13 @@ import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
+import xienaoban.minecraft.bole.util.ClientTickable;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractBoleScreenHandler<E extends Entity> extends ScreenHandler {
+public abstract class AbstractBoleScreenHandler<E extends Entity> extends ScreenHandler implements ClientTickable {
     public final E entity;
     public final PlayerEntity player;
     private final Map<String, EntitySettingsBufHandler> entitySettingsBufHandlers;
@@ -67,6 +68,7 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
      * @param ticks tick count
      */
     @Environment(EnvType.CLIENT)
+    @Override
     public abstract void clientTick(int ticks);
 
     /**

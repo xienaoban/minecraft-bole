@@ -21,6 +21,7 @@ import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.misc.BeehiveScreenHandler;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -34,6 +35,7 @@ public class ClientNetworkManager {
         registerSendServerEntityData();
         registerSendServerEntitiesGlowing();
         registerSendWanderingTraderSpawnMessage();
+        registerSendBeehiveInfo();
         registerSendOverlayMessage();
     }
 
@@ -111,6 +113,18 @@ public class ClientNetworkManager {
         });
     }
 
+    private static void registerSendBeehiveInfo() {
+        ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_BEEHIVE_INFO, (client, handler, buf, responseSender) -> {
+            PacketByteBuf bufCopy = PacketByteBufs.copy(buf);
+            if (client.player != null && client.player.currentScreenHandler instanceof BeehiveScreenHandler beehiveScreenHandler) {
+                client.execute(() -> beehiveScreenHandler.readBeehiveInfo(bufCopy));
+            }
+            else {
+                BoleClient.getInstance().setHandlerBufCache(bufCopy);
+            }
+        });
+    }
+
     private static void registerSendOverlayMessage() {
         ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_OVERLAY_MESSAGE, (client, handler, buf, responseSender) -> {
             Text text = buf.readText();
@@ -175,6 +189,10 @@ public class ClientNetworkManager {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeInt(merchantEntity.getId());
         ClientPlayNetworking.send(Channels.REQUEST_MERCHANT_INVENTORY_SCREEN, buf);
+    }
+
+    public static void requestBeehiveInfo() {
+        ClientPlayNetworking.send(Channels.REQUEST_BEEHIVE_INFO, PacketByteBufs.empty());
     }
 
     public static AbstractBoleScreenHandler<?> getBoleScreenHandler(MinecraftClient client) {

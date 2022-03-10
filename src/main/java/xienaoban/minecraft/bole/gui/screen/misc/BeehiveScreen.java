@@ -8,10 +8,10 @@ import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
@@ -22,14 +22,9 @@ public class BeehiveScreen extends HandledScreen<BeehiveScreenHandler> {
     private static final int MAX_HONEY_CNT = BeehiveBlock.FULL_HONEY_LEVEL;
     private static final int MAX_BEE_CNT = BeehiveBlockEntity.MAX_BEE_COUNT;
 
-    private final BeeEntity[] bees;
-
     public BeehiveScreen(BeehiveScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
-        this.bees = new BeeEntity[MAX_BEE_CNT];
-        for (int i = 0; i < MAX_BEE_CNT; ++i) {
-            this.bees[i] = EntityType.BEE.create(inventory.player.getWorld());
-        }
+        BoleClient.getInstance().setScreenOpen(true);
     }
 
     @Override
@@ -42,6 +37,12 @@ public class BeehiveScreen extends HandledScreen<BeehiveScreenHandler> {
     }
 
     @Override
+    public void onClose() {
+        super.onClose();
+        BoleClient.getInstance().setScreenOpen(false);
+    }
+
+    @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         this.renderBackground(matrices);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -50,10 +51,8 @@ public class BeehiveScreen extends HandledScreen<BeehiveScreenHandler> {
         int w = (this.width - 128) >> 1;
         int h = (this.height - 128) >> 1;
 
-        int beeCnt = this.handler.entity.getBeeCount();
-        int honeyCnt = BeehiveBlockEntity.getHoneyLevel(this.handler.blockState);
-        beeCnt = 2;
-        honeyCnt = 2;
+        int beeCnt = this.handler.blockBeeCnt;
+        int honeyCnt = this.handler.blockHoneyCnt;
 
         int lw = w + 32, lh = h + 23;
         for (int i = 0; i < MAX_HONEY_CNT; ++i) {
@@ -64,13 +63,22 @@ public class BeehiveScreen extends HandledScreen<BeehiveScreenHandler> {
         drawTexture(matrices, w, h, 0, 0, 128, 128);
         float mx = 0.0F - (mouseX - (this.width >> 1)) / 16.0F;
         float my = -16.0F - (mouseY - (this.height >> 1)) / 16.0F;
+        int color = 0xBCFFFFFF;
         for (int i = 0; i < beeCnt; ++i) {
-            int x = LATTICES[MAX_HONEY_CNT - i - 1][0] + lw + 16;
-            int y = LATTICES[MAX_HONEY_CNT - i - 1][1] + lh + 30;
-            InventoryScreen.drawEntity(x, y, 34, mx, my, this.bees[i]);
+            int x, y;
+            if (honeyCnt + i < MAX_HONEY_CNT) {
+                x = LATTICES[honeyCnt + i][0] + lw + 16;
+                y = LATTICES[honeyCnt + i][1] + lh + 30;
+            }
+            else {
+                x = w + i * 24;
+                y = h;
+            }
+            BeehiveScreenHandler.BeeInfo bee = this.handler.bees[i];
+            InventoryScreen.drawEntity(x, y, 34, mx, my, bee.entity);
+            drawTextHalfCenteredX(matrices, Text.of(bee.ticksInHive + "|" + bee.minOccupationTicks), color, x, y + 10);
             mx = my = 0;
         }
-        int color = 0xBCFFFFFF;
         this.textRenderer.draw(matrices, beeCnt + "/" + MAX_BEE_CNT, LATTICES[5][0] + lw + 16 - 8.5F, LATTICES[5][1] + lh + 8, color);
         this.textRenderer.draw(matrices, honeyCnt + "/" + MAX_HONEY_CNT, LATTICES[6][0] + lw + 16 - 8.5F, LATTICES[6][1] + lh + 8, color);
         drawTextCenteredX(matrices, EntityType.BEE.getName(), color, LATTICES[5][0] + lw + 16.5F, LATTICES[5][1] + lh + 16);

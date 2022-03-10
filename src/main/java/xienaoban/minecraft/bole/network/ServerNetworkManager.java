@@ -46,6 +46,7 @@ public class ServerNetworkManager {
         registerSendHighlightEvent();
         registerRequestBeehiveScreen();
         registerRequestMerchantInventoryScreen();
+        registerRequestBeehiveInfo();
     }
 
     private static void registerRequestServerBoleConfigs() {
@@ -190,6 +191,14 @@ public class ServerNetworkManager {
         });
     }
 
+    private static void registerRequestBeehiveInfo() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BEEHIVE_INFO, (server, player, handler, buf, responseSender) -> {
+            if (player.currentScreenHandler instanceof BeehiveScreenHandler beehiveScreenHandler) {
+                sendServerBeehiveInfo(beehiveScreenHandler, server, player);
+            }
+        });
+    }
+
     public static void sendServerBoleConfigs(MinecraftServer server, ServerPlayerEntity player) {
         server.execute(() -> {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -231,6 +240,14 @@ public class ServerNetworkManager {
             PacketByteBuf entityBuf = PacketByteBufs.create();
             boleScreenHandler.tryWriteServerEntityFromBuf(entityBuf);
             ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITY_DATA, entityBuf);
+        });
+    }
+
+    public static void sendServerBeehiveInfo(BeehiveScreenHandler beehiveScreenHandler, MinecraftServer server, ServerPlayerEntity player) {
+        server.execute(() -> {
+            PacketByteBuf buf2 = PacketByteBufs.create();
+            beehiveScreenHandler.writeBeehiveInfo(buf2);
+            ServerPlayNetworking.send(player, Channels.SEND_BEEHIVE_INFO, buf2);
         });
     }
 

@@ -16,10 +16,10 @@ import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.ScreenManager;
-import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenState;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
+import xienaoban.minecraft.bole.util.ClientTickable;
 
 @Environment(EnvType.CLIENT)
 public class BoleClient implements ClientModInitializer {
@@ -92,14 +92,14 @@ public class BoleClient implements ClientModInitializer {
     }
 
     public void clientTick() {
-        if (!inWorld) return;
+        if (!this.inWorld) return;
         if (!MinecraftClient.getInstance().isPaused()) ++this.ticks;
         if (this.isScreenOpen) {
             MinecraftClient client = MinecraftClient.getInstance();
             ClientPlayerEntity player = client.player;
-            if (player != null && player.currentScreenHandler instanceof AbstractBoleScreenHandler boleScreenHandler) {
-                ++screenTicks;
-                boleScreenHandler.clientTick(screenTicks);
+            if (player != null && player.currentScreenHandler instanceof ClientTickable tickable) {
+                ++this.screenTicks;
+                tickable.clientTick(this.screenTicks);
             }
         }
         this.highlightManager.tick();
