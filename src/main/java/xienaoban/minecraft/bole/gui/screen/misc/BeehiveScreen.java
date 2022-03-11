@@ -3,7 +3,6 @@ package xienaoban.minecraft.bole.gui.screen.misc;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.entity.BeehiveBlockEntity;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -12,38 +11,38 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.BoleClient;
-import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
+import xienaoban.minecraft.bole.gui.screen.GenericHandledScreen;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BeehiveScreen extends HandledScreen<BeehiveScreenHandler> {
+import java.util.Random;
+
+public class BeehiveScreen extends GenericHandledScreen<BeehiveScreenHandler> {
     private static final int[][] LATTICES = {{0, 0}, {32, 0}, {0, 50}, {32, 50}, {16, 25}, {-16, 25}, {48, 25}};
     private static final int MAX_HONEY_CNT = BeehiveBlock.FULL_HONEY_LEVEL;
     private static final int MAX_BEE_CNT = BeehiveBlockEntity.MAX_BEE_COUNT;
 
+    private long mills;
+    private final BeeAction[] actions;
+    private int lastBeeCnt;
+
     public BeehiveScreen(BeehiveScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+        this.mills = System.currentTimeMillis();
+        this.actions = new BeeAction[MAX_BEE_CNT];
+        this.lastBeeCnt = 0;
+        for (int i = 0; i < MAX_BEE_CNT; ++i) {
+            this.actions[i] = new BeeAction();
+        }
         BoleClient.getInstance().setScreenOpen(true);
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (KeyBindingManager.KEY_BOLE_SCREEN.matchesKey(keyCode, scanCode)) {
-            onClose();
-            return true;
-        }
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public void onClose() {
-        super.onClose();
-        BoleClient.getInstance().setScreenOpen(false);
-    }
-
-    @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+        long lastMills = this.mills;
+        this.mills = System.currentTimeMillis();
+        int diff = (int) (this.mills - lastMills);
         this.renderBackground(matrices);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -54,6 +53,18 @@ public class BeehiveScreen extends HandledScreen<BeehiveScreenHandler> {
         int beeCnt = this.handler.blockBeeCnt;
         int honeyCnt = this.handler.blockHoneyCnt;
 
+        if (this.lastBeeCnt > beeCnt) {
+            this.lastBeeCnt = beeCnt;
+            BeeAction tmp = this.actions[0];
+            for (int i = 1; i < MAX_BEE_CNT; ++i) {
+                this.actions[i - 1] = this.actions[i];
+            }
+            this.actions[MAX_BEE_CNT - 1] = tmp;
+        }
+        else {
+            this.lastBeeCnt = beeCnt;
+        }
+
         int lw = w + 32, lh = h + 23;
         for (int i = 0; i < MAX_HONEY_CNT; ++i) {
             drawLattice(matrices, LATTICES[i][0] + lw, LATTICES[i][1] + lh, i < honeyCnt ? 2 : 0);
@@ -61,23 +72,32 @@ public class BeehiveScreen extends HandledScreen<BeehiveScreenHandler> {
         drawLattice(matrices, LATTICES[5][0] + lw, LATTICES[5][1] + lh, 1);
         drawLattice(matrices, LATTICES[6][0] + lw, LATTICES[6][1] + lh, 1);
         drawTexture(matrices, w, h, 0, 0, 128, 128);
-        float mx = 0.0F - (mouseX - (this.width >> 1)) / 16.0F;
-        float my = -16.0F - (mouseY - (this.height >> 1)) / 16.0F;
         int color = 0xBCFFFFFF;
         for (int i = 0; i < beeCnt; ++i) {
+            BeeAction action = this.actions[i];
+            action.run(diff);
             int x, y;
             if (honeyCnt + i < MAX_HONEY_CNT) {
                 x = LATTICES[honeyCnt + i][0] + lw + 16;
-                y = LATTICES[honeyCnt + i][1] + lh + 30;
+                y = LATTICES[honeyCnt + i][1] + lh + 29;
             }
             else {
-                x = w + i * 24;
-                y = h;
+                int p = i + honeyCnt - MAX_HONEY_CNT + 1;
+                x = w + p * 32;
+                y = h + 19 + ((p & 1) == 0 ? 0 : 6);
             }
             BeehiveScreenHandler.BeeInfo bee = this.handler.bees[i];
-            InventoryScreen.drawEntity(x, y, 34, mx, my, bee.entity);
-            drawTextHalfCenteredX(matrices, Text.of(bee.ticksInHive + "|" + bee.minOccupationTicks), color, x, y + 10);
-            mx = my = 0;
+            int size = bee.entity.isBaby() ? 46 : 32;
+            float t = 14.0F * Math.min(bee.ticksInHive, bee.minOccupationTicks) / bee.minOccupationTicks;
+            drawHorizontalLine(matrices, 0xFF443300, 1.1F, getZOffset(), x - 7.5F, x + 7.5F, y - 1);
+            drawHorizontalLine(matrices, bee.entity.hasNectar() ? 0xFFFFBB00 : 0x64FFBB00, 0.6F, getZOffset(), x - 7, x - 7 + t, y - 1);
+            InventoryScreen.drawEntity(x, y, size, action.mouseX, action.mouseY, bee.entity);
+            Text customName = bee.entity.getCustomName();
+            if (customName != null) {
+                int wHalf = (getTextWidth(customName) >> 2) + 1, yyy = y - (bee.entity.isBaby() ? 20 : 25);
+                drawHorizontalLine(matrices, 0x55777777, 3, getZOffset(), x - wHalf, x + wHalf, yyy);
+                drawTextHalfCenteredX(matrices, bee.entity.getCustomName(), color, x, yyy - 2);
+            }
         }
         this.textRenderer.draw(matrices, beeCnt + "/" + MAX_BEE_CNT, LATTICES[5][0] + lw + 16 - 8.5F, LATTICES[5][1] + lh + 8, color);
         this.textRenderer.draw(matrices, honeyCnt + "/" + MAX_HONEY_CNT, LATTICES[6][0] + lw + 16 - 8.5F, LATTICES[6][1] + lh + 8, color);
@@ -92,16 +112,45 @@ public class BeehiveScreen extends HandledScreen<BeehiveScreenHandler> {
         drawTexture(matrices, w, h, 16 + type * 32, 140, 32, 32);
     }
 
-    private void drawTextCenteredX(MatrixStack matrices, Text text, int color, float xMid, float y) {
-        float w2 = this.textRenderer.getWidth(text) * 0.5F;
-        this.textRenderer.draw(matrices, text, xMid - w2, y, color);
-    }
-
     private void drawTextHalfCenteredX(MatrixStack matrices, Text text, int color, int xMid, int y) {
-        int w2 = this.textRenderer.getWidth(text) >> 2;
+        int w2 = getTextWidth(text) >> 2;
         final float size = 0.5F;
         MatrixStack matrixStack = AbstractBoleScreen.matrixScaleOn(size, size, size);
         this.textRenderer.draw(matrices, text, (xMid - w2) << 1, y << 1, color);
         AbstractBoleScreen.matrixScaleOff(matrixStack);
+    }
+
+    private static class BeeAction {
+        public float mouseX, mouseY;
+        private float speedMouseX, speedMouseY;
+        private int mouseMoveTime, mouseCooldownTime;
+
+        private final Random random;
+
+        public BeeAction () {
+            this.random = new Random();
+            this.mouseX = this.random.nextFloat(-50, 50);
+            this.mouseY = this.random.nextFloat(-1, 20);
+            this.mouseCooldownTime = this.random.nextInt(3 * 1000);
+        }
+
+        public void run(int mills) {
+            if (this.mouseMoveTime > 0) {
+                this.mouseMoveTime -= mills;
+                this.mouseX += this.speedMouseX * mills;
+                this.mouseY += this.speedMouseY * mills;
+                if (Math.abs(this.mouseX) > 50) this.speedMouseX = -0.2F * this.speedMouseX;
+                if (this.mouseY > 20 || this.mouseY < 2) this.speedMouseY = -0.2F * this.speedMouseY;
+            }
+            else {
+                this.mouseCooldownTime -= mills;
+                if (this.mouseCooldownTime < 0) {
+                    this.mouseCooldownTime = this.random.nextInt(5 * 1000);
+                    this.mouseMoveTime = this.random.nextInt(1000);
+                    this.speedMouseX = this.random.nextFloat(-0.3F, 0.3F);
+                    this.speedMouseY = this.random.nextFloat(-0.1F, 0.1F);
+                }
+            }
+        }
     }
 }

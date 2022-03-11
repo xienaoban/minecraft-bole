@@ -11,7 +11,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -19,12 +18,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
+import xienaoban.minecraft.bole.gui.screen.GenericScreenHandler;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
-import xienaoban.minecraft.bole.util.ClientTickable;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BeehiveScreenHandler extends ScreenHandler implements ClientTickable {
+public class BeehiveScreenHandler extends GenericScreenHandler {
     public static final ScreenHandlerType<BeehiveScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "beehive"), BeehiveScreenHandler::new);
 
@@ -41,16 +40,15 @@ public class BeehiveScreenHandler extends ScreenHandler implements ClientTickabl
     }
 
     public BeehiveScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
-        super(HANDLER, syncId);
-        PlayerEntity player = playerInventory.player;
+        super(HANDLER, syncId, playerInventory);
         this.bees = new BeeInfo[BeehiveBlockEntity.MAX_BEE_COUNT];
         for (int i = 0; i < this.bees.length; ++i) {
-            this.bees[i] = new BeeInfo(player);
+            this.bees[i] = new BeeInfo(this.player);
         }
         this.pos = pos;
-        this.world = player.getWorld();
+        this.world = this.player.getWorld();
         this.entity = (BeehiveBlockEntity) this.world.getBlockEntity(pos);
-        if (player instanceof ServerPlayerEntity serverPlayer) {
+        if (this.player instanceof ServerPlayerEntity serverPlayer) {
             ServerNetworkManager.sendServerBeehiveInfo(this, serverPlayer.server, serverPlayer);
         }
         else {
@@ -63,8 +61,19 @@ public class BeehiveScreenHandler extends ScreenHandler implements ClientTickabl
     }
 
     @Override
-    public boolean canUse(PlayerEntity player) {
-        return true;
+    protected void initCustom() {}
+
+    /**
+     * Invoked at the beginning of each client tick.
+     *
+     * @param ticks tick count
+     */
+    @Environment(EnvType.CLIENT)
+    @Override
+    public void clientTick(int ticks) {
+        if (ticks % 10 == 5) {
+            ClientNetworkManager.requestBeehiveInfo();
+        }
     }
 
     public void writeBeehiveInfo(PacketByteBuf buf) {
@@ -90,6 +99,7 @@ public class BeehiveScreenHandler extends ScreenHandler implements ClientTickabl
             NbtCompound nbt = buf.readNbt();
             assert nbt != null;
             BeeInfo bee = this.bees[i];
+            bee.entity.setCustomName(null);
             bee.entity.readNbt(nbt.getCompound(BeehiveBlockEntity.ENTITY_DATA_KEY));
             bee.ticksInHive = nbt.getInt(BeehiveBlockEntity.TICKS_IN_HIVE_KEY);
             bee.minOccupationTicks = nbt.getInt(BeehiveBlockEntity.MIN_OCCUPATION_TICKS_KEY);
@@ -105,19 +115,6 @@ public class BeehiveScreenHandler extends ScreenHandler implements ClientTickabl
         // Set BoleTarget to null to avoid memory leak.
         BoleClient.getInstance().setHitBlock(null);
         return pos;
-    }
-
-    /**
-     * Invoked at the beginning of each client tick.
-     *
-     * @param ticks tick count
-     */
-    @Environment(EnvType.CLIENT)
-    @Override
-    public void clientTick(int ticks) {
-        if (ticks % 10 == 5) {
-            ClientNetworkManager.requestBeehiveInfo();
-        }
     }
 
     public static class BeeInfo {

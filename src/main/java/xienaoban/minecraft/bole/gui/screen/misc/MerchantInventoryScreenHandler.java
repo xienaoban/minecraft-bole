@@ -1,18 +1,20 @@
 package xienaoban.minecraft.bole.gui.screen.misc;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.Identifier;
+import xienaoban.minecraft.bole.gui.screen.GenericScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class MerchantInventoryScreenHandler extends ScreenHandler {
+public class MerchantInventoryScreenHandler extends GenericScreenHandler {
     public static final ScreenHandlerType<MerchantInventoryScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
             new Identifier(Keys.NAMESPACE, "merchant_inventory"), MerchantInventoryScreenHandler::new);
 
@@ -23,7 +25,7 @@ public class MerchantInventoryScreenHandler extends ScreenHandler {
     }
 
     public MerchantInventoryScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(HANDLER, syncId);
+        super(HANDLER, syncId, playerInventory);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         int i, j;
@@ -39,6 +41,13 @@ public class MerchantInventoryScreenHandler extends ScreenHandler {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
+
+    @Override
+    protected void initCustom() {}
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    public void clientTick(int ticks) {}
 
     /**
      * @see net.minecraft.screen.HorseScreenHandler#transferSlot

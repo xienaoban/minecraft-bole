@@ -4,14 +4,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -20,24 +14,21 @@ import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
-import xienaoban.minecraft.bole.util.ClientTickable;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractBoleScreenHandler<E extends Entity> extends ScreenHandler implements ClientTickable {
+public abstract class AbstractBoleScreenHandler<E extends Entity> extends GenericScreenHandler {
     public final E entity;
-    public final PlayerEntity player;
     private final Map<String, EntitySettingsBufHandler> entitySettingsBufHandlers;
 
     public AbstractBoleScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId,
                                       PlayerInventory playerInventory, Entity entity) {
-        super(type, syncId);
+        super(type, syncId, playerInventory);
         this.entity = MiscUtil.cast(entity);
-        this.player = playerInventory.player;
         this.entitySettingsBufHandlers = new HashMap<>();
-        if (this.player instanceof ServerPlayerEntity) initServer();
+        if (this.isServer) initServer();
         else initClient();
         initCustom();
     }
@@ -55,21 +46,6 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
             BoleClient.getInstance().setHandlerBufCache(null);
         }
     }
-
-    /**
-     * Initializes some custom content (which should not be inherited by subclasses) of the handler. <br/>
-     * So never invoke <code>super.initCustom()</code>.
-     */
-    protected abstract void initCustom();
-
-    /**
-     * Invoked at the beginning of each client tick.
-     *
-     * @param ticks tick count
-     */
-    @Environment(EnvType.CLIENT)
-    @Override
-    public abstract void clientTick(int ticks);
 
     /**
      * Writes the server-side entity data to the buf. <br/>
@@ -98,11 +74,6 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
     @Environment(EnvType.CLIENT)
     protected abstract void resetClientEntityServerProperties();
 
-    @Override
-    public boolean canUse(PlayerEntity player) {
-        return true;
-    }
-
     /**
      * Gets the entity the client-side player is aiming at.
      */
@@ -112,14 +83,6 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         // Set BoleTarget to null to avoid memory leak.
         BoleClient.getInstance().setHitEntity(null);
         return entity;
-    }
-
-    public boolean isGod() {
-        return Bole.isGod(this.player);
-    }
-
-    public boolean isDetached() {
-        return Bole.isDetached(this.player);
     }
 
     public void sendOverlayMessage(Text text) {
@@ -185,60 +148,6 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Screen
         catch (Exception e) {
             Bole.LOGGER.warn(e);
         }
-    }
-
-    public final boolean trySpendItems(ItemStack ...targetStacks) {
-        if (!hasEnoughItems(targetStacks)) return false;
-        PlayerInventory inventory = player.getInventory();
-        for (ItemStack target : targetStacks) {
-            Item item = target.getItem();
-            int leftCount = target.getCount();
-            for (int i = inventory.size() - 1; i >= 0; --i) {
-                ItemStack stack = inventory.getStack(i);
-                if (!stack.getItem().equals(item) || stack.hasNbt()) continue;
-                int decrementCount = Math.min(stack.getCount(), leftCount);
-                stack.decrement(decrementCount);
-                leftCount -= decrementCount;
-                if (leftCount == 0) break;
-            }
-        }
-        return true;
-    }
-
-    public final boolean trySpendBuckets(ItemStack ...targetStacks) {
-        if (!hasEnoughItems(targetStacks)) return false;
-        PlayerInventory inventory = player.getInventory();
-        for (ItemStack target : targetStacks) {
-            BucketItem item = (BucketItem) target.getItem();
-            int leftCount = target.getCount();
-            for (int i = inventory.size() - 1; i >= 0; --i) {
-                ItemStack stack = inventory.getStack(i);
-                if (!stack.getItem().equals(item) || stack.hasNbt()) continue;
-                if (stack.getCount() == 1) {    // only supports unstackable buckets
-                    inventory.setStack(i, new ItemStack(Items.BUCKET, 1));
-                    leftCount -= 1;
-                    if (leftCount == 0) break;
-                }
-            }
-        }
-        return true;
-    }
-
-    public final boolean hasEnoughItems(ItemStack ...targetStacks) {
-        PlayerInventory inventory = player.getInventory();
-        for (ItemStack target : targetStacks) {
-            Item item = target.getItem();
-            int neededCount = target.getCount();
-            int count = 0;
-            for (int i = inventory.size() - 1; i >= 0; --i) {
-                ItemStack stack = inventory.getStack(i);
-                if (!stack.getItem().equals(item) || stack.hasNbt()) continue;
-                count += stack.getCount();
-                if (count >= neededCount) break;
-            }
-            if (count < neededCount) return false;
-        }
-        return true;
     }
 
     public interface EntitySettingsBufHandler {
