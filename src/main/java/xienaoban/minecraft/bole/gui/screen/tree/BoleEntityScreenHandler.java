@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreen;
@@ -30,6 +31,8 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
 
     public static final int NETHER_PORTAL_LOCK = 1200;  // don't set it too big to ensure compatibility with the vanilla
     private static final int CLOSE_SCREEN_DISTANCE = 10;
+
+    protected final boolean isMonster;
 
     // I didn't define a local variable "protected int entityNetherPortalCooldown" in this handler,
     // because the calculation logic of this value is inside Entity (and my mixin).
@@ -48,14 +51,14 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
 
     public BoleEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
+        this.isMonster = Bole.isMonster(this.entity);
         registerEntitySettingsBufHandlers();
     }
 
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (entity instanceof PlayerEntity && entity != player
-                        && Configs.getInstance().isForbidToSetNetherPortalCooldownOfOtherPlayers()) {
+                if (isOtherPlayer() && Configs.getInstance().isForbidToSetNetherPortalCooldownOfOtherPlayers()) {
                     sendOverlayMessage(new TranslatableText(Keys.HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS));
                     return;
                 }
@@ -152,6 +155,10 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
             ClientNetworkManager.requestServerEntityData();
         }
         calculateClientEntityNetherPortalCooldown();
+    }
+
+    protected boolean isOtherPlayer() {
+        return this.entity instanceof PlayerEntity && this.entity != this.player;
     }
 
     @Environment(EnvType.CLIENT)

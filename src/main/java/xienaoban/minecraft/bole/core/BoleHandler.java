@@ -2,14 +2,18 @@ package xienaoban.minecraft.bole.core;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BeehiveBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
@@ -21,7 +25,8 @@ public class BoleHandler {
         Bole bole = Bole.getInstance();
         BoleClient boleClient = BoleClient.getInstance();
         ClientPlayerEntity player = client.player;
-        boleClient.setBoleTarget(null);
+        boleClient.setHitEntity(null);
+        boleClient.setHitBlock(null);
         if (player == null) {
             Bole.LOGGER.error("Client player is null. Fail to open the Bole Screen.");
             return;
@@ -37,12 +42,24 @@ public class BoleHandler {
         if (y > 0.998) target = null;
         else if (y < -0.998) target = player;
         else if (y < -0.886 && player.hasVehicle()) target = player.getVehicle();
-        else if (hit == null || hit.getType() != HitResult.Type.ENTITY) target = null;
+        else if (hit == null) target = null;
+        else if (hit.getType() != HitResult.Type.ENTITY) {
+            if (hit.getType() == HitResult.Type.BLOCK) {
+                BlockPos pos = ((BlockHitResult) hit).getBlockPos();
+                boleClient.setHitBlock(pos);
+                BlockState blockState = player.world.getBlockState(pos);
+                if (blockState.getBlock() instanceof BeehiveBlock) {
+                    ClientNetworkManager.requestBeehiveScreen(pos);
+                    return;
+                }
+            }
+            target = null;
+        }
         else target = ((EntityHitResult) hit).getEntity();
 
         if (target == null) ClientNetworkManager.requestBoleScreen();
         else {
-            boleClient.setBoleTarget(target);
+            boleClient.setHitEntity(target);
             ClientNetworkManager.requestBoleScreen(target);
         }
         player.playSound(SoundEvents.ITEM_BOOK_PAGE_TURN, 1.0F, 0.8F);

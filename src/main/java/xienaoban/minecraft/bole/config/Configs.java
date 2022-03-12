@@ -11,7 +11,9 @@ import net.fabricmc.api.Environment;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Config(name = Keys.MOD_NAME)
-public class Configs implements ConfigData {
+@Config.Gui.CategoryBackground(category = Configs.CLIENT, background = "minecraft:textures/block/moss_block.png")
+@Config.Gui.CategoryBackground(category = Configs.SERVER, background = "minecraft:textures/block/tube_coral_block.png")
+public final class Configs implements ConfigData {
     @ConfigEntry.Gui.Excluded
     public static final String CLIENT = "default", SERVER = "server";
 
@@ -44,7 +46,11 @@ public class Configs implements ConfigData {
 
     @ConfigEntry.Category(SERVER)
     @ConfigEntry.Gui.Tooltip()
-    boolean invulnerablePets = false;
+    boolean blockAccidentalInjuryToPets = false;
+
+    @ConfigEntry.Category(SERVER)
+    @ConfigEntry.Gui.Tooltip()
+    boolean petsCanTeleportToMoreBlocks = false;
 
     @ConfigEntry.Category(SERVER)
     @ConfigEntry.Gui.Tooltip()
@@ -64,8 +70,12 @@ public class Configs implements ConfigData {
         return allowHotKeyToOpenBoleHandbookScreen;
     }
 
-    public boolean isInvulnerablePets() {
-        return invulnerablePets;
+    public boolean isBlockAccidentalInjuryToPets() {
+        return blockAccidentalInjuryToPets;
+    }
+
+    public boolean isPetsCanTeleportToMoreBlocks() {
+        return petsCanTeleportToMoreBlocks;
     }
 
     public boolean isForbidToSetNetherPortalCooldownOfOtherPlayers() {

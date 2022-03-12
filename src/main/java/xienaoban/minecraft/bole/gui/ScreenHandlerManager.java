@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerType;
@@ -12,6 +13,7 @@ import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.misc.BeehiveScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.tree.*;
 
@@ -74,6 +76,7 @@ public class ScreenHandlerManager {
         registerHandler(BoleHomepageScreenHandler.HANDLER);
 
         // package: misc
+        registerHandler(BeehiveScreenHandler.HANDLER);
         registerHandler(MerchantInventoryScreenHandler.HANDLER);
 
         // package: tree & entity
@@ -89,6 +92,7 @@ public class ScreenHandlerManager {
         registerHandler(BoleMerchantEntityScreenHandler.HANDLER, MerchantEntity.class, BoleMerchantEntityScreenHandler::new);
         registerHandler(BoleVillagerEntityScreenHandler.HANDLER, VillagerEntity.class, BoleVillagerEntityScreenHandler::new);
         registerHandler(BoleSheepEntityScreenHandler.HANDLER, SheepEntity.class, BoleSheepEntityScreenHandler::new);
+        registerHandler(BoleRabbitEntityScreenHandler.HANDLER, RabbitEntity.class, BoleRabbitEntityScreenHandler::new);
         registerHandler(BoleBeeEntityScreenHandler.HANDLER, BeeEntity.class, BoleBeeEntityScreenHandler::new);
         registerHandler(BoleTameableEntityScreenHandler.HANDLER, TameableEntity.class, BoleTameableEntityScreenHandler::new);
         registerHandler(BoleTameableShoulderEntityScreenHandler.HANDLER, TameableShoulderEntity.class, BoleTameableShoulderEntityScreenHandler::new);
@@ -98,5 +102,10 @@ public class ScreenHandlerManager {
         registerHandler(BoleAxolotlEntityScreenHandler.HANDLER, AxolotlEntity.class, BoleAxolotlEntityScreenHandler::new);
         registerHandler(BoleHorseEntityScreenHandler.HANDLER, HorseEntity.class, BoleHorseEntityScreenHandler::new);
         registerHandler(BoleWanderingTraderEntityScreenHandler.HANDLER, WanderingTraderEntity.class, BoleWanderingTraderEntityScreenHandler::new);
+        registerHandler(BoleWaterCreatureEntityScreenHandler.HANDLER, WaterCreatureEntity.class, BoleWaterCreatureEntityScreenHandler::new);
+        registerHandler(BoleFishEntityScreenHandler.HANDLER, FishEntity.class, BoleFishEntityScreenHandler::new);
+        registerHandler(BoleSchoolingFishEntityScreenHandler.HANDLER, SchoolingFishEntity.class, BoleSchoolingFishEntityScreenHandler::new);
+        registerHandler(BoleTropicalFishEntityScreenHandler.HANDLER, TropicalFishEntity.class, BoleTropicalFishEntityScreenHandler::new);
+        registerHandler(BoleDolphinEntityScreenHandler.HANDLER, DolphinEntity.class, BoleDolphinEntityScreenHandler::new);
     }
 }

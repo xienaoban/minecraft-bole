@@ -3,7 +3,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
@@ -82,7 +81,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
             boolean noAi = !handler.entity.isAiDisabled();
             if (isGod()) handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NO_AI, noAi);
             else {
-                int healthAndSatiety = handler.entity instanceof HostileEntity ? 8 : 2;
+                int healthAndSatiety = handler.isMonster ? 12 : 6;
                 setPopup(new PopUpConfirmWindow(
                         new TranslatableText(noAi ? Keys.WARNING_TEXT_DISABLE_AI : Keys.WARNING_TEXT_ENABLE_AI, healthAndSatiety, healthAndSatiety),
                         () -> handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NO_AI, noAi))

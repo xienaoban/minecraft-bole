@@ -109,6 +109,9 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
         }
     }
 
+    /**
+     * I have to create two classes because the parameters of the constructor cannot be passed into `super`.
+     */
     public class CatVariantsPropertyWidget2 extends CatVariantsPropertyWidget1 {
         @Override
         protected int typeFrom() {

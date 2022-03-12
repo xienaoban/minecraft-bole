@@ -1,5 +1,3 @@
-todo: test on server
-
 # Features
 
 - [X] **`Buy Bole handbook from villagers`**
@@ -10,7 +8,6 @@ todo: test on server
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**
 - [X] **`Open the player or mount screen when looking down`**
-- [ ] **`Check beehive state`**
 - Entity:
   - [X] `Bounding box`
   - [X] `Custom name`
@@ -40,45 +37,61 @@ todo: test on server
             - TameableEntity:
               - [X] `Is tamed`
               - [ ] `Set owner`
-              - [X] `Invulnerable pets`
+              - [X] `Block accidental injury`
+              - [X] `Teleport to the owner on the sea and leaves`
               - TameableShoulderEntity:
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:
-                  - [X] `Set parrot variant`
+                  - [X] `Set variant`
+                  - [ ] `Show GUI when on shoulder`
+                  - [ ] `Won't leave shoulder when player jumps`
+                  - [ ] `Breedable`
               - CatEntity:
-                - [X] `Set cat variant`
+                - [X] `Set variant`
             - HorseBaseEntity:
               - AbstractDonkeyEntity
                 - [X] `Chest size`
               - HorseEntity:
                 - [X] `Running speed`
                 - [X] `Jump height`
-                - [X] `Set horse variant`
+                - [X] `Set variant`
             - BeeEntity:
               - [X] `Beehive position`
               - [X] `Reset beehive position`
+              - [X] `Check beehive state`
             - SheepEntity:
-              - [X] `Force eat grass`
+              - [X] `Force to eat grass`
             - GoatEntity:
               - [X] `Set screamer`
+            - RabbitEntity:
+              - [x] `Set variant`
             - PandaEntity:
               - [X] `Set gene`
             - AxolotlEntity:
-              - [X] `Set axolotl variant`
+              - [X] `Set variant`
           - MerchantEntity:
             - [X] `Get inventory`
             - [X] `Set inventory`
             - VillagerEntity:
               - [X] `Highlight job site`
               - [X] `Reset level 0`
-              - [X] `Force restock`
+              - [X] `Force  to restock`
               - [X] `Change clothes`
             - WanderingTraderEntity:
               - [X] `Notify players when spawned`
               - [X] `Despawn time`
               - [X] `Add Despawn time`
+        - WaterCreatureEntity:
+          - FishEntity:
+            - SchoolingFishEntity:
+              - TropicalFishEntity:
+                - [X] `Set variant`
+          - DolphinEntity:
+            - [X] `Moistness`
         - HostileEntity:
-          - Nothing here yet
+          - AbstractPiglinEntity:
+            - PiglinEntity:
+              - [ ] `Pay to dance`
 
 # Screenshots
 

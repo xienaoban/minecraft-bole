@@ -6,6 +6,8 @@
   "mixins": [
     "IMixinAxolotlEntity",
     "IMixinBeeEntity",
+    "IMixinDolphinEntity",
+    "IMixinDyeColor",
     "IMixinEatGrassGoal",
     "IMixinEntity",
     "IMixinHorseColor",
@@ -23,6 +25,7 @@
     "MixinAnimalEntity",
     "MixinEatGrassGoal",
     "MixinEntity",
+    "MixinFollowOwnerGoal",
     "MixinPassiveEntity",
     "MixinPolarBearEntity",
     "MixinTameableShoulderEntity",

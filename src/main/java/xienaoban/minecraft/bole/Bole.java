@@ -5,6 +5,8 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -58,6 +60,11 @@ public class Bole implements ModInitializer {
         if (stack == null || !stack.isOf(Items.WRITABLE_BOOK) || !stack.hasNbt()) return false;
         assert stack.getNbt() != null;
         return stack.getNbt().contains(BoleHandbookItem.ID, NbtElement.STRING_TYPE);
+    }
+
+    public static boolean isMonster(Entity entity) {
+        if (entity == null) return false;
+        return entity.getType().getSpawnGroup() == SpawnGroup.MONSTER;
     }
 
     @Override

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.block.BeehiveBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -19,6 +21,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
@@ -27,6 +30,7 @@ import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.core.BoleHandbookItem;
 import xienaoban.minecraft.bole.gui.ScreenHandlerManager;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.misc.BeehiveScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.misc.MerchantInventoryScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleMerchantEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
@@ -40,7 +44,9 @@ public class ServerNetworkManager {
         registerSendClientEntitySettings();
         registerRequestServerEntitiesGlowing();
         registerSendHighlightEvent();
+        registerRequestBeehiveScreen();
         registerRequestMerchantInventoryScreen();
+        registerRequestBeehiveInfo();
     }
 
     private static void registerRequestServerBoleConfigs() {
@@ -138,6 +144,29 @@ public class ServerNetworkManager {
         });
     }
 
+    private static void registerRequestBeehiveScreen() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BEEHIVE_SCREEN, (server, player, handler, buf, responseSender) -> {
+            BlockPos pos = buf.readBlockPos();
+            BlockState blockState = player.world.getBlockState(pos);
+            if (blockState.getBlock() instanceof BeehiveBlock) {
+                server.execute(() -> {
+                    player.openHandledScreen(new NamedScreenHandlerFactory() {
+                        @Override
+                        public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+                            return new BeehiveScreenHandler(syncId, inv, pos);
+                        }
+
+                        @Override
+                        public Text getDisplayName() {
+                            return new TranslatableText(Keys.TEXT_INVENTORY_OF, new TranslatableText(blockState.getBlock().getTranslationKey()));
+                        }
+                    });
+                });
+            }
+            else Bole.LOGGER.error("Cannot open BeehiveScreen.");
+        });
+    }
+
     private static void registerRequestMerchantInventoryScreen() {
         ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_MERCHANT_INVENTORY_SCREEN, (server, player, handler, buf, responseSender) -> {
             if (player.world.getEntityById(buf.readInt()) instanceof MerchantEntity merchantEntity
@@ -159,6 +188,14 @@ public class ServerNetworkManager {
                 });
             }
             else Bole.LOGGER.error("Cannot open BoleMerchantEntityScreen.");
+        });
+    }
+
+    private static void registerRequestBeehiveInfo() {
+        ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_BEEHIVE_INFO, (server, player, handler, buf, responseSender) -> {
+            if (player.currentScreenHandler instanceof BeehiveScreenHandler beehiveScreenHandler) {
+                sendServerBeehiveInfo(beehiveScreenHandler, server, player);
+            }
         });
     }
 
@@ -203,6 +240,14 @@ public class ServerNetworkManager {
             PacketByteBuf entityBuf = PacketByteBufs.create();
             boleScreenHandler.tryWriteServerEntityFromBuf(entityBuf);
             ServerPlayNetworking.send(player, Channels.SEND_SERVER_ENTITY_DATA, entityBuf);
+        });
+    }
+
+    public static void sendServerBeehiveInfo(BeehiveScreenHandler beehiveScreenHandler, MinecraftServer server, ServerPlayerEntity player) {
+        server.execute(() -> {
+            PacketByteBuf buf2 = PacketByteBufs.create();
+            beehiveScreenHandler.writeBeehiveInfo(buf2);
+            ServerPlayNetworking.send(player, Channels.SEND_BEEHIVE_INFO, buf2);
         });
     }
 

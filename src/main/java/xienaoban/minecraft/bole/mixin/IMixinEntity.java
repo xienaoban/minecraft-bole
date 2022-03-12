@@ -21,6 +21,9 @@ public interface IMixinEntity {
     @Accessor
     void setNetherPortalCooldown(int netherPortalCooldown);
 
+    @Accessor
+    void setTouchingWater(boolean touchingWater);
+
     @Invoker
     void callSetFlag(int index, boolean value);
 

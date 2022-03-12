@@ -1,13 +1,13 @@
 package xienaoban.minecraft.bole.mixin;
 
-import net.minecraft.entity.passive.HorseColor;
+import net.minecraft.util.DyeColor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(HorseColor.class)
-public interface IMixinHorseColor {
+@Mixin(DyeColor.class)
+public interface IMixinDyeColor {
     @Accessor("VALUES")
-    static HorseColor[] getValues() {
+    static DyeColor[] getValues() {
         throw new AssertionError();
     }
 }
