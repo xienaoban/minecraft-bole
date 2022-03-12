@@ -211,6 +211,8 @@ public interface Keys {
     String PROPERTY_WIDGET_TROPICAL_FISH_BASE_COLOR_DESCRIPTION = "property_widget.bole.tropical_fish_base_color.description";
     String PROPERTY_WIDGET_TROPICAL_FISH_PATTERN_COLOR = "property_widget.bole.tropical_fish_pattern_color";
     String PROPERTY_WIDGET_TROPICAL_FISH_PATTERN_COLOR_DESCRIPTION = "property_widget.bole.tropical_fish_pattern_color.description";
+    String PROPERTY_WIDGET_MOISTNESS = "property_widget.bole.moistness";
+    String PROPERTY_WIDGET_MOISTNESS_DESCRIPTION = "property_widget.bole.moistness.description";
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.bole.only_in_god_mode";

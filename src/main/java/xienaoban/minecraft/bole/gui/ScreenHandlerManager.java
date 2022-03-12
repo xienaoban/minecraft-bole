@@ -106,5 +106,6 @@ public class ScreenHandlerManager {
         registerHandler(BoleFishEntityScreenHandler.HANDLER, FishEntity.class, BoleFishEntityScreenHandler::new);
         registerHandler(BoleSchoolingFishEntityScreenHandler.HANDLER, SchoolingFishEntity.class, BoleSchoolingFishEntityScreenHandler::new);
         registerHandler(BoleTropicalFishEntityScreenHandler.HANDLER, TropicalFishEntity.class, BoleTropicalFishEntityScreenHandler::new);
+        registerHandler(BoleDolphinEntityScreenHandler.HANDLER, DolphinEntity.class, BoleDolphinEntityScreenHandler::new);
     }
 }

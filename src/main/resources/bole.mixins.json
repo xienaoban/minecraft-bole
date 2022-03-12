@@ -6,6 +6,7 @@
   "mixins": [
     "IMixinAxolotlEntity",
     "IMixinBeeEntity",
+    "IMixinDolphinEntity",
     "IMixinDyeColor",
     "IMixinEatGrassGoal",
     "IMixinEntity",
