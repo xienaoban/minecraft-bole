@@ -87,7 +87,7 @@
               - TropicalFishEntity:
                 - [X] `Set variant`
           - DolphinEntity:
-            - [ ] `Moistness`
+            - [X] `Moistness`
         - HostileEntity:
           - AbstractPiglinEntity:
             - PiglinEntity:
