@@ -34,6 +34,8 @@ public interface Keys {
     // Translation Keys
     String GUI_OK = "gui.ok";
     String GUI_CANCEL = "gui.cancel";
+    String GUI_YES = "gui.yes";
+    String GUI_NO = "gui.no";
     String COLOR_PREFIX = "color.minecraft.";
 
     String AUTHOR =                     "xienaoban";
@@ -265,4 +267,6 @@ public interface Keys {
     String TEXT_WAIT_FOR_SERVER = "text.bole.wait_for_server";
     String TEXT_TROPICAL_FISH_VARIANT_TURN_PAGE = "text.bole.tropical_fish_variant_turn_page";
     String TEXT_HONEY = "text.bole.honey";
+    String TEXT_HAS_NECTAR = "text.bole.has_nectar";
+    String TEXT_TIME_IN_BEEHIVE = "text.bole.time_in_beehive";
 }

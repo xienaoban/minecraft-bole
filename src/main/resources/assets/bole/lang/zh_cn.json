@@ -293,5 +293,7 @@
   "text.bole.inventory_of": "%s的背包",
   "text.bole.wait_for_server": "等待服务器响应……",
   "text.bole.tropical_fish_variant_turn_page": "品种与颜色设置在下一页",
-  "text.bole.honey": "蜂蜜"
+  "text.bole.honey": "蜂蜜",
+  "text.bole.has_nectar": "沾染花蜜：%s",
+  "text.bole.time_in_beehive": "逗留时间：%s"
 }

@@ -58,7 +58,7 @@
             - BeeEntity:
               - [X] `Beehive position`
               - [X] `Reset beehive position`
-              - [ ] `Check beehive state`
+              - [X] `Check beehive state`
             - SheepEntity:
               - [X] `Force to eat grass`
             - GoatEntity:
