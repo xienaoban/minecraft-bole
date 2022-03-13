@@ -18,6 +18,7 @@ import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.GenericScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenState;
+import xienaoban.minecraft.bole.gui.screen.misc.BeehiveScreen;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
 
@@ -51,6 +52,7 @@ public class BoleClient implements ClientModInitializer {
         ClientNetworkManager.init();
         KeyBindingManager.init();
         initConfigsSaveListener();
+        BeehiveScreen.initBeehiveTooltip();
         Bole.getInstance().setServerVersion("<unknown>");
         Bole.getInstance().setServerConfigs(Configs.getInstance());
     }
@@ -59,7 +61,7 @@ public class BoleClient implements ClientModInitializer {
      * Broadcasts new configs to the entire server after saving configs by the host via cloth-config screen.
      * For DedicatedServer, there's no way to update configs in the game yet.
      */
-    public static void initConfigsSaveListener() {
+    private static void initConfigsSaveListener() {
         Configs.getHolder().registerSaveListener((configHolder, configs) -> {
             IntegratedServer server = MinecraftClient.getInstance().getServer();
             if (server != null) {
