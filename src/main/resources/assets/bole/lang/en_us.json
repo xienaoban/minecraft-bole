@@ -140,6 +140,8 @@
   "text.autoconfig.bole.title": "Settings of Bole",
   "text.autoconfig.bole.category.default": "Client",
   "text.autoconfig.bole.category.server": "Server",
+  "text.autoconfig.bole.option.shoulderCreatureHudPosition": "ShoulderCreatureHudPosition",
+  "text.autoconfig.bole.option.shoulderCreatureHudPosition.@Tooltip": "Displays the pets (i.e. parrots) on your shoulders\non the first-person screen.",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "ReceiveWanderingTraderSpawnBroadcast",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "See server option \"BroadcastWanderingTraderSpawn\".",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "OpenHandbookScreenByHotkey",

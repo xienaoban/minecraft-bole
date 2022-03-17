@@ -120,17 +120,17 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         }
         int rw = x1 - x0, rh = y1 - y0;
         int size = (int) (Math.min(rw / ew, rh / eh) * 0.85);
-        drawEntity(entity, size, x0 + x1 >> 1, y1, mouseX, mouseY);
+        drawEntityBrighter(entity, size, x0 + x1 >> 1, y1, mouseX, mouseY);
     }
 
     public static void drawEntityByWidth(Entity entity, int width, int x, int y, float mouseX, float mouseY) {
         Box box = entity.getVisibilityBoundingBox();
-        drawEntity(entity, (int) (width / box.getXLength()), x, y, mouseX, mouseY);
+        drawEntityBrighter(entity, (int) (width / box.getXLength()), x, y, mouseX, mouseY);
     }
 
     public static void drawEntityByHeight(Entity entity, int height, int x, int y, float mouseX, float mouseY) {
         Box box = entity.getVisibilityBoundingBox();
-        drawEntity(entity, (int) (height / box.getYLength()), x, y, mouseX, mouseY);
+        drawEntityBrighter(entity, (int) (height / box.getYLength()), x, y, mouseX, mouseY);
     }
 
     /**
@@ -142,7 +142,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
      * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
      */
     @SuppressWarnings("deprecation")
-    public static void drawEntity(Entity entity, int size, int x, int y, float mouseX, float mouseY) {
+    public static void drawEntityBrighter(Entity entity, int size, int x, int y, float mouseX, float mouseY) {
         float f = (float)Math.atan(mouseX / 40.0F);
         float g = (float)Math.atan(mouseY / 40.0F);
         float fSize = -size;
@@ -162,11 +162,43 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         matrixStack2.multiply(quaternion);
         DiffuseLighting.method_34742();
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
+        quaternion2.conjugate();
+        entityRenderDispatcher.setRotation(quaternion2);
+        entityRenderDispatcher.setRenderShadows(false);
+        VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
+        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixStack2, immediate, 0x00F000F0));   // 0x00F000F0
+        immediate.draw();
+        entityRenderDispatcher.setRenderShadows(true);
+        matrixStack.pop();
+        RenderSystem.applyModelViewMatrix();
+        DiffuseLighting.enableGuiDepthLighting();
+    }
+
+    /**
+     * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
+     */
+    public static void drawEntityGeneric(Entity entity,float size, float x, float y, float rotateX, float rotateY, float rotateZ) {
+        MatrixStack matrixStack = RenderSystem.getModelViewStack();
+        matrixStack.push();
+        matrixStack.translate(x, y, 1050.0);
+        matrixStack.scale(1.0f, 1.0f, -1.0f);
+        RenderSystem.applyModelViewMatrix();
+        MatrixStack matrixStack2 = new MatrixStack();
+        matrixStack2.translate(0.0, 0.0, 1000.0);
+        matrixStack2.scale(size, size, size);
+        Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0f + rotateZ);
+        Quaternion quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(rotateX);
+        Quaternion quaternion3 = Vec3f.POSITIVE_Y.getDegreesQuaternion(rotateY);
+        quaternion.hamiltonProduct(quaternion2);
+        quaternion.hamiltonProduct(quaternion3);
+        matrixStack2.multiply(quaternion);
+        DiffuseLighting.method_34742();
+        EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
         quaternion3.conjugate();
         entityRenderDispatcher.setRotation(quaternion3);
         entityRenderDispatcher.setRenderShadows(false);
         VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 180.0F, 1.0F, matrixStack2, immediate, 0x00F000F0));   // 0x00F000F0
+        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0f, 1.0f, matrixStack2, immediate, 0xF000F0));
         immediate.draw();
         entityRenderDispatcher.setRenderShadows(true);
         matrixStack.pop();

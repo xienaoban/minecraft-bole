@@ -38,6 +38,10 @@ public final class Configs implements ConfigData {
 
     @ConfigEntry.Category(CLIENT)
     @ConfigEntry.Gui.Tooltip()
+    ShoulderCreatureHudPosition shoulderCreatureHudPosition = ShoulderCreatureHudPosition.NONE;
+
+    @ConfigEntry.Category(CLIENT)
+    @ConfigEntry.Gui.Tooltip()
     boolean receiveWanderingTraderSpawnBroadcasts = false;
 
     @ConfigEntry.Category(SERVER)
@@ -62,6 +66,10 @@ public final class Configs implements ConfigData {
 
     ///////// Getters /////////
 
+    public ShoulderCreatureHudPosition getShoulderCreatureHudPosition() {
+        return shoulderCreatureHudPosition;
+    }
+
     public boolean isReceiveWanderingTraderSpawnBroadcasts() {
         return receiveWanderingTraderSpawnBroadcasts;
     }
@@ -84,5 +92,9 @@ public final class Configs implements ConfigData {
 
     public boolean isBroadcastWhenWanderingTraderSpawn() {
         return broadcastWhenWanderingTraderSpawn;
+    }
+
+    public enum ShoulderCreatureHudPosition {
+        NONE, TOP, BOTTOM, SIDES
     }
 }

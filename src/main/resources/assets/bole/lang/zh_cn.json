@@ -140,6 +140,8 @@
   "text.autoconfig.bole.title": "伯乐模组设置",
   "text.autoconfig.bole.category.default": "客户端",
   "text.autoconfig.bole.category.server": "服务端",
+  "text.autoconfig.bole.option.shoulderCreatureHudPosition": "肩膀生物展示位置",
+  "text.autoconfig.bole.option.shoulderCreatureHudPosition.@Tooltip": "在第一人称屏幕上展示玩家肩上的宠物（即鹦鹉）",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "接收流浪商人生成广播",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "需要开启服务器选项“广播流浪商人的生成”。",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "允许使用热键开启伯乐手册",

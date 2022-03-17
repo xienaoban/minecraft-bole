@@ -12,13 +12,13 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.client.EventsManager;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.ScreenManager;
 import xienaoban.minecraft.bole.gui.screen.GenericScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.homepage.BoleHomepageScreenState;
-import xienaoban.minecraft.bole.gui.screen.misc.BeehiveScreen;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
 
@@ -52,7 +52,7 @@ public class BoleClient implements ClientModInitializer {
         ClientNetworkManager.init();
         KeyBindingManager.init();
         initConfigsSaveListener();
-        BeehiveScreen.initBeehiveTooltip();
+        EventsManager.init();
         Bole.getInstance().setServerVersion("<unknown>");
         Bole.getInstance().setServerConfigs(Configs.getInstance());
     }
