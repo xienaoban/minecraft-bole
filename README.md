@@ -32,7 +32,7 @@ Please click the `☆ star` if you like this project~   ╰(￣▽￣)╭
 ## How to play
 
 You can buy a bole handbook from a wandering trader (a wandering trader has a 20% chance
-to carry this trade). Or you can get it from the creative inventory screen (it is at the
+to carry this trade offer). Or you can get it from the creative inventory screen (it is at the
 end of the misc group).
 
 Hold the handbook and right-click an entity, and a screen will be opened which displays
