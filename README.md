@@ -19,9 +19,29 @@ bole handbook) are optional and are turned off by default.
 
 Please click the `☆ star` if you like this project~   ╰(￣▽￣)╭
 
+## Screenshots
+
+![Screenshot1](assets/screen1.png)
+
+![Screenshot2](assets/screen2.png)
+
+![Screenshot3](assets/screen3.png)
+
+![Screenshot4](assets/screen4.png)
+
+## How to play
+
+You can buy a bole handbook from a wandering trader (a wandering trader has a 20% chance
+to carry this trade offer). Or you can get it from the creative inventory screen (it is at the
+end of the misc group).
+
+Hold the handbook and right-click an entity, and a screen will be opened which displays
+some properties of the entity; right-click on the air and the homepage screen will be
+opened. You can also open the screen by pressing the hotkey.
+
 ## Features
 
-- [X] **`Buy Bole handbook from villagers`**
+- [X] **`Buy Bole handbook from wandering traders`**
 - [ ] **`Copy Bole handbook`**
 - [X] **`Highlight entities around the player`**
   - [X] `Dyanamic view distance`
@@ -113,13 +133,3 @@ Please click the `☆ star` if you like this project~   ╰(￣▽￣)╭
           - AbstractPiglinEntity:
             - PiglinEntity:
               - [ ] `Pay to dance`
-
-## Screenshots
-
-![Screenshot1](assets/screen1.png)
-
-![Screenshot2](assets/screen2.png)
-
-![Screenshot3](assets/screen3.png)
-
-![Screenshot4](assets/screen4.png)
