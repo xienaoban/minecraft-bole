@@ -6,6 +6,7 @@
   "mixins": [
     "IMixinAxolotlEntity",
     "IMixinBeeEntity",
+    "IMixinBlockItem",
     "IMixinDolphinEntity",
     "IMixinDyeColor",
     "IMixinEatGrassGoal",
@@ -26,6 +27,7 @@
     "MixinEatGrassGoal",
     "MixinEntity",
     "MixinFollowOwnerGoal",
+    "MixinGameRenderer",
     "MixinPassiveEntity",
     "MixinPolarBearEntity",
     "MixinTameableShoulderEntity",

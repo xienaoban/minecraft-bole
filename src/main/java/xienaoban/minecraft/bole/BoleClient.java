@@ -12,6 +12,7 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.client.EventsManager;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.config.Configs;
@@ -51,6 +52,7 @@ public class BoleClient implements ClientModInitializer {
         ClientNetworkManager.init();
         KeyBindingManager.init();
         initConfigsSaveListener();
+        EventsManager.init();
         Bole.getInstance().setServerVersion("<unknown>");
         Bole.getInstance().setServerConfigs(Configs.getInstance());
     }
@@ -59,7 +61,7 @@ public class BoleClient implements ClientModInitializer {
      * Broadcasts new configs to the entire server after saving configs by the host via cloth-config screen.
      * For DedicatedServer, there's no way to update configs in the game yet.
      */
-    public static void initConfigsSaveListener() {
+    private static void initConfigsSaveListener() {
         Configs.getHolder().registerSaveListener((configHolder, configs) -> {
             IntegratedServer server = MinecraftClient.getInstance().getServer();
             if (server != null) {

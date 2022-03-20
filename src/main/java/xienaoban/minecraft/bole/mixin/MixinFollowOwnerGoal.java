@@ -27,7 +27,7 @@ public class MixinFollowOwnerGoal {
     @Redirect(method = "canTeleportTo(Lnet/minecraft/util/math/BlockPos;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/pathing/LandPathNodeMaker;getLandNodeType(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos$Mutable;)Lnet/minecraft/entity/ai/pathing/PathNodeType;"))
     private PathNodeType getTargetPlayer(BlockView world, BlockPos.Mutable pos) {
         if (Configs.getInstance().isPetsCanTeleportToMoreBlocks()) {
-            if (world.getFluidState(pos.down()).isIn(FluidTags.WATER) && world.getFluidState(pos).isEmpty()) return PathNodeType.WALKABLE;
+            if (world.getFluidState(pos.down()).isIn(FluidTags.WATER) && (world.getFluidState(pos).isEmpty() || world.getFluidState(pos.up()).isEmpty())) return PathNodeType.WALKABLE;
         }
         return LandPathNodeMaker.getLandNodeType(world, pos);
     }

@@ -237,6 +237,8 @@ public interface Keys {
     String WARNING_TEXT_OPEN_MERCHANT_INVENTORY = "text.warning.bole.open_merchant_inventory";
     String WARNING_TEXT_VILLAGER_RESET_JOB = "text.warning.bole.villager_reset_job";
 
+    String TEXT_COLON = "text.bole.colon";
+    String TEXT_COMMA = "text.bole.comma";
     String TEXT_MOD_NOT_INSTALLED = "text.bole.mod_not_installed";
     String TEXT_CLICK_ME = "text.bole.click_me";
     String TEXT_TARGET_ENTITY_TOO_FAR = "text.bole.target_entity_too_far";
@@ -271,4 +273,9 @@ public interface Keys {
     String TEXT_HONEY = "text.bole.honey";
     String TEXT_HAS_NECTAR = "text.bole.has_nectar";
     String TEXT_TIME_IN_BEEHIVE = "text.bole.time_in_beehive";
+    String TEXT_HONEY_LEVEL = "text.bole.honey_level";
+    String TEXT_BEE_COUNT = "text.bole.bee_count";
+    String TEXT_BEE_INFO = "text.bole.bee_info";
+    String TEXT_MINOR = "text.bole.minor";
+    String TEXT_ADULT = "text.bole.adult";
 }

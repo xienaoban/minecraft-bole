@@ -140,6 +140,8 @@
   "text.autoconfig.bole.title": "Settings of Bole",
   "text.autoconfig.bole.category.default": "Client",
   "text.autoconfig.bole.category.server": "Server",
+  "text.autoconfig.bole.option.shoulderCreatureHudPosition": "ShoulderCreatureHudPosition",
+  "text.autoconfig.bole.option.shoulderCreatureHudPosition.@Tooltip": "Displays the pets (i.e. parrots) on your shoulders\non the first-person screen.",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "ReceiveWanderingTraderSpawnBroadcast",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "See server option \"BroadcastWanderingTraderSpawn\".",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "OpenHandbookScreenByHotkey",
@@ -264,6 +266,8 @@
   "text.warning.bole.open_merchant_inventory": "If you are willing to pay %d %ss, the merchant will let you rummage through its inventory.",
   "text.warning.bole.villager_reset_job": "Usually players tend to kill villagers with unsatisfactory trading lists. Thinking of this, the villager readily accepts your kindness.\nAre you sure to reset?",
 
+  "text.bole.colon": ": ",
+  "text.bole.comma": ", ",
   "text.bole.mod_not_installed": "It means that you have not installed the mod `Bole` if you see this text. You may download this mod at:",
   "text.bole.click_me": "Click me! (≧.≦)",
   "text.bole.target_entity_too_far": "The target entity is too far from you.",
@@ -297,5 +301,10 @@
   "text.bole.tropical_fish_variant_turn_page": "variety settings on next pages",
   "text.bole.honey": "Honey",
   "text.bole.has_nectar": "Nectar: %s",
-  "text.bole.time_in_beehive": "Time in hive: %s"
+  "text.bole.time_in_beehive": "Time in hive: %s",
+  "text.bole.honey_level": "Honey Level: %s",
+  "text.bole.bee_count": "Bee Count: %s",
+  "text.bole.bee_info": "Info of Bees:",
+  "text.bole.minor": "Minor",
+  "text.bole.adult": "Adult"
 }

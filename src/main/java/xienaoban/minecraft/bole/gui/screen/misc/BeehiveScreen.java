@@ -110,10 +110,10 @@ public class BeehiveScreen extends GenericHandledScreen<BeehiveScreenHandler> {
                 renderTooltip(matrices, texts.stream().map(Text::asOrderedText).toList(), 0.5F, x - maxLength - 2, y);
             }
         }
-        this.textRenderer.draw(matrices, beeCnt + "/" + MAX_BEE_CNT, LATTICES[5][0] + lw + 16 - 8.5F, LATTICES[5][1] + lh + 8, color);
-        this.textRenderer.draw(matrices, honeyCnt + "/" + MAX_HONEY_CNT, LATTICES[6][0] + lw + 16 - 8.5F, LATTICES[6][1] + lh + 8, color);
-        drawTextCenteredX(matrices, EntityType.BEE.getName(), color, LATTICES[5][0] + lw + 16.5F, LATTICES[5][1] + lh + 16);
-        drawTextCenteredX(matrices, new TranslatableText(Keys.TEXT_HONEY), color, LATTICES[6][0] + lw + 16.5F, LATTICES[6][1] + lh + 16);
+        this.textRenderer.draw(matrices, honeyCnt + "/" + MAX_HONEY_CNT, LATTICES[5][0] + lw + 16 - 8.5F, LATTICES[5][1] + lh + 8, color);
+        this.textRenderer.draw(matrices, beeCnt + "/" + MAX_BEE_CNT, LATTICES[6][0] + lw + 16 - 8.5F, LATTICES[6][1] + lh + 8, color);
+        drawTextCenteredX(matrices, new TranslatableText(Keys.TEXT_HONEY), color, LATTICES[5][0] + lw + 16.5F, LATTICES[5][1] + lh + 16);
+        drawTextCenteredX(matrices, EntityType.BEE.getName(), color, LATTICES[6][0] + lw + 16.5F, LATTICES[6][1] + lh + 16);
     }
 
     @Override

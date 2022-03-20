@@ -1,4 +1,25 @@
-# Features
+# Bole
+
+A mod that displays information of creatures and provides some new optional
+features about creatures.
+
+This mod only works on `Fabric` side and depends on
+[`Fabric API`](https://www.curseforge.com/minecraft/mc-mods/fabric-api).
+No plan for `Forge` yet. You'd better install this mod on both client and server
+side. But the game will still work fine if the mod is not installed
+on both sides.
+
+The principles that this mod adheres to:
+- No new items, blocks or other custom data are added. Even the `bole handbook item`
+is just a book with some NBT tags. So the mod is vanilla friendly, and your save
+will still be fine after uninstalling the mod.
+- All the new features in the config menu (except for the features about the
+bole handbook) are optional and are turned off by default.
+- Game balance is taken into account. Players won't be too powerful in survival mode.
+
+Please click the `☆ star` if you like this project~   ╰(￣▽￣)╭
+
+## Features
 
 - [X] **`Buy Bole handbook from villagers`**
 - [ ] **`Copy Bole handbook`**
@@ -43,7 +64,7 @@
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:
                   - [X] `Set variant`
-                  - [ ] `Show GUI when on shoulder`
+                  - [X] `Show GUI when on shoulder`
                   - [ ] `Won't leave shoulder when player jumps`
                   - [ ] `Breedable`
               - CatEntity:
@@ -93,10 +114,12 @@
             - PiglinEntity:
               - [ ] `Pay to dance`
 
-# Screenshots
+## Screenshots
 
 ![Screenshot1](assets/screen1.png)
 
 ![Screenshot2](assets/screen2.png)
 
 ![Screenshot3](assets/screen3.png)
+
+![Screenshot4](assets/screen4.png)

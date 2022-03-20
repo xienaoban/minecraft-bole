@@ -140,6 +140,8 @@
   "text.autoconfig.bole.title": "伯乐模组设置",
   "text.autoconfig.bole.category.default": "客户端",
   "text.autoconfig.bole.category.server": "服务端",
+  "text.autoconfig.bole.option.shoulderCreatureHudPosition": "肩膀生物展示位置",
+  "text.autoconfig.bole.option.shoulderCreatureHudPosition.@Tooltip": "在第一人称屏幕上展示玩家肩上的宠物（即鹦鹉）",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "接收流浪商人生成广播",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "需要开启服务器选项“广播流浪商人的生成”。",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "允许使用热键开启伯乐手册",
@@ -264,6 +266,8 @@
   "text.warning.bole.open_merchant_inventory": "如果你愿意给商人支付 %d 个 %s 的话，商人倒是不介意让你随意翻它的随身小背包。",
   "text.warning.bole.villager_reset_job": "在有此模组之前，交易刷歪了的村民大多难逃玩家正义的击杀。想到这儿，村民转而欣然接受了你的好意。\n\n村民交易列表与经验等级均会清零，确认重置吗？",
 
+  "text.bole.colon": "：",
+  "text.bole.comma": "，",
   "text.bole.mod_not_installed": "如果您看到了此段文字，说明您并未安装“伯乐”模组，您可以前往以下网址下载本模组：",
   "text.bole.click_me": "点我点我点我！（≧.≦）",
   "text.bole.target_entity_too_far": "目标离你太远了。",
@@ -297,5 +301,10 @@
   "text.bole.tropical_fish_variant_turn_page": "品种与颜色设置在下一页",
   "text.bole.honey": "蜂蜜",
   "text.bole.has_nectar": "沾染花蜜：%s",
-  "text.bole.time_in_beehive": "逗留时间：%s"
+  "text.bole.time_in_beehive": "逗留时间：%s",
+  "text.bole.honey_level": "蜂蜜: %s",
+  "text.bole.bee_count": "蜜蜂: %s",
+  "text.bole.bee_info": "蜜蜂信息:",
+  "text.bole.minor": "幼年",
+  "text.bole.adult": "成年"
 }
