@@ -9,7 +9,7 @@ No plan for `Forge` yet. You'd better install this mod on both client and server
 side. But the game will still work fine if the mod is not installed
 on both sides.
 
-The development philosophy of this mod:
+The principles that this mod adheres to:
 - No new items, blocks or other custom data are added. Even the `bole handbook item`
 is just a book with some NBT tags. So the mod is vanilla friendly, and your save
 will still be fine after uninstalling the mod.
@@ -64,7 +64,7 @@ Please click the `☆ star` if you like this project~   ╰(￣▽￣)╭
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:
                   - [X] `Set variant`
-                  - [ ] `Show GUI when on shoulder`
+                  - [X] `Show GUI when on shoulder`
                   - [ ] `Won't leave shoulder when player jumps`
                   - [ ] `Breedable`
               - CatEntity:

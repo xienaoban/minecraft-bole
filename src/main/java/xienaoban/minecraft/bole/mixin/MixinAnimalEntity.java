@@ -4,7 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.damage.ProjectileDamageSource;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,6 +14,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.config.Configs;
+
+import java.util.Objects;
 
 @Mixin(AnimalEntity.class)
 public class MixinAnimalEntity {
@@ -37,8 +41,8 @@ public class MixinAnimalEntity {
 
     private static boolean isOtherPlayer(AnimalEntity that, Entity attacker) {
         if (attacker instanceof PlayerEntity) {
-             if (that instanceof TameableEntity t) return t.getOwnerUuid() != attacker.getUuid();
-            if (that instanceof HorseBaseEntity t) return t.getOwnerUuid() != attacker.getUuid();
+             if (that instanceof TameableEntity t) return !Objects.equals(t.getOwnerUuid(), attacker.getUuid());
+            if (that instanceof HorseBaseEntity t) return !Objects.equals(t.getOwnerUuid(), attacker.getUuid());
         }
         return false;
     }

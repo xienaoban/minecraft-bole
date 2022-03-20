@@ -1,12 +1,10 @@
 package xienaoban.minecraft.bole.client;
 
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -31,57 +29,7 @@ import java.util.Optional;
 
 public class EventsManager {
     public static void init() {
-        initTameableShoulderEntityInGameHud();
         initBeehiveTooltip();
-    }
-
-    private static void initTameableShoulderEntityInGameHud() {
-        HudRenderCallback.EVENT.register(new HudRenderCallback() {
-            private final NbtCompound[] oldNbts = new NbtCompound[2];
-            private final LivingEntity[] entities = new LivingEntity[2];
-            @Override
-            public void onHudRender(MatrixStack matrixStack, float tickDelta) {
-                MinecraftClient client = MinecraftClient.getInstance();
-                ClientPlayerEntity player = client.player;
-                if (player == null || player != client.cameraEntity) return;
-                if (!client.options.getPerspective().isFirstPerson()) return;
-                // todo render layer
-                for (int i = 0; i < 2; ++i) {
-                    NbtCompound entityNbt = i == 0 ? player.getShoulderEntityLeft() : player.getShoulderEntityRight();
-                    if (this.oldNbts[i] == entityNbt) continue;
-                    this.oldNbts[i] = entityNbt;
-                    if (entityNbt.isEmpty()) {
-                        this.entities[i] = null;
-                        continue;
-                    }
-                    Optional<Entity> optionalEntity = EntityType.getEntityFromNbt(entityNbt, player.world);
-                    if (optionalEntity.isPresent()) {
-                        LivingEntity entity = (LivingEntity) optionalEntity.get();
-                        entity.setYaw(0);
-                        entity.setBodyYaw(0);
-                        entity.setHeadYaw(0);
-                        entity.prevHeadYaw = 0;
-                        entity.setPitch(0);
-                        this.entities[i] = entity;
-                    }
-                    else this.entities[i] = null;
-                }
-                int w = client.getWindow().getScaledWidth() >> 1, h = client.getWindow().getScaledHeight() >> 1;
-                float r = -16, flip = 0;
-                float x, y;
-                switch (Configs.getInstance().getShoulderCreatureHudPosition()) {
-                    case TOP: x = w >> 1; y = -90; flip = 180; break;
-                    case BOTTOM: x = w * 0.66F; y = (h << 1) + 90; break;
-                    case SIDES: x = w + 15; y = h + 80; break;
-                    default: return;
-                }
-                for (int i = 0; i < 2; ++i) {
-                    if (this.entities[i] == null) continue;
-                    GenericHandledScreen.drawEntityGeneric(this.entities[i], 160, w - x, y, flip, r, 0);
-                    x = -x; r = -r;
-                }
-            }
-        });
     }
 
     private static void initBeehiveTooltip() {
@@ -121,5 +69,69 @@ public class EventsManager {
             }
             lines.addAll(1, beeLines);
         });
+    }
+
+    public static class ShoulderEntityFirstPersonRenderer {
+        private final NbtCompound[] oldNbts = new NbtCompound[2];
+        private final LivingEntity[] entities = new LivingEntity[2];
+        private long lastTime = 0;
+        private float rotateX = 0, rotateY = 0, entityX = 0, entityY = 0;
+
+        public void renderShoulderEntity(MinecraftClient client) {
+            ClientPlayerEntity player = client.player;
+            if (!client.options.getPerspective().isFirstPerson()) return;
+            if (player == null || player != client.cameraEntity) return;
+
+            int w = client.getWindow().getScaledWidth() >> 1, h = client.getWindow().getScaledHeight() >> 1;
+            float r = -18, z = -40;
+            float x, y, flip;
+            switch (Configs.getInstance().getShoulderCreatureHudPosition()) {
+                case TOP: x = w >> 1; y = -96; flip = 140; z = -z; break;
+                case BOTTOM: x = w * 0.7F; y = (h << 1) + 70; flip = 5; break;
+                case SIDES: x = w + 28.5F; y = h + 70; flip = 15; break;
+                default: return;
+            }
+            long diffTime = System.currentTimeMillis() - this.lastTime;
+            float rx = (player.getYaw() - this.rotateX) / diffTime * 0.05F;
+            float ry = (player.getPitch() - this.rotateY) / diffTime * 0.05F;
+            this.lastTime += diffTime;
+            this.rotateX = player.getYaw();
+            this.rotateY = player.getPitch();
+            this.entityX = this.entityX - this.entityX * 0.01F * diffTime + rx;
+            this.entityY = this.entityY - this.entityY * 0.01F * diffTime + ry;
+            for (int i = 0; i < 2; ++i) {
+                NbtCompound entityNbt;
+                if (i == 0) {
+                    entityNbt = player.getShoulderEntityLeft();
+                }
+                else {
+                    entityNbt = player.getShoulderEntityRight();
+                    x = -x;
+                    r = -r;
+                }
+                if (oldNbts[i] != entityNbt) {
+                    oldNbts[i] = entityNbt;
+                    if (entityNbt.isEmpty()) {
+                        entities[i] = null;
+                        continue;
+                    }
+                    Optional<Entity> optionalEntity = EntityType.getEntityFromNbt(entityNbt, player.world);
+                    if (optionalEntity.isPresent()) {
+                        LivingEntity entity = (LivingEntity) optionalEntity.get();
+                        entity.setYaw(0);
+                        entity.setBodyYaw(0);
+                        entity.setHeadYaw(0);
+                        entity.prevHeadYaw = 0;
+                        entity.setPitch(0);
+                        entities[i] = entity;
+                    } else {
+                        entities[i] = null;
+                        continue;
+                    }
+                }
+                if (entities[i] == null) continue;
+                GenericHandledScreen.drawEntityGeneric(entities[i], 160, w - x, y - (float)Math.atan(this.entityY) * 100, flip, r, (float)Math.atan(this.entityX) * z);
+            }
+        }
     }
 }

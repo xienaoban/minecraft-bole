@@ -27,6 +27,7 @@
     "MixinEatGrassGoal",
     "MixinEntity",
     "MixinFollowOwnerGoal",
+    "MixinGameRenderer",
     "MixinPassiveEntity",
     "MixinPolarBearEntity",
     "MixinTameableShoulderEntity",
