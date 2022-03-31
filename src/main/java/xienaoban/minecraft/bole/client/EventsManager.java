@@ -79,8 +79,15 @@ public class EventsManager {
 
         public void renderShoulderEntity(MinecraftClient client) {
             ClientPlayerEntity player = client.player;
-            if (!client.options.getPerspective().isFirstPerson()) return;
-            if (player == null || player != client.cameraEntity) return;
+            if (player == null) {
+                // prevent memory leak
+                if (this.oldNbts[0] != null || this.oldNbts[1] != null || this.entities[0] != null || this.entities[1] != null) {
+                    this.oldNbts[0] = this.oldNbts[1] = null;
+                    this.entities[0] = this.entities[1] = null;
+                }
+                return;
+            }
+            if (!client.options.getPerspective().isFirstPerson() || player != client.cameraEntity) return;
 
             int w = client.getWindow().getScaledWidth() >> 1, h = client.getWindow().getScaledHeight() >> 1;
             float r = -18, z = -40;

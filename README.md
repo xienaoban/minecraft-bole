@@ -48,7 +48,8 @@ opened. You can also open the screen by pressing the hotkey.
   - [X] `Costs experience`
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**
-- [X] **`Open the player or mount screen when looking down`**
+- [X] **`Open the player or vehicle screen when looking down`**
+- [ ] **`Notify the player when the leads break`**
 - Entity:
   - [X] `Bounding box`
   - [X] `Custom name`
@@ -69,7 +70,7 @@ opened. You can also open the screen by pressing the hotkey.
     - MobEntity:
       - [X] `Attractive items` (goalSelector - TemptGoal)
       - [X] `Can be leashed` (canBeLeashedBy)
-      - [X] `No AI`
+      - [X] `Disable AI`
       - PathAwareEntity:
         - PassiveEntity:
           - [X] `Set baby / Never grow up` (breedingAge)

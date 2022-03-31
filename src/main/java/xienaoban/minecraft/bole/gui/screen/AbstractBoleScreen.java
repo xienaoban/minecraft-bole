@@ -324,7 +324,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         public BookmarkButtonWidget(int x, int y, int color, Text title, PressAction onPress) {
             super(x, y, 30, 10, LiteralText.EMPTY, onPress);
-            this.color = color % 4;
+            this.color = color % 5;
             this.title = title;
         }
 
@@ -333,11 +333,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             setTexture(Textures.ICONS);
-            int u = 220;
-            int v = 240 - 10 * this.color;
-            if (this.isHovered()) {
-                u -= 30;
-            }
+            int u = this.isHovered() ? 190 : 220;
+            int v = 200 + 10 * this.color;
             this.drawTexture(matrices, this.x, this.y, u, v, 30, 10);
             drawText(matrices, this.title, LIGHT_TEXT_COLOR, 0.5F, this.x + 28 - textRenderer.getWidth(this.title) * 0.5F, this.y + 3);
         }
