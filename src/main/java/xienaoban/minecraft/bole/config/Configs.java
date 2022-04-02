@@ -42,6 +42,10 @@ public final class Configs implements ConfigData {
 
     @ConfigEntry.Category(CLIENT)
     @ConfigEntry.Gui.Tooltip()
+    boolean notifyWhenLeashFallFromPlayer = false;
+
+    @ConfigEntry.Category(CLIENT)
+    @ConfigEntry.Gui.Tooltip()
     boolean receiveWanderingTraderSpawnBroadcasts = false;
 
     @ConfigEntry.Category(SERVER)
@@ -68,6 +72,10 @@ public final class Configs implements ConfigData {
 
     public ShoulderCreatureHudPosition getShoulderCreatureHudPosition() {
         return shoulderCreatureHudPosition;
+    }
+
+    public boolean isNotifyWhenLeashFallFromPlayer() {
+        return notifyWhenLeashFallFromPlayer;
     }
 
     public boolean isReceiveWanderingTraderSpawnBroadcasts() {

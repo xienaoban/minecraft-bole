@@ -49,7 +49,7 @@ opened. You can also open the screen by pressing the hotkey.
 - [X] **`Offer a spawn egg`**
 - [X] **`Open the handbook screen when looking up`**
 - [X] **`Open the player or vehicle screen when looking down`**
-- [ ] **`Notify the player when the leads break`**
+- [X] **`Notify the player when the leads fall`**
 - Entity:
   - [X] `Bounding box`
   - [X] `Custom name`

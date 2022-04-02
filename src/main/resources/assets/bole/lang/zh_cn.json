@@ -142,6 +142,8 @@
   "text.autoconfig.bole.category.server": "服务端",
   "text.autoconfig.bole.option.shoulderCreatureHudPosition": "肩膀生物展示位置",
   "text.autoconfig.bole.option.shoulderCreatureHudPosition.@Tooltip": "在第一人称屏幕上展示玩家肩上的宠物（即鹦鹉）",
+  "text.autoconfig.bole.option.notifyWhenLeashFallFromPlayer": "缰绳脱手时通知玩家",
+  "text.autoconfig.bole.option.notifyWhenLeashFallFromPlayer.@Tooltip": "被栓生物因离你太远而掉落拴绳时通知你。\n人机分离十米自动报警（不是",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "接收流浪商人生成广播",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "需要开启服务器选项“广播流浪商人的生成”。",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "允许使用热键开启伯乐手册",
@@ -306,5 +308,6 @@
   "text.bole.bee_count": "蜜蜂: %s",
   "text.bole.bee_info": "蜜蜂信息:",
   "text.bole.minor": "幼年",
-  "text.bole.adult": "成年"
+  "text.bole.adult": "成年",
+  "text.bole.leash_fall": "%d 根缰绳脱手了"
 }
