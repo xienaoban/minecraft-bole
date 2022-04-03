@@ -78,7 +78,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
             if (cutTicks - this.lastTicks > 10) {
                 this.lastTicks = cutTicks;
                 if (pos != null) {
-                    double dis = pos.getPos().getSquaredDistance(handler.entity.getPos(), true);
+                    double dis = pos.getPos().getSquaredDistance(handler.entity.getPos());
                     this.cacheDistance = new LiteralText(String.format("%.2fm", Math.sqrt(dis)));
                 }
             }
@@ -106,7 +106,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                     else {
                         HighlightManager hl = BoleClient.getInstance().getHighlightManager();
                         hl.setHighlightedJobSiteOrBeehive(hl.highlight(pos, 6 * 20));
-                        onClose();
+                        close();
                     }
                 }
                 case IDX_BUTTON_BEGIN + 1 -> {
@@ -117,7 +117,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                             || mainItem instanceof TridentItem || offItem instanceof TridentItem) {
                         setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.WARNING_TEXT_VILLAGER_RESET_JOB), () -> {
                             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESET_JOB);
-                            onClose();
+                            close();
                         }));
                     }
                     else {

@@ -11,6 +11,7 @@
     "IMixinDyeColor",
     "IMixinEatGrassGoal",
     "IMixinEntity",
+    "IMixinFallingBlockEntity",
     "IMixinHorseColor",
     "IMixinHorseEntity",
     "IMixinHorseMarking",
@@ -38,7 +39,8 @@
     "MixinClientPlayNetworkHandler",
     "MixinCreativeInventoryScreen",
     "MixinMinecraftClient",
-    "MixinMobEntity"
+    "MixinMobEntityClient",
+    "MixinFallingBlockEntityRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

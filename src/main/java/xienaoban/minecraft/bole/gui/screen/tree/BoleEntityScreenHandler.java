@@ -148,7 +148,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
             if (this.player.squaredDistanceTo(this.entity) > CLOSE_SCREEN_DISTANCE * CLOSE_SCREEN_DISTANCE) {
                 if (MinecraftClient.getInstance().currentScreen instanceof AbstractBoleScreen screen) {
                     BoleClient.getInstance().getHighlightManager().highlight(this.entity, 3 * 20);
-                    screen.onClose();
+                    screen.close();
                     player.sendMessage(new TranslatableText(Keys.TEXT_TARGET_ENTITY_TOO_FAR).formatted(Formatting.YELLOW), true);
                 }
             }

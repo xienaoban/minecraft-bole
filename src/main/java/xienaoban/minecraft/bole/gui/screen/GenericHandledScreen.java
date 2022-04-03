@@ -40,7 +40,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (KeyBindingManager.KEY_BOLE_SCREEN.matchesKey(keyCode, scanCode)) {
-            onClose();
+            close();
             return true;
         }
         if (keyCode == GLFW.GLFW_KEY_DELETE) {
@@ -51,9 +51,9 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         BoleClient.getInstance().setScreenOpen(false);
-        super.onClose();
+        super.close();
     }
 
     public boolean isGod() {

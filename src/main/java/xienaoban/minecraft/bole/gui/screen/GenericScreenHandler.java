@@ -11,10 +11,16 @@ import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 import xienaoban.minecraft.bole.Bole;
 
 public abstract class GenericScreenHandler extends ScreenHandler {
+    public static <T extends ScreenHandler> ScreenHandlerType<T> register(Identifier id, ScreenHandlerType.Factory<T> factory) {
+        return Registry.register(Registry.SCREEN_HANDLER, id, new ScreenHandlerType<>(factory));
+    }
+
     protected final boolean isServer;
     public final PlayerEntity player;
 

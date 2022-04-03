@@ -152,9 +152,9 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         this.handler.resetClientEntityServerProperties();
-        super.onClose();
+        super.close();
     }
 
     public void setPageIndex(int pageIndex) {
@@ -790,10 +790,6 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {}
-
-        public AbstractPropertyWidget getFather() {
-            return this.father;
-        }
     }
 
     /**

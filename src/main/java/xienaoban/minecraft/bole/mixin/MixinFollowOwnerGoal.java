@@ -18,12 +18,6 @@ import xienaoban.minecraft.bole.config.Configs;
 public class MixinFollowOwnerGoal {
     @Shadow @Final private boolean leavesAllowed;
 
-    // Don't use this mixin blow as the spawned pets still can't teleport to leaves.
-    // @ModifyVariable(method = "<init>(Lnet/minecraft/entity/passive/TameableEntity;DFFZ)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
-    // private static boolean init(boolean leavesAllowed) {
-    //     return leavesAllowed || Configs.getInstance().isPetsCanTeleportToMoreBlocks();
-    // }
-
     @Redirect(method = "canTeleportTo(Lnet/minecraft/util/math/BlockPos;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/pathing/LandPathNodeMaker;getLandNodeType(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos$Mutable;)Lnet/minecraft/entity/ai/pathing/PathNodeType;"))
     private PathNodeType getTargetPlayer(BlockView world, BlockPos.Mutable pos) {
         if (Configs.getInstance().isPetsCanTeleportToMoreBlocks()) {

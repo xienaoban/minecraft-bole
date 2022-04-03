@@ -70,7 +70,7 @@ public class BoleBeeEntityScreen<E extends BeeEntity, H extends BoleBeeEntityScr
             if (cutTicks > this.nextTicks) {
                 this.nextTicks = cutTicks + 10;
                 if (pos != null) {
-                    double dis = pos.getSquaredDistance(handler.entity.getPos(), true);
+                    double dis = pos.getSquaredDistance(handler.entity.getPos());
                     this.cacheDistance = new LiteralText(String.format("%.2fm", Math.sqrt(dis)));
                 }
                 else this.cacheDistance = NO_HIVE;
@@ -91,7 +91,7 @@ public class BoleBeeEntityScreen<E extends BeeEntity, H extends BoleBeeEntityScr
                         HighlightManager hl = BoleClient.getInstance().getHighlightManager();
                         GlobalPos globalPos = GlobalPos.create(handler.entity.world.getRegistryKey(), pos);
                         hl.setHighlightedJobSiteOrBeehive(hl.highlight(globalPos, 6 * 20));
-                        onClose();
+                        close();
                     }
                     else {
                         showOverlayMessage(Keys.HINT_TEXT_NO_BEEHIVE);

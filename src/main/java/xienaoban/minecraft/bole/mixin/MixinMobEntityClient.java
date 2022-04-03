@@ -1,5 +1,7 @@
 package xienaoban.minecraft.bole.mixin;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,17 +16,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xienaoban.minecraft.bole.client.EventsManager;
 import xienaoban.minecraft.bole.config.Configs;
 
-/**
- * This class is only mixed into the client side!!
- */
+@Environment(value= EnvType.CLIENT)
 @Mixin(MobEntity.class)
-public abstract class MixinMobEntity extends LivingEntity {
+public abstract class MixinMobEntityClient extends LivingEntity {
     private static final EventsManager.LeashFallFromPlayerEvent fallEvent = new EventsManager.LeashFallFromPlayerEvent();
 
     @Shadow private Entity holdingEntity;
     @Shadow private int holdingEntityId;
 
-    protected MixinMobEntity(EntityType<? extends LivingEntity> entityType, World world) {
+    protected MixinMobEntityClient(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 

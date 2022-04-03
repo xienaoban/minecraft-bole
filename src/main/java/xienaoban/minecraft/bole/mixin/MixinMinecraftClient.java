@@ -23,14 +23,6 @@ public class MixinMinecraftClient {
     @Unique private Hand hand;
     @Unique private ItemStack handItem;
 
-    // /**
-    //  * @see MixinClientPlayNetworkHandler
-    //  */
-    // @Inject(method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V", at = @At("TAIL"))
-    // private void joinWorld(CallbackInfo callbackInfo) {
-    //     BoleClient.getInstance().onJoin();
-    // }
-
     @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("HEAD"))
     private void disconnect(CallbackInfo callbackInfo) {
         BoleClient.getInstance().onDisconnect();

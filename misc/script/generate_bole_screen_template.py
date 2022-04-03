@@ -52,7 +52,7 @@ import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class Bole{#0}ScreenHandler<E extends {#0}> extends Bole{#2}ScreenHandler<E> {
-    public static final ScreenHandlerType<Bole{#0}ScreenHandler<{#0}>> HANDLER = ScreenHandlerRegistry.registerSimple(
+    public static final ScreenHandlerType<Bole{#0}ScreenHandler<{#0}>> HANDLER = register(
             new Identifier(Keys.NAMESPACE, "{#1}"), Bole{#0}ScreenHandler::new);
 
     public Bole{#0}ScreenHandler(int syncId, PlayerInventory playerInventory) {
@@ -119,7 +119,7 @@ public class Bole{#0}ScreenHandler<E extends {#0}> extends Bole{#2}ScreenHandler
 }
 '''
 bole_screen_server_register_template = 'registerHandler(Bole{#0}ScreenHandler.HANDLER, {#0}.class, Bole{#0}ScreenHandler::new);'
-bole_screen_client_register_template = 'ScreenRegistry.register(Bole{#0}ScreenHandler.HANDLER, Bole{#0}Screen<{#0}, Bole{#0}ScreenHandler<{#0}>>::new);'
+bole_screen_client_register_template = 'HandledScreens.register(Bole{#0}ScreenHandler.HANDLER, Bole{#0}Screen<{#0}, Bole{#0}ScreenHandler<{#0}>>::new);'
 bole_screen_name_template = 'Bole{#0}Screen'
 bole_screen_handler_name_template = 'Bole{#0}ScreenHandler'
 key1 = '{#0}'
