@@ -33,7 +33,7 @@ public abstract class MixinMobEntityClient extends LivingEntity {
         Entity entity = this.holdingEntity;
         if (this.holdingEntityId == 0 && entity instanceof ClientPlayerEntity player
                 && Configs.getInstance().isNotifyWhenLeashFallFromPlayer()
-                && this.squaredDistanceTo(entity) > 100.0F) {
+                && (!this.isAlive() || this.squaredDistanceTo(entity) > 100.0F)) {
             fallEvent.onFall(player);
         }
     }
