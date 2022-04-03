@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.TameableShoulderEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,8 +12,8 @@ import xienaoban.minecraft.bole.mixin.IMixinTameableShoulderEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleTameableShoulderEntityScreenHandler<E extends TameableShoulderEntity> extends BoleTameableEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleTameableShoulderEntityScreenHandler<TameableShoulderEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "tameable_shoulder_entity"), BoleTameableShoulderEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleTameableShoulderEntityScreenHandler<TameableShoulderEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "tameable_shoulder_entity"), BoleTameableShoulderEntityScreenHandler::new);
 
     public static final int SIT_ON_PLAYER_LOCK = -300;
 

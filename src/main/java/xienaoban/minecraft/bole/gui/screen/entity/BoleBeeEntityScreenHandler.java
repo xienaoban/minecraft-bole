@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.BeeEntity;
@@ -19,8 +18,8 @@ import xienaoban.minecraft.bole.util.Keys;
 import java.util.Objects;
 
 public class BoleBeeEntityScreenHandler<E extends BeeEntity> extends BoleAnimalEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleBeeEntityScreenHandler<BeeEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "bee_entity"), BoleBeeEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleBeeEntityScreenHandler<BeeEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "bee_entity"), BoleBeeEntityScreenHandler::new);
 
     @Environment(EnvType.CLIENT)
     protected BlockPos entityBeehivePosition;

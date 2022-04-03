@@ -52,8 +52,8 @@ import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class Bole{#0}ScreenHandler<E extends {#0}> extends Bole{#2}ScreenHandler<E> {
-    public static final ScreenHandlerType<Bole{#0}ScreenHandler<{#0}>> HANDLER = register(
-            new Identifier(Keys.NAMESPACE, "{#1}"), Bole{#0}ScreenHandler::new);
+    public static final ScreenHandlerType<Bole{#0}ScreenHandler<{#0}>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "{#1}"), Bole{#0}ScreenHandler::new);
 
     public Bole{#0}ScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

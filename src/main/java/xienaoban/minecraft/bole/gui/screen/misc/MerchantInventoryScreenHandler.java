@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.misc;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -15,8 +14,8 @@ import xienaoban.minecraft.bole.gui.screen.GenericScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class MerchantInventoryScreenHandler extends GenericScreenHandler {
-    public static final ScreenHandlerType<MerchantInventoryScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "merchant_inventory"), MerchantInventoryScreenHandler::new);
+    public static final ScreenHandlerType<MerchantInventoryScreenHandler> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "merchant_inventory"), MerchantInventoryScreenHandler::new);
 
     protected final Inventory inventory;
 

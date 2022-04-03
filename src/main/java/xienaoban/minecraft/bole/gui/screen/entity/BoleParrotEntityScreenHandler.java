@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,8 +12,8 @@ import xienaoban.minecraft.bole.gui.screen.tree.BoleTameableShoulderEntityScreen
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleParrotEntityScreenHandler<E extends ParrotEntity> extends BoleTameableShoulderEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleParrotEntityScreenHandler<ParrotEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "parrot_entity"), BoleParrotEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleParrotEntityScreenHandler<ParrotEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "parrot_entity"), BoleParrotEntityScreenHandler::new);
 
     public BoleParrotEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.misc;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
@@ -24,8 +23,8 @@ import xienaoban.minecraft.bole.network.ServerNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BeehiveScreenHandler extends GenericScreenHandler {
-    public static final ScreenHandlerType<BeehiveScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "beehive"), BeehiveScreenHandler::new);
+    public static final ScreenHandlerType<BeehiveScreenHandler> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "beehive"), BeehiveScreenHandler::new);
 
     private final BlockPos pos;
     private final World world;

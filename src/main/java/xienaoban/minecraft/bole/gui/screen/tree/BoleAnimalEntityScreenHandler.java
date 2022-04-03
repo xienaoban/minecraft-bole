@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,8 +17,8 @@ import xienaoban.minecraft.bole.util.Keys;
 import java.util.Comparator;
 
 public class BoleAnimalEntityScreenHandler<E extends AnimalEntity> extends BolePassiveEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleAnimalEntityScreenHandler<AnimalEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "animal_entity"), BoleAnimalEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleAnimalEntityScreenHandler<AnimalEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "animal_entity"), BoleAnimalEntityScreenHandler::new);
 
     @Environment(EnvType.CLIENT)
     protected Item[] entityBreedingItems;

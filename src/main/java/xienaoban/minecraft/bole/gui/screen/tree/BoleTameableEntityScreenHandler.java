@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,8 +11,8 @@ import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleTameableEntityScreenHandler<E extends TameableEntity> extends BoleAnimalEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleTameableEntityScreenHandler<TameableEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "tameable_entity"), BoleTameableEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleTameableEntityScreenHandler<TameableEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "tameable_entity"), BoleTameableEntityScreenHandler::new);
 
     public BoleTameableEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

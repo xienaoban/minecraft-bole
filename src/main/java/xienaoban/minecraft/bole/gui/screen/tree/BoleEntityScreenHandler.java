@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
@@ -26,8 +25,8 @@ import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScreenHandler<E> {
-    public static final ScreenHandlerType<BoleEntityScreenHandler<Entity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "entity"), BoleEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleEntityScreenHandler<Entity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "entity"), BoleEntityScreenHandler::new);
 
     public static final int NETHER_PORTAL_LOCK = 1200;  // don't set it too big to ensure compatibility with the vanilla
     private static final int CLOSE_SCREEN_DISTANCE = 10;

@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.SchoolingFishEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,8 +11,8 @@ import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleSchoolingFishEntityScreenHandler<E extends SchoolingFishEntity> extends BoleFishEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleSchoolingFishEntityScreenHandler<SchoolingFishEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "schooling_fish_entity"), BoleSchoolingFishEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleSchoolingFishEntityScreenHandler<SchoolingFishEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "schooling_fish_entity"), BoleSchoolingFishEntityScreenHandler::new);
 
     public BoleSchoolingFishEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

@@ -26,8 +26,8 @@ import java.util.Comparator;
 import java.util.Set;
 
 public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends BoleMobEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BolePathAwareEntityScreenHandler<PathAwareEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "path_aware_entity"), BolePathAwareEntityScreenHandler::new);
+    public static final ScreenHandlerType<BolePathAwareEntityScreenHandler<PathAwareEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "path_aware_entity"), BolePathAwareEntityScreenHandler::new);
 
     @Environment(EnvType.CLIENT)
     protected Item[] entityAttractiveItems;

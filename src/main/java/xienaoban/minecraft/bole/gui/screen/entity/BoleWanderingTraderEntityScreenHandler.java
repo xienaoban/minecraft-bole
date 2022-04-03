@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.WanderingTraderEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,8 +16,8 @@ import xienaoban.minecraft.bole.gui.screen.tree.BoleMerchantEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleWanderingTraderEntityScreenHandler<E extends WanderingTraderEntity> extends BoleMerchantEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleWanderingTraderEntityScreenHandler<WanderingTraderEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "wandering_trader_entity"), BoleWanderingTraderEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleWanderingTraderEntityScreenHandler<WanderingTraderEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "wandering_trader_entity"), BoleWanderingTraderEntityScreenHandler::new);
 
     private final int addDespawnDelayTicks = 2 * 60 * 20;
     protected final ItemStack addDespawnDelayCost = new ItemStack(Items.WATER_BUCKET, 1);

@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,8 +12,8 @@ import xienaoban.minecraft.bole.gui.screen.tree.BoleWaterCreatureEntityScreenHan
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleDolphinEntityScreenHandler<E extends DolphinEntity> extends BoleWaterCreatureEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleDolphinEntityScreenHandler<DolphinEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "dolphin_entity"), BoleDolphinEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleDolphinEntityScreenHandler<DolphinEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "dolphin_entity"), BoleDolphinEntityScreenHandler::new);
 
     public BoleDolphinEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,8 +11,8 @@ import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleWaterCreatureEntityScreenHandler<E extends WaterCreatureEntity> extends BolePathAwareEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleWaterCreatureEntityScreenHandler<WaterCreatureEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "water_creature_entity"), BoleWaterCreatureEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleWaterCreatureEntityScreenHandler<WaterCreatureEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "water_creature_entity"), BoleWaterCreatureEntityScreenHandler::new);
 
     public BoleWaterCreatureEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

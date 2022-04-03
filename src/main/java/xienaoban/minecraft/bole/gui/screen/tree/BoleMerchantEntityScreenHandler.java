@@ -17,8 +17,8 @@ import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleMerchantEntityScreenHandler<E extends MerchantEntity> extends BolePassiveEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleMerchantEntityScreenHandler<MerchantEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "merchant_entity"), BoleMerchantEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleMerchantEntityScreenHandler<MerchantEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "merchant_entity"), BoleMerchantEntityScreenHandler::new);
 
     public static final ItemStack OPEN_INVENTORY_COST = new ItemStack(Items.EMERALD, 12);
 

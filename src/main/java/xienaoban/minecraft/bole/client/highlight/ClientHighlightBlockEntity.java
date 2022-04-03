@@ -20,6 +20,7 @@ public class ClientHighlightBlockEntity extends FallingBlockEntity {
         this.prevX = x;
         this.prevY = y;
         this.prevZ = z;
-        setBoundingBox(new Box(x + 0.48, y + 0.02, z + 0.48, x + 0.52, y + 0.06, z + 0.52));
+        Box box = getBoundingBox();
+        setBoundingBox(new Box(box.minX + 0.13, y + 0.01, box.minZ + 0.13, box.maxX - 0.13, y + 0.12, box.maxZ - 0.13));
     }
 }

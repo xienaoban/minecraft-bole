@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleLivingEntityScreenHandler<LivingEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "living_entity"), BoleLivingEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleLivingEntityScreenHandler<LivingEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "living_entity"), BoleLivingEntityScreenHandler::new);
 
     @Environment(EnvType.CLIENT)
     protected List<StatusEffectInstance> entityStatusEffects;
