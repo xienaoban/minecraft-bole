@@ -10,9 +10,9 @@ side. But the game will still work fine if the mod is not installed
 on both sides.
 
 The principles that this mod adheres to:
-- No new items, blocks or other custom data are added. Even the `bole handbook item`
-is just a book with some NBT tags. So the mod is vanilla friendly, and your save
-will still be fine after uninstalling the mod.
+- This mod is vanilla friendly. No new items, blocks or other custom data are added.
+Even the item `Bole Handbook` is just a `writable_book` with some NBT tags.
+So your saves will still be fine after uninstalling the mod.
 - All the new features in the config menu (except for the features about the
 bole handbook) are optional and are turned off by default.
 - Game balance is taken into account. Players won't be too powerful in survival mode.

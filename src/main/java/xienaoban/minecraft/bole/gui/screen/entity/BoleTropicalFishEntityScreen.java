@@ -143,9 +143,9 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            int t = (int) (System.currentTimeMillis() % 8000);
-            t = t > 4000 ? 6000 - t : t - 2000;
-            t >>= 4;
+            int t = (int) (System.currentTimeMillis() % 2000);
+            t = t > 1000 ? 1500 - t : t - 500;
+            t /= 28;
             drawFishEntity(this.entity, 60, (this.box.left() + this.box.right() >> 1) - 6, this.box.bottom() - 8, 0, t);
         }
 

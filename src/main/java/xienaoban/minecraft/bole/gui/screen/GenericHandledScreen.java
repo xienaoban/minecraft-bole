@@ -148,7 +148,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         float fSize = -size;
         MatrixStack matrixStack = RenderSystem.getModelViewStack();
         matrixStack.push();
-        matrixStack.translate(x, y, 1000.0F);
+        matrixStack.translate(x, y, 1050.0F);
         matrixStack.scale(1.0F, 1.0F, -1.0F);
         RenderSystem.applyModelViewMatrix();
         MatrixStack matrixStack2 = new MatrixStack();
