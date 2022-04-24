@@ -40,7 +40,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (KeyBindingManager.KEY_BOLE_SCREEN.matchesKey(keyCode, scanCode)) {
-            onClose();
+            close();
             return true;
         }
         if (keyCode == GLFW.GLFW_KEY_DELETE) {
@@ -51,9 +51,9 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         BoleClient.getInstance().setScreenOpen(false);
-        super.onClose();
+        super.close();
     }
 
     public boolean isGod() {
@@ -148,7 +148,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         float fSize = -size;
         MatrixStack matrixStack = RenderSystem.getModelViewStack();
         matrixStack.push();
-        matrixStack.translate(x, y, 233.0F);
+        matrixStack.translate(x, y, 1050.0F);
         matrixStack.scale(1.0F, 1.0F, -1.0F);
         RenderSystem.applyModelViewMatrix();
         MatrixStack matrixStack2 = new MatrixStack();
@@ -180,7 +180,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
     public static void drawEntityGeneric(Entity entity,float size, float x, float y, float rotateX, float rotateY, float rotateZ) {
         MatrixStack matrixStack = RenderSystem.getModelViewStack();
         matrixStack.push();
-        matrixStack.translate(x, y, 1000.0);
+        matrixStack.translate(x, y, 1010.0);
         matrixStack.scale(1.0f, 1.0f, -1.0f);
         RenderSystem.applyModelViewMatrix();
         MatrixStack matrixStack2 = new MatrixStack();

@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.homepage;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -15,8 +14,8 @@ import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
 public final class BoleHomepageScreenHandler extends AbstractBoleScreenHandler<Entity> {
-    public static final ScreenHandlerType<BoleHomepageScreenHandler> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "homepage"), BoleHomepageScreenHandler::new);
+    public static final ScreenHandlerType<BoleHomepageScreenHandler> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "homepage"), BoleHomepageScreenHandler::new);
 
     public static final int HIGHLIGHT_EXPERIENCE_COST = 2;
 

@@ -4,7 +4,7 @@ public interface Keys {
     // ID
     String BOLE = "bole";
     String NAMESPACE = "bole";
-    String GITHUB_RELEASE = "https://github.com/XieNaoban/minecraft-bole/releases";
+    String GITHUB_RELEASE = "https://github.com/xienaoban/minecraft-bole/releases";
 
     // Entity Setting Channels
     String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =     "offer_or_drop";
@@ -278,4 +278,5 @@ public interface Keys {
     String TEXT_BEE_INFO = "text.bole.bee_info";
     String TEXT_MINOR = "text.bole.minor";
     String TEXT_ADULT = "text.bole.adult";
+    String TEXT_LEASH_FALL = "text.bole.leash_fall";
 }

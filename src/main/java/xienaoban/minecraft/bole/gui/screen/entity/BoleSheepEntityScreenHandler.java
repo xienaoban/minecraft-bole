@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,8 +14,8 @@ import xienaoban.minecraft.bole.mixin.IMixinSheepEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleSheepEntityScreenHandler<E extends SheepEntity> extends BoleAnimalEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleSheepEntityScreenHandler<SheepEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "sheep_entity"), BoleSheepEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleSheepEntityScreenHandler<SheepEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "sheep_entity"), BoleSheepEntityScreenHandler::new);
 
     public BoleSheepEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

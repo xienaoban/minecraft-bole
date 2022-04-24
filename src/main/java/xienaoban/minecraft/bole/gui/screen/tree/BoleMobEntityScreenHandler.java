@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
@@ -14,8 +13,8 @@ import net.minecraft.world.Difficulty;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleMobEntityScreenHandler<MobEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "mob_entity"), BoleMobEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleMobEntityScreenHandler<MobEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "mob_entity"), BoleMobEntityScreenHandler::new);
 
     public BoleMobEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

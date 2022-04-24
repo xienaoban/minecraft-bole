@@ -9,9 +9,9 @@
   ],
   "contact": {
     "website": "https://xienaoban.github.io",
-    "repo": "https://github.com/XieNaoban/minecraft-bole",
-    "homepage": "https://github.com/XieNaoban/minecraft-bole",
-    "issues": "https://github.com/XieNaoban/minecraft-bole/issues"
+    "repo": "https://github.com/xienaoban/minecraft-bole",
+    "homepage": "https://github.com/xienaoban/minecraft-bole",
+    "issues": "https://github.com/xienaoban/minecraft-bole/issues"
   },
   "license": "LGPL-3.0",
   "icon": "assets/bole/icon.png",
@@ -31,8 +31,8 @@
     "bole.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.12.11",
+    "fabricloader": ">=0.13.3",
     "fabric": "*",
-    "minecraft": "1.18.1"
+    "minecraft": "1.18.2"
   }
 }

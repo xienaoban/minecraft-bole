@@ -86,8 +86,8 @@ public class EntityManager {
             this.sortedInfos.add(entityInfo);
             getEntityTreeNode(entityInfo.getClazz());
         }
-        // this.infos.put(EntityType.PLAYER, new EntityInfo(EntityType.PLAYER, PlayerEntity.class));
-        // getEntityTreeNode(PlayerEntity.class);
+        // [Should I?] this.infos.put(EntityType.PLAYER, new EntityInfo(EntityType.PLAYER, PlayerEntity.class));
+        // [Should I?] getEntityTreeNode(PlayerEntity.class);
         this.sortedInfos.sort((a, b) -> {
             Identifier ia = EntityType.getId(a.getType());
             Identifier ib = EntityType.getId(b.getType());

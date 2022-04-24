@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.LlamaEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,8 +12,8 @@ import xienaoban.minecraft.bole.gui.screen.tree.BoleAbstractDonkeyEntityScreenHa
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleLlamaEntityScreenHandler<E extends LlamaEntity> extends BoleAbstractDonkeyEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleLlamaEntityScreenHandler<LlamaEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "llama_entity"), BoleLlamaEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleLlamaEntityScreenHandler<LlamaEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "llama_entity"), BoleLlamaEntityScreenHandler::new);
 
     public BoleLlamaEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -158,7 +159,9 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             setTexture(Textures.ICONS);
-            drawTextureNormally(matrices, 256, 256, 40, 10, getZOffset(), x + this.sub * TAB, y, 0, 240);
+            int xBase = x + this.sub * TAB;
+            drawTextureNormally(matrices, 256, 256, 10, 10, getZOffset(), xBase, y, 220, 40);
+            drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), xBase + 10, y, 0, 200);
             drawName(matrices, 0xb0222222);
         }
 
@@ -290,9 +293,10 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                         cnt.incrementAndGet();
                     }
                 });
-                player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.GREEN), false);
+                player.playSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 0.6F, -10.0F);
+                player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.DARK_GREEN, Formatting.BOLD), true);
                 ClientNetworkManager.sendHighlightEvent();
-                onClose();
+                close();
                 return true;
             }
             else if (mouseY < this.box.bottom() - 6) {
@@ -309,7 +313,6 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         /**
          * @see net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity
          */
-        @SuppressWarnings("deprecation")
         private void drawEntity() {
             float x = this.box.left() + (this.box.width() >> 1);
             float y = this.box.bottom() - Page.PROPERTY_WIDGET_MARGIN_HEIGHT - entitySize * (float) this.entity.getBoundingBox().getXLength();
@@ -357,8 +360,8 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             }
             Text valueText = new TranslatableText(value);
             setTexture(Textures.ICONS);
-            drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), x, y, 0, 200);
-            drawTextureRotated180(matrices, 256, 256, 30, 10, getZOffset(), x + this.box.width() - 30, y, 0, 200);
+            drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), x, y, 0, 210);
+            drawTextureRotated180(matrices, 256, 256, 30, 10, getZOffset(), x + this.box.width() - 30, y, 0, 210);
             drawText(matrices, this.name, 0xff003e6a, 0.5F, this.box.left() + 2, this.box.top() + 3F);
             drawText(matrices, valueText, 0xff0162a6, 0.5F, this.box.right() - (textRenderer.getWidth(valueText) >> 1) - 3, this.box.top() + 3F);
         }
@@ -377,9 +380,9 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             setTexture(Textures.ICONS);
-            int u = isHovered() ? 30 : 0;
-            drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), x, y, u, 200);
-            drawTextureRotated180(matrices, 256, 256, 30, 10, getZOffset(), x + this.box.width() - 30, y, u, 200);
+            int v = isHovered() ? 220 : 230;
+            drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), x, y, 0, v);
+            drawTextureRotated180(matrices, 256, 256, 30, 10, getZOffset(), x + this.box.width() - 30, y, 0, v);
             drawTextCenteredX(matrices, this.title, DARK_TEXT_COLOR, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
         }
 

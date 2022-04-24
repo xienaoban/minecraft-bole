@@ -142,6 +142,8 @@
   "text.autoconfig.bole.category.server": "Server",
   "text.autoconfig.bole.option.shoulderCreatureHudPosition": "ShoulderCreatureHudPosition",
   "text.autoconfig.bole.option.shoulderCreatureHudPosition.@Tooltip": "Displays the pets (i.e. parrots) on your shoulders\non the first-person screen.",
+  "text.autoconfig.bole.option.notifyWhenLeashFallFromPlayer": "NotifyWhenLeashFallFromPlayer",
+  "text.autoconfig.bole.option.notifyWhenLeashFallFromPlayer.@Tooltip": "Notify you when a creature loses your control\nand drops a leash.",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "ReceiveWanderingTraderSpawnBroadcast",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "See server option \"BroadcastWanderingTraderSpawn\".",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "OpenHandbookScreenByHotkey",
@@ -198,7 +200,7 @@
   "property_widget.bole.sit_on_player_cooldown": "Cooldown of Sitting on the Shoulder of the Player",
   "property_widget.bole.sit_on_player_cooldown.description": "After how long it can sit on the shoulder of the player.",
   "property_widget.bole.sit_on_player_cooldown.description.button1": "Button1: set the cooldown to infinity or zero. \nDue to technical reasons, reloading the world will cause the cooldown to reset.",
-  "property_widget.bole.horse_run_and_jump": "Jump Height & Running Speed",
+  "property_widget.bole.horse_run_and_jump": "Running Speed & Jump Height",
   "property_widget.bole.horse_run_and_jump.description": "Running speed is usually between 4.74m/s and 14.23m/s.\nJump height is usually between 1.09m and 5.29m.",
   "property_widget.bole.donkey_chest": "Inventory Size of the Chest",
   "property_widget.bole.donkey_chest.description": "Max size: 15.",
@@ -306,5 +308,6 @@
   "text.bole.bee_count": "Bee Count: %s",
   "text.bole.bee_info": "Info of Bees:",
   "text.bole.minor": "Minor",
-  "text.bole.adult": "Adult"
+  "text.bole.adult": "Adult",
+  "text.bole.leash_fall": "%d leash fell from your hand!"
 }

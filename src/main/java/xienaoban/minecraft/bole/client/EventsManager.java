@@ -1,5 +1,7 @@
 package xienaoban.minecraft.bole.client;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.entity.BeehiveBlockEntity;
@@ -14,6 +16,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -27,6 +30,7 @@ import xienaoban.minecraft.bole.util.Keys;
 import java.util.ArrayList;
 import java.util.Optional;
 
+@Environment(EnvType.CLIENT)
 public class EventsManager {
     public static void init() {
         initBeehiveTooltip();
@@ -71,6 +75,20 @@ public class EventsManager {
         });
     }
 
+    public static class LeashFallFromPlayerEvent {
+        long lastFallTime = 0;
+        int times = 0;
+
+        public void onFall(ClientPlayerEntity player) {
+            long curTime = System.currentTimeMillis();
+            if (curTime - this.lastFallTime > 3000) this.times = 1;
+            else ++this.times;
+            this.lastFallTime = curTime;
+            player.playSound(SoundEvents.ENTITY_ITEM_FRAME_BREAK, 0.4F, 1.0F);
+            player.sendMessage(new TranslatableText(Keys.TEXT_LEASH_FALL, this.times).formatted(Formatting.GOLD), true);
+        }
+    }
+
     public static class ShoulderEntityFirstPersonRenderer {
         private final NbtCompound[] oldNbts = new NbtCompound[2];
         private final LivingEntity[] entities = new LivingEntity[2];
@@ -79,8 +97,15 @@ public class EventsManager {
 
         public void renderShoulderEntity(MinecraftClient client) {
             ClientPlayerEntity player = client.player;
-            if (!client.options.getPerspective().isFirstPerson()) return;
-            if (player == null || player != client.cameraEntity) return;
+            if (player == null) {
+                // prevent memory leak
+                if (this.oldNbts[0] != null || this.oldNbts[1] != null || this.entities[0] != null || this.entities[1] != null) {
+                    this.oldNbts[0] = this.oldNbts[1] = null;
+                    this.entities[0] = this.entities[1] = null;
+                }
+                return;
+            }
+            if (!client.options.getPerspective().isFirstPerson() || player != client.cameraEntity) return;
 
             int w = client.getWindow().getScaledWidth() >> 1, h = client.getWindow().getScaledHeight() >> 1;
             float r = -18, z = -40;

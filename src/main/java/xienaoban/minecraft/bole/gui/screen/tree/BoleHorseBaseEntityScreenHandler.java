@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,8 +11,8 @@ import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleHorseBaseEntityScreenHandler<E extends HorseBaseEntity> extends BoleAnimalEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleHorseBaseEntityScreenHandler<HorseBaseEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "horse_base_entity"), BoleHorseBaseEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleHorseBaseEntityScreenHandler<HorseBaseEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "horse_base_entity"), BoleHorseBaseEntityScreenHandler::new);
 
     public BoleHorseBaseEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

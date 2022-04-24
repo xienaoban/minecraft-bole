@@ -1,5 +1,7 @@
 package xienaoban.minecraft.bole.mixin;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.Final;
@@ -10,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xienaoban.minecraft.bole.client.EventsManager;
 
+@Environment(EnvType.CLIENT)
 @Mixin(GameRenderer.class)
 public abstract class MixinGameRenderer {
     @Shadow @Final private MinecraftClient client;

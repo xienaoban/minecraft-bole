@@ -142,6 +142,8 @@
   "text.autoconfig.bole.category.server": "服务端",
   "text.autoconfig.bole.option.shoulderCreatureHudPosition": "肩膀生物展示位置",
   "text.autoconfig.bole.option.shoulderCreatureHudPosition.@Tooltip": "在第一人称屏幕上展示玩家肩上的宠物（即鹦鹉）",
+  "text.autoconfig.bole.option.notifyWhenLeashFallFromPlayer": "缰绳脱手时通知玩家",
+  "text.autoconfig.bole.option.notifyWhenLeashFallFromPlayer.@Tooltip": "被栓生物因离你太远而掉落拴绳时通知你。\n人机分离十米自动报警（不是",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "接收流浪商人生成广播",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "需要开启服务器选项“广播流浪商人的生成”。",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "允许使用热键开启伯乐手册",
@@ -198,7 +200,7 @@
   "property_widget.bole.sit_on_player_cooldown": "坐在玩家肩膀上的冷却时间",
   "property_widget.bole.sit_on_player_cooldown.description": "多久之后可以坐在玩家肩膀上。",
   "property_widget.bole.sit_on_player_cooldown.description.button1": "按钮1：设置冷却为无穷或为零。\n由于技术层面的原因，重新加载地图会导致冷却值重置。",
-  "property_widget.bole.horse_run_and_jump": "跳跃高度与奔跑速度",
+  "property_widget.bole.horse_run_and_jump": "奔跑速度与跳跃高度",
   "property_widget.bole.horse_run_and_jump.description": "跑步速度通常介于 4.74m/s 与 14.23m/s 之间。\n跳跃高度通常介于 1.09m 与 5.29m 之间。",
   "property_widget.bole.donkey_chest": "挂载箱子的容量",
   "property_widget.bole.donkey_chest.description": "最大容量 15 格。",
@@ -270,7 +272,7 @@
   "text.bole.comma": "，",
   "text.bole.mod_not_installed": "如果您看到了此段文字，说明您并未安装“伯乐”模组，您可以前往以下网址下载本模组：",
   "text.bole.click_me": "点我点我点我！（≧.≦）",
-  "text.bole.target_entity_too_far": "目标离你太远了。",
+  "text.bole.target_entity_too_far": "目标离你太远了",
   "text.bole.open_local_configs": "打开本地配置界面",
   "text.bole.set_configs_local_is_remote": "本地配置：",
   "text.bole.set_configs_local_is_not_remote": "本地配置：",
@@ -290,7 +292,7 @@
   "text.bole.never_grow_up": "永不成长",
   "text.bole.loading": "加载中……",
   "text.bole.empty_with_brackets": "（空）",
-  "text.bole.highlight": "感受到了 %d 只%s（当前感知半径 %d 米）。",
+  "text.bole.highlight": "感知到了 %d 只%s（当前感知半径 %d 米）",
   "text.bole.main_gene": "显性",
   "text.bole.hidden_gene": "隐性",
   "text.bole.wandering_trader_spawn_message": "玩家 %s 附近传来了流浪商人的哼哼声。",
@@ -306,5 +308,6 @@
   "text.bole.bee_count": "蜜蜂: %s",
   "text.bole.bee_info": "蜜蜂信息:",
   "text.bole.minor": "幼年",
-  "text.bole.adult": "成年"
+  "text.bole.adult": "成年",
+  "text.bole.leash_fall": "%d 根缰绳脱手了"
 }

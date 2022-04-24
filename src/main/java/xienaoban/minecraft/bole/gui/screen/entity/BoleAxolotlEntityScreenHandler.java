@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,8 +13,8 @@ import xienaoban.minecraft.bole.mixin.IMixinAxolotlEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleAxolotlEntityScreenHandler<E extends AxolotlEntity> extends BoleAnimalEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleAxolotlEntityScreenHandler<AxolotlEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "axolotl_entity"), BoleAxolotlEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleAxolotlEntityScreenHandler<AxolotlEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "axolotl_entity"), BoleAxolotlEntityScreenHandler::new);
 
     public BoleAxolotlEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);

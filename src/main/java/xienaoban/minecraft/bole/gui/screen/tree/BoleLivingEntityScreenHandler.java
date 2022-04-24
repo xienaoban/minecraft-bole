@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -19,8 +18,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class BoleLivingEntityScreenHandler<E extends LivingEntity> extends BoleEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleLivingEntityScreenHandler<LivingEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "living_entity"), BoleLivingEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleLivingEntityScreenHandler<LivingEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "living_entity"), BoleLivingEntityScreenHandler::new);
 
     @Environment(EnvType.CLIENT)
     protected List<StatusEffectInstance> entityStatusEffects;

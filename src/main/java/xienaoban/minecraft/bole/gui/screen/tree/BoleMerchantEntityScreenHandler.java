@@ -2,7 +2,6 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,8 +16,8 @@ import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleMerchantEntityScreenHandler<E extends MerchantEntity> extends BolePassiveEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleMerchantEntityScreenHandler<MerchantEntity>> HANDLER = ScreenHandlerRegistry.registerSimple(
-            new Identifier(Keys.NAMESPACE, "merchant_entity"), BoleMerchantEntityScreenHandler::new);
+    public static final ScreenHandlerType<BoleMerchantEntityScreenHandler<MerchantEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "merchant_entity"), BoleMerchantEntityScreenHandler::new);
 
     public static final ItemStack OPEN_INVENTORY_COST = new ItemStack(Items.EMERALD, 12);
 
