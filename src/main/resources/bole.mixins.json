@@ -28,7 +28,6 @@
     "MixinEatGrassGoal",
     "MixinEntity",
     "MixinFollowOwnerGoal",
-    "MixinGameRenderer",
     "MixinPassiveEntity",
     "MixinPolarBearEntity",
     "MixinTameableShoulderEntity",
@@ -38,6 +37,7 @@
   "client": [
     "MixinClientPlayNetworkHandler",
     "MixinCreativeInventoryScreen",
+    "MixinGameRenderer",
     "MixinMinecraftClient",
     "MixinMobEntityClient",
     "MixinFallingBlockEntityRenderer"
