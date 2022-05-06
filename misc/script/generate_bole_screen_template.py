@@ -156,8 +156,8 @@ with open('out/' + screen_handler_class_name + '.java', 'w') as f:
 print('Files has been exported. Check them in folder "./out".')
 print()
 
-print('Dont\'t forget to register them in method "onInitialize()" and "onInitializeClient()":')
+print('Dont\'t forget to register them in  "ScreenManager.init()" and "ScreenHandlerManager.init()":')
 print()
-print(' -> ' + bole_screen_server_register_template.replace(key1, camel))
 print(' -> ' + bole_screen_client_register_template.replace(key1, camel))
+print(' -> ' + bole_screen_server_register_template.replace(key1, camel))
 print()

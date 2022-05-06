@@ -105,6 +105,8 @@ opened. You can also open the screen by pressing the hotkey.
               - [X] `Set screamer`
             - RabbitEntity:
               - [x] `Set variant`
+            - FoxEntity:
+              - [x] `Set variant`
             - PandaEntity:
               - [X] `Set gene`
             - AxolotlEntity:
