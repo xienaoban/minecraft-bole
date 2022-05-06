@@ -3,6 +3,8 @@
 A mod that displays information of creatures and provides some new optional
 features about creatures.
 
+![Screenshot1](assets/head-small.png)
+
 This mod only works on `Fabric` side and depends on
 [`Fabric API`](https://www.curseforge.com/minecraft/mc-mods/fabric-api).
 No plan for `Forge` yet. You'd better install this mod on both client and server
@@ -19,16 +21,6 @@ bole handbook) are optional and are turned off by default.
 
 Please click the `☆ star` if you like this project~   ╰(￣▽￣)╭
 
-## Screenshots
-
-![Screenshot1](assets/screen1.png)
-
-![Screenshot2](assets/screen2.png)
-
-![Screenshot3](assets/screen3.png)
-
-![Screenshot4](assets/screen4.png)
-
 ## How to play
 
 You can buy a bole handbook from a wandering trader (a wandering trader has a 20% chance
@@ -38,6 +30,12 @@ end of the misc group).
 Hold the handbook and right-click an entity, and a screen will be opened which displays
 some properties of the entity; right-click on the air and the homepage screen will be
 opened. You can also open the screen by pressing the hotkey.
+
+## Screenshots
+
+| ![Screenshot1](assets/screen1.png) | ![Screenshot2](assets/screen2.png) |
+| --- | --- |
+| ![Screenshot3](assets/screen3.png) | ![Screenshot4](assets/screen4.png) |
 
 ## Features
 
@@ -106,6 +104,8 @@ opened. You can also open the screen by pressing the hotkey.
             - GoatEntity:
               - [X] `Set screamer`
             - RabbitEntity:
+              - [x] `Set variant`
+            - FoxEntity:
               - [x] `Set variant`
             - PandaEntity:
               - [X] `Set gene`

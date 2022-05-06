@@ -55,6 +55,9 @@
   "entity.minecraft.horse.variant.marking.white_dots":"白斑",
   "entity.minecraft.horse.variant.marking.black_dots": "黑斑",
 
+  "entity.minecraft.fox.variant.red": "红狐",
+  "entity.minecraft.fox.variant.snow": "雪狐",
+
   "entity.minecraft.panda.variant.normal": "普通",
   "entity.minecraft.panda.variant.lazy": "慵懒",
   "entity.minecraft.panda.variant.worried": "忧愁",
@@ -227,6 +230,8 @@
   "property_widget.bole.horse_color_variant.description": "你只能在创造模式中更换品种。",
   "property_widget.bole.horse_marking_variant": "马的斑纹",
   "property_widget.bole.horse_marking_variant.description": "你只能在创造模式中更换品种。",
+  "property_widget.bole.fox_variant": "狐狸的品种",
+  "property_widget.bole.fox_variant.description": "你只能在创造模式中更换品种。",
   "property_widget.bole.panda_main_gene": "能苗的基因1（主要基因）",
   "property_widget.bole.panda_main_gene.description": "若该基因为显性，则直接表达；\n若该基因为隐性，则仅当两个基因相同时才表达。\n你只能在创造模式中更换基因。",
   "property_widget.bole.panda_hidden_gene": "能苗的基因2（隐藏基因）",

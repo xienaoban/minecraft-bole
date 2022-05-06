@@ -24,6 +24,7 @@ public interface Keys {
     String ENTITY_SETTING_CAT_VARIANT =                     "cat_variant";
     String ENTITY_SETTING_PARROT_VARIANT =                  "parrot_variant";
     String ENTITY_SETTING_LLAMA_VARIANT =                   "llama_variant";
+    String ENTITY_SETTING_FOX_VARIANT =                     "fox_variant";
     String ENTITY_SETTING_PANDA_VARIANT =                   "panda_variant";
     String ENTITY_SETTING_AXOLOTL_VARIANT =                 "axolotl_variant";
     String ENTITY_SETTING_HORSE_COLOR_VARIANT =             "horse_color_variant";
@@ -104,6 +105,8 @@ public interface Keys {
     String TROPICAL_FISH_VARIANT_BLOCKFISH =    "entity.minecraft.tropical_fish.type.blockfish";
     String TROPICAL_FISH_VARIANT_BETTY =        "entity.minecraft.tropical_fish.type.betty";
     String TROPICAL_FISH_VARIANT_CLAYFISH =     "entity.minecraft.tropical_fish.type.clayfish";
+
+    String FOX_VARIANT_PREFIX = "entity.minecraft.fox.variant.";
 
     String PANDA_VARIANT_PREFIX = "entity.minecraft.panda.variant.";
 
@@ -196,6 +199,8 @@ public interface Keys {
     String PROPERTY_WIDGET_HORSE_COLOR_VARIANT_DESCRIPTION = "property_widget.bole.horse_color_variant.description";
     String PROPERTY_WIDGET_HORSE_MARKING_VARIANT = "property_widget.bole.horse_marking_variant";
     String PROPERTY_WIDGET_HORSE_MARKING_VARIANT_DESCRIPTION = "property_widget.bole.horse_marking_variant.description";
+    String PROPERTY_WIDGET_FOX_VARIANT = "property_widget.bole.fox_variant";
+    String PROPERTY_WIDGET_FOX_VARIANT_DESCRIPTION = "property_widget.bole.fox_variant.description";
     String PROPERTY_WIDGET_PANDA_MAIN_GENE = "property_widget.bole.panda_main_gene";
     String PROPERTY_WIDGET_PANDA_MAIN_GENE_DESCRIPTION = "property_widget.bole.panda_main_gene.description";
     String PROPERTY_WIDGET_PANDA_HIDDEN_GENE = "property_widget.bole.panda_hidden_gene";

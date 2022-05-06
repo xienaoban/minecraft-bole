@@ -55,6 +55,9 @@
   "entity.minecraft.horse.variant.marking.white_dots":"Dots1",
   "entity.minecraft.horse.variant.marking.black_dots": "Dots2",
 
+  "entity.minecraft.fox.variant.red": "Red",
+  "entity.minecraft.fox.variant.snow": "Snow",
+
   "entity.minecraft.panda.variant.normal": "Normal",
   "entity.minecraft.panda.variant.lazy": "Lazy",
   "entity.minecraft.panda.variant.worried": "Worried",
@@ -227,6 +230,8 @@
   "property_widget.bole.horse_color_variant.description": "You can only change the variant in creative mode.",
   "property_widget.bole.horse_marking_variant": "Marking Variants of Horses",
   "property_widget.bole.horse_marking_variant.description": "You can only change the variant in creative mode.",
+  "property_widget.bole.fox_variant": "Variants of Foxes",
+  "property_widget.bole.fox_variant.description": "You can only change the variant in creative mode.",
   "property_widget.bole.panda_main_gene": "Main Gene of Pandas",
   "property_widget.bole.panda_main_gene.description": "You can only change the gene in creative mode.",
   "property_widget.bole.panda_hidden_gene": "Hidden Gene of Pandas",
