@@ -149,6 +149,8 @@
   "text.autoconfig.bole.option.notifyWhenLeashFallFromPlayer.@Tooltip": "Notify you when a creature loses your control\nand drops a leash.",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "ReceiveWanderingTraderSpawnBroadcast",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "See server option \"BroadcastWanderingTraderSpawn\".",
+  "text.autoconfig.bole.option.highlightEntitiesBlindnessTime": "HighlightEntitiesBlindnessTime",
+  "text.autoconfig.bole.option.highlightEntitiesBlindnessTime.@Tooltip": "Blindness time when highlighting entities.\n(Unit: tick. 1s = 20t)",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "OpenHandbookScreenByHotkey",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen.@Tooltip": "So you don't have to hold a book in your hand in survival mode.",
   "text.autoconfig.bole.option.blockAccidentalInjuryToPets": "BlockAccidentalInjuryToPets",
@@ -268,8 +270,8 @@
   "text.error.bole.data_load": "Data Error",
   "text.error.bole.client_server_mod_version_not_match": "Mod Bole: The mod version of the client does not match the mod version of the server!",
 
-  "text.warning.bole.enable_ai": "Maybe just put its frontal lobe back in...",
-  "text.warning.bole.disable_ai": "You want to perform a frontal lobotomy to incapacitate it. But it will fight back. So you will spend:\nHealth x%s\nSatiety x%s",
+  "text.warning.bole.enable_ai": "Maybe just put its frontal lobe back in...\n(It will be also set to not be invulnerable)",
+  "text.warning.bole.disable_ai": "You want to perform a frontal lobotomy to incapacitate it. But it will fight back. So you will spend:\n   Health x%s    Satiety x%s\n(It will be also set to be invulnerable)",
   "text.warning.bole.open_merchant_inventory": "If you are willing to pay %d %ss, the merchant will let you rummage through its inventory.",
   "text.warning.bole.villager_reset_job": "Usually players tend to kill villagers with unsatisfactory trading lists. Thinking of this, the villager readily accepts your kindness.\nAre you sure to reset?",
 

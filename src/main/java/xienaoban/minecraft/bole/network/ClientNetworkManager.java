@@ -175,8 +175,10 @@ public class ClientNetworkManager {
         ClientPlayNetworking.send(Channels.REQUEST_SERVER_ENTITIES_GLOWING, buf);
     }
 
-    public static void sendHighlightEvent() {
-        ClientPlayNetworking.send(Channels.SEND_HIGHLIGHT_EVENT, PacketByteBufs.empty());
+    public static void sendHighlightEvent(int ticks) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(ticks);
+        ClientPlayNetworking.send(Channels.SEND_HIGHLIGHT_EVENT, buf);
     }
 
     public static void requestBeehiveScreen(BlockPos beehivePos) {

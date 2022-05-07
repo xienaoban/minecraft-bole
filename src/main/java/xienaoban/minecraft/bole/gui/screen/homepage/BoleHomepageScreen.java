@@ -295,7 +295,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                 });
                 player.playSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 0.6F, -10.0F);
                 player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.DARK_GREEN, Formatting.BOLD), true);
-                ClientNetworkManager.sendHighlightEvent();
+                ClientNetworkManager.sendHighlightEvent(Configs.getInstance().getHighlightEntitiesBlindnessTime());
                 close();
                 return true;
             }
