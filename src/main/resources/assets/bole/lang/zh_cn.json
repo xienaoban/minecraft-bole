@@ -149,6 +149,8 @@
   "text.autoconfig.bole.option.notifyWhenLeashFallFromPlayer.@Tooltip": "被栓生物因离你太远而掉落拴绳时通知你。\n人机分离十米自动报警（不是",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts": "接收流浪商人生成广播",
   "text.autoconfig.bole.option.receiveWanderingTraderSpawnBroadcasts.@Tooltip": "需要开启服务器选项“广播流浪商人的生成”。",
+  "text.autoconfig.bole.option.highlightEntitiesBlindnessTime": "使用高亮技能时的致盲时长",
+  "text.autoconfig.bole.option.highlightEntitiesBlindnessTime.@Tooltip": "两眼一黑反而能更清晰地看到被高亮的生物了！\n贫血的朋友如感到不适可以将时间设为 0。\n（单位：tick，1s=20t）",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen": "允许使用热键开启伯乐手册",
   "text.autoconfig.bole.option.allowHotKeyToOpenBoleHandbookScreen.@Tooltip": "直接打开界面，无需手持手册。\n该设置针对生存模式，创造模式始终可以使用热键。",
   "text.autoconfig.bole.option.blockAccidentalInjuryToPets": "屏蔽宠物误伤",
@@ -268,8 +270,8 @@
   "text.error.bole.data_load": "数据读取失败",
   "text.error.bole.client_server_mod_version_not_match": "伯乐模组：客户端与服务端的模组版本差距过大，无法完全兼容！",
 
-  "text.warning.bole.enable_ai": "也许只要把它的额叶塞回去就行了叭…",
-  "text.warning.bole.disable_ai": "你将尝试对其进行额叶切除手术而使之丧失行动能力。但它也会奋力反抗。\n\n你预计这场战斗与手术将花费：\n生命值 x%s\n饱食度 x%s",
+  "text.warning.bole.enable_ai": "也许只要把它的额叶塞回去就行了叭…\n（生物同时会被设为不无敌）",
+  "text.warning.bole.disable_ai": "你将尝试对其进行额叶切除手术而使之丧失行动能力。但它也会奋力反抗。\n\n你预计这场战斗与手术将花费：\n    生命值 x%s    饱食度 x%s\n           （生物同时会被设为无敌）",
   "text.warning.bole.open_merchant_inventory": "如果你愿意给商人支付 %d 个 %s 的话，商人倒是不介意让你随意翻它的随身小背包。",
   "text.warning.bole.villager_reset_job": "在有此模组之前，交易刷歪了的村民大多难逃玩家正义的击杀。想到这儿，村民转而欣然接受了你的好意。\n\n村民交易列表与经验等级均会清零，确认重置吗？",
 

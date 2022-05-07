@@ -135,8 +135,11 @@ public class ServerNetworkManager {
 
     private static void registerSendHighlightEvent() {
         ServerPlayNetworking.registerGlobalReceiver(Channels.SEND_HIGHLIGHT_EVENT, (server, player, handler, buf, responseSender) -> {
+            int ticks = buf.readInt();
             server.execute(() -> {
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 2 * 20));
+                if (ticks > 0) {
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, ticks));
+                }
                 if (!(Bole.isDetached(player))) {
                     player.addExperience(-2);
                 }

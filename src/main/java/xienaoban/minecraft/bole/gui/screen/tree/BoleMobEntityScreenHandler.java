@@ -44,12 +44,15 @@ public class BoleMobEntityScreenHandler<E extends MobEntity> extends BoleLivingE
                 set(disabled);
             }
             private void set(boolean disabled) {
-                entity.setAiDisabled(disabled);
-                int healthAndSatiety = isMonster ? 12 : 6;
-                if (disabled && !isGod()) {
-                    player.damage(DamageSource.mob(entity), entity.world.getDifficulty() == Difficulty.HARD ? healthAndSatiety / 1.5F : healthAndSatiety);
-                    player.getHungerManager().add(-healthAndSatiety, 0);
+                if (!isGod()) {
+                    if (disabled) {
+                        int healthAndSatiety = isMonster ? 12 : 6;
+                        player.damage(DamageSource.mob(entity), entity.world.getDifficulty() == Difficulty.HARD ? healthAndSatiety / 1.5F : healthAndSatiety);
+                        player.getHungerManager().add(-healthAndSatiety, 0);
+                    }
+                    entity.setInvulnerable(disabled);
                 }
+                entity.setAiDisabled(disabled);
             }
         });
     }

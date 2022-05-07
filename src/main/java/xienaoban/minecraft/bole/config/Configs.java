@@ -48,6 +48,10 @@ public final class Configs implements ConfigData {
     @ConfigEntry.Gui.Tooltip()
     boolean receiveWanderingTraderSpawnBroadcasts = false;
 
+    @ConfigEntry.Category(CLIENT)
+    @ConfigEntry.Gui.Tooltip()
+    int highlightEntitiesBlindnessTime = 40;
+
     @ConfigEntry.Category(SERVER)
     @ConfigEntry.Gui.Tooltip()
     boolean allowHotKeyToOpenBoleHandbookScreen = false;
@@ -80,6 +84,10 @@ public final class Configs implements ConfigData {
 
     public boolean isReceiveWanderingTraderSpawnBroadcasts() {
         return receiveWanderingTraderSpawnBroadcasts;
+    }
+
+    public int getHighlightEntitiesBlindnessTime() {
+        return highlightEntitiesBlindnessTime;
     }
 
     public boolean isAllowHotKeyToOpenBoleHandbookScreen() {
