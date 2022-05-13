@@ -48,7 +48,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     private final OverlayMessageHud overlayMessageHud;
 
     protected int bodyLeft, bodyRight, bodyTop, bodyBottom;
-    protected int[] contentLeft, contentRight;
+    protected final int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
 
     protected final Map<Integer, ButtonWidget> bookmarks;
