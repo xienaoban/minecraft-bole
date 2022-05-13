@@ -251,6 +251,8 @@
   "property_widget.bole.tropical_fish_pattern_color.description": "You can only change the color in creative mode.",
   "property_widget.bole.moistness": "Moistness",
   "property_widget.bole.moistness.description": "Dolphins will die without moistness.",
+  "property_widget.bole.screaming_goat": "Is Screaming Goat",
+  "property_widget.bole.screaming_goat.description": "Ahhhhhh!!!!!!!!!",
 
   "text.hint.bole.offer_or_drop": "%s is offered to you.",
   "text.hint.bole.only_in_god_mode": "Can only be used in creative mode.",

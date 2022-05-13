@@ -68,5 +68,6 @@ public class ScreenManager {
         HandledScreens.register(BoleTropicalFishEntityScreenHandler.HANDLER, BoleTropicalFishEntityScreen<TropicalFishEntity, BoleTropicalFishEntityScreenHandler<TropicalFishEntity>>::new);
         HandledScreens.register(BoleDolphinEntityScreenHandler.HANDLER, BoleDolphinEntityScreen<DolphinEntity, BoleDolphinEntityScreenHandler<DolphinEntity>>::new);
         HandledScreens.register(BoleFoxEntityScreenHandler.HANDLER, BoleFoxEntityScreen<FoxEntity, BoleFoxEntityScreenHandler<FoxEntity>>::new);
+        HandledScreens.register(BoleGoatEntityScreenHandler.HANDLER, BoleGoatEntityScreen<GoatEntity, BoleGoatEntityScreenHandler<GoatEntity>>::new);
     }
 }
