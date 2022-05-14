@@ -61,6 +61,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             InputUtil.setCursorParameters(this.client.getWindow().getHandle(), 212993, state.getMouseX(), state.getMouseY());
             this.bookmarks.get(state.getBookmarkIndex()).onPress();
             setPageIndex(state.getPageIndex());
+            this.debugMode = state.isDebugMode();
         }
     }
 

@@ -55,15 +55,15 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
     protected void initButtons() {
         super.initButtons();
         addBookmark(0, new TranslatableText(Keys.TEXT_RETURN_TO_HOMEPAGE), button -> {
-            BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState());
+            BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState(0, 0, debugMode));
             ClientNetworkManager.requestBoleScreen();
         });
         addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
-            BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState(8, 0));
+            BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState(8, 0, debugMode));
             ClientNetworkManager.requestBoleScreen();
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
-            BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState(9, 0));
+            BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState(9, 0, debugMode));
             ClientNetworkManager.requestBoleScreen();
         });
     }
