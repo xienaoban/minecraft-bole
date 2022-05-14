@@ -268,6 +268,7 @@
   "text.hint.bole.no_job_site": "这是一只失去工作方块的村民，看样子是就业形势不太好呢~",
   "text.hint.bole.job_site_different_dimension": "工作方块不在当前世界维度！",
   "text.hint.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你拿着下届合金剑指着他也不会屈服！",
+  "text.hint.bole.something_is_wrong": "报错啦。详情见游戏日志。",
 
   "text.error.bole.data_load": "数据读取失败",
   "text.error.bole.client_server_mod_version_not_match": "伯乐模组：客户端与服务端的模组版本差距过大，无法完全兼容！",
@@ -287,6 +288,9 @@
   "text.bole.set_configs_local_is_not_remote": "本地配置：",
   "text.bole.get_configs_local_is_remote": "当前世界配置（你即是服务器）：",
   "text.bole.get_configs_local_is_not_remote": "当前世界配置（非本地配置）：",
+  "text.bole.other_client_configs": "客户端其他配置:",
+  "text.bole.custom_entity_order_config": "自定义主页中的实体排序顺序",
+  "text.bole.custom_entity_order_config.description": "打开并编辑配置文件：\n%s\n修改并保存后再点击此按钮以重排序。",
   "text.bole.server_mod_version": "服务端伯乐：v%s",
   "text.bole.anti_mistouch_warning": "防误触警告",
   "text.bole.return_to_homepage": "返回手册主页",

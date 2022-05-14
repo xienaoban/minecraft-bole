@@ -1,5 +1,7 @@
 package xienaoban.minecraft.bole.util;
 
+import java.nio.file.Path;
+
 public interface Keys {
     // ID
     String BOLE = "bole";
@@ -8,6 +10,9 @@ public interface Keys {
 
     // Path
     String ENTITY_SORT_ORDER_CONFIG_FILENAME = "bole_entity_sort_order.txt";
+    static Path ENTITY_SORT_ORDER_CONFIG_PATH() {
+        return MiscUtil.getConfigPath().resolve(Keys.ENTITY_SORT_ORDER_CONFIG_FILENAME);
+    }
 
     // Entity Setting Channels
     String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =     "offer_or_drop";
@@ -238,6 +243,7 @@ public interface Keys {
     String HINT_TEXT_NO_JOB_SITE = "text.hint.bole.no_job_site";
     String HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION = "text.hint.bole.job_site_different_dimension";
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.bole.refuse_to_reset_job";
+    String HINT_TEXT_SOMETHING_IS_WRONG = "text.hint.bole.something_is_wrong";
 
     String ERROR_TEXT_DATA_LOAD = "text.error.bole.data_load";
     String ERROR_TEXT_CLIENT_SERVER_MOD_VERSION_NOT_MATCH = "text.error.bole.client_server_mod_version_not_match";
@@ -257,6 +263,9 @@ public interface Keys {
     String TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.set_configs_local_is_not_remote";
     String TEXT_GET_CONFIGS_LOCAL_IS_REMOTE = "text.bole.get_configs_local_is_remote";
     String TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.get_configs_local_is_not_remote";
+    String TEXT_OTHER_CLIENT_CONFIGS = "text.bole.other_client_configs";
+    String TEXT_CUSTOM_ENTITY_ORDER_CONFIG = "text.bole.custom_entity_order_config";
+    String TEXT_CUSTOM_ENTITY_ORDER_CONFIG_DESCRIPTION = "text.bole.custom_entity_order_config.description";
     String TEXT_SERVER_MOD_VERSION = "text.bole.server_mod_version";
     String TEXT_ANTI_MISTOUCH_WARNING = "text.bole.anti_mistouch_warning";
     String TEXT_RETURN_TO_HOMEPAGE = "text.bole.return_to_homepage";

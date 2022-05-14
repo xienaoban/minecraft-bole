@@ -16,6 +16,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -38,6 +39,8 @@ import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.lang.reflect.Field;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -85,7 +88,11 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(setConfigKey), DARK_TEXT_COLOR, 0.5F));
             page.addSlot(new OpenLocalConfigsPropertyWidget());
             page.addSlot(new EmptyPropertyWidget(4, 1));
+            page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_OTHER_CLIENT_CONFIGS), DARK_TEXT_COLOR, 0.5F));
+            page.addSlot(new CustomEntityOrderPropertyWidget());
 
+            page = new Page();
+            this.pages.add(page);
             String curConfigKey = boleClient.isHost() ? Keys.TEXT_GET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE;
             page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_SERVER_MOD_VERSION, Bole.getInstance().getServerVersion()), DARK_TEXT_COLOR, 0.5F));
             page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(curConfigKey), DARK_TEXT_COLOR, 0.5F));
@@ -112,7 +119,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             FabricLoader.getInstance().getModContainer(Keys.BOLE).ifPresent(modContainer -> page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_VERSION_IS, modContainer.getMetadata().getVersion()), DARK_TEXT_COLOR, 0.5F)));
             page1.addSlot(new OpenDebugPropertyWidget());
             page1.addSlot(new GiveBookPropertyWidget());
-            page1.addSlot(new ResortPropertyWidget());
+            page1.addSlot(new ReorderPropertyWidget());
             page1.addSlot(new CrashClientPropertyWidget());
             setPageIndex(0);
         });
@@ -388,6 +395,11 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             this.title = new TranslatableText(Keys.TEXT_OPEN_LOCAL_CONFIGS);
         }
 
+        protected OpenLocalConfigsPropertyWidget(Text title) {
+            super(4, 1);
+            this.title = title;
+        }
+
         @Override
         protected void initTooltipLines() {}
 
@@ -404,7 +416,30 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             setHovered(null);
             assert client != null;
+            handler.player.playSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
             client.setScreen(ScreenManager.getConfigScreen(BoleHomepageScreen.this));
+            return true;
+        }
+    }
+
+    public class CustomEntityOrderPropertyWidget extends OpenLocalConfigsPropertyWidget {
+        public CustomEntityOrderPropertyWidget() {
+            super(new TranslatableText(Keys.TEXT_CUSTOM_ENTITY_ORDER_CONFIG));
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            Path orderPath = Keys.ENTITY_SORT_ORDER_CONFIG_PATH();
+            MutableText text = new TranslatableText(Keys.TEXT_CUSTOM_ENTITY_ORDER_CONFIG_DESCRIPTION, orderPath.toAbsolutePath().toString())
+                    .formatted(Formatting.GRAY);
+            List<OrderedText> lines = MinecraftClient.getInstance().textRenderer.wrapLines(text, 6000);
+            this.tooltipLines.addAll(lines);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            EntityManager.getInstance().reorderAllEntities();
+            handler.player.playSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
             return true;
         }
     }
@@ -482,14 +517,14 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         }
     }
 
-    public class ResortPropertyWidget extends DebugPropertyWidget {
-        public ResortPropertyWidget() {
-            super("-= Resort Entities =-");
+    public class ReorderPropertyWidget extends DebugPropertyWidget {
+        public ReorderPropertyWidget() {
+            super("-= Reorder Entities In Homepage =-");
         }
 
         @Override
         public boolean onMouseClick() {
-            EntityManager.getInstance().resortAllEntities();
+            EntityManager.getInstance().reorderAllEntities();
             return true;
         }
     }

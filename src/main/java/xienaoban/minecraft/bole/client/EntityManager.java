@@ -72,7 +72,7 @@ public class EntityManager {
     }
 
     public static void initEntitySortOrderFile() {
-        Path orderPath = MiscUtil.getConfigPath().resolve(Keys.ENTITY_SORT_ORDER_CONFIG_FILENAME);
+        Path orderPath = Keys.ENTITY_SORT_ORDER_CONFIG_PATH();
         if (orderPath.toFile().isFile()) {
             return;
         }
@@ -109,7 +109,7 @@ public class EntityManager {
 
     private void initEntitySortIds() {
         Map<String, Integer> orderMap = this.entitySortIds;
-        Path orderPath = MiscUtil.getConfigPath().resolve(Keys.ENTITY_SORT_ORDER_CONFIG_FILENAME);
+        Path orderPath = Keys.ENTITY_SORT_ORDER_CONFIG_PATH();
         initEntitySortOrderFile();
         try (BufferedReader orderReader = MiscUtil.getFileReader(orderPath)) {
             if (!orderMap.isEmpty()) {
@@ -291,7 +291,10 @@ public class EntityManager {
         ns.add(0, mcTag);
     }
 
-    public void resortAllEntities() {
+    /**
+     * Re-read the config file "bole_entity_sort_order.txt" and sort the entities in the homepage.
+     */
+    public void reorderAllEntities() {
         initEntitySortIds();
         initEntityInfoSortIds();
         sortAllEntities();
