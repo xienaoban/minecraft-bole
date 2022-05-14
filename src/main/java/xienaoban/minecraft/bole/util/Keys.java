@@ -6,6 +6,9 @@ public interface Keys {
     String NAMESPACE = "bole";
     String GITHUB_RELEASE = "https://github.com/xienaoban/minecraft-bole/releases";
 
+    // Path
+    String ENTITY_SORT_ORDER_CONFIG_FILENAME = "bole_entity_sort_order.txt";
+
     // Entity Setting Channels
     String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =     "offer_or_drop";
     String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN =          "nether_portal_cooldown";

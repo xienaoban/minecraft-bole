@@ -53,6 +53,7 @@ public class BoleClient implements ClientModInitializer {
         KeyBindingManager.init();
         initConfigsSaveListener();
         EventsManager.init();
+        EntityManager.init();
         Bole.getInstance().setServerVersion("<unknown>");
         Bole.getInstance().setServerConfigs(Configs.getInstance());
     }

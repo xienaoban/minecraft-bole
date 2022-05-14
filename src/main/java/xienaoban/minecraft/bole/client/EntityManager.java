@@ -19,6 +19,7 @@ import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.util.Keys;
+import xienaoban.minecraft.bole.util.MiscUtil;
 import xienaoban.minecraft.bole.util.TreeNodeExecutor;
 
 import java.io.*;
@@ -66,6 +67,33 @@ public class EntityManager {
         return instance;
     }
 
+    public static void init() {
+        initEntitySortOrderFile();
+    }
+
+    public static void initEntitySortOrderFile() {
+        Path orderPath = MiscUtil.getConfigPath().resolve(Keys.ENTITY_SORT_ORDER_CONFIG_FILENAME);
+        if (orderPath.toFile().isFile()) {
+            return;
+        }
+        try (BufferedWriter fileWriter = MiscUtil.getFileWriter(orderPath);
+             BufferedReader resourceReader = MiscUtil.getResourceReader("/" + ENTITY_SORT_ORDER_PATH)) {
+            fileWriter.write("# This file controls the order of entities displayed in bole handbook homepage.");
+            fileWriter.newLine();
+            String line;
+            while ((line = resourceReader.readLine()) != null) {
+                if (line.isEmpty() || line.charAt(0) == '#') {
+                    continue;
+                }
+                fileWriter.write(line);
+                fileWriter.newLine();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private EntityManager() {
         initEntitySortIds();
         initEntityInfos();
@@ -80,23 +108,20 @@ public class EntityManager {
     }
 
     private void initEntitySortIds() {
-        InputStream sortStream = this.getClass().getResourceAsStream("/" + ENTITY_SORT_ORDER_PATH);
-        if (sortStream == null) {
-            Bole.LOGGER.error("Resource in /misc/ not found.");
-            return;
-        }
-        Map<String, Integer> sortMap = this.entitySortIds;
-        if (!sortMap.isEmpty()) {
-            sortMap.clear();
-        }
-        try (BufferedReader sortReader = new BufferedReader(new InputStreamReader(sortStream))) {
+        Map<String, Integer> orderMap = this.entitySortIds;
+        Path orderPath = MiscUtil.getConfigPath().resolve(Keys.ENTITY_SORT_ORDER_CONFIG_FILENAME);
+        initEntitySortOrderFile();
+        try (BufferedReader orderReader = MiscUtil.getFileReader(orderPath)) {
+            if (!orderMap.isEmpty()) {
+                orderMap.clear();
+            }
             int sid = 0;
             String line;
-            while ((line = sortReader.readLine()) != null) {
+            while ((line = orderReader.readLine()) != null) {
                 if (line.isEmpty() || line.charAt(0) == '#') {
                     continue;
                 }
-                sortMap.put(line.trim(), sid++);
+                orderMap.put(line.trim(), sid++);
             }
         }
         catch (IOException e) {
@@ -329,9 +354,10 @@ public class EntityManager {
      * like "net.minecraft.entity.class_12345").
      */
     public void generateDeobfuscationFiles() {
-        System.out.println("Generating " + Path.of(MISC_PATH).toAbsolutePath());
+        String dir = "tmp";
+        System.out.println("Generating " + Path.of(dir).toAbsolutePath());
         try {
-            Files.createDirectories(Path.of(MISC_PATH));
+            Files.createDirectories(Path.of(dir));
         } catch (IOException e) {
             e.printStackTrace();
             return;
