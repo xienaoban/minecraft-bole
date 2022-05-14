@@ -33,15 +33,17 @@ import java.util.stream.Stream;
 public class EntityManager {
     private static EntityManager instance = null;
 
-    private static final String DEOBFUSCATION_PATH = "deobfuscation/";
-    private static final String DEOBFUSCATION_ENTITY_TO_CLASS_PATH = DEOBFUSCATION_PATH + "entity_ro_class.txt";
-    private static final String DEOBFUSCATION_INTERFACE_TO_ENTITY_PATH = DEOBFUSCATION_PATH + "interface_to_entity.txt";
-    private static final String DEOBFUSCATION_SUB_TO_SUPER_PATH = DEOBFUSCATION_PATH + "sub_to_super.txt";
+    private static final String MISC_PATH = "misc/";
+    private static final String DEOBFUSCATION_ENTITY_TO_CLASS_PATH = MISC_PATH + "deobfuscation_entity_to_class.txt";
+    private static final String DEOBFUSCATION_INTERFACE_TO_ENTITY_PATH = MISC_PATH + "deobfuscation_interface_to_entity.txt";
+    private static final String DEOBFUSCATION_SUB_TO_SUPER_PATH = MISC_PATH + "deobfuscation_sub_to_super.txt";
+    private static final String ENTITY_SORT_ORDER_PATH = MISC_PATH + "entity_sort_order.txt";
 
     private final Map<Class<?>, EntityTreeNode> tree = new HashMap<>();
     private final Map<EntityType<?>, EntityInfo> infos = new HashMap<>();
     private final List<EntityInfo> sortedInfos = new ArrayList<>();
 
+    private final Map<String, Integer> entitySortIds = new HashMap<>();
     private final Map<Class<?>, String> deobfuscation = new HashMap<>();
 
     private final List<TagGroup> tagGroups = new ArrayList<>();
@@ -65,6 +67,7 @@ public class EntityManager {
     }
 
     private EntityManager() {
+        initEntitySortIds();
         initEntityInfos();
         initDeobfuscation();
         initJavaTags();
@@ -74,6 +77,31 @@ public class EntityManager {
         registerTagGroup(this.interfaceTags);
         registerTagGroup(this.namespaceTags);
         sortAllEntities();
+    }
+
+    private void initEntitySortIds() {
+        InputStream sortStream = this.getClass().getResourceAsStream("/" + ENTITY_SORT_ORDER_PATH);
+        if (sortStream == null) {
+            Bole.LOGGER.error("Resource in /misc/ not found.");
+            return;
+        }
+        Map<String, Integer> sortMap = this.entitySortIds;
+        if (!sortMap.isEmpty()) {
+            sortMap.clear();
+        }
+        try (BufferedReader sortReader = new BufferedReader(new InputStreamReader(sortStream))) {
+            int sid = 0;
+            String line;
+            while ((line = sortReader.readLine()) != null) {
+                if (line.isEmpty() || line.charAt(0) == '#') {
+                    continue;
+                }
+                sortMap.put(line.trim(), sid++);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initEntityInfos() {
@@ -88,9 +116,21 @@ public class EntityManager {
         }
         // [Should I?] this.infos.put(EntityType.PLAYER, new EntityInfo(EntityType.PLAYER, PlayerEntity.class));
         // [Should I?] getEntityTreeNode(PlayerEntity.class);
+        initEntityInfoSortIds();
+    }
+
+    private void initEntityInfoSortIds() {
         this.sortedInfos.sort((a, b) -> {
             Identifier ia = EntityType.getId(a.getType());
             Identifier ib = EntityType.getId(b.getType());
+            Integer sortIdA = this.entitySortIds.getOrDefault(ia.toString(), null);
+            Integer sortIdB = this.entitySortIds.getOrDefault(ib.toString(), null);
+            if (sortIdA != null && sortIdB != null) {
+                return sortIdA - sortIdB;
+            }
+            else if (sortIdA != null || sortIdB != null) {
+                return sortIdA == null ? 1 : -1;
+            }
             int cmp = ia.getNamespace().compareTo(ib.getNamespace());
             if (cmp != 0) {
                 if (ia.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {
@@ -206,9 +246,16 @@ public class EntityManager {
                 }
                 else Collections.sort(group.getRootTags());
             }
+            // deduplication
             for (Tag tag : group.getTags()) {
                 if (noSkip) Collections.sort(tag.getSons());
-                Collections.sort(tag.getEntities());
+                List<EntityInfo> entities = tag.getEntities();
+                Collections.sort(entities);
+                for (int i = entities.size() - 2; i >= 0; --i) {
+                    if (entities.get(i) == entities.get(i + 1)) {
+                        entities.remove(i);
+                    }
+                }
             }
         }
 
@@ -217,6 +264,12 @@ public class EntityManager {
         ns.remove(mcTag);
         Collections.sort(ns);
         ns.add(0, mcTag);
+    }
+
+    public void resortAllEntities() {
+        initEntitySortIds();
+        initEntityInfoSortIds();
+        sortAllEntities();
     }
 
     public List<TagGroup> getTagGroups() {
@@ -276,9 +329,9 @@ public class EntityManager {
      * like "net.minecraft.entity.class_12345").
      */
     public void generateDeobfuscationFiles() {
-        System.out.println("Generating " + Path.of(DEOBFUSCATION_PATH).toAbsolutePath());
+        System.out.println("Generating " + Path.of(MISC_PATH).toAbsolutePath());
         try {
-            Files.createDirectories(Path.of(DEOBFUSCATION_PATH));
+            Files.createDirectories(Path.of(MISC_PATH));
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -327,7 +380,7 @@ public class EntityManager {
         InputStream ieStream = this.getClass().getResourceAsStream("/" + DEOBFUSCATION_INTERFACE_TO_ENTITY_PATH);
         InputStream ssStream = this.getClass().getResourceAsStream("/" + DEOBFUSCATION_SUB_TO_SUPER_PATH);
         if (ecStream == null || ieStream == null || ssStream == null) {
-            Bole.LOGGER.error("Resource in /deobfuscation/ not found.");
+            Bole.LOGGER.error("Resource in /misc/ not found.");
             return;
         }
         Map<Class<?>, String> classMap = this.deobfuscation;
@@ -636,7 +689,6 @@ public class EntityManager {
         public void setSortId(int sortId) {
             this.sortId = sortId;
         }
-
 
         @Override
         public String toString() {

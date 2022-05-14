@@ -104,12 +104,16 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
             resetPages();
+            this.pages.add(new Page());
             Page page0 = this.pages.get(0);
+            Page page1 = this.pages.get(1);
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_NAME_IS, new TranslatableText(Keys.MOD_NAME)), DARK_TEXT_COLOR, 0.5F));
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_AUTHOR_IS, new TranslatableText(Keys.AUTHOR_TRANS)), DARK_TEXT_COLOR, 0.5F));
             FabricLoader.getInstance().getModContainer(Keys.BOLE).ifPresent(modContainer -> page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_VERSION_IS, modContainer.getMetadata().getVersion()), DARK_TEXT_COLOR, 0.5F)));
-            page0.addSlot(new GiveBookPropertyWidget());
-            page0.addSlot(new CrashClientPropertyWidget());
+            page1.addSlot(new OpenDebugPropertyWidget());
+            page1.addSlot(new GiveBookPropertyWidget());
+            page1.addSlot(new ResortPropertyWidget());
+            page1.addSlot(new CrashClientPropertyWidget());
             setPageIndex(0);
         });
     }
@@ -192,6 +196,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                 }
             }
             setPageIndex(0);
+            handler.player.playSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
             return true;
         }
     }
@@ -232,11 +237,20 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         protected void drawTooltip(MatrixStack matrices) {
+            boolean d = debugMode;
+            if (d) {
+                this.tooltipLines.add(new TranslatableText(EntityType.getId(this.entity.getType()).toString()).formatted(Formatting.GRAY).asOrderedText());
+                this.tooltipLines.add(this.widgetClassText);
+            }
             int maxWidth = 0;
             for (OrderedText line : this.tooltipLines) {
                 maxWidth = Math.max(maxWidth, textRenderer.getWidth(line));
             }
             renderTooltip(matrices, this.tooltipLines, 0.5F, (this.box.left() + this.box.right() >> 1) - (maxWidth >> 2), this.box.bottom());
+            if (d) {
+                this.tooltipLines.remove(this.tooltipLines.size() - 1);
+                this.tooltipLines.remove(this.tooltipLines.size() - 1);
+            }
         }
 
         @Override
@@ -395,8 +409,8 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         }
     }
 
-    public class GiveBookPropertyWidget extends AbstractPropertyWidget {
-        public GiveBookPropertyWidget() {
+    public class OpenDebugPropertyWidget extends AbstractPropertyWidget {
+        public OpenDebugPropertyWidget() {
             super(4, 1);
         }
 
@@ -405,41 +419,88 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            if (!debugMode) return;
-            drawTextCenteredX(matrices, "-= Click me to get a book =-", 0xff22cc22, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+            drawTextCenteredX(matrices, "-= Bole Debug Mode [Press DELETE] =-", 0xffcc2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
         }
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (!debugMode) return false;
+            debugMode = !debugMode;
+            handler.player.playSound(SoundEvents.UI_BUTTON_CLICK, 0.5F, 1.0F);
+            return true;
+        }
+    }
+
+    public abstract class DebugPropertyWidget extends AbstractPropertyWidget {
+        private final String text;
+
+        public DebugPropertyWidget(String text) {
+            super(4, 1);
+            this.text = text;
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            if (!debugMode) {
+                return;
+            }
+            drawTextCenteredX(matrices, this.text, 0xff22cc22, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (!debugMode || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                return false;
+            }
+            boolean ret = onMouseClick();
+            handler.player.playSound(SoundEvents.UI_BUTTON_CLICK, 0.6F, 1.0F);
+            return ret;
+        }
+
+        protected abstract boolean onMouseClick();
+    }
+
+    public class GiveBookPropertyWidget extends DebugPropertyWidget {
+
+        public GiveBookPropertyWidget() {
+            super("-= Get a Bole Handbook =-");
+        }
+
+        @Override
+        protected boolean onMouseClick() {
             if (isGod()) {
                 if (client != null && client.player != null) {
                     client.player.getInventory().insertStack(BoleHandbookItem.createBook());
                 }
                 ClientNetworkManager.requestBoleHandbook();
+                handler.player.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 1.0F, 1.0F);
             }
             else showOverlayMessage(Keys.HINT_TEXT_ONLY_IN_GOD_MODE);
             return true;
         }
     }
 
-    public class CrashClientPropertyWidget extends AbstractPropertyWidget {
+    public class ResortPropertyWidget extends DebugPropertyWidget {
+        public ResortPropertyWidget() {
+            super("-= Resort Entities =-");
+        }
+
+        @Override
+        public boolean onMouseClick() {
+            EntityManager.getInstance().resortAllEntities();
+            return true;
+        }
+    }
+
+    public class CrashClientPropertyWidget extends DebugPropertyWidget {
         public CrashClientPropertyWidget() {
-            super(4, 1);
+            super("-= Crash the Client =-");
         }
 
         @Override
-        protected void initTooltipLines() {}
-
-        @Override
-        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            if (!debugMode) return;
-            drawTextCenteredX(matrices, "-= Click me to crash the client =-", 0xffff2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
-        }
-
-        @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (!debugMode) return false;
+        public boolean onMouseClick() {
             throw new NullPointerException("Surprise~~");
         }
     }

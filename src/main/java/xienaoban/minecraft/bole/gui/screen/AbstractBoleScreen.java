@@ -583,7 +583,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public abstract class AbstractPropertyWidget extends ScreenElement {
         protected final int colSlots, rowSlots;
         protected final List<OrderedText> tooltipLines;
-        private final OrderedText widgetClassText;
+        protected final OrderedText widgetClassText;
 
         public AbstractPropertyWidget(int colSlots, int rowSlots) {
             super(colSlots * (Page.PROPERTY_WIDGET_WIDTH + Page.PROPERTY_WIDGET_MARGIN_WIDTH) - Page.PROPERTY_WIDGET_MARGIN_WIDTH,
