@@ -175,7 +175,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                 showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
             }
             else {
-                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESTOCK, this.overTime);
+                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESTOCK);
                 this.overTime.setCount(calOvertime());
             }
             return true;
@@ -191,7 +191,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         }
 
         private int calOvertime() {
-            return Math.max(0, handler.entityRestocksToday - 3 + 1);
+            return Math.max(0, handler.entityRestocksToday - 3 + 1) * 2;
         }
     }
 
