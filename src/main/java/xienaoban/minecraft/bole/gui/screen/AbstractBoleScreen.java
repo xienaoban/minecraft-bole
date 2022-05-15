@@ -96,6 +96,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.contentRight[1] = this.contentLeft[1] + CONTENT_WIDTH;
         this.contentTop = this.bodyTop + 25;
         this.contentBottom = this.contentTop + CONTENT_HEIGHT;
+
+        this.backgroundWidth = this.bodyRight - this.bodyLeft + 20 /* bookmark width */;
+        this.backgroundHeight = this.bodyBottom - this.bodyTop + 10 /* see this.bodyTop */;
+
         initButtons();
     }
 

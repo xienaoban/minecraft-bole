@@ -43,7 +43,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
             close();
             return true;
         }
-        if (keyCode == GLFW.GLFW_KEY_DELETE) {
+        if (keyCode == GLFW.GLFW_KEY_RIGHT_ALT) {
             this.debugMode = !this.debugMode;
             return true;
         }

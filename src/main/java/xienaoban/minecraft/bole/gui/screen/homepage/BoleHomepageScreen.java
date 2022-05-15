@@ -455,7 +455,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawTextCenteredX(matrices, "-= Bole Debug Mode [Press DELETE] =-", 0xffcc2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+            drawTextCenteredX(matrices, "-= Bole Debug Mode (Press R-ALT) =-", 0xffcc2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
         }
 
         @Override
