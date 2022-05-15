@@ -62,6 +62,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
     public AbstractBoleScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+
+        this.backgroundWidth = 346;
+        this.backgroundHeight = 202;
+
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
         this.overlayMessageHud = new OverlayMessageHud();
