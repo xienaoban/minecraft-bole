@@ -29,6 +29,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class GenericHandledScreen<T extends GenericScreenHandler> extends HandledScreen<T> {
+    /**
+     * Compatibility with RoughlyEnoughItems: never show rei gui in bole screens.
+     */
+    protected static final boolean DO_NOT_SHOW_REI = true;
+
     protected boolean debugMode;
 
     public GenericHandledScreen(T handler, PlayerInventory inventory, Text title) {

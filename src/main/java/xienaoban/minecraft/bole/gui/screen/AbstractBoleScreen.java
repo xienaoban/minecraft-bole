@@ -59,13 +59,16 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     protected Page curLeftPage, curRightPage;
     protected int pageIndex;
 
-
     public AbstractBoleScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
-
-        this.backgroundWidth = 346;
-        this.backgroundHeight = 202;
-
+        if (DO_NOT_SHOW_REI) {
+            this.backgroundWidth = this.width;
+            this.backgroundHeight = this.height;
+        }
+        else {
+            this.backgroundWidth = 346;
+            this.backgroundHeight = 202;
+        }
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
         this.overlayMessageHud = new OverlayMessageHud();
@@ -100,10 +103,14 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.contentRight[1] = this.contentLeft[1] + CONTENT_WIDTH;
         this.contentTop = this.bodyTop + 25;
         this.contentBottom = this.contentTop + CONTENT_HEIGHT;
-
-        this.backgroundWidth = this.bodyRight - this.bodyLeft + 20 /* bookmark width */;
-        this.backgroundHeight = this.bodyBottom - this.bodyTop + 10 /* see this.bodyTop */;
-
+        if (DO_NOT_SHOW_REI) {
+            this.backgroundWidth = this.width;
+            this.backgroundHeight = this.height;
+        }
+        else {
+            this.backgroundWidth = this.bodyRight - this.bodyLeft + 20 /* bookmark width */;
+            this.backgroundHeight = this.bodyBottom - this.bodyTop + 10 /* see this.bodyTop */;
+        }
         initButtons();
     }
 
