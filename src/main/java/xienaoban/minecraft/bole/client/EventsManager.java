@@ -84,7 +84,7 @@ public class EventsManager {
             if (curTime - this.lastFallTime > 3000) this.times = 1;
             else ++this.times;
             this.lastFallTime = curTime;
-            player.playSound(SoundEvents.ENTITY_ITEM_FRAME_BREAK, 0.4F, 1.0F);
+            GenericHandledScreen.playScreenSound(SoundEvents.ENTITY_ITEM_FRAME_BREAK, 0.4F, 1.0F);
             player.sendMessage(new TranslatableText(Keys.TEXT_LEASH_FALL, this.times).formatted(Formatting.GOLD), true);
         }
     }

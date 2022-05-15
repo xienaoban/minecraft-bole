@@ -204,7 +204,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                 }
             }
             setPageIndex(0);
-            handler.player.playSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
+            playScreenSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
             return true;
         }
     }
@@ -315,7 +315,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                         cnt.incrementAndGet();
                     }
                 });
-                player.playSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 0.6F, -10.0F);
+                playScreenSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 0.6F, -10.0F);
                 player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.DARK_GREEN, Formatting.BOLD), true);
                 ClientNetworkManager.sendHighlightEvent(Configs.getInstance().getHighlightEntitiesBlindnessTime());
                 close();
@@ -417,7 +417,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             setHovered(null);
             assert client != null;
-            handler.player.playSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
+            playScreenSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
             client.setScreen(ScreenManager.getConfigScreen(BoleHomepageScreen.this));
             return true;
         }
@@ -440,7 +440,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             EntityManager.getInstance().reorderAllEntities();
-            handler.player.playSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
+            playScreenSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
             return true;
         }
     }
@@ -461,7 +461,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             debugMode = !debugMode;
-            handler.player.playSound(SoundEvents.UI_BUTTON_CLICK, 0.5F, 1.0F);
+            playScreenSound(SoundEvents.UI_BUTTON_CLICK, 0.5F, 1.0F);
             return true;
         }
     }
@@ -491,7 +491,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                 return false;
             }
             boolean ret = onMouseClick();
-            handler.player.playSound(SoundEvents.UI_BUTTON_CLICK, 0.6F, 1.0F);
+            playScreenSound(SoundEvents.UI_BUTTON_CLICK, 0.6F, 1.0F);
             return ret;
         }
 
@@ -511,7 +511,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                     client.player.getInventory().insertStack(BoleHandbookItem.createBook());
                 }
                 ClientNetworkManager.requestBoleHandbook();
-                handler.player.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 1.0F, 1.0F);
+                playScreenSound(SoundEvents.ENTITY_ITEM_PICKUP, 1.0F, 1.0F);
             }
             else showOverlayMessage(Keys.HINT_TEXT_ONLY_IN_GOD_MODE);
             return true;
