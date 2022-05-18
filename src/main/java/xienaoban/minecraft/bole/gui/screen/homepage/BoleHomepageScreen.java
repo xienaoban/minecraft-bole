@@ -179,6 +179,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         public void drawHovered(MatrixStack matrices, int mouseX, int mouseY) {
+            super.drawHovered(matrices, mouseX, mouseY);
             drawName(matrices, 0xff000000);
         }
 

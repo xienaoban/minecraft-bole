@@ -116,7 +116,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                             || mainItem instanceof AxeItem || offItem instanceof AxeItem
                             || mainItem instanceof TridentItem || offItem instanceof TridentItem) {
                         setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.WARNING_TEXT_VILLAGER_RESET_JOB), () -> {
-                            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESET_JOB);
+                            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESET_VILLAGER_JOB);
                             close();
                         }));
                     }
@@ -175,7 +175,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                 showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
             }
             else {
-                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESTOCK);
+                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_VILLAGER_RESTOCK);
                 this.overTime.setCount(calOvertime());
             }
             return true;

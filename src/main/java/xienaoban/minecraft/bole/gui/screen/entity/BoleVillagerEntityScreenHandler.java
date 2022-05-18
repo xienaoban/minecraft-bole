@@ -54,7 +54,7 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
     }
 
     private void registerEntitySettingsBufHandlers() {
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RESET_JOB, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RESET_VILLAGER_JOB, new EntitySettingsBufHandler() {
             /**
              * @see net.minecraft.entity.ai.brain.task.LoseJobOnSiteLossTask#shouldRun
              */
@@ -66,7 +66,7 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {}
         });
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RESTOCK, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_VILLAGER_RESTOCK, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 int cnt = Math.max(0, ((IMixinVillagerEntity)entity).getRestocksToday() - 3 + 1) * 2;
                 ItemStack overTime = new ItemStack(Items.EMERALD, cnt);

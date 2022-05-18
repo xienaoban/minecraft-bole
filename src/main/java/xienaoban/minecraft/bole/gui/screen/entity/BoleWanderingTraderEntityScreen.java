@@ -77,7 +77,7 @@ public class BoleWanderingTraderEntityScreen<E extends WanderingTraderEntity, H 
                 showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
             }
             else {
-                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_ADD_WANDERING_TIME);
+                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_ADD_WANDERING_VILLAGER_WANDERING_TIME);
             }
             return true;
         }

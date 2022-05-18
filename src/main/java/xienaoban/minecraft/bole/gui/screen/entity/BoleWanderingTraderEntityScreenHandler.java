@@ -43,7 +43,7 @@ public class BoleWanderingTraderEntityScreenHandler<E extends WanderingTraderEnt
     }
 
     private void registerEntitySettingsBufHandlers() {
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_ADD_WANDERING_TIME, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_ADD_WANDERING_VILLAGER_WANDERING_TIME, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 if (trySpendBuckets(addDespawnDelayCost)) {
                     entity.setDespawnDelay(entity.getDespawnDelay() + addDespawnDelayTicks);

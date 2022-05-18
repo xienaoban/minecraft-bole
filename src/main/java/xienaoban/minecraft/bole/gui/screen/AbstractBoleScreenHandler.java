@@ -9,11 +9,14 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
+import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.HashMap;
@@ -106,6 +109,11 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Generi
      */
     @Environment(EnvType.CLIENT)
     public final void sendClientEntitySettings(String settingId, Object... args) {
+        if (getCurScreen() instanceof GenericHandledScreen sc) {
+            if (sc.debugMode) {
+                player.sendMessage(new TranslatableText(Keys.TEXT_CURRENT_FEATURE_REQUEST, settingId).formatted(Formatting.YELLOW), false);
+            }
+        }
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeString(settingId);
         try {

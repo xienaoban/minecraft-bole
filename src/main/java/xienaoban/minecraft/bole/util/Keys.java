@@ -15,30 +15,30 @@ public interface Keys {
     }
 
     // Entity Setting Channels
-    String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =     "offer_or_drop";
-    String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN =          "nether_portal_cooldown";
-    String ENTITY_SETTING_CUSTOM_NAME_VISIBLE =             "custom_name_visible";
-    String ENTITY_SETTING_SILENT =                          "silent";
-    String ENTITY_SETTING_INVULNERABLE =                    "invulnerable";
-    String ENTITY_SETTING_NO_AI =                           "no_ai";
-    String ENTITY_SETTING_BABY =                            "baby";
-    String ENTITY_SETTING_RESET_BEEHIVE =                   "reset_beehive";
-    String ENTITY_SETTING_RESET_JOB =                       "reset_job";
-    String ENTITY_SETTING_RESTOCK =                         "restock";
-    String ENTITY_SETTING_VILLAGER_CLOTHING =               "villager_clothing";
-    String ENTITY_SETTING_ADD_WANDERING_TIME =              "add_wandering_time";
-    String ENTITY_SETTING_EAT_GRASS =                       "eat_grass";
-    String ENTITY_SETTING_RABBIT_VARIANT =                  "rabbit_variant";
-    String ENTITY_SETTING_CAT_VARIANT =                     "cat_variant";
-    String ENTITY_SETTING_PARROT_VARIANT =                  "parrot_variant";
-    String ENTITY_SETTING_LLAMA_VARIANT =                   "llama_variant";
-    String ENTITY_SETTING_FOX_VARIANT =                     "fox_variant";
-    String ENTITY_SETTING_PANDA_VARIANT =                   "panda_variant";
-    String ENTITY_SETTING_AXOLOTL_VARIANT =                 "axolotl_variant";
-    String ENTITY_SETTING_HORSE_COLOR_VARIANT =             "horse_color_variant";
-    String ENTITY_SETTING_HORSE_MARKING_VARIANT =           "horse_marking_variant";
-    String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =          "sit_on_player_cooldown";
-    String ENTITY_SETTING_TROPICAL_FISH_VARIANT =           "tropical_fish_variant";
+    String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =             "offer_or_drop";
+    String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN =                  "nether_portal_cooldown";
+    String ENTITY_SETTING_CUSTOM_NAME_VISIBLE =                     "custom_name_visible";
+    String ENTITY_SETTING_SILENT =                                  "silent";
+    String ENTITY_SETTING_INVULNERABLE =                            "invulnerable";
+    String ENTITY_SETTING_NO_AI =                                   "no_ai";
+    String ENTITY_SETTING_BABY =                                    "baby";
+    String ENTITY_SETTING_RESET_BEEHIVE =                           "reset_beehive";
+    String ENTITY_SETTING_RESET_VILLAGER_JOB =                      "reset_villager_job";
+    String ENTITY_SETTING_VILLAGER_RESTOCK =                        "villager_restock";
+    String ENTITY_SETTING_VILLAGER_CLOTHING =                       "villager_clothing";
+    String ENTITY_SETTING_ADD_WANDERING_VILLAGER_WANDERING_TIME =   "add_wandering_villager_wandering_time";
+    String ENTITY_SETTING_SHEEP_EAT_GRASS =                         "sheep_eat_grass";
+    String ENTITY_SETTING_RABBIT_VARIANT =                          "rabbit_variant";
+    String ENTITY_SETTING_CAT_VARIANT =                             "cat_variant";
+    String ENTITY_SETTING_PARROT_VARIANT =                          "parrot_variant";
+    String ENTITY_SETTING_LLAMA_VARIANT =                           "llama_variant";
+    String ENTITY_SETTING_FOX_VARIANT =                             "fox_variant";
+    String ENTITY_SETTING_PANDA_VARIANT =                           "panda_variant";
+    String ENTITY_SETTING_AXOLOTL_VARIANT =                         "axolotl_variant";
+    String ENTITY_SETTING_HORSE_COLOR_VARIANT =                     "horse_color_variant";
+    String ENTITY_SETTING_HORSE_MARKING_VARIANT =                   "horse_marking_variant";
+    String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =                  "sit_on_player_cooldown";
+    String ENTITY_SETTING_TROPICAL_FISH_VARIANT =                   "tropical_fish_variant";
 
     // Translation Keys
     String GUI_OK = "gui.ok";
@@ -298,4 +298,6 @@ public interface Keys {
     String TEXT_MINOR = "text.bole.minor";
     String TEXT_ADULT = "text.bole.adult";
     String TEXT_LEASH_FALL = "text.bole.leash_fall";
+    String TEXT_CURRENT_FEATURE_REQUEST = "text.bole.current_feature_request";
+    String TEXT_FEATURE_REQUEST_BANNED_FROM_SERVER = "text.bole.feature_request_banned_from_server";
 }
