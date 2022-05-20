@@ -1,6 +1,6 @@
 {
   "xienaoban": "XieNaoban",
-  "xienaoban.trans": "XieNaoban (屑牢板)",
+  "xienaoban.trans": "XieNaoban (屑老板)",
   "bole": "Bole",
   "key.category.bole": "Bole",
   "key.bole.open_bole_gui": "Open Bole GUI",
@@ -161,6 +161,8 @@
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "You will not be allowed to modify other players' nether portal cooldown.",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "BroadcastWanderingTraderSpawn",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn.@Tooltip": "Broadcast the spawn information of WanderingTrader to every player.",
+  "text.autoconfig.bole.option.bannedEntitySettings": "BannedEntitySettings",
+  "text.autoconfig.bole.option.bannedEntitySettings.@Tooltip": "If you really hate some features in the handbook, you can write the\ncorresponding request IDs of the features here to ban them.\nHow to get a request ID:\n1. Open the handbook screen and press [Right ALT] to enable debug mode;\n2. Make sure you meet the requirements of the button;\n3. Press the button you hate and the request ID will be printed.",
 
   "property_widget.bole.handbook_entity.description.button1": "Button1: highlights nearby entities for 8 seconds.",
   "property_widget.bole.handbook_entity.description.button2": "Button2: Get a spawn egg.",
@@ -251,6 +253,8 @@
   "property_widget.bole.tropical_fish_pattern_color.description": "You can only change the color in creative mode.",
   "property_widget.bole.moistness": "Moistness",
   "property_widget.bole.moistness.description": "Dolphins will die without moistness.",
+  "property_widget.bole.screaming_goat": "Is Screaming Goat",
+  "property_widget.bole.screaming_goat.description": "Ahhhhhh!!!!!!!!!",
 
   "text.hint.bole.offer_or_drop": "%s is offered to you.",
   "text.hint.bole.only_in_god_mode": "Can only be used in creative mode.",
@@ -266,6 +270,7 @@
   "text.hint.bole.no_job_site": "The villager has no job site!",
   "text.hint.bole.job_site_different_dimension": "The job site is not in this dimension!",
   "text.hint.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (maybe you should hold a sword to threaten it).",
+  "text.hint.bole.something_is_wrong": "Some is wrong. See the logfile of the game.",
 
   "text.error.bole.data_load": "Data Error",
   "text.error.bole.client_server_mod_version_not_match": "Mod Bole: The mod version of the client does not match the mod version of the server!",
@@ -277,6 +282,7 @@
 
   "text.bole.colon": ": ",
   "text.bole.comma": ", ",
+  "text.bole.number_of_elements": "%d Elements",
   "text.bole.mod_not_installed": "It means that you have not installed the mod `Bole` if you see this text. You may download this mod at:",
   "text.bole.click_me": "Click me! (≧.≦)",
   "text.bole.target_entity_too_far": "The target entity is too far from you.",
@@ -285,6 +291,9 @@
   "text.bole.set_configs_local_is_not_remote": "Local configs:",
   "text.bole.get_configs_local_is_remote": "Current configs (you are the server):",
   "text.bole.get_configs_local_is_not_remote": "Current configs (not local configs):",
+  "text.bole.other_client_configs": "Other client configs:",
+  "text.bole.custom_entity_order_config": "Customize order of entities in homepage",
+  "text.bole.custom_entity_order_config.description": "Open and edit the config file:\n%s\nThen click this button to reorder.\nYou can restore the default order by deleting the file.",
   "text.bole.server_mod_version": "Server bole: v%s",
   "text.bole.anti_mistouch_warning": "Anti-mistouch warning",
   "text.bole.return_to_homepage": "Homepage",
@@ -316,5 +325,7 @@
   "text.bole.bee_info": "Info of Bees:",
   "text.bole.minor": "Minor",
   "text.bole.adult": "Adult",
-  "text.bole.leash_fall": "%d leash fell from your hand!"
+  "text.bole.leash_fall": "%d leash fell from your hand!",
+  "text.bole.current_feature_request": "Current feature request ID: \"%s\"",
+  "text.bole.feature_request_banned_from_server": "Request \"%s\" is banned from server!"
 }

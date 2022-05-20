@@ -1,36 +1,45 @@
 package xienaoban.minecraft.bole.util;
 
+import java.nio.file.Path;
+
 public interface Keys {
     // ID
     String BOLE = "bole";
     String NAMESPACE = "bole";
     String GITHUB_RELEASE = "https://github.com/xienaoban/minecraft-bole/releases";
 
+    // Path
+    String ENTITY_SORT_ORDER_CONFIG_FILENAME = "bole_entity_sort_order.txt";
+    static Path ENTITY_SORT_ORDER_CONFIG_PATH() {
+        return MiscUtil.getConfigPath().resolve(Keys.ENTITY_SORT_ORDER_CONFIG_FILENAME);
+    }
+
     // Entity Setting Channels
-    String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =     "offer_or_drop";
-    String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN =          "nether_portal_cooldown";
-    String ENTITY_SETTING_CUSTOM_NAME_VISIBLE =             "custom_name_visible";
-    String ENTITY_SETTING_SILENT =                          "silent";
-    String ENTITY_SETTING_INVULNERABLE =                    "invulnerable";
-    String ENTITY_SETTING_NO_AI =                           "no_ai";
-    String ENTITY_SETTING_BABY =                            "baby";
-    String ENTITY_SETTING_RESET_BEEHIVE =                   "reset_beehive";
-    String ENTITY_SETTING_RESET_JOB =                       "reset_job";
-    String ENTITY_SETTING_RESTOCK =                         "restock";
-    String ENTITY_SETTING_VILLAGER_CLOTHING =               "villager_clothing";
-    String ENTITY_SETTING_ADD_WANDERING_TIME =              "add_wandering_time";
-    String ENTITY_SETTING_EAT_GRASS =                       "eat_grass";
-    String ENTITY_SETTING_RABBIT_VARIANT =                  "rabbit_variant";
-    String ENTITY_SETTING_CAT_VARIANT =                     "cat_variant";
-    String ENTITY_SETTING_PARROT_VARIANT =                  "parrot_variant";
-    String ENTITY_SETTING_LLAMA_VARIANT =                   "llama_variant";
-    String ENTITY_SETTING_FOX_VARIANT =                     "fox_variant";
-    String ENTITY_SETTING_PANDA_VARIANT =                   "panda_variant";
-    String ENTITY_SETTING_AXOLOTL_VARIANT =                 "axolotl_variant";
-    String ENTITY_SETTING_HORSE_COLOR_VARIANT =             "horse_color_variant";
-    String ENTITY_SETTING_HORSE_MARKING_VARIANT =           "horse_marking_variant";
-    String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =          "sit_on_player_cooldown";
-    String ENTITY_SETTING_TROPICAL_FISH_VARIANT =           "tropical_fish_variant";
+    String ENTITY_SETTING_HIGHLIGHT_ENTITIES =                      "highlight_entities";
+    String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =             "offer_or_drop";
+    String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN =                  "nether_portal_cooldown";
+    String ENTITY_SETTING_CUSTOM_NAME_VISIBLE =                     "custom_name_visible";
+    String ENTITY_SETTING_SILENT =                                  "silent";
+    String ENTITY_SETTING_INVULNERABLE =                            "invulnerable";
+    String ENTITY_SETTING_NO_AI =                                   "no_ai";
+    String ENTITY_SETTING_BABY =                                    "baby";
+    String ENTITY_SETTING_RESET_BEEHIVE =                           "reset_beehive";
+    String ENTITY_SETTING_RESET_VILLAGER_JOB =                      "reset_villager_job";
+    String ENTITY_SETTING_VILLAGER_RESTOCK =                        "villager_restock";
+    String ENTITY_SETTING_VILLAGER_CLOTHING =                       "villager_clothing";
+    String ENTITY_SETTING_ADD_WANDERING_VILLAGER_WANDERING_TIME =   "add_wandering_villager_wandering_time";
+    String ENTITY_SETTING_SHEEP_EAT_GRASS =                         "sheep_eat_grass";
+    String ENTITY_SETTING_RABBIT_VARIANT =                          "rabbit_variant";
+    String ENTITY_SETTING_CAT_VARIANT =                             "cat_variant";
+    String ENTITY_SETTING_PARROT_VARIANT =                          "parrot_variant";
+    String ENTITY_SETTING_LLAMA_VARIANT =                           "llama_variant";
+    String ENTITY_SETTING_FOX_VARIANT =                             "fox_variant";
+    String ENTITY_SETTING_PANDA_VARIANT =                           "panda_variant";
+    String ENTITY_SETTING_AXOLOTL_VARIANT =                         "axolotl_variant";
+    String ENTITY_SETTING_HORSE_COLOR_VARIANT =                     "horse_color_variant";
+    String ENTITY_SETTING_HORSE_MARKING_VARIANT =                   "horse_marking_variant";
+    String ENTITY_SETTING_SIT_ON_PLAYER_COOLDOWN =                  "sit_on_player_cooldown";
+    String ENTITY_SETTING_TROPICAL_FISH_VARIANT =                   "tropical_fish_variant";
 
     // Translation Keys
     String GUI_OK = "gui.ok";
@@ -218,6 +227,8 @@ public interface Keys {
     String PROPERTY_WIDGET_TROPICAL_FISH_PATTERN_COLOR_DESCRIPTION = "property_widget.bole.tropical_fish_pattern_color.description";
     String PROPERTY_WIDGET_MOISTNESS = "property_widget.bole.moistness";
     String PROPERTY_WIDGET_MOISTNESS_DESCRIPTION = "property_widget.bole.moistness.description";
+    String PROPERTY_WIDGET_SCREAMING_GOAT = "property_widget.bole.screaming_goat";
+    String PROPERTY_WIDGET_SCREAMING_GOAT_DESCRIPTION = "property_widget.bole.screaming_goat.description";
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.bole.only_in_god_mode";
@@ -233,6 +244,7 @@ public interface Keys {
     String HINT_TEXT_NO_JOB_SITE = "text.hint.bole.no_job_site";
     String HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION = "text.hint.bole.job_site_different_dimension";
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.bole.refuse_to_reset_job";
+    String HINT_TEXT_SOMETHING_IS_WRONG = "text.hint.bole.something_is_wrong";
 
     String ERROR_TEXT_DATA_LOAD = "text.error.bole.data_load";
     String ERROR_TEXT_CLIENT_SERVER_MOD_VERSION_NOT_MATCH = "text.error.bole.client_server_mod_version_not_match";
@@ -244,6 +256,7 @@ public interface Keys {
 
     String TEXT_COLON = "text.bole.colon";
     String TEXT_COMMA = "text.bole.comma";
+    String TEXT_NUMBER_OF_ELEMENTS = "text.bole.number_of_elements";
     String TEXT_MOD_NOT_INSTALLED = "text.bole.mod_not_installed";
     String TEXT_CLICK_ME = "text.bole.click_me";
     String TEXT_TARGET_ENTITY_TOO_FAR = "text.bole.target_entity_too_far";
@@ -252,6 +265,9 @@ public interface Keys {
     String TEXT_SET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.set_configs_local_is_not_remote";
     String TEXT_GET_CONFIGS_LOCAL_IS_REMOTE = "text.bole.get_configs_local_is_remote";
     String TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE = "text.bole.get_configs_local_is_not_remote";
+    String TEXT_OTHER_CLIENT_CONFIGS = "text.bole.other_client_configs";
+    String TEXT_CUSTOM_ENTITY_ORDER_CONFIG = "text.bole.custom_entity_order_config";
+    String TEXT_CUSTOM_ENTITY_ORDER_CONFIG_DESCRIPTION = "text.bole.custom_entity_order_config.description";
     String TEXT_SERVER_MOD_VERSION = "text.bole.server_mod_version";
     String TEXT_ANTI_MISTOUCH_WARNING = "text.bole.anti_mistouch_warning";
     String TEXT_RETURN_TO_HOMEPAGE = "text.bole.return_to_homepage";
@@ -284,4 +300,6 @@ public interface Keys {
     String TEXT_MINOR = "text.bole.minor";
     String TEXT_ADULT = "text.bole.adult";
     String TEXT_LEASH_FALL = "text.bole.leash_fall";
+    String TEXT_CURRENT_FEATURE_REQUEST = "text.bole.current_feature_request";
+    String TEXT_FEATURE_REQUEST_BANNED_FROM_SERVER = "text.bole.feature_request_banned_from_server";
 }

@@ -53,6 +53,7 @@ public class BoleClient implements ClientModInitializer {
         KeyBindingManager.init();
         initConfigsSaveListener();
         EventsManager.init();
+        EntityManager.init();
         Bole.getInstance().setServerVersion("<unknown>");
         Bole.getInstance().setServerConfigs(Configs.getInstance());
     }
@@ -67,7 +68,7 @@ public class BoleClient implements ClientModInitializer {
             if (server != null) {
                 ServerNetworkManager.sendServerBoleConfigsToAllPlayers(server);
             }
-            return ActionResult.SUCCESS;
+            return ActionResult.PASS;
         });
     }
 

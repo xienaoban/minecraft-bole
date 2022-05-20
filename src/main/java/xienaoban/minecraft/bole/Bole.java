@@ -70,9 +70,9 @@ public class Bole implements ModInitializer {
     @Override
     public void onInitialize() {
         instance = this;
+        Configs.init();
         ScreenHandlerManager.init();
         ServerNetworkManager.init();
-        Configs.init();
     }
 
     @Environment(EnvType.CLIENT)

@@ -7,10 +7,12 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -29,6 +31,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class GenericHandledScreen<T extends GenericScreenHandler> extends HandledScreen<T> {
+    /**
+     * Compatibility with RoughlyEnoughItems: never show rei gui in bole screens.
+     */
+    protected static final boolean DO_NOT_SHOW_REI = true;
+
     protected boolean debugMode;
 
     public GenericHandledScreen(T handler, PlayerInventory inventory, Text title) {
@@ -43,7 +50,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
             close();
             return true;
         }
-        if (keyCode == GLFW.GLFW_KEY_DELETE) {
+        if (keyCode == GLFW.GLFW_KEY_RIGHT_ALT) {
             this.debugMode = !this.debugMode;
             return true;
         }
@@ -87,6 +94,10 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
 
     public int getTextWidth(Text text) {
         return this.textRenderer.getWidth(text);
+    }
+
+    public static void playScreenSound(SoundEvent sound, float volume, float pitch) {
+        MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(sound, pitch, volume));
     }
 
     public static MatrixStack matrixScaleOn(float x, float y, float z) {

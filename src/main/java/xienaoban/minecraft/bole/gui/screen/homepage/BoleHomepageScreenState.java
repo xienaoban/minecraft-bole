@@ -14,33 +14,35 @@ import net.minecraft.client.Mouse;
 public class BoleHomepageScreenState {
     private final double mouseX, mouseY;
     private final int bookmarkIndex, pageIndex;
+    private final boolean debugMode;
 
-    public BoleHomepageScreenState() {
-        this(0, 0);
-    }
-
-    public BoleHomepageScreenState(int bookmarkIndex, int pageIndex) {
+    public BoleHomepageScreenState(int bookmarkIndex, int pageIndex, boolean debugMode) {
         MinecraftClient client = MinecraftClient.getInstance();
         Mouse mouse = client.mouse;
         this.mouseX = mouse.getX();
         this.mouseY = mouse.getY();
         this.bookmarkIndex = bookmarkIndex;
         this.pageIndex = pageIndex;
+        this.debugMode = debugMode;
     }
 
     public double getMouseX() {
-        return mouseX;
+        return this.mouseX;
     }
 
     public double getMouseY() {
-        return mouseY;
+        return this.mouseY;
     }
 
     public int getBookmarkIndex() {
-        return bookmarkIndex;
+        return this.bookmarkIndex;
     }
 
     public int getPageIndex() {
-        return pageIndex;
+        return this.pageIndex;
+    }
+
+    public boolean isDebugMode() {
+        return this.debugMode;
     }
 }

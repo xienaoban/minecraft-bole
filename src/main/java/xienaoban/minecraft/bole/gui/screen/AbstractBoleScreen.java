@@ -48,7 +48,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     private final OverlayMessageHud overlayMessageHud;
 
     protected int bodyLeft, bodyRight, bodyTop, bodyBottom;
-    protected int[] contentLeft, contentRight;
+    protected final int[] contentLeft, contentRight;
     protected int contentTop, contentBottom;
 
     protected final Map<Integer, ButtonWidget> bookmarks;
@@ -59,9 +59,16 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     protected Page curLeftPage, curRightPage;
     protected int pageIndex;
 
-
     public AbstractBoleScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+        if (DO_NOT_SHOW_REI) {
+            this.backgroundWidth = this.width;
+            this.backgroundHeight = this.height;
+        }
+        else {
+            this.backgroundWidth = 346;
+            this.backgroundHeight = 202;
+        }
         this.contentLeft = new int[2];
         this.contentRight = new int[2];
         this.overlayMessageHud = new OverlayMessageHud();
@@ -96,6 +103,14 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.contentRight[1] = this.contentLeft[1] + CONTENT_WIDTH;
         this.contentTop = this.bodyTop + 25;
         this.contentBottom = this.contentTop + CONTENT_HEIGHT;
+        if (DO_NOT_SHOW_REI) {
+            this.backgroundWidth = this.width;
+            this.backgroundHeight = this.height;
+        }
+        else {
+            this.backgroundWidth = this.bodyRight - this.bodyLeft + 20 /* bookmark width */;
+            this.backgroundHeight = this.bodyBottom - this.bodyTop + 10 /* see this.bodyTop */;
+        }
         initButtons();
     }
 
@@ -583,7 +598,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     public abstract class AbstractPropertyWidget extends ScreenElement {
         protected final int colSlots, rowSlots;
         protected final List<OrderedText> tooltipLines;
-        private final OrderedText widgetClassText;
+        protected final OrderedText widgetClassText;
 
         public AbstractPropertyWidget(int colSlots, int rowSlots) {
             super(colSlots * (Page.PROPERTY_WIDGET_WIDTH + Page.PROPERTY_WIDGET_MARGIN_WIDTH) - Page.PROPERTY_WIDGET_MARGIN_WIDTH,

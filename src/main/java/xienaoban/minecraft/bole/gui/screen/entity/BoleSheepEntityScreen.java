@@ -81,7 +81,7 @@ public class BoleSheepEntityScreen<E extends SheepEntity, H extends BoleSheepEnt
                 showOverlayMessage(Keys.HINT_TEXT_FAR_FROM_GRASS);
             }
             else {
-                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_EAT_GRASS);
+                handler.sendClientEntitySettings(Keys.ENTITY_SETTING_SHEEP_EAT_GRASS);
                 this.interval = BoleClient.getInstance().getScreenTicks() + 10;
             }
             return true;

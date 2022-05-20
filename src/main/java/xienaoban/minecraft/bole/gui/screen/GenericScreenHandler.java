@@ -2,6 +2,8 @@ package xienaoban.minecraft.bole.gui.screen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BucketItem;
@@ -56,6 +58,10 @@ public abstract class GenericScreenHandler extends ScreenHandler {
 
     public boolean isDetached() {
         return Bole.isDetached(this.player);
+    }
+
+    public static Screen getCurScreen() {
+        return MinecraftClient.getInstance().currentScreen;
     }
 
     public final boolean trySpendItems(ItemStack...targetStacks) {

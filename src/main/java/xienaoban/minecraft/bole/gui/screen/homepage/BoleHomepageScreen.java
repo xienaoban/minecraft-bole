@@ -16,6 +16,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -38,6 +39,8 @@ import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.lang.reflect.Field;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -58,6 +61,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             InputUtil.setCursorParameters(this.client.getWindow().getHandle(), 212993, state.getMouseX(), state.getMouseY());
             this.bookmarks.get(state.getBookmarkIndex()).onPress();
             setPageIndex(state.getPageIndex());
+            this.debugMode = state.isDebugMode();
         }
     }
 
@@ -85,7 +89,11 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(setConfigKey), DARK_TEXT_COLOR, 0.5F));
             page.addSlot(new OpenLocalConfigsPropertyWidget());
             page.addSlot(new EmptyPropertyWidget(4, 1));
+            page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_OTHER_CLIENT_CONFIGS), DARK_TEXT_COLOR, 0.5F));
+            page.addSlot(new CustomEntityOrderPropertyWidget());
 
+            page = new Page();
+            this.pages.add(page);
             String curConfigKey = boleClient.isHost() ? Keys.TEXT_GET_CONFIGS_LOCAL_IS_REMOTE : Keys.TEXT_GET_CONFIGS_LOCAL_IS_NOT_REMOTE;
             page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_SERVER_MOD_VERSION, Bole.getInstance().getServerVersion()), DARK_TEXT_COLOR, 0.5F));
             page.addSlot(new LeftTextPropertyWidget(4, 1, new TranslatableText(curConfigKey), DARK_TEXT_COLOR, 0.5F));
@@ -104,12 +112,16 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         });
         addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
             resetPages();
+            this.pages.add(new Page());
             Page page0 = this.pages.get(0);
+            Page page1 = this.pages.get(1);
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_NAME_IS, new TranslatableText(Keys.MOD_NAME)), DARK_TEXT_COLOR, 0.5F));
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_AUTHOR_IS, new TranslatableText(Keys.AUTHOR_TRANS)), DARK_TEXT_COLOR, 0.5F));
             FabricLoader.getInstance().getModContainer(Keys.BOLE).ifPresent(modContainer -> page0.addSlot(new CenteredTextPropertyWidget(4, 1, new TranslatableText(Keys.TEXT_MOD_VERSION_IS, modContainer.getMetadata().getVersion()), DARK_TEXT_COLOR, 0.5F)));
-            page0.addSlot(new GiveBookPropertyWidget());
-            page0.addSlot(new CrashClientPropertyWidget());
+            page1.addSlot(new OpenDebugPropertyWidget());
+            page1.addSlot(new GiveBookPropertyWidget());
+            page1.addSlot(new ReorderPropertyWidget());
+            page1.addSlot(new CrashClientPropertyWidget());
             setPageIndex(0);
         });
     }
@@ -167,6 +179,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         public void drawHovered(MatrixStack matrices, int mouseX, int mouseY) {
+            super.drawHovered(matrices, mouseX, mouseY);
             drawName(matrices, 0xff000000);
         }
 
@@ -192,6 +205,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                 }
             }
             setPageIndex(0);
+            playScreenSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
             return true;
         }
     }
@@ -232,11 +246,20 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         protected void drawTooltip(MatrixStack matrices) {
+            boolean d = debugMode;
+            if (d) {
+                this.tooltipLines.add(new TranslatableText(EntityType.getId(this.entity.getType()).toString()).formatted(Formatting.GRAY).asOrderedText());
+                this.tooltipLines.add(this.widgetClassText);
+            }
             int maxWidth = 0;
             for (OrderedText line : this.tooltipLines) {
                 maxWidth = Math.max(maxWidth, textRenderer.getWidth(line));
             }
             renderTooltip(matrices, this.tooltipLines, 0.5F, (this.box.left() + this.box.right() >> 1) - (maxWidth >> 2), this.box.bottom());
+            if (d) {
+                this.tooltipLines.remove(this.tooltipLines.size() - 1);
+                this.tooltipLines.remove(this.tooltipLines.size() - 1);
+            }
         }
 
         @Override
@@ -274,6 +297,14 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return true;
             if (mouseY < this.box.top() + BUTTONS_CUT) {
                 PlayerEntity player = handler.player;
+                String settingId = Keys.ENTITY_SETTING_HIGHLIGHT_ENTITIES;
+                if (debugMode) {
+                    player.sendMessage(new TranslatableText(Keys.TEXT_CURRENT_FEATURE_REQUEST, settingId).formatted(Formatting.YELLOW), false);
+                }
+                if (Bole.getInstance().getServerConfigs().isEntitySettingBanned(settingId)) {
+                    showOverlayMessage(new TranslatableText(Keys.TEXT_FEATURE_REQUEST_BANNED_FROM_SERVER, settingId));
+                    return true;
+                }
                 if (!(isDetached()) && player.totalExperience < BoleHomepageScreenHandler.HIGHLIGHT_EXPERIENCE_COST) {
                     showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_HIGHLIGHT_NOT_ENOUGH_EXPERIENCE));
                     return true;
@@ -293,7 +324,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                         cnt.incrementAndGet();
                     }
                 });
-                player.playSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 0.6F, -10.0F);
+                playScreenSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 0.6F, -10.0F);
                 player.sendMessage(new TranslatableText(Keys.TEXT_HIGHLIGHT, cnt.get(), new TranslatableText(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.DARK_GREEN, Formatting.BOLD), true);
                 ClientNetworkManager.sendHighlightEvent(Configs.getInstance().getHighlightEntitiesBlindnessTime());
                 close();
@@ -301,8 +332,8 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             }
             else if (mouseY < this.box.bottom() - 6) {
                 if (isGod()) {
-                    handler.sendClientEntitySettings(Keys.ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY, new ItemStack(this.spawnEgg.getItem()));
                     showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_OFFER_OR_DROP, new TranslatableText(this.spawnEgg.getTranslationKey())));
+                    handler.sendClientEntitySettings(Keys.ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY, new ItemStack(this.spawnEgg.getItem()));
                 }
                 else showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_ONLY_IN_GOD_MODE));
                 return true;
@@ -352,13 +383,21 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            String value;
-            try { value = this.field.get(Bole.getInstance().getServerConfigs()).toString(); }
+            Text valueText;
+            try {
+                if (List.class.isAssignableFrom(this.field.getType())) {
+                    int value = ((List<?>) this.field.get(Bole.getInstance().getServerConfigs())).size();
+                    valueText = new TranslatableText(Keys.TEXT_NUMBER_OF_ELEMENTS, value);
+                }
+                else {
+                    String value = this.field.get(Bole.getInstance().getServerConfigs()).toString();
+                    valueText = new TranslatableText(value);
+                }
+            }
             catch (Exception e) {
                 e.printStackTrace();
-                value = Keys.ERROR_TEXT_DATA_LOAD;
+                valueText = new TranslatableText(Keys.ERROR_TEXT_DATA_LOAD);
             }
-            Text valueText = new TranslatableText(value);
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), x, y, 0, 210);
             drawTextureRotated180(matrices, 256, 256, 30, 10, getZOffset(), x + this.box.width() - 30, y, 0, 210);
@@ -372,6 +411,11 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         public OpenLocalConfigsPropertyWidget() {
             super(4, 1);
             this.title = new TranslatableText(Keys.TEXT_OPEN_LOCAL_CONFIGS);
+        }
+
+        protected OpenLocalConfigsPropertyWidget(Text title) {
+            super(4, 1);
+            this.title = title;
         }
 
         @Override
@@ -390,13 +434,36 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             setHovered(null);
             assert client != null;
+            playScreenSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
             client.setScreen(ScreenManager.getConfigScreen(BoleHomepageScreen.this));
             return true;
         }
     }
 
-    public class GiveBookPropertyWidget extends AbstractPropertyWidget {
-        public GiveBookPropertyWidget() {
+    public class CustomEntityOrderPropertyWidget extends OpenLocalConfigsPropertyWidget {
+        public CustomEntityOrderPropertyWidget() {
+            super(new TranslatableText(Keys.TEXT_CUSTOM_ENTITY_ORDER_CONFIG));
+        }
+
+        @Override
+        protected void initTooltipLines() {
+            Path orderPath = Keys.ENTITY_SORT_ORDER_CONFIG_PATH();
+            MutableText text = new TranslatableText(Keys.TEXT_CUSTOM_ENTITY_ORDER_CONFIG_DESCRIPTION, orderPath.toAbsolutePath().toString())
+                    .formatted(Formatting.GRAY);
+            List<OrderedText> lines = MinecraftClient.getInstance().textRenderer.wrapLines(text, 6000);
+            this.tooltipLines.addAll(lines);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            EntityManager.getInstance().reorderAllEntities();
+            playScreenSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
+            return true;
+        }
+    }
+
+    public class OpenDebugPropertyWidget extends AbstractPropertyWidget {
+        public OpenDebugPropertyWidget() {
             super(4, 1);
         }
 
@@ -405,41 +472,88 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            if (!debugMode) return;
-            drawTextCenteredX(matrices, "-= Click me to get a book =-", 0xff22cc22, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+            drawTextCenteredX(matrices, "-= Bole Debug Mode (Press R-ALT) =-", 0xffcc2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
         }
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (!debugMode) return false;
+            debugMode = !debugMode;
+            playScreenSound(SoundEvents.UI_BUTTON_CLICK, 0.5F, 1.0F);
+            return true;
+        }
+    }
+
+    public abstract class DebugPropertyWidget extends AbstractPropertyWidget {
+        private final String text;
+
+        public DebugPropertyWidget(String text) {
+            super(4, 1);
+            this.text = text;
+        }
+
+        @Override
+        protected void initTooltipLines() {}
+
+        @Override
+        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+            if (!debugMode) {
+                return;
+            }
+            drawTextCenteredX(matrices, this.text, 0xff22cc22, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (!debugMode || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                return false;
+            }
+            boolean ret = onMouseClick();
+            playScreenSound(SoundEvents.UI_BUTTON_CLICK, 0.6F, 1.0F);
+            return ret;
+        }
+
+        protected abstract boolean onMouseClick();
+    }
+
+    public class GiveBookPropertyWidget extends DebugPropertyWidget {
+
+        public GiveBookPropertyWidget() {
+            super("-= Get a Bole Handbook =-");
+        }
+
+        @Override
+        protected boolean onMouseClick() {
             if (isGod()) {
                 if (client != null && client.player != null) {
                     client.player.getInventory().insertStack(BoleHandbookItem.createBook());
                 }
                 ClientNetworkManager.requestBoleHandbook();
+                playScreenSound(SoundEvents.ENTITY_ITEM_PICKUP, 1.0F, 1.0F);
             }
             else showOverlayMessage(Keys.HINT_TEXT_ONLY_IN_GOD_MODE);
             return true;
         }
     }
 
-    public class CrashClientPropertyWidget extends AbstractPropertyWidget {
+    public class ReorderPropertyWidget extends DebugPropertyWidget {
+        public ReorderPropertyWidget() {
+            super("-= Reorder Entities In Homepage =-");
+        }
+
+        @Override
+        public boolean onMouseClick() {
+            EntityManager.getInstance().reorderAllEntities();
+            return true;
+        }
+    }
+
+    public class CrashClientPropertyWidget extends DebugPropertyWidget {
         public CrashClientPropertyWidget() {
-            super(4, 1);
+            super("-= Crash the Client =-");
         }
 
         @Override
-        protected void initTooltipLines() {}
-
-        @Override
-        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            if (!debugMode) return;
-            drawTextCenteredX(matrices, "-= Click me to crash the client =-", 0xffff2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
-        }
-
-        @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (!debugMode) return false;
+        public boolean onMouseClick() {
             throw new NullPointerException("Surprise~~");
         }
     }

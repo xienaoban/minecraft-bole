@@ -79,7 +79,7 @@ public class ScreenHandlerManager {
         registerHandler(BeehiveScreenHandler.HANDLER);
         registerHandler(MerchantInventoryScreenHandler.HANDLER);
 
-        // package: tree & entity
+        // package: tree
         registerHandler(BoleEntityScreenHandler.HANDLER, Entity.class, BoleEntityScreenHandler::new);
         registerHandler(BoleLivingEntityScreenHandler.HANDLER, LivingEntity.class, BoleLivingEntityScreenHandler::new);
         registerHandler(BoleMobEntityScreenHandler.HANDLER, MobEntity.class, BoleMobEntityScreenHandler::new);
@@ -88,25 +88,28 @@ public class ScreenHandlerManager {
         registerHandler(BoleAnimalEntityScreenHandler.HANDLER, AnimalEntity.class, BoleAnimalEntityScreenHandler::new);
         registerHandler(BoleHorseBaseEntityScreenHandler.HANDLER, HorseBaseEntity.class, BoleHorseBaseEntityScreenHandler::new);
         registerHandler(BoleAbstractDonkeyEntityScreenHandler.HANDLER, AbstractDonkeyEntity.class, BoleAbstractDonkeyEntityScreenHandler::new);
-        registerHandler(BoleLlamaEntityScreenHandler.HANDLER, LlamaEntity.class, BoleLlamaEntityScreenHandler::new);
         registerHandler(BoleMerchantEntityScreenHandler.HANDLER, MerchantEntity.class, BoleMerchantEntityScreenHandler::new);
+        registerHandler(BoleTameableEntityScreenHandler.HANDLER, TameableEntity.class, BoleTameableEntityScreenHandler::new);
+        registerHandler(BoleTameableShoulderEntityScreenHandler.HANDLER, TameableShoulderEntity.class, BoleTameableShoulderEntityScreenHandler::new);
+        registerHandler(BoleWaterCreatureEntityScreenHandler.HANDLER, WaterCreatureEntity.class, BoleWaterCreatureEntityScreenHandler::new);
+        registerHandler(BoleFishEntityScreenHandler.HANDLER, FishEntity.class, BoleFishEntityScreenHandler::new);
+        registerHandler(BoleSchoolingFishEntityScreenHandler.HANDLER, SchoolingFishEntity.class, BoleSchoolingFishEntityScreenHandler::new);
+
+        // package: entity
+        registerHandler(BoleLlamaEntityScreenHandler.HANDLER, LlamaEntity.class, BoleLlamaEntityScreenHandler::new);
         registerHandler(BoleVillagerEntityScreenHandler.HANDLER, VillagerEntity.class, BoleVillagerEntityScreenHandler::new);
         registerHandler(BoleSheepEntityScreenHandler.HANDLER, SheepEntity.class, BoleSheepEntityScreenHandler::new);
         registerHandler(BoleRabbitEntityScreenHandler.HANDLER, RabbitEntity.class, BoleRabbitEntityScreenHandler::new);
         registerHandler(BoleBeeEntityScreenHandler.HANDLER, BeeEntity.class, BoleBeeEntityScreenHandler::new);
-        registerHandler(BoleTameableEntityScreenHandler.HANDLER, TameableEntity.class, BoleTameableEntityScreenHandler::new);
-        registerHandler(BoleTameableShoulderEntityScreenHandler.HANDLER, TameableShoulderEntity.class, BoleTameableShoulderEntityScreenHandler::new);
         registerHandler(BoleParrotEntityScreenHandler.HANDLER, ParrotEntity.class, BoleParrotEntityScreenHandler::new);
         registerHandler(BoleCatEntityScreenHandler.HANDLER, CatEntity.class, BoleCatEntityScreenHandler::new);
         registerHandler(BolePandaEntityScreenHandler.HANDLER, PandaEntity.class, BolePandaEntityScreenHandler::new);
         registerHandler(BoleAxolotlEntityScreenHandler.HANDLER, AxolotlEntity.class, BoleAxolotlEntityScreenHandler::new);
         registerHandler(BoleHorseEntityScreenHandler.HANDLER, HorseEntity.class, BoleHorseEntityScreenHandler::new);
         registerHandler(BoleWanderingTraderEntityScreenHandler.HANDLER, WanderingTraderEntity.class, BoleWanderingTraderEntityScreenHandler::new);
-        registerHandler(BoleWaterCreatureEntityScreenHandler.HANDLER, WaterCreatureEntity.class, BoleWaterCreatureEntityScreenHandler::new);
-        registerHandler(BoleFishEntityScreenHandler.HANDLER, FishEntity.class, BoleFishEntityScreenHandler::new);
-        registerHandler(BoleSchoolingFishEntityScreenHandler.HANDLER, SchoolingFishEntity.class, BoleSchoolingFishEntityScreenHandler::new);
         registerHandler(BoleTropicalFishEntityScreenHandler.HANDLER, TropicalFishEntity.class, BoleTropicalFishEntityScreenHandler::new);
         registerHandler(BoleDolphinEntityScreenHandler.HANDLER, DolphinEntity.class, BoleDolphinEntityScreenHandler::new);
         registerHandler(BoleFoxEntityScreenHandler.HANDLER, FoxEntity.class, BoleFoxEntityScreenHandler::new);
+        registerHandler(BoleGoatEntityScreenHandler.HANDLER, GoatEntity.class, BoleGoatEntityScreenHandler::new);
     }
 }

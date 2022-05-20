@@ -37,7 +37,7 @@ opened. You can also open the screen by pressing the hotkey.
 | --- | --- |
 | ![Screenshot3](assets/screen3.png) | ![Screenshot4](assets/screen4.png) |
 
-## Features
+## All Features
 
 - [X] **`Buy Bole handbook from wandering traders`**
 - [ ] **`Copy Bole handbook`**
@@ -111,6 +111,8 @@ opened. You can also open the screen by pressing the hotkey.
               - [X] `Set gene`
             - AxolotlEntity:
               - [X] `Set variant`
+            - Goat:
+              - [X] `Is Screaming`
           - MerchantEntity:
             - [X] `Get inventory`
             - [X] `Set inventory`
@@ -134,3 +136,9 @@ opened. You can also open the screen by pressing the hotkey.
           - AbstractPiglinEntity:
             - PiglinEntity:
               - [ ] `Pay to dance`
+
+## Q&A
+
+- **What does "Bole" mean?**
+  Bo Le is a historical figure in ancient China who is a great horse connoisseur.
+  As the original intention of this mod is to display various attributes of horses.

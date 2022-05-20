@@ -31,6 +31,10 @@ public class BeehiveScreen extends GenericHandledScreen<BeehiveScreenHandler> {
 
     public BeehiveScreen(BeehiveScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+        if (DO_NOT_SHOW_REI) {
+            this.backgroundWidth = this.width;
+            this.backgroundHeight = this.height;
+        }
         this.mills = System.currentTimeMillis();
         this.actions = new BeeAction[MAX_BEE_CNT];
         this.lastBeeCnt = 0;
@@ -38,6 +42,15 @@ public class BeehiveScreen extends GenericHandledScreen<BeehiveScreenHandler> {
             this.actions[i] = new BeeAction();
         }
         BoleClient.getInstance().setScreenOpen(true);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        if (DO_NOT_SHOW_REI) {
+            this.backgroundWidth = this.width;
+            this.backgroundHeight = this.height;
+        }
     }
 
     @Override

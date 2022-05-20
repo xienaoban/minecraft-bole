@@ -7,6 +7,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.world.ServerWorld;
@@ -53,7 +54,7 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
     }
 
     private void registerEntitySettingsBufHandlers() {
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RESET_JOB, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RESET_VILLAGER_JOB, new EntitySettingsBufHandler() {
             /**
              * @see net.minecraft.entity.ai.brain.task.LoseJobOnSiteLossTask#shouldRun
              */
@@ -65,9 +66,10 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {}
         });
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RESTOCK, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_VILLAGER_RESTOCK, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                ItemStack overTime = buf.readItemStack();
+                int cnt = Math.max(0, ((IMixinVillagerEntity)entity).getRestocksToday() - 3 + 1) * 2;
+                ItemStack overTime = new ItemStack(Items.EMERALD, cnt);
                 if (trySpendItems(overTime)) {
                     entity.playWorkSound();
                     entity.restock();
@@ -75,8 +77,6 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
                 else Bole.LOGGER.error("The player inventory data on the client and server are inconsistent.");
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
-                ItemStack overTime = (ItemStack) args[0];
-                buf.writeItemStack(overTime);
                 ++entityRestocksToday;
             }
         });

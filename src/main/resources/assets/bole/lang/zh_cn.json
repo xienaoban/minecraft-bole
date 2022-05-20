@@ -1,11 +1,11 @@
 {
-  "xienaoban": "屑牢板",
-  "xienaoban.trans": "屑牢板（XieNaoban）",
+  "xienaoban": "屑老板",
+  "xienaoban.trans": "屑老板（XieNaoban）",
   "bole": "伯乐",
   "key.category.bole": "伯乐",
   "key.bole.open_bole_gui": "打开伯乐界面",
   "title.bole.bole_handbook": "伯乐手册",
-  "description.bole.bole_handbook": "不只善相马哦~",
+  "description.bole.bole_handbook": "善相马，但其他生物也略知一二……",
 
   "true": "是",
   "false": "否",
@@ -161,6 +161,8 @@
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "玩家将只能修改自己的地狱传送冷却值，防止熊孩子捣乱。",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "广播流浪商人的生成",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn.@Tooltip": "当流浪商人刷新时通知所有玩家。",
+  "text.autoconfig.bole.option.bannedEntitySettings": "被禁用的手册内小功能",
+  "text.autoconfig.bole.option.bannedEntitySettings.@Tooltip": "如果你真的不喜欢手册内的某些小功能，你可以把对应功能的\n请求 ID 填在此处以禁用它们。\n\n如何获得请求 ID：\n1. 打开伯乐手册并按 [Right ALT] 以启用 Debug 模式；\n2. 确保你满足按钮的触发要求；\n3. 点击你讨厌的功能的按钮，会输出对应请求 ID。",
 
   "property_widget.bole.handbook_entity.description.button1": "按钮1：高亮附近的生物。",
   "property_widget.bole.handbook_entity.description.button2": "按钮2：发放一个刷怪蛋。",
@@ -251,6 +253,8 @@
   "property_widget.bole.tropical_fish_pattern_color.description": "你只能在创造模式中更换颜色。",
   "property_widget.bole.moistness": "湿度",
   "property_widget.bole.moistness.description": "海豚不在水中时会减少湿度，湿度为 0 时掉血。",
+  "property_widget.bole.screaming_goat": "是否为尖叫山羊",
+  "property_widget.bole.screaming_goat.description": "呃啊啊啊啊啊啊啊啊！！！！！！！！！",
 
   "text.hint.bole.offer_or_drop": "%s已发放到背包。",
   "text.hint.bole.only_in_god_mode": "只能在创造模式中使用。",
@@ -266,6 +270,7 @@
   "text.hint.bole.no_job_site": "这是一只失去工作方块的村民，看样子是就业形势不太好呢~",
   "text.hint.bole.job_site_different_dimension": "工作方块不在当前世界维度！",
   "text.hint.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你拿着下届合金剑指着他也不会屈服！",
+  "text.hint.bole.something_is_wrong": "报错啦。详情见游戏日志。",
 
   "text.error.bole.data_load": "数据读取失败",
   "text.error.bole.client_server_mod_version_not_match": "伯乐模组：客户端与服务端的模组版本差距过大，无法完全兼容！",
@@ -277,6 +282,7 @@
 
   "text.bole.colon": "：",
   "text.bole.comma": "，",
+  "text.bole.number_of_elements": "%d项",
   "text.bole.mod_not_installed": "如果您看到了此段文字，说明您并未安装“伯乐”模组，您可以前往以下网址下载本模组：",
   "text.bole.click_me": "点我点我点我！（≧.≦）",
   "text.bole.target_entity_too_far": "目标离你太远了",
@@ -285,6 +291,9 @@
   "text.bole.set_configs_local_is_not_remote": "本地配置：",
   "text.bole.get_configs_local_is_remote": "当前世界配置（你即是服务器）：",
   "text.bole.get_configs_local_is_not_remote": "当前世界配置（非本地配置）：",
+  "text.bole.other_client_configs": "客户端其他配置:",
+  "text.bole.custom_entity_order_config": "自定义主页中的实体排序顺序",
+  "text.bole.custom_entity_order_config.description": "打开并编辑配置文件：\n%s\n修改并保存后再点击此按钮以重排序。\n删除该文件可以恢复默认排序。",
   "text.bole.server_mod_version": "服务端伯乐：v%s",
   "text.bole.anti_mistouch_warning": "防误触警告",
   "text.bole.return_to_homepage": "返回手册主页",
@@ -316,5 +325,7 @@
   "text.bole.bee_info": "蜜蜂信息:",
   "text.bole.minor": "幼年",
   "text.bole.adult": "成年",
-  "text.bole.leash_fall": "%d 根缰绳脱手了"
+  "text.bole.leash_fall": "%d 根缰绳脱手了",
+  "text.bole.current_feature_request": "当前功能的请求 ID：“%s”",
+  "text.bole.feature_request_banned_from_server": "服务器禁止了名为“%s”的请求！"
 }

@@ -16,6 +16,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
+import xienaoban.minecraft.bole.gui.screen.GenericHandledScreen;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -62,6 +63,6 @@ public class BoleHandler {
             boleClient.setHitEntity(target);
             ClientNetworkManager.requestBoleScreen(target);
         }
-        player.playSound(SoundEvents.ITEM_BOOK_PAGE_TURN, 1.0F, 0.8F);
+        GenericHandledScreen.playScreenSound(SoundEvents.ITEM_BOOK_PAGE_TURN, 1.0F, 0.8F);
     }
 }

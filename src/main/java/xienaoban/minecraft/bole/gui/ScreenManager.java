@@ -39,7 +39,7 @@ public class ScreenManager {
         HandledScreens.register(BeehiveScreenHandler.HANDLER, BeehiveScreen::new);
         HandledScreens.register(MerchantInventoryScreenHandler.HANDLER, MerchantInventoryScreen::new);
 
-        // package: tree & entity
+        // package: tree
         HandledScreens.register(BoleEntityScreenHandler.HANDLER, BoleEntityScreen<Entity, BoleEntityScreenHandler<Entity>>::new);
         HandledScreens.register(BoleLivingEntityScreenHandler.HANDLER, BoleLivingEntityScreen<LivingEntity, BoleLivingEntityScreenHandler<LivingEntity>>::new);
         HandledScreens.register(BoleMobEntityScreenHandler.HANDLER, BoleMobEntityScreen<MobEntity, BoleMobEntityScreenHandler<MobEntity>>::new);
@@ -48,25 +48,28 @@ public class ScreenManager {
         HandledScreens.register(BoleAnimalEntityScreenHandler.HANDLER, BoleAnimalEntityScreen<AnimalEntity, BoleAnimalEntityScreenHandler<AnimalEntity>>::new);
         HandledScreens.register(BoleHorseBaseEntityScreenHandler.HANDLER, BoleHorseBaseEntityScreen<HorseBaseEntity, BoleHorseBaseEntityScreenHandler<HorseBaseEntity>>::new);
         HandledScreens.register(BoleAbstractDonkeyEntityScreenHandler.HANDLER, BoleAbstractDonkeyEntityScreen<AbstractDonkeyEntity, BoleAbstractDonkeyEntityScreenHandler<AbstractDonkeyEntity>>::new);
-        HandledScreens.register(BoleLlamaEntityScreenHandler.HANDLER, BoleLlamaEntityScreen<LlamaEntity, BoleLlamaEntityScreenHandler<LlamaEntity>>::new);
         HandledScreens.register(BoleMerchantEntityScreenHandler.HANDLER, BoleMerchantEntityScreen<MerchantEntity, BoleMerchantEntityScreenHandler<MerchantEntity>>::new);
+        HandledScreens.register(BoleTameableEntityScreenHandler.HANDLER, BoleTameableEntityScreen<TameableEntity, BoleTameableEntityScreenHandler<TameableEntity>>::new);
+        HandledScreens.register(BoleTameableShoulderEntityScreenHandler.HANDLER, BoleTameableShoulderEntityScreen<TameableShoulderEntity, BoleTameableShoulderEntityScreenHandler<TameableShoulderEntity>>::new);
+        HandledScreens.register(BoleWaterCreatureEntityScreenHandler.HANDLER, BoleWaterCreatureEntityScreen<WaterCreatureEntity, BoleWaterCreatureEntityScreenHandler<WaterCreatureEntity>>::new);
+        HandledScreens.register(BoleFishEntityScreenHandler.HANDLER, BoleFishEntityScreen<FishEntity, BoleFishEntityScreenHandler<FishEntity>>::new);
+        HandledScreens.register(BoleSchoolingFishEntityScreenHandler.HANDLER, BoleSchoolingFishEntityScreen<SchoolingFishEntity, BoleSchoolingFishEntityScreenHandler<SchoolingFishEntity>>::new);
+
+        // package: entity
+        HandledScreens.register(BoleLlamaEntityScreenHandler.HANDLER, BoleLlamaEntityScreen<LlamaEntity, BoleLlamaEntityScreenHandler<LlamaEntity>>::new);
         HandledScreens.register(BoleVillagerEntityScreenHandler.HANDLER, BoleVillagerEntityScreen<VillagerEntity, BoleVillagerEntityScreenHandler<VillagerEntity>>::new);
         HandledScreens.register(BoleSheepEntityScreenHandler.HANDLER, BoleSheepEntityScreen<SheepEntity, BoleSheepEntityScreenHandler<SheepEntity>>::new);
         HandledScreens.register(BoleRabbitEntityScreenHandler.HANDLER, BoleRabbitEntityScreen<RabbitEntity, BoleRabbitEntityScreenHandler<RabbitEntity>>::new);
         HandledScreens.register(BoleBeeEntityScreenHandler.HANDLER, BoleBeeEntityScreen<BeeEntity, BoleBeeEntityScreenHandler<BeeEntity>>::new);
-        HandledScreens.register(BoleTameableEntityScreenHandler.HANDLER, BoleTameableEntityScreen<TameableEntity, BoleTameableEntityScreenHandler<TameableEntity>>::new);
-        HandledScreens.register(BoleTameableShoulderEntityScreenHandler.HANDLER, BoleTameableShoulderEntityScreen<TameableShoulderEntity, BoleTameableShoulderEntityScreenHandler<TameableShoulderEntity>>::new);
         HandledScreens.register(BoleParrotEntityScreenHandler.HANDLER, BoleParrotEntityScreen<ParrotEntity, BoleParrotEntityScreenHandler<ParrotEntity>>::new);
         HandledScreens.register(BoleCatEntityScreenHandler.HANDLER, BoleCatEntityScreen<CatEntity, BoleCatEntityScreenHandler<CatEntity>>::new);
         HandledScreens.register(BolePandaEntityScreenHandler.HANDLER, BolePandaEntityScreen<PandaEntity, BolePandaEntityScreenHandler<PandaEntity>>::new);
         HandledScreens.register(BoleAxolotlEntityScreenHandler.HANDLER, BoleAxolotlEntityScreen<AxolotlEntity, BoleAxolotlEntityScreenHandler<AxolotlEntity>>::new);
         HandledScreens.register(BoleHorseEntityScreenHandler.HANDLER, BoleHorseEntityScreen<HorseEntity, BoleHorseEntityScreenHandler<HorseEntity>>::new);
         HandledScreens.register(BoleWanderingTraderEntityScreenHandler.HANDLER, BoleWanderingTraderEntityScreen<WanderingTraderEntity, BoleWanderingTraderEntityScreenHandler<WanderingTraderEntity>>::new);
-        HandledScreens.register(BoleWaterCreatureEntityScreenHandler.HANDLER, BoleWaterCreatureEntityScreen<WaterCreatureEntity, BoleWaterCreatureEntityScreenHandler<WaterCreatureEntity>>::new);
-        HandledScreens.register(BoleFishEntityScreenHandler.HANDLER, BoleFishEntityScreen<FishEntity, BoleFishEntityScreenHandler<FishEntity>>::new);
-        HandledScreens.register(BoleSchoolingFishEntityScreenHandler.HANDLER, BoleSchoolingFishEntityScreen<SchoolingFishEntity, BoleSchoolingFishEntityScreenHandler<SchoolingFishEntity>>::new);
         HandledScreens.register(BoleTropicalFishEntityScreenHandler.HANDLER, BoleTropicalFishEntityScreen<TropicalFishEntity, BoleTropicalFishEntityScreenHandler<TropicalFishEntity>>::new);
         HandledScreens.register(BoleDolphinEntityScreenHandler.HANDLER, BoleDolphinEntityScreen<DolphinEntity, BoleDolphinEntityScreenHandler<DolphinEntity>>::new);
         HandledScreens.register(BoleFoxEntityScreenHandler.HANDLER, BoleFoxEntityScreen<FoxEntity, BoleFoxEntityScreenHandler<FoxEntity>>::new);
+        HandledScreens.register(BoleGoatEntityScreenHandler.HANDLER, BoleGoatEntityScreen<GoatEntity, BoleGoatEntityScreenHandler<GoatEntity>>::new);
     }
 }
