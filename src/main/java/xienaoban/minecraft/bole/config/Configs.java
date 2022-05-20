@@ -8,7 +8,13 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.util.ActionResult;
 import xienaoban.minecraft.bole.util.Keys;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Config(name = Keys.MOD_NAME)
 @Config.Gui.CategoryBackground(category = Configs.CLIENT, background = "minecraft:textures/block/moss_block.png")
@@ -21,8 +27,15 @@ public final class Configs implements ConfigData {
     private static ConfigHolder<Configs> holder;
 
     public static void init() {
-        AutoConfig.register(Configs.class, GsonConfigSerializer::new);
-        holder = AutoConfig.getConfigHolder(Configs.class);
+        holder = AutoConfig.register(Configs.class, GsonConfigSerializer::new);
+        holder.registerLoadListener((configHolder, configs) -> {
+            configs.onUpdate();
+            return ActionResult.PASS;
+        });
+        holder.registerSaveListener((configHolder, configs) -> {
+            configs.onUpdate();
+            return ActionResult.PASS;
+        });
     }
 
     public static Configs getInstance() {
@@ -72,6 +85,26 @@ public final class Configs implements ConfigData {
     @ConfigEntry.Gui.Tooltip()
     boolean broadcastWhenWanderingTraderSpawn = false;
 
+    @ConfigEntry.Category(SERVER)
+    @ConfigEntry.Gui.Tooltip()
+    List<String> bannedEntitySettings = new ArrayList<>();
+
+    ///////// Misc /////////
+
+    // Set to "transient" to avoid serialization or deserialization by Gson
+    @ConfigEntry.Gui.Excluded
+    private transient final Set<String> bannedEntitySettingsSet = new HashSet<>();
+
+    public void onUpdate() {
+        this.bannedEntitySettingsSet.clear();
+        for (String name : this.bannedEntitySettings) {
+            if (name.startsWith("#")) {
+                continue;
+            }
+            this.bannedEntitySettingsSet.add(name);
+        }
+    }
+
     ///////// Getters /////////
 
     public ShoulderCreatureHudPosition getShoulderCreatureHudPosition() {
@@ -108,6 +141,10 @@ public final class Configs implements ConfigData {
 
     public boolean isBroadcastWhenWanderingTraderSpawn() {
         return broadcastWhenWanderingTraderSpawn;
+    }
+
+    public boolean isEntitySettingBanned(String settingId) {
+        return this.bannedEntitySettingsSet.contains(settingId);
     }
 
     public enum ShoulderCreatureHudPosition {

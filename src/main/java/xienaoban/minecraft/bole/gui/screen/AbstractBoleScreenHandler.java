@@ -14,6 +14,7 @@ import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
+import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 import xienaoban.minecraft.bole.network.ServerNetworkManager;
 import xienaoban.minecraft.bole.util.Keys;
@@ -109,9 +110,13 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Generi
      */
     @Environment(EnvType.CLIENT)
     public final void sendClientEntitySettings(String settingId, Object... args) {
-        if (getCurScreen() instanceof GenericHandledScreen sc) {
+        if (getCurScreen() instanceof AbstractBoleScreen sc) {
             if (sc.debugMode) {
                 player.sendMessage(new TranslatableText(Keys.TEXT_CURRENT_FEATURE_REQUEST, settingId).formatted(Formatting.YELLOW), false);
+            }
+            if (Bole.getInstance().getServerConfigs().isEntitySettingBanned(settingId)) {
+                sc.showOverlayMessage(new TranslatableText(Keys.TEXT_FEATURE_REQUEST_BANNED_FROM_SERVER, settingId));
+                return;
             }
         }
         PacketByteBuf buf = PacketByteBufs.create();
@@ -130,8 +135,12 @@ public abstract class AbstractBoleScreenHandler<E extends Entity> extends Generi
      *
      * @param buf buf sent from the client
      */
-    public final void setServerEntitySettings(PacketByteBuf buf) {
+    public final void receiveServerEntitySettings(PacketByteBuf buf) {
         String settingId = buf.readString();
+        if (Configs.getInstance().isEntitySettingBanned(settingId)) {
+            sendOverlayMessage(new TranslatableText(Keys.TEXT_FEATURE_REQUEST_BANNED_FROM_SERVER, settingId));
+            return;
+        }
         try {
             this.entitySettingsBufHandlers.get(settingId).readFromBuf(buf);
         }

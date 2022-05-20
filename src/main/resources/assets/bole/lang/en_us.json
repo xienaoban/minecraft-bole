@@ -161,6 +161,8 @@
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "You will not be allowed to modify other players' nether portal cooldown.",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "BroadcastWanderingTraderSpawn",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn.@Tooltip": "Broadcast the spawn information of WanderingTrader to every player.",
+  "text.autoconfig.bole.option.bannedEntitySettings": "BannedEntitySettings",
+  "text.autoconfig.bole.option.bannedEntitySettings.@Tooltip": "If you really hate some features in the handbook, you can write the\ncorresponding request IDs of the features here to ban them.\nHow to get a request ID:\n1. Open the handbook screen and press [Right ALT] to enable debug mode;\n2. Make sure you meet the requirements of the button;\n3. Press the button you hate and the request ID will be printed.",
 
   "property_widget.bole.handbook_entity.description.button1": "Button1: highlights nearby entities for 8 seconds.",
   "property_widget.bole.handbook_entity.description.button2": "Button2: Get a spawn egg.",
@@ -280,6 +282,7 @@
 
   "text.bole.colon": ": ",
   "text.bole.comma": ", ",
+  "text.bole.number_of_elements": "%d Elements",
   "text.bole.mod_not_installed": "It means that you have not installed the mod `Bole` if you see this text. You may download this mod at:",
   "text.bole.click_me": "Click me! (≧.≦)",
   "text.bole.target_entity_too_far": "The target entity is too far from you.",
@@ -324,5 +327,5 @@
   "text.bole.adult": "Adult",
   "text.bole.leash_fall": "%d leash fell from your hand!",
   "text.bole.current_feature_request": "Current feature request ID: \"%s\"",
-  "text.bole.feature_request_banned_from_server": "Feature \"%s\" is banned from server!"
+  "text.bole.feature_request_banned_from_server": "Request \"%s\" is banned from server!"
 }

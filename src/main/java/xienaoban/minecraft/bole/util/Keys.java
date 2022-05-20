@@ -15,6 +15,7 @@ public interface Keys {
     }
 
     // Entity Setting Channels
+    String ENTITY_SETTING_HIGHLIGHT_ENTITIES =                      "highlight_entities";
     String ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY =             "offer_or_drop";
     String ENTITY_SETTING_NETHER_PORTAL_COOLDOWN =                  "nether_portal_cooldown";
     String ENTITY_SETTING_CUSTOM_NAME_VISIBLE =                     "custom_name_visible";
@@ -255,6 +256,7 @@ public interface Keys {
 
     String TEXT_COLON = "text.bole.colon";
     String TEXT_COMMA = "text.bole.comma";
+    String TEXT_NUMBER_OF_ELEMENTS = "text.bole.number_of_elements";
     String TEXT_MOD_NOT_INSTALLED = "text.bole.mod_not_installed";
     String TEXT_CLICK_ME = "text.bole.click_me";
     String TEXT_TARGET_ENTITY_TOO_FAR = "text.bole.target_entity_too_far";

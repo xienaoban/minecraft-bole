@@ -297,6 +297,14 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return true;
             if (mouseY < this.box.top() + BUTTONS_CUT) {
                 PlayerEntity player = handler.player;
+                String settingId = Keys.ENTITY_SETTING_HIGHLIGHT_ENTITIES;
+                if (debugMode) {
+                    player.sendMessage(new TranslatableText(Keys.TEXT_CURRENT_FEATURE_REQUEST, settingId).formatted(Formatting.YELLOW), false);
+                }
+                if (Bole.getInstance().getServerConfigs().isEntitySettingBanned(settingId)) {
+                    showOverlayMessage(new TranslatableText(Keys.TEXT_FEATURE_REQUEST_BANNED_FROM_SERVER, settingId));
+                    return true;
+                }
                 if (!(isDetached()) && player.totalExperience < BoleHomepageScreenHandler.HIGHLIGHT_EXPERIENCE_COST) {
                     showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_HIGHLIGHT_NOT_ENOUGH_EXPERIENCE));
                     return true;
@@ -324,8 +332,8 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             }
             else if (mouseY < this.box.bottom() - 6) {
                 if (isGod()) {
-                    handler.sendClientEntitySettings(Keys.ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY, new ItemStack(this.spawnEgg.getItem()));
                     showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_OFFER_OR_DROP, new TranslatableText(this.spawnEgg.getTranslationKey())));
+                    handler.sendClientEntitySettings(Keys.ENTITY_SETTING_OFFER_OR_DROP_GOD_MODE_ONLY, new ItemStack(this.spawnEgg.getItem()));
                 }
                 else showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_ONLY_IN_GOD_MODE));
                 return true;
@@ -375,13 +383,21 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            String value;
-            try { value = this.field.get(Bole.getInstance().getServerConfigs()).toString(); }
+            Text valueText;
+            try {
+                if (List.class.isAssignableFrom(this.field.getType())) {
+                    int value = ((List<?>) this.field.get(Bole.getInstance().getServerConfigs())).size();
+                    valueText = new TranslatableText(Keys.TEXT_NUMBER_OF_ELEMENTS, value);
+                }
+                else {
+                    String value = this.field.get(Bole.getInstance().getServerConfigs()).toString();
+                    valueText = new TranslatableText(value);
+                }
+            }
             catch (Exception e) {
                 e.printStackTrace();
-                value = Keys.ERROR_TEXT_DATA_LOAD;
+                valueText = new TranslatableText(Keys.ERROR_TEXT_DATA_LOAD);
             }
-            Text valueText = new TranslatableText(value);
             setTexture(Textures.ICONS);
             drawTextureNormally(matrices, 256, 256, 30, 10, getZOffset(), x, y, 0, 210);
             drawTextureRotated180(matrices, 256, 256, 30, 10, getZOffset(), x + this.box.width() - 30, y, 0, 210);

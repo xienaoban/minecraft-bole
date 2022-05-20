@@ -161,6 +161,8 @@
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "玩家将只能修改自己的地狱传送冷却值，防止熊孩子捣乱。",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "广播流浪商人的生成",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn.@Tooltip": "当流浪商人刷新时通知所有玩家。",
+  "text.autoconfig.bole.option.bannedEntitySettings": "被禁用的手册内小功能",
+  "text.autoconfig.bole.option.bannedEntitySettings.@Tooltip": "如果你真的不喜欢手册内的某些小功能，你可以把对应功能的\n请求 ID 填在此处以禁用它们。\n\n如何获得请求 ID：\n1. 打开伯乐手册并按 [Right ALT] 以启用 Debug 模式；\n2. 确保你满足按钮的触发要求；\n3. 点击你讨厌的功能的按钮，会输出对应请求 ID。",
 
   "property_widget.bole.handbook_entity.description.button1": "按钮1：高亮附近的生物。",
   "property_widget.bole.handbook_entity.description.button2": "按钮2：发放一个刷怪蛋。",
@@ -280,6 +282,7 @@
 
   "text.bole.colon": "：",
   "text.bole.comma": "，",
+  "text.bole.number_of_elements": "%d项",
   "text.bole.mod_not_installed": "如果您看到了此段文字，说明您并未安装“伯乐”模组，您可以前往以下网址下载本模组：",
   "text.bole.click_me": "点我点我点我！（≧.≦）",
   "text.bole.target_entity_too_far": "目标离你太远了",
@@ -324,5 +327,5 @@
   "text.bole.adult": "成年",
   "text.bole.leash_fall": "%d 根缰绳脱手了",
   "text.bole.current_feature_request": "当前功能的请求 ID：“%s”",
-  "text.bole.feature_request_banned_from_server": "服务器拒绝功能“%s”的请求！"
+  "text.bole.feature_request_banned_from_server": "服务器禁止了名为“%s”的请求！"
 }

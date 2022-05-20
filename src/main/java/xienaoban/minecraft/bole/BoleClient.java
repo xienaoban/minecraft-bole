@@ -68,7 +68,7 @@ public class BoleClient implements ClientModInitializer {
             if (server != null) {
                 ServerNetworkManager.sendServerBoleConfigsToAllPlayers(server);
             }
-            return ActionResult.SUCCESS;
+            return ActionResult.PASS;
         });
     }
 

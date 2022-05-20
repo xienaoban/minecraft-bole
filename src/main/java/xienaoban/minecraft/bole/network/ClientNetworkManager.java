@@ -50,6 +50,7 @@ public class ClientNetworkManager {
                 try {
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     Configs configs = gson.fromJson(conf, Configs.class);
+                    configs.onUpdate();
                     bole.setServerConfigs(configs);
                 } catch (Exception e) {
                     Bole.LOGGER.error("The mod version of the client does not match the mod version of the server!");
