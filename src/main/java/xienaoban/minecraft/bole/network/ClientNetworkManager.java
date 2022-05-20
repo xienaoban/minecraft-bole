@@ -11,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -55,7 +54,7 @@ public class ClientNetworkManager {
                 } catch (Exception e) {
                     Bole.LOGGER.error("The mod version of the client does not match the mod version of the server!");
                     if (client.player != null) {
-                        client.player.sendMessage(new TranslatableText(Keys.ERROR_TEXT_CLIENT_SERVER_MOD_VERSION_NOT_MATCH), false);
+                        client.player.sendMessage(Text.translatable(Keys.ERROR_TEXT_CLIENT_SERVER_MOD_VERSION_NOT_MATCH), false);
                     }
                 }
             });
@@ -104,11 +103,11 @@ public class ClientNetworkManager {
         ClientPlayNetworking.registerGlobalReceiver(Channels.SEND_WANDERING_TRADER_SPAWN_MESSAGE, (client, handler, buf, responseSender) -> {
             Text playerName;
             if (buf.readBoolean()) playerName = buf.readText();
-            else playerName = new TranslatableText(Keys.TEXT_UNKNOWN_PLAYER);
+            else playerName = Text.translatable(Keys.TEXT_UNKNOWN_PLAYER);
             client.execute(() -> {
                 assert client.player != null;
                 if (Configs.getInstance().isReceiveWanderingTraderSpawnBroadcasts()) {
-                    client.player.sendMessage(new TranslatableText(Keys.TEXT_WANDERING_TRADER_SPAWN_MESSAGE, playerName).formatted(Formatting.GRAY), false);
+                    client.player.sendMessage(Text.translatable(Keys.TEXT_WANDERING_TRADER_SPAWN_MESSAGE, playerName).formatted(Formatting.GRAY), false);
                 }
             });
         });

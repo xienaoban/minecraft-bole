@@ -7,7 +7,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
@@ -70,7 +69,7 @@ public class BoleRabbitEntityScreen<E extends RabbitEntity, H extends BoleRabbit
         @Override
         protected Text[] initNames() {
             String[] keys = {Keys.RABBIT_VARIANT_BROWN_TYPE, Keys.RABBIT_VARIANT_WHITE_TYPE, Keys.RABBIT_VARIANT_BLACK_TYPE, Keys.RABBIT_VARIANT_WHITE_SPOTTED_TYPE, Keys.RABBIT_VARIANT_GOLD_TYPE, Keys.RABBIT_VARIANT_SALT_TYPE, Keys.RABBIT_VARIANT_KILLER_BUNNY_TYPE};
-            return Arrays.stream(keys).map(TranslatableText::new).toArray(Text[]::new);
+            return Arrays.stream(keys).map(Text::translatable).toArray(Text[]::new);
         }
 
         @Override

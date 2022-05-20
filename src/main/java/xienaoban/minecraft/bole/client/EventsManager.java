@@ -18,9 +18,7 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.GenericHandledScreen;
@@ -46,7 +44,7 @@ public class EventsManager {
                 NbtCompound blockNbt = nbt.getCompound(BlockItem.BLOCK_STATE_TAG_KEY);
                 if (blockNbt.contains(Properties.HONEY_LEVEL.getName(), NbtElement.INT_TYPE)) {
                     int honeyLevel = blockNbt.getInt(Properties.HONEY_LEVEL.getName());
-                    beeLines.add(new TranslatableText(Keys.TEXT_HONEY_LEVEL, honeyLevel + "/" + BeehiveBlock.FULL_HONEY_LEVEL).formatted(Formatting.YELLOW));
+                    beeLines.add(Text.translatable(Keys.TEXT_HONEY_LEVEL, honeyLevel + "/" + BeehiveBlock.FULL_HONEY_LEVEL).formatted(Formatting.YELLOW));
                 }
             }
             if (nbt.contains(IMixinBlockItem.getBlockEntityTagKey(), NbtElement.COMPOUND_TYPE)) {
@@ -54,20 +52,20 @@ public class EventsManager {
                 if (entityNbt.contains(BeehiveBlockEntity.BEES_KEY, NbtElement.LIST_TYPE)) {
                     NbtList bees = entityNbt.getList(BeehiveBlockEntity.BEES_KEY, NbtElement.COMPOUND_TYPE);
                     int beeCnt = bees.size();
-                    beeLines.add(new TranslatableText(Keys.TEXT_BEE_COUNT, beeCnt + "/" + BeehiveBlockEntity.MAX_BEE_COUNT).formatted(Formatting.GOLD));
+                    beeLines.add(Text.translatable(Keys.TEXT_BEE_COUNT, beeCnt + "/" + BeehiveBlockEntity.MAX_BEE_COUNT).formatted(Formatting.GOLD));
                     if (beeCnt > 0) {
-                        beeLines.add(LiteralText.EMPTY);
-                        beeLines.add(new TranslatableText(Keys.TEXT_BEE_INFO).formatted(Formatting.GRAY));
+                        beeLines.add(Text.empty());
+                        beeLines.add(Text.translatable(Keys.TEXT_BEE_INFO).formatted(Formatting.GRAY));
                     }
                     for (int i = 0; i < beeCnt; ++i) {
                         NbtCompound beeNbt = bees.getCompound(i).getCompound(BeehiveBlockEntity.ENTITY_DATA_KEY);
                         BeeEntity bee = EntityType.BEE.create(MinecraftClient.getInstance().world);
                         if (bee == null) {
-                            beeLines.add(new LiteralText("[ERROR]").formatted(Formatting.RED));
+                            beeLines.add(Text.literal("[ERROR]").formatted(Formatting.RED));
                             continue;
                         }
                         bee.readNbt(beeNbt);
-                        beeLines.add(bee.getName().copy().append(new TranslatableText(Keys.TEXT_COLON)).append(new TranslatableText(bee.isBaby() ? Keys.TEXT_MINOR : Keys.TEXT_ADULT)).formatted(Formatting.BLUE));
+                        beeLines.add(bee.getName().copy().append(Text.translatable(Keys.TEXT_COLON)).append(Text.translatable(bee.isBaby() ? Keys.TEXT_MINOR : Keys.TEXT_ADULT)).formatted(Formatting.BLUE));
                     }
                 }
             }
@@ -85,7 +83,7 @@ public class EventsManager {
             else ++this.times;
             this.lastFallTime = curTime;
             GenericHandledScreen.playScreenSound(SoundEvents.ENTITY_ITEM_FRAME_BREAK, 0.4F, 1.0F);
-            player.sendMessage(new TranslatableText(Keys.TEXT_LEASH_FALL, this.times).formatted(Formatting.GOLD), true);
+            player.sendMessage(Text.translatable(Keys.TEXT_LEASH_FALL, this.times).formatted(Formatting.GOLD), true);
         }
     }
 

@@ -6,7 +6,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -83,7 +82,7 @@ public class BoleMobEntityScreen<E extends MobEntity, H extends BoleMobEntityScr
             else {
                 int healthAndSatiety = handler.isMonster ? 12 : 6;
                 setPopup(new PopUpConfirmWindow(
-                        new TranslatableText(noAi ? Keys.WARNING_TEXT_DISABLE_AI : Keys.WARNING_TEXT_ENABLE_AI, healthAndSatiety, healthAndSatiety),
+                        Text.translatable(noAi ? Keys.WARNING_TEXT_DISABLE_AI : Keys.WARNING_TEXT_ENABLE_AI, healthAndSatiety, healthAndSatiety),
                         () -> handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NO_AI, noAi))
                 );
             }

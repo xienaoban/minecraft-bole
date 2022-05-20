@@ -12,7 +12,6 @@ import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
@@ -532,7 +531,7 @@ public class EntityManager {
 
         public TagGroup(String tagGroupName) {
             this.name = tagGroupName;
-            this.text = new TranslatableText(tagGroupName);
+            this.text = Text.translatable(tagGroupName);
             this.tags = new HashMap<>();
             this.rootTags = new ArrayList<>();
         }
@@ -615,7 +614,7 @@ public class EntityManager {
 
         public Tag(String name, Tag father) {
             this.name = name;
-            this.text = new TranslatableText(name);
+            this.text = Text.translatable(name);
             this.entities = new ArrayList<>();
             this.father = father;
             if (father != null) {

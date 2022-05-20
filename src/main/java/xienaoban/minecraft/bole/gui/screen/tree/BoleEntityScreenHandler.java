@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -58,7 +58,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 if (isOtherPlayer() && Configs.getInstance().isForbidToSetNetherPortalCooldownOfOtherPlayers()) {
-                    sendOverlayMessage(new TranslatableText(Keys.HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS));
+                    sendOverlayMessage(Text.translatable(Keys.HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS));
                     return;
                 }
                 ((IMixinEntity)entity).setNetherPortalCooldown(buf.readInt());
@@ -148,7 +148,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
                 if (MinecraftClient.getInstance().currentScreen instanceof AbstractBoleScreen screen) {
                     BoleClient.getInstance().getHighlightManager().highlight(this.entity, 3 * 20);
                     screen.close();
-                    player.sendMessage(new TranslatableText(Keys.TEXT_TARGET_ENTITY_TOO_FAR).formatted(Formatting.YELLOW), true);
+                    player.sendMessage(Text.translatable(Keys.TEXT_TARGET_ENTITY_TOO_FAR).formatted(Formatting.YELLOW), true);
                 }
             }
             ClientNetworkManager.requestServerEntityData();

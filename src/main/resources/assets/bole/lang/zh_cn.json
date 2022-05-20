@@ -108,7 +108,7 @@
   "net.minecraft.entity.mob.SpellcastingIllagerEntity": "施法灾厄小队",
   "net.minecraft.entity.passive.PassiveEntity": "被动（和平）生物",
   "net.minecraft.entity.passive.AnimalEntity": "动物",
-  "net.minecraft.entity.passive.HorseBaseEntity": "长的像马的动物",
+  "net.minecraft.entity.passive.AbstractHorseEntity": "长的像马的动物",
   "net.minecraft.entity.passive.AbstractDonkeyEntity": "驴",
   "net.minecraft.entity.passive.TameableEntity": "可被驯服的动物",
   "net.minecraft.entity.passive.TameableShoulderEntity": "可站肩膀的生物",

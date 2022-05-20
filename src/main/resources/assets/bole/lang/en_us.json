@@ -108,7 +108,7 @@
   "net.minecraft.entity.mob.SpellcastingIllagerEntity": "SpellcastingIllagerEntity",
   "net.minecraft.entity.passive.PassiveEntity": "PassiveEntity",
   "net.minecraft.entity.passive.AnimalEntity": "AnimalEntity",
-  "net.minecraft.entity.passive.HorseBaseEntity": "HorseBaseEntity",
+  "net.minecraft.entity.passive.AbstractHorseEntity": "AbstractHorseEntity",
   "net.minecraft.entity.passive.AbstractDonkeyEntity": "AbstractDonkeyEntity",
   "net.minecraft.entity.passive.TameableEntity": "TameableEntity",
   "net.minecraft.entity.passive.TameableShoulderEntity": "TameableShoulderEntity",

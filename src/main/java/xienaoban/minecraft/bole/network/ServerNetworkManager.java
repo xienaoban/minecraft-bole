@@ -18,7 +18,6 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -59,7 +58,7 @@ public class ServerNetworkManager {
             server.execute(() -> {
                 if (!Bole.isDetached(player) && !Configs.getInstance().isAllowHotKeyToOpenBoleHandbookScreen()
                         && !Bole.isBoleHandbook(player.getMainHandStack()) && !Bole.isBoleHandbook(player.getOffHandStack())) {
-                    player.sendMessage(new TranslatableText(Keys.TEXT_SERVER_BAN_HOTKEY).formatted(Formatting.GOLD), false);
+                    player.sendMessage(Text.translatable(Keys.TEXT_SERVER_BAN_HOTKEY).formatted(Formatting.GOLD), false);
                     return;
                 }
                 player.openHandledScreen(new NamedScreenHandlerFactory() {
@@ -71,7 +70,7 @@ public class ServerNetworkManager {
                     @Override
                     public Text getDisplayName() {
                         String titleKey = entity == null ? Keys.BOLE_HANDBOOK_TITLE : entity.getType().getTranslationKey();
-                        return new TranslatableText(titleKey);
+                        return Text.translatable(titleKey);
                     }
                 });
             });
@@ -161,7 +160,7 @@ public class ServerNetworkManager {
 
                         @Override
                         public Text getDisplayName() {
-                            return new TranslatableText(Keys.TEXT_INVENTORY_OF, new TranslatableText(blockState.getBlock().getTranslationKey()));
+                            return Text.translatable(Keys.TEXT_INVENTORY_OF, Text.translatable(blockState.getBlock().getTranslationKey()));
                         }
                     });
                 });
@@ -184,7 +183,7 @@ public class ServerNetworkManager {
 
                             @Override
                             public Text getDisplayName() {
-                                return new TranslatableText(Keys.TEXT_INVENTORY_OF, new TranslatableText(merchantEntity.getType().getTranslationKey()));
+                                return Text.translatable(Keys.TEXT_INVENTORY_OF, Text.translatable(merchantEntity.getType().getTranslationKey()));
                             }
                         });
                     }

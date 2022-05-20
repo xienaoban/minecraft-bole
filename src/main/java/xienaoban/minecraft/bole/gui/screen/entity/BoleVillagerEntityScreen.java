@@ -8,10 +8,8 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.*;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.dynamic.GlobalPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
@@ -56,7 +54,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
         public JobSitePropertyWidget() {
             super(2, true, 2);
             this.lastTicks = -123456;
-            this.cacheDistance = new LiteralText(" - ");
+            this.cacheDistance = Text.literal(" - ");
         }
 
         @Override
@@ -79,7 +77,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                 this.lastTicks = cutTicks;
                 if (pos != null) {
                     double dis = pos.getPos().getSquaredDistance(handler.entity.getPos());
-                    this.cacheDistance = new LiteralText(String.format("%.2fm", Math.sqrt(dis)));
+                    this.cacheDistance = Text.literal(String.format("%.2fm", Math.sqrt(dis)));
                 }
             }
             drawBarText(matrices, this.cacheDistance, DARK_TEXT_COLOR);
@@ -115,7 +113,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
                     if (mainItem instanceof SwordItem || offItem instanceof SwordItem
                             || mainItem instanceof AxeItem || offItem instanceof AxeItem
                             || mainItem instanceof TridentItem || offItem instanceof TridentItem) {
-                        setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.WARNING_TEXT_VILLAGER_RESET_JOB), () -> {
+                        setPopup(new PopUpConfirmWindow(Text.translatable(Keys.WARNING_TEXT_VILLAGER_RESET_JOB), () -> {
                             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RESET_VILLAGER_JOB);
                             close();
                         }));
@@ -225,7 +223,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
 
         @Override
         protected Text[] initNames() {
-            return Arrays.stream(CLOTHES).map(type -> new TranslatableText(Keys.VILLAGER_CLOTHING_PREFIX + type.toString())).toArray(Text[]::new);
+            return Arrays.stream(CLOTHES).map(type -> Text.translatable(Keys.VILLAGER_CLOTHING_PREFIX + type.toString())).toArray(Text[]::new);
         }
 
         @Override

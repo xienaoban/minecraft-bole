@@ -4,10 +4,12 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.CatEntity;
+import net.minecraft.entity.passive.CatVariant;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleTameableEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -35,12 +37,14 @@ public class BoleCatEntityScreenHandler<E extends CatEntity> extends BoleTameabl
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_CAT_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (isGod()) entity.setCatType(buf.readInt());
+                if (isGod()) {
+                    entity.setVariant(Registry.CAT_VARIANT.get(buf.readIdentifier()));
+                }
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
-                int variant = (Integer) args[0];
-                buf.writeInt(variant);
-                entity.setCatType(variant);
+                CatVariant variant = (CatVariant) args[0];
+                buf.writeIdentifier(Registry.CAT_VARIANT.getId(variant));
+                entity.setVariant(variant);
             }
         });
     }

@@ -7,7 +7,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.PandaEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
@@ -73,7 +72,7 @@ public class BolePandaEntityScreen<E extends PandaEntity, H extends BolePandaEnt
         protected Text[] initNames() {
             return Arrays.stream(PandaEntity.Gene.values())
                     .sorted(Comparator.comparingInt(PandaEntity.Gene::getId))
-                    .map(gene -> new TranslatableText(Keys.PANDA_VARIANT_PREFIX + gene.getName()))
+                    .map(gene -> Text.translatable(Keys.PANDA_VARIANT_PREFIX + gene.getName()))
                     .toArray(Text[]::new);
         }
 
@@ -102,7 +101,7 @@ public class BolePandaEntityScreen<E extends PandaEntity, H extends BolePandaEnt
         @Override
         protected void drawEntity(MatrixStack matrices, E fake, int x0, int y0, int x1, int y1, int mouseX, int mouseY) {
             boolean recessive = getGene(fake).isRecessive();
-            Text text = new TranslatableText(recessive ? Keys.TEXT_HIDDEN_GENE : Keys.TEXT_MAIN_GENE);
+            Text text = Text.translatable(recessive ? Keys.TEXT_HIDDEN_GENE : Keys.TEXT_MAIN_GENE);
             int color = recessive ? 0xaaf86848 : 0xaa0063b1;
             drawTextCenteredX(matrices, text, color, 0.5F, x0 + x1 >> 1, y1 + 5);
             drawEntityAuto(fake, x0, y0 - 6, x1, y1, 0, 1);

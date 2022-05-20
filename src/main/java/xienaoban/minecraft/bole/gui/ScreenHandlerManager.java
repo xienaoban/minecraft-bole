@@ -86,7 +86,7 @@ public class ScreenHandlerManager {
         registerHandler(BolePathAwareEntityScreenHandler.HANDLER, PathAwareEntity.class, BolePathAwareEntityScreenHandler::new);
         registerHandler(BolePassiveEntityScreenHandler.HANDLER, PassiveEntity.class, BolePassiveEntityScreenHandler::new);
         registerHandler(BoleAnimalEntityScreenHandler.HANDLER, AnimalEntity.class, BoleAnimalEntityScreenHandler::new);
-        registerHandler(BoleHorseBaseEntityScreenHandler.HANDLER, HorseBaseEntity.class, BoleHorseBaseEntityScreenHandler::new);
+        registerHandler(BoleAbstractHorseEntityScreenHandler.HANDLER, AbstractHorseEntity.class, BoleAbstractHorseEntityScreenHandler::new);
         registerHandler(BoleAbstractDonkeyEntityScreenHandler.HANDLER, AbstractDonkeyEntity.class, BoleAbstractDonkeyEntityScreenHandler::new);
         registerHandler(BoleMerchantEntityScreenHandler.HANDLER, MerchantEntity.class, BoleMerchantEntityScreenHandler::new);
         registerHandler(BoleTameableEntityScreenHandler.HANDLER, TameableEntity.class, BoleTameableEntityScreenHandler::new);

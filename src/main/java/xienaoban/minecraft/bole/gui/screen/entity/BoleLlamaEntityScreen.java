@@ -7,7 +7,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.LlamaEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAbstractDonkeyEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
@@ -70,7 +69,7 @@ public class BoleLlamaEntityScreen<E extends LlamaEntity, H extends BoleLlamaEnt
         @Override
         protected Text[] initNames() {
             String[] keys = {Keys.LLAMA_VARIANT_SAND, Keys.LLAMA_VARIANT_SNOW, Keys.LLAMA_VARIANT_WOOD, Keys.LLAMA_VARIANT_DIRTY};
-            return Arrays.stream(keys).map(TranslatableText::new).toArray(Text[]::new);
+            return Arrays.stream(keys).map(Text::translatable).toArray(Text[]::new);
         }
 
         @Override

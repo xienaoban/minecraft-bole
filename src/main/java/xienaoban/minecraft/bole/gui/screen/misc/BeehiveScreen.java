@@ -9,7 +9,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.gui.Textures;
@@ -116,8 +115,8 @@ public class BeehiveScreen extends GenericHandledScreen<BeehiveScreenHandler> {
             if (mouseX > x - 10 && mouseX < x + 10 && mouseY > y - 20 && mouseY < y) {
                 List<Text> texts = List.of(
                         bee.entity.getName(),
-                        new TranslatableText(Keys.TEXT_HAS_NECTAR, new TranslatableText(bee.entity.hasNectar() ? Keys.GUI_YES : Keys.GUI_NO)).formatted(Formatting.GRAY),
-                        new TranslatableText(Keys.TEXT_TIME_IN_BEEHIVE, (bee.ticksInHive / 20) + "s/" + (bee.minOccupationTicks / 20) + "s").formatted(Formatting.GRAY)
+                        Text.translatable(Keys.TEXT_HAS_NECTAR, Text.translatable(bee.entity.hasNectar() ? Keys.GUI_YES : Keys.GUI_NO)).formatted(Formatting.GRAY),
+                        Text.translatable(Keys.TEXT_TIME_IN_BEEHIVE, (bee.ticksInHive / 20) + "s/" + (bee.minOccupationTicks / 20) + "s").formatted(Formatting.GRAY)
                 );
                 int maxLength = texts.stream().mapToInt(this::getTextWidth).max().getAsInt() >> 2;
                 renderTooltip(matrices, texts.stream().map(Text::asOrderedText).toList(), 0.5F, x - maxLength - 2, y);
@@ -125,7 +124,7 @@ public class BeehiveScreen extends GenericHandledScreen<BeehiveScreenHandler> {
         }
         this.textRenderer.draw(matrices, honeyCnt + "/" + MAX_HONEY_CNT, LATTICES[5][0] + lw + 16 - 8.5F, LATTICES[5][1] + lh + 8, color);
         this.textRenderer.draw(matrices, beeCnt + "/" + MAX_BEE_CNT, LATTICES[6][0] + lw + 16 - 8.5F, LATTICES[6][1] + lh + 8, color);
-        drawTextCenteredX(matrices, new TranslatableText(Keys.TEXT_HONEY), color, LATTICES[5][0] + lw + 16.5F, LATTICES[5][1] + lh + 16);
+        drawTextCenteredX(matrices, Text.translatable(Keys.TEXT_HONEY), color, LATTICES[5][0] + lw + 16.5F, LATTICES[5][1] + lh + 16);
         drawTextCenteredX(matrices, EntityType.BEE.getName(), color, LATTICES[6][0] + lw + 16.5F, LATTICES[6][1] + lh + 16);
     }
 

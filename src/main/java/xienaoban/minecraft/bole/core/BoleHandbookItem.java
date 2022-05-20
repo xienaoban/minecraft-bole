@@ -10,7 +10,7 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.mixin.MixinMinecraftClient;
 import xienaoban.minecraft.bole.util.Keys;
@@ -56,8 +56,8 @@ public class BoleHandbookItem {
         ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
         NbtCompound nbt = new NbtCompound();
         addSameNbt(nbt);
-        nbt.putString(WrittenBookItem.TITLE_KEY, new TranslatableText(Keys.BOLE_HANDBOOK_TITLE).getString());
-        nbt.putString(WrittenBookItem.AUTHOR_KEY, new TranslatableText(Keys.BOLE).getString());
+        nbt.putString(WrittenBookItem.TITLE_KEY, Text.translatable(Keys.BOLE_HANDBOOK_TITLE).getString());
+        nbt.putString(WrittenBookItem.AUTHOR_KEY, Text.translatable(Keys.BOLE).getString());
         nbt.putBoolean(WrittenBookItem.RESOLVED_KEY, true);
         nbt.put(WrittenBookItem.PAGES_KEY, createWrittenPages());
         stack.setNbt(nbt);
@@ -146,6 +146,6 @@ public class BoleHandbookItem {
      * @return translated string of the current language
      */
     private static String trans(String translateKey) {
-        return new TranslatableText(translateKey).getString();
+        return Text.translatable(translateKey).getString();
     }
 }

@@ -88,7 +88,7 @@ opened. You can also open the screen by pressing the hotkey.
                   - [ ] `Breedable`
               - CatEntity:
                 - [X] `Set variant`
-            - HorseBaseEntity:
+            - AbstractHorseEntity:
               - AbstractDonkeyEntity
                 - [X] `Chest size`
               - HorseEntity:

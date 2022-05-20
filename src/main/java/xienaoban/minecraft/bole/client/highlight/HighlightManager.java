@@ -1,7 +1,7 @@
 package xienaoban.minecraft.bole.client.highlight;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.dynamic.GlobalPos;
+import net.minecraft.util.math.GlobalPos;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
 
 import java.util.*;

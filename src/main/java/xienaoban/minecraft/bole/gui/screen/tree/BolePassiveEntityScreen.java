@@ -6,7 +6,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -65,10 +64,10 @@ public class BolePassiveEntityScreen<E extends PassiveEntity, H extends BolePass
                 drawBarText(matrices, age + "t", LIGHT_TEXT_COLOR);
             }
             else if (age >= 0) {
-                drawBarText(matrices, new TranslatableText(Keys.TEXT_GROWN_UP), LIGHT_TEXT_COLOR);
+                drawBarText(matrices, Text.translatable(Keys.TEXT_GROWN_UP), LIGHT_TEXT_COLOR);
             }
             else if (age < BABY_MIN_AGE) {
-                drawBarText(matrices, new TranslatableText(Keys.TEXT_NEVER_GROW_UP), LIGHT_TEXT_COLOR);
+                drawBarText(matrices, Text.translatable(Keys.TEXT_NEVER_GROW_UP), LIGHT_TEXT_COLOR);
             }
             else {
                 drawBarText(matrices, String.format("%.2f%%", 100.0F - 100.0F * age / BABY_MIN_AGE), LIGHT_TEXT_COLOR);

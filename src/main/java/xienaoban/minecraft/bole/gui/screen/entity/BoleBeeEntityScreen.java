@@ -5,10 +5,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
@@ -41,7 +40,7 @@ public class BoleBeeEntityScreen<E extends BeeEntity, H extends BoleBeeEntityScr
     }
 
     public class BeehivePropertyWidget extends TemplatePropertyWidget1 {
-        private static final Text NO_HIVE = new LiteralText(" - ");
+        private static final Text NO_HIVE = Text.literal(" - ");
         private int nextTicks;
         private Text cacheDistance;
 
@@ -71,7 +70,7 @@ public class BoleBeeEntityScreen<E extends BeeEntity, H extends BoleBeeEntityScr
                 this.nextTicks = cutTicks + 10;
                 if (pos != null) {
                     double dis = pos.getSquaredDistance(handler.entity.getPos());
-                    this.cacheDistance = new LiteralText(String.format("%.2fm", Math.sqrt(dis)));
+                    this.cacheDistance = Text.literal(String.format("%.2fm", Math.sqrt(dis)));
                 }
                 else this.cacheDistance = NO_HIVE;
             }

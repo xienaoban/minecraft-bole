@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import xienaoban.minecraft.bole.gui.Textures;
@@ -13,8 +13,8 @@ import xienaoban.minecraft.bole.util.Keys;
 import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
-public class BoleHorseBaseEntityScreen<E extends HorseBaseEntity, H extends BoleHorseBaseEntityScreenHandler<E>> extends BoleAnimalEntityScreen<E, H> {
-    public BoleHorseBaseEntityScreen(H handler, PlayerInventory inventory, Text title) {
+public class BoleAbstractHorseEntityScreen<E extends AbstractHorseEntity, H extends BoleAbstractHorseEntityScreenHandler<E>> extends BoleAnimalEntityScreen<E, H> {
+    public BoleAbstractHorseEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 

@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleAbstractDonkeyEntityScreenHandler<E extends AbstractDonkeyEntity> extends BoleHorseBaseEntityScreenHandler<E> {
+public class BoleAbstractDonkeyEntityScreenHandler<E extends AbstractDonkeyEntity> extends BoleAbstractHorseEntityScreenHandler<E> {
     public static final ScreenHandlerType<BoleAbstractDonkeyEntityScreenHandler<AbstractDonkeyEntity>> HANDLER
             = register(new Identifier(Keys.NAMESPACE, "abstract_donkey_entity"), BoleAbstractDonkeyEntityScreenHandler::new);
 

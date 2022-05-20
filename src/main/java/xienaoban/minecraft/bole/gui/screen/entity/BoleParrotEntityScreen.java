@@ -7,7 +7,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleTameableShoulderEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
@@ -70,7 +69,7 @@ public class BoleParrotEntityScreen<E extends ParrotEntity, H extends BoleParrot
         @Override
         protected Text[] initNames() {
             String[] keys = { Keys.PARROT_VARIANT_RED, Keys.PARROT_VARIANT_BLUE, Keys.PARROT_VARIANT_GREEN, Keys.PARROT_VARIANT_CYAN, Keys.PARROT_VARIANT_GRAY };
-            return Arrays.stream(keys).map(TranslatableText::new).toArray(Text[]::new);
+            return Arrays.stream(keys).map(Text::translatable).toArray(Text[]::new);
         }
 
         @Override

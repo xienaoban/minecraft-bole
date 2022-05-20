@@ -8,7 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -34,7 +34,7 @@ public class BoleHandler {
         }
         if (!Bole.isDetached(player) && !bole.getServerConfigs().isAllowHotKeyToOpenBoleHandbookScreen()
                 && !Bole.isBoleHandbook(player.getMainHandStack()) && !Bole.isBoleHandbook(player.getOffHandStack())) {
-            player.sendMessage(new TranslatableText(Keys.TEXT_SERVER_BAN_HOTKEY).formatted(Formatting.GOLD), false);
+            player.sendMessage(Text.translatable(Keys.TEXT_SERVER_BAN_HOTKEY).formatted(Formatting.GOLD), false);
             return;
         }
         Entity target;

@@ -6,7 +6,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
@@ -71,7 +70,7 @@ public class BoleAxolotlEntityScreen<E extends AxolotlEntity, H extends BoleAxol
 
         @Override
         protected Text[] initNames() {
-            return Arrays.stream(AxolotlEntity.Variant.VARIANTS).map(variant -> new LiteralText(variant.getName())).toArray(Text[]::new);
+            return Arrays.stream(AxolotlEntity.Variant.VARIANTS).map(variant -> Text.literal(variant.getName())).toArray(Text[]::new);
         }
 
         @Override
