@@ -1,7 +1,7 @@
 net.minecraft.entity.LivingEntity net.minecraft.entity.Entity
-net.minecraft.entity.decoration.ArmorStandEntity net.minecraft.entity.LivingEntity
 net.minecraft.entity.mob.MobEntity net.minecraft.entity.LivingEntity
 net.minecraft.entity.mob.PathAwareEntity net.minecraft.entity.mob.MobEntity
+net.minecraft.entity.passive.AllayEntity net.minecraft.entity.mob.PathAwareEntity
 net.minecraft.entity.passive.PassiveEntity net.minecraft.entity.mob.PathAwareEntity
 net.minecraft.entity.passive.AnimalEntity net.minecraft.entity.passive.PassiveEntity
 net.minecraft.entity.passive.AxolotlEntity net.minecraft.entity.passive.AnimalEntity
@@ -14,16 +14,17 @@ net.minecraft.entity.passive.WolfEntity net.minecraft.entity.passive.TameableEnt
 net.minecraft.entity.passive.ChickenEntity net.minecraft.entity.passive.AnimalEntity
 net.minecraft.entity.passive.CowEntity net.minecraft.entity.passive.AnimalEntity
 net.minecraft.entity.passive.MooshroomEntity net.minecraft.entity.passive.CowEntity
-net.minecraft.entity.passive.HorseBaseEntity net.minecraft.entity.passive.AnimalEntity
-net.minecraft.entity.passive.AbstractDonkeyEntity net.minecraft.entity.passive.HorseBaseEntity
+net.minecraft.entity.passive.AbstractHorseEntity net.minecraft.entity.passive.AnimalEntity
+net.minecraft.entity.passive.AbstractDonkeyEntity net.minecraft.entity.passive.AbstractHorseEntity
 net.minecraft.entity.passive.DonkeyEntity net.minecraft.entity.passive.AbstractDonkeyEntity
 net.minecraft.entity.passive.LlamaEntity net.minecraft.entity.passive.AbstractDonkeyEntity
 net.minecraft.entity.passive.TraderLlamaEntity net.minecraft.entity.passive.LlamaEntity
 net.minecraft.entity.passive.MuleEntity net.minecraft.entity.passive.AbstractDonkeyEntity
-net.minecraft.entity.passive.HorseEntity net.minecraft.entity.passive.HorseBaseEntity
-net.minecraft.entity.mob.SkeletonHorseEntity net.minecraft.entity.passive.HorseBaseEntity
-net.minecraft.entity.mob.ZombieHorseEntity net.minecraft.entity.passive.HorseBaseEntity
+net.minecraft.entity.passive.HorseEntity net.minecraft.entity.passive.AbstractHorseEntity
+net.minecraft.entity.mob.SkeletonHorseEntity net.minecraft.entity.passive.AbstractHorseEntity
+net.minecraft.entity.mob.ZombieHorseEntity net.minecraft.entity.passive.AbstractHorseEntity
 net.minecraft.entity.passive.FoxEntity net.minecraft.entity.passive.AnimalEntity
+net.minecraft.entity.passive.FrogEntity net.minecraft.entity.passive.AnimalEntity
 net.minecraft.entity.passive.GoatEntity net.minecraft.entity.passive.AnimalEntity
 net.minecraft.entity.mob.HoglinEntity net.minecraft.entity.passive.AnimalEntity
 net.minecraft.entity.passive.OcelotEntity net.minecraft.entity.passive.AnimalEntity
@@ -71,6 +72,7 @@ net.minecraft.entity.mob.SkeletonEntity net.minecraft.entity.mob.AbstractSkeleto
 net.minecraft.entity.mob.StrayEntity net.minecraft.entity.mob.AbstractSkeletonEntity
 net.minecraft.entity.mob.WitherSkeletonEntity net.minecraft.entity.mob.AbstractSkeletonEntity
 net.minecraft.entity.mob.VexEntity net.minecraft.entity.mob.HostileEntity
+net.minecraft.entity.mob.WardenEntity net.minecraft.entity.mob.HostileEntity
 net.minecraft.entity.boss.WitherEntity net.minecraft.entity.mob.HostileEntity
 net.minecraft.entity.mob.ZoglinEntity net.minecraft.entity.mob.HostileEntity
 net.minecraft.entity.mob.WaterCreatureEntity net.minecraft.entity.mob.PathAwareEntity
@@ -80,6 +82,7 @@ net.minecraft.entity.passive.CodEntity net.minecraft.entity.passive.SchoolingFis
 net.minecraft.entity.passive.SalmonEntity net.minecraft.entity.passive.SchoolingFishEntity
 net.minecraft.entity.passive.TropicalFishEntity net.minecraft.entity.passive.SchoolingFishEntity
 net.minecraft.entity.passive.PufferfishEntity net.minecraft.entity.passive.FishEntity
+net.minecraft.entity.passive.TadpoleEntity net.minecraft.entity.passive.FishEntity
 net.minecraft.entity.passive.DolphinEntity net.minecraft.entity.mob.WaterCreatureEntity
 net.minecraft.entity.passive.SquidEntity net.minecraft.entity.mob.WaterCreatureEntity
 net.minecraft.entity.passive.GlowSquidEntity net.minecraft.entity.passive.SquidEntity
@@ -95,3 +98,4 @@ net.minecraft.entity.mob.GhastEntity net.minecraft.entity.mob.FlyingEntity
 net.minecraft.entity.mob.PhantomEntity net.minecraft.entity.mob.FlyingEntity
 net.minecraft.entity.mob.SlimeEntity net.minecraft.entity.mob.MobEntity
 net.minecraft.entity.mob.MagmaCubeEntity net.minecraft.entity.mob.SlimeEntity
+net.minecraft.entity.decoration.ArmorStandEntity net.minecraft.entity.LivingEntity

@@ -109,7 +109,7 @@
   "net.minecraft.entity.passive.PassiveEntity": "被动（和平）生物",
   "net.minecraft.entity.passive.AnimalEntity": "动物",
   "net.minecraft.entity.passive.AbstractHorseEntity": "长的像马的动物",
-  "net.minecraft.entity.passive.AbstractDonkeyEntity": "驴",
+  "net.minecraft.entity.passive.AbstractDonkeyEntity": "长得像驴的动物",
   "net.minecraft.entity.passive.TameableEntity": "可被驯服的动物",
   "net.minecraft.entity.passive.TameableShoulderEntity": "可站肩膀的生物",
   "net.minecraft.entity.passive.MerchantEntity": "商人",
@@ -132,11 +132,13 @@
   "net.minecraft.entity.mob.Monster": "怪物",
   "net.minecraft.entity.Npc": "非玩家角色",
   "net.minecraft.entity.ai.RangedAttackMob": "可远程攻击",
+  "net.minecraft.entity.RideableInventory": "可安驮包",
   "net.minecraft.entity.Saddleable": "可安鞍",
   "net.minecraft.entity.Shearable": "可被剪刀剃",
   "net.minecraft.client.render.entity.feature.SkinOverlayOwner": "皮肤可遮罩",
   "net.minecraft.entity.Tameable": "可驯服",
   "net.minecraft.village.VillagerDataContainer": "存在村民数据",
+  "net.minecraft.world.event.listener.VibrationListener$Callback": "可感知震动（长了耳朵）",
 
   "minecraft": "我的世界",
 

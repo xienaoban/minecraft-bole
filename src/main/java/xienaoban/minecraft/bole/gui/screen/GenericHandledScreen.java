@@ -256,8 +256,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         bufferBuilder.vertex(model, x2, y2, z).color(r, g, b, a).next();    // be added in clockwise
         bufferBuilder.vertex(model, x3, y3, z).color(r, g, b, a).next();    // or counterclockwise
         bufferBuilder.vertex(model, x1, y1, z).color(r, g, b, a).next();    // order.
-        bufferBuilder.end();
-        BufferRenderer.draw(bufferBuilder);
+        BufferRenderer.drawWithShader(bufferBuilder.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
@@ -358,8 +357,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         bufferBuilder.vertex(model, x2, y2, z).texture(u2, v2).next();      // be added in clockwise
         bufferBuilder.vertex(model, x3, y3, z).texture(u3, v3).next();      // or counterclockwise
         bufferBuilder.vertex(model, x1, y1, z).texture(u1, v1).next();      // order.
-        bufferBuilder.end();
-        BufferRenderer.draw(bufferBuilder);
+        BufferRenderer.drawWithShader(bufferBuilder.end());
     }
 
     public void drawText(MatrixStack matrices, String text, int color, float x, float y) {
@@ -451,8 +449,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         RenderSystem.disableTexture();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        bufferBuilder.end();
-        BufferRenderer.draw(bufferBuilder);
+        BufferRenderer.drawWithShader(bufferBuilder.end());
         RenderSystem.disableBlend();
         RenderSystem.enableTexture();
         VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());

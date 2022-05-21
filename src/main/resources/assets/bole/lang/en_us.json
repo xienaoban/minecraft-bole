@@ -132,11 +132,13 @@
   "net.minecraft.entity.mob.Monster": "Monster",
   "net.minecraft.entity.Npc": "Npc",
   "net.minecraft.entity.ai.RangedAttackMob": "RangedAttackMob",
+  "net.minecraft.entity.RideableInventory": "RideableInventory",
   "net.minecraft.entity.Saddleable": "Saddleable",
   "net.minecraft.entity.Shearable": "Shearable",
   "net.minecraft.client.render.entity.feature.SkinOverlayOwner": "SkinOverlayOwner",
   "net.minecraft.entity.Tameable": "Tameable",
   "net.minecraft.village.VillagerDataContainer": "VillagerDataContainer",
+  "net.minecraft.world.event.listener.VibrationListener$Callback": "VibrationListener",
 
   "minecraft": "Minecraft",
 

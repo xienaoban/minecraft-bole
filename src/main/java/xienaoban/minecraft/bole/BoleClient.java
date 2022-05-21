@@ -78,7 +78,6 @@ public class BoleClient implements ClientModInitializer {
         if (world != null) {
             EntityManager.getInstance();
             ClientNetworkManager.requestServerBoleConfigs();
-            Bole.LOGGER.info("Joining the world: " + world.getRegistryKey().getValue());
         }
         else Bole.LOGGER.info("Joining the world: null?!");
         this.inWorld = world != null;
@@ -90,8 +89,6 @@ public class BoleClient implements ClientModInitializer {
         Bole.getInstance().setServerConfigs(Configs.getInstance());
         preventMemoryLeak();
         ClientWorld world = MinecraftClient.getInstance().world;
-        if (world != null) Bole.LOGGER.info("Disconnecting from the world: " + world.getRegistryKey().getValue());
-        else Bole.LOGGER.info("Disconnecting from the world: null");
     }
 
     public void clientTick() {
