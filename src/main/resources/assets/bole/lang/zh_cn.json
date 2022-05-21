@@ -22,7 +22,7 @@
   "entity.minecraft.cat.variant.black": "西服",
   "entity.minecraft.cat.variant.red": "大橘",
   "entity.minecraft.cat.variant.siamese": "暹罗",
-  "entity.minecraft.cat.variant.shorthair": "英短",
+  "entity.minecraft.cat.variant.british_shorthair": "英短",
   "entity.minecraft.cat.variant.calico": "三花",
   "entity.minecraft.cat.variant.persian": "波斯",
   "entity.minecraft.cat.variant.ragdoll": "布偶",
@@ -35,6 +35,10 @@
   "entity.minecraft.parrot.variant.green": "绿",
   "entity.minecraft.parrot.variant.cyan": "青",
   "entity.minecraft.parrot.variant.gray": "灰",
+
+  "entity.minecraft.frog.variant.temperate": "温带",
+  "entity.minecraft.frog.variant.warm": "热带",
+  "entity.minecraft.frog.variant.cold": "寒带",
 
   "entity.minecraft.llama.variant.sand": "沙",
   "entity.minecraft.llama.variant.snow": "雪",
@@ -230,6 +234,8 @@
   "property_widget.bole.cat_variant.description": "你只能在创造模式中更换品种。",
   "property_widget.bole.parrot_variant": "鹦鹉的品种",
   "property_widget.bole.parrot_variant.description": "你只能在创造模式中更换品种。",
+  "property_widget.bole.frog_variant": "蛙的品种",
+  "property_widget.bole.frog_variant.description": "你只能在创造模式中更换品种。",
   "property_widget.bole.llama_variant": "羊驼的品种",
   "property_widget.bole.llama_variant.description": "你只能在创造模式中更换品种。",
   "property_widget.bole.horse_color_variant": "马的色泽",

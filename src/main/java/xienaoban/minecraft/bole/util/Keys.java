@@ -32,6 +32,7 @@ public interface Keys {
     String ENTITY_SETTING_RABBIT_VARIANT =                          "rabbit_variant";
     String ENTITY_SETTING_CAT_VARIANT =                             "cat_variant";
     String ENTITY_SETTING_PARROT_VARIANT =                          "parrot_variant";
+    String ENTITY_SETTING_FROG_VARIANT =                            "frog_variant";
     String ENTITY_SETTING_LLAMA_VARIANT =                           "llama_variant";
     String ENTITY_SETTING_FOX_VARIANT =                             "fox_variant";
     String ENTITY_SETTING_PANDA_VARIANT =                           "panda_variant";
@@ -63,18 +64,6 @@ public interface Keys {
     String RABBIT_VARIANT_GOLD_TYPE =           "entity.minecraft.rabbit.variant.gold_type";
     String RABBIT_VARIANT_SALT_TYPE =           "entity.minecraft.rabbit.variant.salt_type";
     String RABBIT_VARIANT_KILLER_BUNNY_TYPE =   "entity.minecraft.rabbit.variant.killer_bunny_type";
-
-    String CAT_VARIANT_TABBY =             "entity.minecraft.cat.variant.tabby";
-    String CAT_VARIANT_BLACK =             "entity.minecraft.cat.variant.black";
-    String CAT_VARIANT_RED =               "entity.minecraft.cat.variant.red";
-    String CAT_VARIANT_SIAMESE =           "entity.minecraft.cat.variant.siamese";
-    String CAT_VARIANT_BRITISH_SHORTHAIR = "entity.minecraft.cat.variant.shorthair";
-    String CAT_VARIANT_CALICO =            "entity.minecraft.cat.variant.calico";
-    String CAT_VARIANT_PERSIAN =           "entity.minecraft.cat.variant.persian";
-    String CAT_VARIANT_RAGDOLL =           "entity.minecraft.cat.variant.ragdoll";
-    String CAT_VARIANT_WHITE =             "entity.minecraft.cat.variant.white";
-    String CAT_VARIANT_JELLIE =            "entity.minecraft.cat.variant.jellie";
-    String CAT_VARIANT_ALL_BLACK =         "entity.minecraft.cat.variant.all_black";
 
     String PARROT_VARIANT_RED =     "entity.minecraft.parrot.variant.red";
     String PARROT_VARIANT_BLUE =    "entity.minecraft.parrot.variant.blue";
@@ -114,6 +103,10 @@ public interface Keys {
     String TROPICAL_FISH_VARIANT_BLOCKFISH =    "entity.minecraft.tropical_fish.type.blockfish";
     String TROPICAL_FISH_VARIANT_BETTY =        "entity.minecraft.tropical_fish.type.betty";
     String TROPICAL_FISH_VARIANT_CLAYFISH =     "entity.minecraft.tropical_fish.type.clayfish";
+
+    String CAT_VARIANT_PREFIX = "entity.minecraft.cat.variant.";
+
+    String FROG_VARIANT_PREFIX = "entity.minecraft.frog.variant.";
 
     String FOX_VARIANT_PREFIX = "entity.minecraft.fox.variant.";
 
@@ -202,6 +195,8 @@ public interface Keys {
     String PROPERTY_WIDGET_CAT_VARIANT_DESCRIPTION = "property_widget.bole.cat_variant.description";
     String PROPERTY_WIDGET_PARROT_VARIANT = "property_widget.bole.parrot_variant";
     String PROPERTY_WIDGET_PARROT_VARIANT_DESCRIPTION = "property_widget.bole.parrot_variant.description";
+    String PROPERTY_WIDGET_FROG_VARIANT = "property_widget.bole.frog_variant";
+    String PROPERTY_WIDGET_FROG_VARIANT_DESCRIPTION = "property_widget.bole.frog_variant.description";
     String PROPERTY_WIDGET_LLAMA_VARIANT = "property_widget.bole.llama_variant";
     String PROPERTY_WIDGET_LLAMA_VARIANT_DESCRIPTION = "property_widget.bole.llama_variant.description";
     String PROPERTY_WIDGET_HORSE_COLOR_VARIANT = "property_widget.bole.horse_color_variant";

@@ -83,7 +83,7 @@ opened. You can also open the screen by pressing the hotkey.
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:
                   - [X] `Set variant`
-                  - [X] `Show GUI when on shoulder`
+                  - [X] `Show GUI when on shoulder` - Broken
                   - [ ] `Won't leave shoulder when player jumps`
                   - [ ] `Breedable`
               - CatEntity:
@@ -95,6 +95,9 @@ opened. You can also open the screen by pressing the hotkey.
                 - [X] `Running speed`
                 - [X] `Jump height`
                 - [X] `Set variant`
+            - CowEntity:
+              - MooshroomEntity:
+                - [ ] `Set variant`
             - BeeEntity:
               - [X] `Beehive position`
               - [X] `Reset beehive position`
@@ -113,6 +116,8 @@ opened. You can also open the screen by pressing the hotkey.
               - [X] `Set variant`
             - Goat:
               - [X] `Is Screaming`
+            - FrogEntity:
+              - [X] `Set variant`
           - MerchantEntity:
             - [X] `Get inventory`
             - [X] `Set inventory`

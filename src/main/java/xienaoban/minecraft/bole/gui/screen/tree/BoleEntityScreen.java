@@ -383,7 +383,6 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                 this.cacheColor = 0xff997617;
                 final int maxWidth = 2 * (33 - 2 * 2);
                 if (textRenderer.getWidth(customName) > maxWidth) {
-                    // TODO: to test getstring
                     String trimmed = textRenderer.trimToWidth(customName.getString(), maxWidth - 6, false) + "...";
                     this.cacheText = Text.literal(trimmed);
                 }
