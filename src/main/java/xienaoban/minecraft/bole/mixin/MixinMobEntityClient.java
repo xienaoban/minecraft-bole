@@ -19,8 +19,6 @@ import xienaoban.minecraft.bole.config.Configs;
 @Environment(value= EnvType.CLIENT)
 @Mixin(MobEntity.class)
 public abstract class MixinMobEntityClient extends LivingEntity {
-    private static final EventsManager.LeashFallFromPlayerEvent fallEvent = new EventsManager.LeashFallFromPlayerEvent();
-
     @Shadow private Entity holdingEntity;
     @Shadow private int holdingEntityId;
 
@@ -34,7 +32,7 @@ public abstract class MixinMobEntityClient extends LivingEntity {
         if (this.holdingEntityId == 0 && entity instanceof ClientPlayerEntity player
                 && Configs.getInstance().isNotifyWhenLeashFallFromPlayer()
                 && (!this.isAlive() || this.squaredDistanceTo(entity) > 100.0F)) {
-            fallEvent.onFall(player);
+            EventsManager.LEASH_FALL_FROM_PLAYER_EVENT.onFall(player);
         }
     }
 }

@@ -83,7 +83,7 @@ opened. You can also open the screen by pressing the hotkey.
                 - [X] `Set cooldown of sitting on player`
                 - ParrotEntity:
                   - [X] `Set variant`
-                  - [X] `Show GUI when on shoulder` - Broken
+                  - [X] `Show GUI when on shoulder`
                   - [ ] `Won't leave shoulder when player jumps`
                   - [ ] `Breedable`
               - CatEntity:

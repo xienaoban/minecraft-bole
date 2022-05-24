@@ -40,7 +40,7 @@
     "MixinClientPlayNetworkHandler",
     "MixinCreativeInventoryScreen",
     "MixinFallingBlockEntityRenderer",
-    "MixinGameRenderer",
+    "MixinHeldItemRenderer",
     "MixinMinecraftClient",
     "MixinMobEntityClient"
   ],
