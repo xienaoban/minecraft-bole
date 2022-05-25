@@ -73,17 +73,27 @@ public class BoleMerchantEntityScreen<E extends MerchantEntity, H extends BoleMe
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (isGod()) {
+                doJump();
+                return true;
+            }
             ItemStack cost = BoleMerchantEntityScreenHandler.OPEN_INVENTORY_COST;
-            MerchantEntity merchantEntity = handler.entity;
             setPopup(new PopUpConfirmWindow(Text.translatable(Keys.WARNING_TEXT_OPEN_MERCHANT_INVENTORY, cost.getCount(), cost.getItem().getName()), () -> {
                 if (handler.trySpendItems(cost)) {
                     setPopup(new PopUpConfirmWindow(Text.translatable(Keys.TEXT_WAIT_FOR_SERVER), () -> {}));
-                    BoleClient.getInstance().setHitEntity(merchantEntity);
-                    ClientNetworkManager.requestMerchantInventoryScreen(merchantEntity);
+                    doJump();
                 }
-                else showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
+                else {
+                    showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
+                }
             }));
             return true;
+        }
+
+        private void doJump() {
+            MerchantEntity merchantEntity = handler.entity;
+            BoleClient.getInstance().setHitEntity(merchantEntity);
+            ClientNetworkManager.requestMerchantInventoryScreen(merchantEntity);
         }
     }
 }

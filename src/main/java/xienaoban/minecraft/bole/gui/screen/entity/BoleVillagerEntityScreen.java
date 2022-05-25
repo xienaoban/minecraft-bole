@@ -169,7 +169,7 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
             else if (!canRestock()) {
                 showOverlayMessage(Keys.HINT_TEXT_FAR_FROM_JOB_SITE);
             }
-            else if (!handler.trySpendItems(this.overTime)) {
+            else if (!isGod() && !handler.trySpendItems(this.overTime)) {
                 showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
             }
             else {
@@ -238,6 +238,24 @@ public class BoleVillagerEntityScreen<E extends VillagerEntity, H extends BoleVi
 
         @Override
         protected void setChosen(E fake) {
+            if (isGod()) {
+                doSetChosen(fake);
+                return;
+            }
+            ItemStack item = BoleVillagerEntityScreenHandler.CHANGE_CLOTH_COST;
+            setPopup(new PopUpConfirmWindow(Text.translatable(Keys.WARNING_TEXT_VILLAGER_CHANGE_CLOTH, item.getCount(), item.getItem().getName()),
+                    () -> {
+                        if (handler.trySpendItems(item)) {
+                            doSetChosen(fake);
+                        }
+                        else {
+                            showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
+                        }
+                    }
+            ));
+        }
+
+        private void doSetChosen(E fake) {
             VillagerType type = fake.getVillagerData().getType();
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_VILLAGER_CLOTHING, type);
         }

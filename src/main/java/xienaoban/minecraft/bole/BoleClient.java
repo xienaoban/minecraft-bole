@@ -168,5 +168,6 @@ public class BoleClient implements ClientModInitializer {
         setHandlerBufCache(null);
         setHomepageScreenState(null);
         this.highlightManager.clear();
+        EventsManager.SHOULDER_ENTITY_FIRST_PERSON_RENDERER.clearValues();
     }
 }

@@ -11,15 +11,15 @@ import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
-import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleMerchantEntityScreenHandler;
 import xienaoban.minecraft.bole.mixin.IMixinVillagerEntity;
 import xienaoban.minecraft.bole.util.Keys;
@@ -29,6 +29,8 @@ import java.util.Optional;
 public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends BoleMerchantEntityScreenHandler<E> {
     public static final ScreenHandlerType<BoleVillagerEntityScreenHandler<VillagerEntity>> HANDLER
             = register(new Identifier(Keys.NAMESPACE, "villager_entity"), BoleVillagerEntityScreenHandler::new);
+
+    protected static final ItemStack CHANGE_CLOTH_COST = new ItemStack(Items.LEATHER, 5 + 8 + 7 + 4);
 
     @Environment(EnvType.CLIENT)
     protected int entityRestocksToday;
@@ -70,11 +72,13 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
             @Override public void readFromBuf(PacketByteBuf buf) {
                 int cnt = Math.max(0, ((IMixinVillagerEntity)entity).getRestocksToday() - 3 + 1) * 2;
                 ItemStack overTime = new ItemStack(Items.EMERALD, cnt);
-                if (trySpendItems(overTime)) {
+                if (isGod() || trySpendItems(overTime)) {
                     entity.playWorkSound();
                     entity.restock();
                 }
-                else Bole.LOGGER.error("The player inventory data on the client and server are inconsistent.");
+                else {
+                    sendOverlayMessage(Text.translatable(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS));
+                }
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 ++entityRestocksToday;
@@ -82,6 +86,10 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
         });
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_VILLAGER_CLOTHING, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
+                if (!isGod() && !trySpendItems(CHANGE_CLOTH_COST)) {
+                    sendOverlayMessage(Text.translatable(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS));
+                    return;
+                }
                 VillagerType type = Registry.VILLAGER_TYPE.get(Identifier.tryParse(buf.readString()));
                 entity.setVillagerData(entity.getVillagerData().withType(type));
             }

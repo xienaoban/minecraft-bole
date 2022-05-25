@@ -103,7 +103,7 @@ public class EventsManager {
         private final long[] nextHeadYawTime = new long[2];
         private long lastTime;
 
-        public void renderShoulderEntity(EntityRenderDispatcher entityRenderDispatcher, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, ClientPlayerEntity player, int light) {
+        public void renderShoulderEntity(EntityRenderDispatcher entityRenderDispatcher, MatrixStack matrices, VertexConsumerProvider vertexConsumers, ClientPlayerEntity player, int light) {
             float rx, ry, rz;
             double tx, ty, tz;
             switch (Configs.getInstance().getShoulderCreatureHudPosition()) {
@@ -160,6 +160,11 @@ public class EventsManager {
                 entityRenderDispatcher.setRenderShadows(true);
                 matrices.pop();
             }
+        }
+
+        public void clearValues() {
+            this.oldNbts[0] = this.oldNbts[1] = null;
+            this.entities[0] = this.entities[1] = null;
         }
     }
 }

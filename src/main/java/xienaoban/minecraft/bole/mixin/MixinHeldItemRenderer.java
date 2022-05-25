@@ -22,6 +22,6 @@ public class MixinHeldItemRenderer {
 
     @Inject(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;draw()V", shift = At.Shift.BEFORE))
     private void renderShoulderEntity(float tickDelta, MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers, ClientPlayerEntity player, int light, CallbackInfo ci) {
-        EventsManager.SHOULDER_ENTITY_FIRST_PERSON_RENDERER.renderShoulderEntity(this.entityRenderDispatcher, tickDelta, matrices, vertexConsumers, player, light);
+        EventsManager.SHOULDER_ENTITY_FIRST_PERSON_RENDERER.renderShoulderEntity(this.entityRenderDispatcher, matrices, vertexConsumers, player, light);
     }
 }

@@ -248,6 +248,7 @@ public interface Keys {
     String WARNING_TEXT_DISABLE_AI = "text.warning.bole.disable_ai";
     String WARNING_TEXT_OPEN_MERCHANT_INVENTORY = "text.warning.bole.open_merchant_inventory";
     String WARNING_TEXT_VILLAGER_RESET_JOB = "text.warning.bole.villager_reset_job";
+    String WARNING_TEXT_VILLAGER_CHANGE_CLOTH = "text.warning.bole.villager_change_cloth";
 
     String TEXT_COLON = "text.bole.colon";
     String TEXT_COMMA = "text.bole.comma";

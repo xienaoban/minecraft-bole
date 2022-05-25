@@ -174,7 +174,7 @@ public class ServerNetworkManager {
             if (player.world.getEntityById(buf.readInt()) instanceof MerchantEntity merchantEntity
                     && player.currentScreenHandler instanceof BoleMerchantEntityScreenHandler oldHandler) {
                 server.execute(() -> {
-                    if (oldHandler.trySpendItems(BoleMerchantEntityScreenHandler.OPEN_INVENTORY_COST)) {
+                    if (oldHandler.isGod() || oldHandler.trySpendItems(BoleMerchantEntityScreenHandler.OPEN_INVENTORY_COST)) {
                         player.openHandledScreen(new NamedScreenHandlerFactory() {
                             @Override
                             public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {

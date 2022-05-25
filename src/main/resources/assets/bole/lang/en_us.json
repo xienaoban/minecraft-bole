@@ -252,7 +252,7 @@
   "property_widget.bole.axolotl_variant.description": "You can only change the variant in creative mode.",
   "property_widget.bole.wandering_trader_despawn_delay": "Despawn Delay of the Wandering Trader",
   "property_widget.bole.wandering_trader_despawn_delay.description": "The trader will leave (disappear) when the time is up.",
-  "property_widget.bole.wandering_trader_despawn_delay.description.button1": "Button1: give it a bucket of water to drink, and it will stay for two more minutes.",
+  "property_widget.bole.wandering_trader_despawn_delay.description.button1": "Button1: give him a bucket of water to drink, and he will stay for two more minutes.",
   "property_widget.bole.tropical_fish_variant": "Variants of Tropical Fish",
   "property_widget.bole.tropical_fish_variant.description": "You can only change the variant in creative mode.",
   "property_widget.bole.tropical_fish_base_color": "Base Colors of Tropical Fish",
@@ -277,7 +277,7 @@
   "text.hint.bole.no_job": "The villager has no job!",
   "text.hint.bole.no_job_site": "The villager has no job site!",
   "text.hint.bole.job_site_different_dimension": "The job site is not in this dimension!",
-  "text.hint.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (maybe you should hold a sword to threaten it).",
+  "text.hint.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (don't try to threaten him with a sword).",
   "text.hint.bole.something_is_wrong": "Some is wrong. See the logfile of the game.",
 
   "text.error.bole.data_load": "Data Error",
@@ -287,6 +287,7 @@
   "text.warning.bole.disable_ai": "You want to perform a frontal lobotomy to incapacitate it. But it will fight back. So you will spend:\n   Health x%s    Satiety x%s\n(It will be also set to be invulnerable)",
   "text.warning.bole.open_merchant_inventory": "If you are willing to pay %d %ss, the merchant will let you rummage through its inventory.",
   "text.warning.bole.villager_reset_job": "Usually players tend to kill villagers with unsatisfactory trading lists. Thinking of this, the villager readily accepts your kindness.\nAre you sure to reset?",
+  "text.warning.bole.villager_change_cloth": "Want the villager to wear new clothes? Give the villager %d %s and he will make new clothes by himself.",
 
   "text.bole.colon": ": ",
   "text.bole.comma": ", ",
