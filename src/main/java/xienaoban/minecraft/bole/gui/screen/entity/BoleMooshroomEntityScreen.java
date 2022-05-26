@@ -4,26 +4,25 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.passive.MooshroomEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
-import xienaoban.minecraft.bole.mixin.IMixinFoxEntity;
+import xienaoban.minecraft.bole.mixin.IMixinMooshroomEntity;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.Arrays;
 
 @Environment(EnvType.CLIENT)
-public class BoleFoxEntityScreen<E extends FoxEntity, H extends BoleFoxEntityScreenHandler<E>> extends BoleAnimalEntityScreen<E, H> {
-    public BoleFoxEntityScreen(H handler, PlayerInventory inventory, Text title) {
+public class BoleMooshroomEntityScreen<E extends MooshroomEntity, H extends BoleMooshroomEntityScreenHandler<E>> extends BoleCowEntityScreen<E, H> {
+    public BoleMooshroomEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(1).addSlotLazyAfter(new FoxVariantsPropertyWidget(), null);
+        this.pages.get(1).addSlotLazyAfter(new MooshroomVariantsPropertyWidget(), null);
     }
 
     @Override
@@ -39,29 +38,30 @@ public class BoleFoxEntityScreen<E extends FoxEntity, H extends BoleFoxEntityScr
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class FoxVariantsPropertyWidget extends VariantsPropertyWidget {
-        private static final FoxEntity.Type[] VARIANTS = IMixinFoxEntity.IMixinFoxEntityType.getTypes();
+    public class MooshroomVariantsPropertyWidget extends VariantsPropertyWidget {
+        private static final MooshroomEntity.Type[] TYPES = MooshroomEntity.Type.values();
 
-        public FoxVariantsPropertyWidget() {
+        public MooshroomVariantsPropertyWidget() {
             super(2, 3);
         }
 
         @Override
         protected void initTooltipLines() {
-            initTooltipTitle(Keys.PROPERTY_WIDGET_FOX_VARIANT);
-            initTooltipDescription(Keys.PROPERTY_WIDGET_FOX_VARIANT_DESCRIPTION);
+            initTooltipTitle(Keys.PROPERTY_WIDGET_MOOSHROOM_VARIANT);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_MOOSHROOM_VARIANT_DESCRIPTION);
         }
 
         @Override
         protected E[] initEntities() {
-            FoxEntity[] entities = new FoxEntity[VARIANTS.length];
-            for (int i = 0; i < VARIANTS.length; ++i) {
-                FoxEntity entity = (FoxEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
+            MooshroomEntity[] entities = new MooshroomEntity[TYPES.length];
+            for (int i = 0; i < TYPES.length; ++i) {
+                MooshroomEntity entity = (MooshroomEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
                 if (entity == null) {
-                    throw new RuntimeException("Failed to create a FoxEntity on the client side.");
+                    throw new RuntimeException("Failed to create a MooshroomEntity on the client side.");
                 }
                 copyEntityNbtForDisplay(handler.entity, entity);
-                ((IMixinFoxEntity) entity).callSetType(VARIANTS[i]);
+
+                ((IMixinMooshroomEntity) entity).callSetType(TYPES[i]);
                 entities[i] = entity;
             }
             return MiscUtil.cast(entities);
@@ -69,7 +69,8 @@ public class BoleFoxEntityScreen<E extends FoxEntity, H extends BoleFoxEntityScr
 
         @Override
         protected Text[] initNames() {
-            return Arrays.stream(VARIANTS).map(type -> Text.translatable(Keys.FOX_VARIANT_PREFIX + type.getKey())).toArray(Text[]::new);
+            return Arrays.stream(TYPES).map(type -> Text.translatable(Keys.MOOSHROOM_VARIANT_PREFIX
+                    + ((IMixinMooshroomEntity.IMixinMooshroomEntityType)(Object) type).getName())).toArray(Text[]::new);
         }
 
         @Override
@@ -79,12 +80,12 @@ public class BoleFoxEntityScreen<E extends FoxEntity, H extends BoleFoxEntityScr
 
         @Override
         protected boolean isChosen(E fake) {
-            return handler.entity.getFoxType() == fake.getFoxType();
+            return handler.entity.getMooshroomType() == fake.getMooshroomType();
         }
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_FOX_VARIANT, fake.getFoxType());
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_MOOSHROOM_VARIANT, fake.getMooshroomType());
         }
     }
 }

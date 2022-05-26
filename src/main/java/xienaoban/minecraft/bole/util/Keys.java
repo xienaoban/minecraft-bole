@@ -30,6 +30,7 @@ public interface Keys {
     String ENTITY_SETTING_ADD_WANDERING_VILLAGER_WANDERING_TIME =   "add_wandering_villager_wandering_time";
     String ENTITY_SETTING_SHEEP_EAT_GRASS =                         "sheep_eat_grass";
     String ENTITY_SETTING_RABBIT_VARIANT =                          "rabbit_variant";
+    String ENTITY_SETTING_MOOSHROOM_VARIANT =                       "mooshroom_variant";
     String ENTITY_SETTING_CAT_VARIANT =                             "cat_variant";
     String ENTITY_SETTING_PARROT_VARIANT =                          "parrot_variant";
     String ENTITY_SETTING_FROG_VARIANT =                            "frog_variant";
@@ -103,6 +104,8 @@ public interface Keys {
     String TROPICAL_FISH_VARIANT_BLOCKFISH =    "entity.minecraft.tropical_fish.type.blockfish";
     String TROPICAL_FISH_VARIANT_BETTY =        "entity.minecraft.tropical_fish.type.betty";
     String TROPICAL_FISH_VARIANT_CLAYFISH =     "entity.minecraft.tropical_fish.type.clayfish";
+
+    String MOOSHROOM_VARIANT_PREFIX = "entity.minecraft.mooshroom.variant.";
 
     String CAT_VARIANT_PREFIX = "entity.minecraft.cat.variant.";
 
@@ -191,6 +194,8 @@ public interface Keys {
     String PROPERTY_WIDGET_VILLAGER_CLOTHING_DESCRIPTION = "property_widget.bole.villager_clothing.description";
     String PROPERTY_WIDGET_RABBIT_VARIANT = "property_widget.bole.rabbit_variant";
     String PROPERTY_WIDGET_RABBIT_VARIANT_DESCRIPTION = "property_widget.bole.rabbit_variant.description";
+    String PROPERTY_WIDGET_MOOSHROOM_VARIANT = "property_widget.bole.mooshroom_variant";
+    String PROPERTY_WIDGET_MOOSHROOM_VARIANT_DESCRIPTION = "property_widget.bole.mooshroom_variant.description";
     String PROPERTY_WIDGET_CAT_VARIANT = "property_widget.bole.cat_variant";
     String PROPERTY_WIDGET_CAT_VARIANT_DESCRIPTION = "property_widget.bole.cat_variant.description";
     String PROPERTY_WIDGET_PARROT_VARIANT = "property_widget.bole.parrot_variant";

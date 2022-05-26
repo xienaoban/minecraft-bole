@@ -18,6 +18,9 @@
   "entity.minecraft.rabbit.variant.salt_type": "盐色",
   "entity.minecraft.rabbit.variant.killer_bunny_type": "杀手",
 
+  "entity.minecraft.mooshroom.variant.red": "红色",
+  "entity.minecraft.mooshroom.variant.brown": "棕色",
+
   "entity.minecraft.cat.variant.tabby": "虎斑",
   "entity.minecraft.cat.variant.black": "西服",
   "entity.minecraft.cat.variant.red": "大橘",
@@ -230,6 +233,8 @@
   "property_widget.bole.villager_clothing.description": "点击以换装（村民暖暖了属于是）。",
   "property_widget.bole.rabbit_variant": "兔子的品种",
   "property_widget.bole.rabbit_variant.description": "你只能在创造模式中更换品种。",
+  "property_widget.bole.mooshroom_variant": "哞菇的蘑菇品种",
+  "property_widget.bole.mooshroom_variant.description": "你只能在创造模式中更换品种。",
   "property_widget.bole.cat_variant": "猫猫的品种",
   "property_widget.bole.cat_variant.description": "你只能在创造模式中更换品种。",
   "property_widget.bole.parrot_variant": "鹦鹉的品种",

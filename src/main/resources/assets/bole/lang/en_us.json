@@ -18,6 +18,9 @@
   "entity.minecraft.rabbit.variant.salt_type": "Salt",
   "entity.minecraft.rabbit.variant.killer_bunny_type": "Killer",
 
+  "entity.minecraft.mooshroom.variant.red": "Red",
+  "entity.minecraft.mooshroom.variant.brown": "Brown",
+
   "entity.minecraft.cat.variant.tabby": "Tabby",
   "entity.minecraft.cat.variant.black": "Black",
   "entity.minecraft.cat.variant.red": "Red",
@@ -230,6 +233,8 @@
   "property_widget.bole.villager_clothing.description": "Click to dress up.",
   "property_widget.bole.rabbit_variant": "Variants of Rabbits",
   "property_widget.bole.rabbit_variant.description": "You can only change the variant in creative mode.",
+  "property_widget.bole.mooshroom_variant": "Variants of Mooshrooms",
+  "property_widget.bole.mooshroom_variant.description": "You can only change the variant in creative mode.",
   "property_widget.bole.cat_variant": "Variants of Cats",
   "property_widget.bole.cat_variant.description": "You can only change the variant in creative mode.",
   "property_widget.bole.parrot_variant": "Variants of Parrots",

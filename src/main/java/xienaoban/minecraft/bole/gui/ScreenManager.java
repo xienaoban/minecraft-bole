@@ -62,6 +62,8 @@ public class ScreenManager {
         HandledScreens.register(BoleRabbitEntityScreenHandler.HANDLER, BoleRabbitEntityScreen<RabbitEntity, BoleRabbitEntityScreenHandler<RabbitEntity>>::new);
         HandledScreens.register(BoleBeeEntityScreenHandler.HANDLER, BoleBeeEntityScreen<BeeEntity, BoleBeeEntityScreenHandler<BeeEntity>>::new);
         HandledScreens.register(BoleParrotEntityScreenHandler.HANDLER, BoleParrotEntityScreen<ParrotEntity, BoleParrotEntityScreenHandler<ParrotEntity>>::new);
+        HandledScreens.register(BoleCowEntityScreenHandler.HANDLER, BoleCowEntityScreen<CowEntity, BoleCowEntityScreenHandler<CowEntity>>::new);
+        HandledScreens.register(BoleMooshroomEntityScreenHandler.HANDLER, BoleMooshroomEntityScreen<MooshroomEntity, BoleMooshroomEntityScreenHandler<MooshroomEntity>>::new);
         HandledScreens.register(BoleCatEntityScreenHandler.HANDLER, BoleCatEntityScreen<CatEntity, BoleCatEntityScreenHandler<CatEntity>>::new);
         HandledScreens.register(BolePandaEntityScreenHandler.HANDLER, BolePandaEntityScreen<PandaEntity, BolePandaEntityScreenHandler<PandaEntity>>::new);
         HandledScreens.register(BoleAxolotlEntityScreenHandler.HANDLER, BoleAxolotlEntityScreen<AxolotlEntity, BoleAxolotlEntityScreenHandler<AxolotlEntity>>::new);

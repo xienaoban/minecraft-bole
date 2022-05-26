@@ -102,6 +102,8 @@ public class ScreenHandlerManager {
         registerHandler(BoleRabbitEntityScreenHandler.HANDLER, RabbitEntity.class, BoleRabbitEntityScreenHandler::new);
         registerHandler(BoleBeeEntityScreenHandler.HANDLER, BeeEntity.class, BoleBeeEntityScreenHandler::new);
         registerHandler(BoleParrotEntityScreenHandler.HANDLER, ParrotEntity.class, BoleParrotEntityScreenHandler::new);
+        registerHandler(BoleCowEntityScreenHandler.HANDLER, CowEntity.class, BoleCowEntityScreenHandler::new);
+        registerHandler(BoleMooshroomEntityScreenHandler.HANDLER, MooshroomEntity.class, BoleMooshroomEntityScreenHandler::new);
         registerHandler(BoleCatEntityScreenHandler.HANDLER, CatEntity.class, BoleCatEntityScreenHandler::new);
         registerHandler(BolePandaEntityScreenHandler.HANDLER, PandaEntity.class, BolePandaEntityScreenHandler::new);
         registerHandler(BoleAxolotlEntityScreenHandler.HANDLER, AxolotlEntity.class, BoleAxolotlEntityScreenHandler::new);
