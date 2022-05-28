@@ -33,6 +33,7 @@
     "MixinEntity",
     "MixinFollowOwnerGoal",
     "MixinPassiveEntity",
+    "MixinPlayerEntity",
     "MixinPolarBearEntity",
     "MixinTameableShoulderEntity",
     "MixinWanderingTraderEntity",

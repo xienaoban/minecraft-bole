@@ -166,6 +166,8 @@
   "text.autoconfig.bole.option.blockAccidentalInjuryToPets.@Tooltip": "Tamed animals will only take damage from\nhostile mobs, non-owner players and anvils.",
   "text.autoconfig.bole.option.petsCanTeleportToMoreBlocks": "PetsCanTeleportToMoreBlocks",
   "text.autoconfig.bole.option.petsCanTeleportToMoreBlocks.@Tooltip": "Pets can be teleport onto leaves or water.",
+  "text.autoconfig.bole.option.fallDistanceToDropShoulderEntities": "FallDistanceToDropShoulderEntities",
+  "text.autoconfig.bole.option.fallDistanceToDropShoulderEntities.@Tooltip": "Entities on shoulders (parrots) will leave when the drop distance\nof the player is greater than this value.\nDefault: 0.5m. Recommended: 3.0m.",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "CannotSetOthersPortalCooldown",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "You will not be allowed to modify other players' nether portal cooldown.",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "BroadcastWanderingTraderSpawn",

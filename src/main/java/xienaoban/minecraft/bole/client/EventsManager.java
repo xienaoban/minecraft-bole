@@ -145,8 +145,8 @@ public class EventsManager {
                 long time = System.currentTimeMillis();
                 LivingEntity entity = this.entities[i];
                 if (lastTime > this.nextHeadYawTime[i]) {
-                    this.nextHeadYawTime[i] = lastTime + 4000 + (long)(Math.random() * 8000);
-                    this.nextHeadYaw[i] = (float) (Math.random() * 50 - 25);
+                    this.nextHeadYawTime[i] = lastTime + 2000 + (long)(Math.random() * 8000);
+                    this.nextHeadYaw[i] = (float) (Math.random() * 60 - 30);
                 }
                 entity.setHeadYaw(entity.getHeadYaw() + HEAD_YAW_SPEED * (this.nextHeadYaw[i] - entity.getHeadYaw()));
                 int pos = i * -2 + 1;

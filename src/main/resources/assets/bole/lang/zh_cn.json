@@ -166,6 +166,8 @@
   "text.autoconfig.bole.option.blockAccidentalInjuryToPets.@Tooltip": "已驯服动物只会受到来自敌对生物、非主人玩家\n和铁砧的伤害（但仍会哀鸣）。",
   "text.autoconfig.bole.option.petsCanTeleportToMoreBlocks": "更为宽松的宠物传送条件",
   "text.autoconfig.bole.option.petsCanTeleportToMoreBlocks.@Tooltip": "宠物可以被传送到树叶上或水面上。",
+  "text.autoconfig.bole.option.fallDistanceToDropShoulderEntities": "肩膀上的生物离开肩膀的下落距离条件",
+  "text.autoconfig.bole.option.fallDistanceToDropShoulderEntities.@Tooltip": "当玩家下落距离大于该值时，肩膀上的生物（主要是鹦鹉）会离开肩膀。\n默认是 0.5m。作者推荐改为 3.0m。",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers": "禁止设置其他玩家的地狱传送冷却值",
   "text.autoconfig.bole.option.forbidToSetNetherPortalCooldownOfOtherPlayers.@Tooltip": "玩家将只能修改自己的地狱传送冷却值，防止熊孩子捣乱。",
   "text.autoconfig.bole.option.broadcastWhenWanderingTraderSpawn": "广播流浪商人的生成",

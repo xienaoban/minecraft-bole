@@ -79,6 +79,10 @@ public final class Configs implements ConfigData {
 
     @ConfigEntry.Category(SERVER)
     @ConfigEntry.Gui.Tooltip()
+    float fallDistanceToDropShoulderEntities = 0.5F;
+
+    @ConfigEntry.Category(SERVER)
+    @ConfigEntry.Gui.Tooltip()
     boolean forbidToSetNetherPortalCooldownOfOtherPlayers = false;
 
     @ConfigEntry.Category(SERVER)
@@ -133,6 +137,10 @@ public final class Configs implements ConfigData {
 
     public boolean isPetsCanTeleportToMoreBlocks() {
         return petsCanTeleportToMoreBlocks;
+    }
+
+    public float getFallDistanceToDropShoulderEntities() {
+        return fallDistanceToDropShoulderEntities;
     }
 
     public boolean isForbidToSetNetherPortalCooldownOfOtherPlayers() {
