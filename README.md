@@ -1,7 +1,17 @@
-# Bole
+# Bole Handbook
 
-A mod that displays information of creatures and provides some new optional
-features about creatures.
+A mod that displays information of creatures and allows you to modify some properties
+of the creatures.
+
+- Want to know how high your horse jumps and how fast it runs?
+- Want to know a creature's health, oxygen, potion effects, hitbox, and more?
+- Want baby animals to never grow up?
+- Want to shut up your chickens, sheep or parrots?
+- Want to change villagers' outfits even in survival mode?
+- Want to take your pets out on an adventure but worry about their stupid AI?
+- *(see the end for more features)...*
+
+**This mod is what you need in vanilla survival mode!**
 
 ![Screenshot1](assets/head-small.png)
 
