@@ -229,6 +229,9 @@ public interface Keys {
     String PROPERTY_WIDGET_MOISTNESS_DESCRIPTION = "property_widget.bole.moistness.description";
     String PROPERTY_WIDGET_SCREAMING_GOAT = "property_widget.bole.screaming_goat";
     String PROPERTY_WIDGET_SCREAMING_GOAT_DESCRIPTION = "property_widget.bole.screaming_goat.description";
+    String PROPERTY_WIDGET_ALLEY_LIKED = "property_widget.bole.allay_liked";
+    String PROPERTY_WIDGET_ALLEY_LIKED_DESCRIPTION = "property_widget.bole.allay_liked.description";
+    String PROPERTY_WIDGET_ALLEY_LIKED_DESCRIPTION_BUTTON1 = "property_widget.bole.allay_liked.description.button1";
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.bole.only_in_god_mode";
@@ -245,6 +248,7 @@ public interface Keys {
     String HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION = "text.hint.bole.job_site_different_dimension";
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.bole.refuse_to_reset_job";
     String HINT_TEXT_SOMETHING_IS_WRONG = "text.hint.bole.something_is_wrong";
+    String HINT_TEXT_ALLAY_LIKE_NO_NOTEBLOCK = "text.hint.bole.allay_like_no_noteblock";
 
     String ERROR_TEXT_DATA_LOAD = "text.error.bole.data_load";
     String ERROR_TEXT_CLIENT_SERVER_MOD_VERSION_NOT_MATCH = "text.error.bole.client_server_mod_version_not_match";

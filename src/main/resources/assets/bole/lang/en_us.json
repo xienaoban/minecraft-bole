@@ -270,6 +270,9 @@
   "property_widget.bole.moistness.description": "Dolphins will die without moistness.",
   "property_widget.bole.screaming_goat": "Is Screaming Goat",
   "property_widget.bole.screaming_goat.description": "Ahhhhhh!!!!!!!!!",
+  "property_widget.bole.allay_liked": "The Player That the Allay Likes",
+  "property_widget.bole.allay_liked.description": "Shows the player's name if he/she is online, otherwise shows 'unknown'.",
+  "property_widget.bole.allay_liked.description.button1": "Button1: Highlight the noteblock (if it exists) the allay likes.",
 
   "text.hint.bole.offer_or_drop": "%s is offered to you.",
   "text.hint.bole.only_in_god_mode": "Can only be used in creative mode.",
@@ -286,6 +289,7 @@
   "text.hint.bole.job_site_different_dimension": "The job site is not in this dimension!",
   "text.hint.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (don't try to threaten him with a sword).",
   "text.hint.bole.something_is_wrong": "Some is wrong. See the logfile of the game.",
+  "text.hint.bole.allay_like_no_noteblock": "The allay has no favorite noteblock currently.",
 
   "text.error.bole.data_load": "Data Error",
   "text.error.bole.client_server_mod_version_not_match": "Mod Bole: The mod version of the client does not match the mod version of the server!",
@@ -328,7 +332,7 @@
   "text.bole.main_gene": "Main",
   "text.bole.hidden_gene": "Hidden",
   "text.bole.wandering_trader_spawn_message": "A wandering trader spawns around the player %s.",
-  "text.bole.unknown_player": "<unknown player>",
+  "text.bole.unknown_player": "(unknown player)",
   "text.bole.server_ban_hotkey": "The hotkey is banned on this server. Find a bole handbook item first.",
   "text.bole.inventory_of": "Inventory of %s",
   "text.bole.wait_for_server": "Wait for server response...",

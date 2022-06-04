@@ -270,6 +270,9 @@
   "property_widget.bole.moistness.description": "海豚不在水中时会减少湿度，湿度为 0 时掉血。",
   "property_widget.bole.screaming_goat": "是否为尖叫山羊",
   "property_widget.bole.screaming_goat.description": "呃啊啊啊啊啊啊啊啊！！！！！！！！！",
+  "property_widget.bole.allay_liked": "悦灵喜欢的玩家",
+  "property_widget.bole.allay_liked.description": "如果该玩家在线的话展示其名字，否则显示“未知玩家”。",
+  "property_widget.bole.allay_liked.description.button1": "按钮1：高亮悦灵喜欢的音符盒（如果有的话）。",
 
   "text.hint.bole.offer_or_drop": "%s已发放到背包。",
   "text.hint.bole.only_in_god_mode": "只能在创造模式中使用。",
@@ -286,6 +289,7 @@
   "text.hint.bole.job_site_different_dimension": "工作方块不在当前世界维度！",
   "text.hint.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你拿着下届合金剑指着他也不会屈服！",
   "text.hint.bole.something_is_wrong": "报错啦。详情见游戏日志。",
+  "text.hint.bole.allay_like_no_noteblock": "悦灵目前没有喜欢的音符盒。",
 
   "text.error.bole.data_load": "数据读取失败",
   "text.error.bole.client_server_mod_version_not_match": "伯乐模组：客户端与服务端的模组版本差距过大，无法完全兼容！",
@@ -328,7 +332,7 @@
   "text.bole.main_gene": "显性",
   "text.bole.hidden_gene": "隐性",
   "text.bole.wandering_trader_spawn_message": "玩家 %s 附近传来了流浪商人的哼哼声。",
-  "text.bole.unknown_player": "<未知玩家>",
+  "text.bole.unknown_player": "（未知玩家）",
   "text.bole.server_ban_hotkey": "本服禁止热键，先设法获得一本伯乐手册吧。",
   "text.bole.inventory_of": "%s的背包",
   "text.bole.wait_for_server": "等待服务器响应……",
