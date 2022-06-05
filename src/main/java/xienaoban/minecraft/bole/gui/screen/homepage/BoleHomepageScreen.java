@@ -20,6 +20,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.entity.EntityLookup;
 import org.lwjgl.glfw.GLFW;
@@ -455,8 +456,13 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            EntityManager.getInstance().reorderAllEntities();
             playScreenSound(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, 0.5F, 1.5F);
+            Path orderPath = Keys.ENTITY_SORT_ORDER_CONFIG_PATH();
+            Util.getOperatingSystem().open(orderPath.toFile());
+            setPopup(new PopUpConfirmWindow(Text.translatable(Keys.WARNING_TEXT_ENTITY_REORDER_DONE, orderPath.getFileName().toString()), () -> {
+                EntityManager.getInstance().reorderAllEntities();
+                showOverlayMessage(Keys.HINT_TEXT_ENTITY_REORDER_DONE);
+            }));
             return true;
         }
     }

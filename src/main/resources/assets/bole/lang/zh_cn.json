@@ -291,6 +291,7 @@
   "text.hint.bole.refuse_to_reset_job": "村民严正拒绝了你的无礼要求，就算你拿着下届合金剑指着他也不会屈服！",
   "text.hint.bole.something_is_wrong": "报错啦。详情见游戏日志。",
   "text.hint.bole.allay_like_no_noteblock": "悦灵目前没有喜欢的音符盒。",
+  "text.hint.bole.entity_reorder_done": "重排序完成，可前往首页查看。",
 
   "text.error.bole.data_load": "数据读取失败",
   "text.error.bole.client_server_mod_version_not_match": "伯乐模组：客户端与服务端的模组版本差距过大，无法完全兼容！",
@@ -300,6 +301,7 @@
   "text.warning.bole.open_merchant_inventory": "如果你愿意给商人支付 %d 个 %s 的话，商人倒是不介意让你随意翻他的随身小背包。",
   "text.warning.bole.villager_reset_job": "在有此模组之前，交易刷歪了的村民大多难逃玩家正义的击杀。想到这儿，村民转而欣然接受了你的好意。\n\n村民交易列表与经验等级均会清零，确认重置吗？",
   "text.warning.bole.villager_change_cloth": "想给村民换件新衣服？给村民 %d 个 %s，他会自己裁制新衣。",
+  "text.warning.bole.entity_reorder_done": "已尝试自动打开配置文件（若始终未被打开，请手动打开 %s）。\n编辑并保存（或删除）该文件后，点击本对话框的“确定”，将对实体重排序（删除文件会恢复默认排序）。",
 
   "text.bole.colon": "：",
   "text.bole.comma": "，",
@@ -314,7 +316,7 @@
   "text.bole.get_configs_local_is_not_remote": "当前世界配置（非本地配置）：",
   "text.bole.other_client_configs": "客户端其他配置:",
   "text.bole.custom_entity_order_config": "自定义主页中的实体排序顺序",
-  "text.bole.custom_entity_order_config.description": "打开并编辑配置文件：\n%s\n修改并保存后再点击此按钮以重排序。\n删除该文件可以恢复默认排序。",
+  "text.bole.custom_entity_order_config.description": "主页生物的排序由该配置文件确定：\n%s\n点击按钮将自动打开该文件以供编辑。",
   "text.bole.server_mod_version": "服务端伯乐：v%s",
   "text.bole.anti_mistouch_warning": "防误触警告",
   "text.bole.return_to_homepage": "返回手册主页",

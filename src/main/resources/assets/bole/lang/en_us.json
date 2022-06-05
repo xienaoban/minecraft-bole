@@ -291,6 +291,7 @@
   "text.hint.bole.refuse_to_reset_job": "The villager sternly rejected your rude request (don't try to threaten him with a sword).",
   "text.hint.bole.something_is_wrong": "Some is wrong. See the logfile of the game.",
   "text.hint.bole.allay_like_no_noteblock": "The allay has no favorite noteblock currently.",
+  "text.hint.bole.entity_reorder_done": "Reordering finished. Now go to the homepage to check it out.",
 
   "text.error.bole.data_load": "Data Error",
   "text.error.bole.client_server_mod_version_not_match": "Mod Bole: The mod version of the client does not match the mod version of the server!",
@@ -300,6 +301,7 @@
   "text.warning.bole.open_merchant_inventory": "If you are willing to pay %d %ss, the merchant will let you rummage through its inventory.",
   "text.warning.bole.villager_reset_job": "Usually players tend to kill villagers with unsatisfactory trading lists. Thinking of this, the villager readily accepts your kindness.\nAre you sure to reset?",
   "text.warning.bole.villager_change_cloth": "Want the villager to wear new clothes? Give the villager %d %s and he will make new clothes by himself.",
+  "text.warning.bole.entity_reorder_done": "The file has been opened automatically (if not, open %s manually).\nAfter editing and saving (or deleting) the file, click \"Ok\" here to reorder the entities.",
 
   "text.bole.colon": ": ",
   "text.bole.comma": ", ",
@@ -314,7 +316,7 @@
   "text.bole.get_configs_local_is_not_remote": "Current configs (not local configs):",
   "text.bole.other_client_configs": "Other client configs:",
   "text.bole.custom_entity_order_config": "Customize order of entities in homepage",
-  "text.bole.custom_entity_order_config.description": "Open and edit the config file:\n%s\nThen click this button to reorder.\nYou can restore the default order by deleting the file.",
+  "text.bole.custom_entity_order_config.description": "This config file determines the ordering of the entities in homepages:\n%s\nClick this button to open the file automatically.",
   "text.bole.server_mod_version": "Server bole: v%s",
   "text.bole.anti_mistouch_warning": "Anti-mistouch warning",
   "text.bole.return_to_homepage": "Homepage",

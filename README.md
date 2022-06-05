@@ -76,14 +76,15 @@ opened. You can also open the screen by pressing the hotkey.
     - PlayerEntity
       - [X] `Experience`
     - MobEntity:
-      - [X] `Attractive items` (goalSelector - TemptGoal)
-      - [X] `Can be leashed` (canBeLeashedBy)
+      - [X] `Attractive items`
+      - [X] `Can be leashed`
       - [X] `Disable AI`
       - PathAwareEntity:
         - PassiveEntity:
-          - [X] `Set baby / Never grow up` (breedingAge)
+          - [X] `Set baby / Never grow up`
           - AnimalEntity:
-            - [X] `Breeding item` (isBreedingItem)
+            - [X] `Breeding item`
+            - [ ] `Breeding cooldown`
             - TameableEntity:
               - [X] `Is tamed`
               - [ ] `Set owner`
@@ -107,7 +108,8 @@ opened. You can also open the screen by pressing the hotkey.
                 - [X] `Set variant`
             - CowEntity:
               - MooshroomEntity:
-                - [ ] `Set variant`
+                - [X] `Set variant`
+                - [ ] `Spawn different variants randomly`
             - BeeEntity:
               - [X] `Beehive position`
               - [X] `Reset beehive position`

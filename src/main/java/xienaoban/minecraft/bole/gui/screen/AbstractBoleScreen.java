@@ -385,8 +385,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             for (int i = 0; i < lines.size(); ++i) {
                 textRenderer.draw(matrices, lines.get(i), x + 12, y + 22 + i * 10, DARK_TEXT_COLOR);
             }
-            this.confirm.draw(matrices, this.box.right() - this.confirm.box.width() - this.cancel.box.width() - 25, this.box.bottom() - this.confirm.box.height() - 12, mouseX, mouseY);
-            this.cancel.draw(matrices, this.box.right() - this.cancel.box.width() - 20, this.box.bottom() - this.cancel.box.height() - 12, mouseX, mouseY);
+            this.confirm.draw(matrices, this.box.right() - this.confirm.box.width() - this.cancel.box.width() - 25, this.box.bottom() - this.confirm.box.height() - 8, mouseX, mouseY);
+            this.cancel.draw(matrices, this.box.right() - this.cancel.box.width() - 20, this.box.bottom() - this.cancel.box.height() - 8, mouseX, mouseY);
             drawDebugBox(matrices, this.box, 0x66dd001b);
         }
 

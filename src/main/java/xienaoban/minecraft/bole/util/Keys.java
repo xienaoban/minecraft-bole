@@ -7,6 +7,7 @@ public interface Keys {
     String BOLE = "bole";
     String NAMESPACE = "bole";
     String GITHUB_RELEASE = "https://github.com/xienaoban/minecraft-bole/releases";
+    String CURSEFORGE_RELEASE = "https://www.curseforge.com/minecraft/mc-mods/bole";
 
     // Path
     String ENTITY_SORT_ORDER_CONFIG_FILENAME = "bole_entity_sort_order.txt";
@@ -250,6 +251,7 @@ public interface Keys {
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.bole.refuse_to_reset_job";
     String HINT_TEXT_SOMETHING_IS_WRONG = "text.hint.bole.something_is_wrong";
     String HINT_TEXT_ALLAY_LIKE_NO_NOTEBLOCK = "text.hint.bole.allay_like_no_noteblock";
+    String HINT_TEXT_ENTITY_REORDER_DONE = "text.hint.bole.entity_reorder_done";
 
     String ERROR_TEXT_DATA_LOAD = "text.error.bole.data_load";
     String ERROR_TEXT_CLIENT_SERVER_MOD_VERSION_NOT_MATCH = "text.error.bole.client_server_mod_version_not_match";
@@ -259,6 +261,7 @@ public interface Keys {
     String WARNING_TEXT_OPEN_MERCHANT_INVENTORY = "text.warning.bole.open_merchant_inventory";
     String WARNING_TEXT_VILLAGER_RESET_JOB = "text.warning.bole.villager_reset_job";
     String WARNING_TEXT_VILLAGER_CHANGE_CLOTH = "text.warning.bole.villager_change_cloth";
+    String WARNING_TEXT_ENTITY_REORDER_DONE = "text.warning.bole.entity_reorder_done";
 
     String TEXT_COLON = "text.bole.colon";
     String TEXT_COMMA = "text.bole.comma";

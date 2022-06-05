@@ -89,9 +89,9 @@ public class BoleHandbookItem {
                 
                 §r§0%s
                 
-                Github: §9§n%s
+                Curseforge: §9§n%s
                 """
-                .formatted(trans(Keys.TEXT_MOD_NAME_IS), trans(Keys.MOD_NAME), trans(Keys.TEXT_MOD_NOT_INSTALLED), Keys.GITHUB_RELEASE);
+                .formatted(trans(Keys.TEXT_MOD_NAME_IS), trans(Keys.MOD_NAME), trans(Keys.TEXT_MOD_NOT_INSTALLED), Keys.CURSEFORGE_RELEASE);
         NbtList pages = new NbtList();
         pages.add(NbtString.of(page0));
         return pages;
