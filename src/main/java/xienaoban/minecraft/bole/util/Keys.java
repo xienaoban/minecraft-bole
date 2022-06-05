@@ -161,6 +161,7 @@ public interface Keys {
     String PROPERTY_WIDGET_HAS_AI_DESCRIPTION_BUTTON1 = "property_widget.bole.has_ai.description.button1";
     String PROPERTY_WIDGET_TAME = "property_widget.bole.tame";
     String PROPERTY_WIDGET_TAME_DESCRIPTION = "property_widget.bole.tame.description";
+    String PROPERTY_WIDGET_TAME_DESCRIPTION_BUTTON1 = "property_widget.bole.tame.description.button1";
     String PROPERTY_WIDGET_BABY = "property_widget.bole.baby";
     String PROPERTY_WIDGET_BABY_DESCRIPTION = "property_widget.bole.baby.description";
     String PROPERTY_WIDGET_BABY_DESCRIPTION_BUTTON1 = "property_widget.bole.baby.description.button1";
@@ -314,4 +315,5 @@ public interface Keys {
     String TEXT_REQUESTING_MOJANG_API = "text.bole.requesting_mojang_api";
     String TEXT_FAIL_TO_REQUEST_MOJANG_API = "text.bole.fail_to_request_mojang_api";
     String TEXT_NOT_GENUINE_PLAYER = "text.bole.not_genuine_player";
+    String TEXT_NOT_TAMED = "text.bole.not_tamed";
 }

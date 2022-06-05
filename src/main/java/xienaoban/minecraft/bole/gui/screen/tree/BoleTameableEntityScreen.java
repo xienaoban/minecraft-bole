@@ -6,7 +6,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import xienaoban.minecraft.bole.util.Keys;
+
+import java.util.UUID;
 
 @Environment(EnvType.CLIENT)
 public class BoleTameableEntityScreen<E extends TameableEntity, H extends BoleTameableEntityScreenHandler<E>> extends BoleAnimalEntityScreen<E, H> {
@@ -17,7 +18,7 @@ public class BoleTameableEntityScreen<E extends TameableEntity, H extends BoleTa
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(0).addSlotLazyAfter(new TamePropertyWidget(), LeashPropertyWidget.class);
+        this.pages.get(1).addSlotLazyAfter(new TamePropertyWidget(), BabyPropertyWidget.class);
     }
 
     @Override
@@ -33,22 +34,15 @@ public class BoleTameableEntityScreen<E extends TameableEntity, H extends BoleTa
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class TamePropertyWidget extends TemplatePropertyWidget1 {
-
-        public TamePropertyWidget() {
-            super(1, true, 0);
+    public class TamePropertyWidget extends AbstractTamePropertyWidget {
+        @Override
+        protected boolean isTame() {
+            return handler.entity.isTamed();
         }
 
         @Override
-        protected void initTooltipLines() {
-            initTooltipTitle(Keys.PROPERTY_WIDGET_TAME);
-            initTooltipDescription(Keys.PROPERTY_WIDGET_TAME_DESCRIPTION);
-        }
-
-        @Override
-        protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawIcon(matrices, 150, 10);
-            drawBar(matrices, 1.0F, 220 + (handler.entity.isTamed() ? 0 : 10), 20);
+        protected UUID getOwnerUuid() {
+            return handler.entity.getOwnerUuid();
         }
     }
 }

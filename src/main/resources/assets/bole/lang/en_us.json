@@ -199,8 +199,9 @@
   "property_widget.bole.leash.description": "Whether the entity can be leashed by a rope.",
   "property_widget.bole.has_ai": "Whether the AI Is Enabled",
   "property_widget.bole.has_ai.description.button1": "Button1: enable/disable the AI of the entity.",
-  "property_widget.bole.tame": "Whether the Entity Is Tamed",
-  "property_widget.bole.tame.description": "（=ㅇᆽㅇ=）♡",
+  "property_widget.bole.tame": "Whether the Entity is Tamed",
+  "property_widget.bole.tame.description": "Shows its owner in the bar.",
+  "property_widget.bole.tame.description.button1": "Button1: gift pets to others (not implemented yet).",
   "property_widget.bole.baby": "Growth Stage",
   "property_widget.bole.baby.description": "The growth stage of the baby entity.",
   "property_widget.bole.baby.description.button1": "Button1: set whether the baby will never grow up.",
@@ -351,7 +352,8 @@
   "text.bole.leash_fall": "%d leash fell from your hand!",
   "text.bole.current_feature_request": "Current feature request ID: \"%s\"",
   "text.bole.feature_request_banned_from_server": "Request \"%s\" is banned from server!",
-  "text.bole.requesting_mojang_api": "(Requesting)",
-  "text.bole.fail_to_request_mojang_api": "(Network Error)",
-  "text.bole.not_genuine_player": "(Not Found)"
+  "text.bole.requesting_mojang_api": "Requesting",
+  "text.bole.fail_to_request_mojang_api": "Network error",
+  "text.bole.not_genuine_player": "Not found",
+  "text.bole.not_tamed": "Not tamed"
 }

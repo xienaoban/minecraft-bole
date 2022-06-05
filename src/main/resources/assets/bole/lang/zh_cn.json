@@ -199,8 +199,9 @@
   "property_widget.bole.leash.description": "目标是否可被拴绳拴着走。",
   "property_widget.bole.has_ai": "目标的 AI 是否启用",
   "property_widget.bole.has_ai.description.button1": "按钮1：启用或禁用该目标的 AI。",
-  "property_widget.bole.tame": "是否已驯服",
-  "property_widget.bole.tame.description": "（=ㅇᆽㅇ=）♡",
+  "property_widget.bole.tame": "驯服情况",
+  "property_widget.bole.tame.description": "在文本框中展示其主人。",
+  "property_widget.bole.tame.description.button1": "按钮1：将宠物赠与他人（未实现）。",
   "property_widget.bole.baby": "成长阶段",
   "property_widget.bole.baby.description": "目标的成长阶段（进度条仅针对幼儿状态）。",
   "property_widget.bole.baby.description.button1": "按钮1：设置是否禁止幼儿成长。",
@@ -351,7 +352,8 @@
   "text.bole.leash_fall": "%d 根缰绳脱手了",
   "text.bole.current_feature_request": "当前功能的请求 ID：“%s”",
   "text.bole.feature_request_banned_from_server": "服务器禁止了名为“%s”的请求！",
-  "text.bole.requesting_mojang_api": "（查询中）",
-  "text.bole.fail_to_request_mojang_api": "（网络出错）",
-  "text.bole.not_genuine_player": "（查无此人）"
+  "text.bole.requesting_mojang_api": "查询中",
+  "text.bole.fail_to_request_mojang_api": "网络出错",
+  "text.bole.not_genuine_player": "查无此人",
+  "text.bole.not_tamed": "未驯服"
 }
