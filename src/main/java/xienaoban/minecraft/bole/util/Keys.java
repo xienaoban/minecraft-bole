@@ -232,6 +232,7 @@ public interface Keys {
     String PROPERTY_WIDGET_ALLEY_LIKED = "property_widget.bole.allay_liked";
     String PROPERTY_WIDGET_ALLEY_LIKED_DESCRIPTION = "property_widget.bole.allay_liked.description";
     String PROPERTY_WIDGET_ALLEY_LIKED_DESCRIPTION_BUTTON1 = "property_widget.bole.allay_liked.description.button1";
+    String PROPERTY_WIDGET_DESCRIPTION_GET_NAME_BY_UUID = "property_widget.bole.description.get_name_by_uuid";
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.bole.only_in_god_mode";
@@ -307,4 +308,7 @@ public interface Keys {
     String TEXT_LEASH_FALL = "text.bole.leash_fall";
     String TEXT_CURRENT_FEATURE_REQUEST = "text.bole.current_feature_request";
     String TEXT_FEATURE_REQUEST_BANNED_FROM_SERVER = "text.bole.feature_request_banned_from_server";
+    String TEXT_REQUESTING_MOJANG_API = "text.bole.requesting_mojang_api";
+    String TEXT_FAIL_TO_REQUEST_MOJANG_API = "text.bole.fail_to_request_mojang_api";
+    String TEXT_NOT_GENUINE_PLAYER = "text.bole.not_genuine_player";
 }

@@ -271,8 +271,9 @@
   "property_widget.bole.screaming_goat": "是否为尖叫山羊",
   "property_widget.bole.screaming_goat.description": "呃啊啊啊啊啊啊啊啊！！！！！！！！！",
   "property_widget.bole.allay_liked": "悦灵喜欢的玩家",
-  "property_widget.bole.allay_liked.description": "如果该玩家在线的话展示其名字，否则显示“未知玩家”。",
+  "property_widget.bole.allay_liked.description": "谁给它物品它就喜欢谁~",
   "property_widget.bole.allay_liked.description.button1": "按钮1：高亮悦灵喜欢的音符盒（如果有的话）。",
+  "property_widget.bole.description.get_name_by_uuid": "请知：当该玩家不在线或不在您附近时，我们只能尝试从 Mojang 官方服务器获取该玩家姓名。\n因此如果您的服务器未开启正版验证，可能会查询不到。",
 
   "text.hint.bole.offer_or_drop": "%s已发放到背包。",
   "text.hint.bole.only_in_god_mode": "只能在创造模式中使用。",
@@ -347,5 +348,8 @@
   "text.bole.adult": "成年",
   "text.bole.leash_fall": "%d 根缰绳脱手了",
   "text.bole.current_feature_request": "当前功能的请求 ID：“%s”",
-  "text.bole.feature_request_banned_from_server": "服务器禁止了名为“%s”的请求！"
+  "text.bole.feature_request_banned_from_server": "服务器禁止了名为“%s”的请求！",
+  "text.bole.requesting_mojang_api": "（查询中）",
+  "text.bole.fail_to_request_mojang_api": "（网络出错）",
+  "text.bole.not_genuine_player": "（查无此人）"
 }

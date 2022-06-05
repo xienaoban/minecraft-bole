@@ -271,8 +271,9 @@
   "property_widget.bole.screaming_goat": "Is Screaming Goat",
   "property_widget.bole.screaming_goat.description": "Ahhhhhh!!!!!!!!!",
   "property_widget.bole.allay_liked": "The Player That the Allay Likes",
-  "property_widget.bole.allay_liked.description": "Shows the player's name if he/she is online, otherwise shows 'unknown'.",
+  "property_widget.bole.allay_liked.description": "Whoever gives it an item it likes~",
   "property_widget.bole.allay_liked.description.button1": "Button1: Highlight the noteblock (if it exists) the allay likes.",
+  "property_widget.bole.description.get_name_by_uuid": "Note: When the player is not online or near you, we can only get the player's name from the Mojang server. So we can't obtain pirated players' names in this situation.",
 
   "text.hint.bole.offer_or_drop": "%s is offered to you.",
   "text.hint.bole.only_in_god_mode": "Can only be used in creative mode.",
@@ -347,5 +348,8 @@
   "text.bole.adult": "Adult",
   "text.bole.leash_fall": "%d leash fell from your hand!",
   "text.bole.current_feature_request": "Current feature request ID: \"%s\"",
-  "text.bole.feature_request_banned_from_server": "Request \"%s\" is banned from server!"
+  "text.bole.feature_request_banned_from_server": "Request \"%s\" is banned from server!",
+  "text.bole.requesting_mojang_api": "(Requesting)",
+  "text.bole.fail_to_request_mojang_api": "(Network Error)",
+  "text.bole.not_genuine_player": "(Not Found)"
 }

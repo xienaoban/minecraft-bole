@@ -10,12 +10,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.entity.EntityLookup;
+import xienaoban.minecraft.bole.client.PlayerDataCacheManager;
 import xienaoban.minecraft.bole.gui.screen.tree.BolePathAwareEntityScreenHandler;
-import xienaoban.minecraft.bole.mixin.IMixinWorld;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleAllayEntityScreenHandler<E extends AllayEntity> extends BolePathAwareEntityScreenHandler<E> {
@@ -77,9 +75,7 @@ public class BoleAllayEntityScreenHandler<E extends AllayEntity> extends BolePat
     protected void readServerEntityFromBuf(PacketByteBuf buf) {
         super.readServerEntityFromBuf(buf);
         buf.readOptional(PacketByteBuf::readUuid).ifPresentOrElse(uuid -> {
-            EntityLookup<Entity> lookup = ((IMixinWorld) this.entity.world).callGetEntityLookup();
-            Entity e = lookup.get(uuid);
-            this.likedPlayerName = e == null ? Text.translatable(Keys.TEXT_UNKNOWN_PLAYER).formatted(Formatting.LIGHT_PURPLE) : e.getName();
+            this.likedPlayerName = PlayerDataCacheManager.getInstance().getPlayerName(uuid);
         }, () -> this.likedPlayerName = null);
         buf.readOptional(PacketByteBuf::readGlobalPos).ifPresentOrElse(
                 globalPos -> this.likedNoteBlockPosition = globalPos,

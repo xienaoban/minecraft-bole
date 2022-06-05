@@ -139,7 +139,7 @@ opened. You can also open the screen by pressing the hotkey.
             - WanderingTraderEntity:
               - [X] `Notify players when spawned`
               - [X] `Despawn time`
-              - [X] `Add Despawn time`
+              - [X] `Add despawn time`
         - WaterCreatureEntity:
           - FishEntity:
             - SchoolingFishEntity:
@@ -151,7 +151,8 @@ opened. You can also open the screen by pressing the hotkey.
           - AbstractPiglinEntity:
             - PiglinEntity:
               - [ ] `Pay to dance`
-
+        - AllayEntity:
+          - [X] `What the allay likes`
 ## Q&A
 
 - **What does "Bole" mean?**

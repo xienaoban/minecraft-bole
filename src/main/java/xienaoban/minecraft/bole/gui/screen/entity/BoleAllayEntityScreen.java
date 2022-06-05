@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.BoleClient;
+import xienaoban.minecraft.bole.client.PlayerDataCacheManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.gui.screen.tree.BolePathAwareEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
@@ -38,14 +39,19 @@ public class BoleAllayEntityScreen<E extends AllayEntity, H extends BoleAllayEnt
     }
 
     public class LikedPropertyWidget extends TemplatePropertyWidget1 {
+        private Text lastBarTextCache, trimmedBarTextCache;
+
         public LikedPropertyWidget() {
             super(2, true, 1);
+            this.lastBarTextCache = null;
+            this.trimmedBarTextCache = null;
         }
 
         @Override
         protected void initTooltipLines() {
             initTooltipTitle(Keys.PROPERTY_WIDGET_ALLEY_LIKED);
             initTooltipDescription(Keys.PROPERTY_WIDGET_ALLEY_LIKED_DESCRIPTION);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_DESCRIPTION_GET_NAME_BY_UUID);
             initTooltipEmptyLine();
             initTooltipButtonDescription(Keys.PROPERTY_WIDGET_ALLEY_LIKED_DESCRIPTION_BUTTON1);
         }
@@ -55,18 +61,21 @@ public class BoleAllayEntityScreen<E extends AllayEntity, H extends BoleAllayEnt
             drawIcon(matrices, 0, 150);
             drawBar(matrices, 1, 10, 150);
             drawButton(matrices, 0, 230, 30 - (handler.likedNoteBlockPosition != null ? 0 : 20));
-            if (handler.likedPlayerName == null) {
-                drawBarText(matrices, Text.translatable(Keys.TEXT_EMPTY_WITH_BRACKETS), 0xCCca64ea);
+            Text barText = handler.likedPlayerName;
+            int barTextColor = PlayerDataCacheManager.isNoPlayerData(barText) ? 0xCCca64ea : 0xCC9332bf;
+            if (barText == null) {
+                barText = Text.translatable(Keys.TEXT_EMPTY_WITH_BRACKETS);
             }
-            else {
+            if (this.lastBarTextCache != barText) {
+                this.lastBarTextCache = barText;
                 final int maxWidth = 2 * (33 - 2 * 2);
-                Text text = handler.likedPlayerName;
-                if (textRenderer.getWidth(text) > maxWidth) {
-                    String trimmed = textRenderer.trimToWidth(text.getString(), maxWidth - 6, false) + "...";
-                    text = Text.literal(trimmed);
+                if (textRenderer.getWidth(barText) > maxWidth) {
+                    String trimmed = textRenderer.trimToWidth(barText.getString(), maxWidth - 6, false) + "...";
+                    barText = Text.literal(trimmed);
                 }
-                drawBarText(matrices, text, 0xCC9332bf);
+                this.trimmedBarTextCache = barText;
             }
+            drawBarText(matrices, this.trimmedBarTextCache, barTextColor);
         }
 
         @Override
