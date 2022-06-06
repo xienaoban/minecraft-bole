@@ -3,6 +3,8 @@ package xienaoban.minecraft.bole.client;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
@@ -48,13 +50,23 @@ public class PlayerDataCacheManager {
      * @return Keys.TEXT_NOT_GENUINE_PLAYER, Keys.TEXT_FAIL_TO_REQUEST_MOJANG_API or the real name
      */
     public Text getPlayerName(UUID uuid) {
-        ClientWorld world = MinecraftClient.getInstance().world;
+        MinecraftClient client = MinecraftClient.getInstance();
+        ClientWorld world = client.world;
         if (world != null) {
             EntityLookup<Entity> lookup = ((IMixinWorld) MinecraftClient.getInstance().world).callGetEntityLookup();
             Entity e = lookup.get(uuid);
             if (e != null) {
                 this.uuidToName.put(uuid, e.getName());
                 return e.getName();
+            }
+        }
+        ClientPlayerEntity player = client.player;
+        if (player != null) {
+            PlayerListEntry entry = client.player.networkHandler.getPlayerListEntry(uuid);
+            if (entry != null) {
+                Text name = Text.literal(entry.getProfile().getName());
+                this.uuidToName.put(uuid, name);
+                return name;
             }
         }
         Text name = this.uuidToName.get(uuid);

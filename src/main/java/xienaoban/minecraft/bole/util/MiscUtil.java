@@ -69,7 +69,9 @@ public class MiscUtil {
             con.setReadTimeout(1000 * 6);
             int code = con.getResponseCode();
             if (code != HttpURLConnection.HTTP_OK) {
-                Bole.LOGGER.error("Bad response code [" + code + "]: " + url);
+                if (code != HttpURLConnection.HTTP_NO_CONTENT) {
+                    Bole.LOGGER.error("Bad response code [" + code + "]: " + url);
+                }
                 return null;
             }
             try (InputStreamReader input = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
