@@ -27,6 +27,7 @@ import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.client.PlayerDataCacheManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.core.BoleHandbookItem;
@@ -119,9 +120,10 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
             page0.addSlot(new CenteredTextPropertyWidget(4, 1, Text.translatable(Keys.TEXT_MOD_AUTHOR_IS, Text.translatable(Keys.AUTHOR_TRANS)), DARK_TEXT_COLOR, 0.5F));
             FabricLoader.getInstance().getModContainer(Keys.BOLE).ifPresent(modContainer -> page0.addSlot(new CenteredTextPropertyWidget(4, 1, Text.translatable(Keys.TEXT_MOD_VERSION_IS, modContainer.getMetadata().getVersion()), DARK_TEXT_COLOR, 0.5F)));
             page1.addSlot(new OpenDebugPropertyWidget());
-            page1.addSlot(new GiveBookPropertyWidget());
-            page1.addSlot(new ReorderPropertyWidget());
-            page1.addSlot(new CrashClientPropertyWidget());
+            page1.addSlot(new DebugGiveBookPropertyWidget());
+            page1.addSlot(new DebugReorderPropertyWidget());
+            page1.addSlot(new DebugClearMojangApiPropertyWidget());
+            page1.addSlot(new DebugCrashClientPropertyWidget());
             setPageIndex(0);
         });
     }
@@ -477,7 +479,11 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            drawTextCenteredX(matrices, "-= Bole Debug Mode (Press R-ALT) =-", 0xffcc2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+            if (debugMode) {
+                drawTextCenteredX(matrices, "-= DO NOT CLICK ANY OF THEM =-", 0xffcc2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+            } else {
+                drawTextCenteredX(matrices, "-= Bole Debug Mode (Press R-ALT) =-", 0xffcc2222, 0.5F, this.box.left() + this.box.right() >> 1, this.box.top() + 3F);
+            }
         }
 
         @Override
@@ -520,9 +526,9 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         protected abstract boolean onMouseClick();
     }
 
-    public class GiveBookPropertyWidget extends DebugPropertyWidget {
+    public class DebugGiveBookPropertyWidget extends DebugPropertyWidget {
 
-        public GiveBookPropertyWidget() {
+        public DebugGiveBookPropertyWidget() {
             super("-= Get a Bole Handbook =-");
         }
 
@@ -540,8 +546,8 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         }
     }
 
-    public class ReorderPropertyWidget extends DebugPropertyWidget {
-        public ReorderPropertyWidget() {
+    public class DebugReorderPropertyWidget extends DebugPropertyWidget {
+        public DebugReorderPropertyWidget() {
             super("-= Reorder Entities In Homepage =-");
         }
 
@@ -552,8 +558,20 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         }
     }
 
-    public class CrashClientPropertyWidget extends DebugPropertyWidget {
-        public CrashClientPropertyWidget() {
+    public class DebugClearMojangApiPropertyWidget extends DebugPropertyWidget {
+        public DebugClearMojangApiPropertyWidget() {
+            super("-= Clear Mojang APIs =-");
+        }
+
+        @Override
+        public boolean onMouseClick() {
+            PlayerDataCacheManager.getInstance().debugClear();
+            return true;
+        }
+    }
+
+    public class DebugCrashClientPropertyWidget extends DebugPropertyWidget {
+        public DebugCrashClientPropertyWidget() {
             super("-= Crash the Client =-");
         }
 
