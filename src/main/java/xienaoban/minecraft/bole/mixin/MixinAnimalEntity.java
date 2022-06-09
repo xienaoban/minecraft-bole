@@ -5,7 +5,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.damage.ProjectileDamageSource;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -25,7 +25,7 @@ public class MixinAnimalEntity {
     @ModifyVariable(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private float damage(float amount, DamageSource source) {
         AnimalEntity that = (AnimalEntity)(Object) this;
-        if (((that instanceof TameableEntity te && te.isTamed()) || (that instanceof HorseBaseEntity hbe && hbe.isTame()))) {
+        if (((that instanceof TameableEntity te && te.isTamed()) || (that instanceof AbstractHorseEntity hbe && hbe.isTame()))) {
             Configs configs = that.world instanceof ServerWorld ? Configs.getInstance() : Bole.getInstance().getServerConfigs();
             if (!configs.isBlockAccidentalInjuryToPets()) return amount;
             if (source instanceof EntityDamageSource entityDamageSource) {
@@ -42,7 +42,7 @@ public class MixinAnimalEntity {
     private static boolean isOtherPlayer(AnimalEntity that, Entity attacker) {
         if (attacker instanceof PlayerEntity) {
              if (that instanceof TameableEntity t) return !Objects.equals(t.getOwnerUuid(), attacker.getUuid());
-            if (that instanceof HorseBaseEntity t) return !Objects.equals(t.getOwnerUuid(), attacker.getUuid());
+            if (that instanceof AbstractHorseEntity t) return !Objects.equals(t.getOwnerUuid(), attacker.getUuid());
         }
         return false;
     }

@@ -6,8 +6,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.FallingBlockEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import xienaoban.minecraft.bole.mixin.MixinFallingBlockEntityRenderer;
 
 import java.util.Objects;

@@ -7,6 +7,7 @@ public interface Keys {
     String BOLE = "bole";
     String NAMESPACE = "bole";
     String GITHUB_RELEASE = "https://github.com/xienaoban/minecraft-bole/releases";
+    String CURSEFORGE_RELEASE = "https://www.curseforge.com/minecraft/mc-mods/bole";
 
     // Path
     String ENTITY_SORT_ORDER_CONFIG_FILENAME = "bole_entity_sort_order.txt";
@@ -30,8 +31,10 @@ public interface Keys {
     String ENTITY_SETTING_ADD_WANDERING_VILLAGER_WANDERING_TIME =   "add_wandering_villager_wandering_time";
     String ENTITY_SETTING_SHEEP_EAT_GRASS =                         "sheep_eat_grass";
     String ENTITY_SETTING_RABBIT_VARIANT =                          "rabbit_variant";
+    String ENTITY_SETTING_MOOSHROOM_VARIANT =                       "mooshroom_variant";
     String ENTITY_SETTING_CAT_VARIANT =                             "cat_variant";
     String ENTITY_SETTING_PARROT_VARIANT =                          "parrot_variant";
+    String ENTITY_SETTING_FROG_VARIANT =                            "frog_variant";
     String ENTITY_SETTING_LLAMA_VARIANT =                           "llama_variant";
     String ENTITY_SETTING_FOX_VARIANT =                             "fox_variant";
     String ENTITY_SETTING_PANDA_VARIANT =                           "panda_variant";
@@ -63,18 +66,6 @@ public interface Keys {
     String RABBIT_VARIANT_GOLD_TYPE =           "entity.minecraft.rabbit.variant.gold_type";
     String RABBIT_VARIANT_SALT_TYPE =           "entity.minecraft.rabbit.variant.salt_type";
     String RABBIT_VARIANT_KILLER_BUNNY_TYPE =   "entity.minecraft.rabbit.variant.killer_bunny_type";
-
-    String CAT_VARIANT_TABBY =             "entity.minecraft.cat.variant.tabby";
-    String CAT_VARIANT_BLACK =             "entity.minecraft.cat.variant.black";
-    String CAT_VARIANT_RED =               "entity.minecraft.cat.variant.red";
-    String CAT_VARIANT_SIAMESE =           "entity.minecraft.cat.variant.siamese";
-    String CAT_VARIANT_BRITISH_SHORTHAIR = "entity.minecraft.cat.variant.shorthair";
-    String CAT_VARIANT_CALICO =            "entity.minecraft.cat.variant.calico";
-    String CAT_VARIANT_PERSIAN =           "entity.minecraft.cat.variant.persian";
-    String CAT_VARIANT_RAGDOLL =           "entity.minecraft.cat.variant.ragdoll";
-    String CAT_VARIANT_WHITE =             "entity.minecraft.cat.variant.white";
-    String CAT_VARIANT_JELLIE =            "entity.minecraft.cat.variant.jellie";
-    String CAT_VARIANT_ALL_BLACK =         "entity.minecraft.cat.variant.all_black";
 
     String PARROT_VARIANT_RED =     "entity.minecraft.parrot.variant.red";
     String PARROT_VARIANT_BLUE =    "entity.minecraft.parrot.variant.blue";
@@ -114,6 +105,12 @@ public interface Keys {
     String TROPICAL_FISH_VARIANT_BLOCKFISH =    "entity.minecraft.tropical_fish.type.blockfish";
     String TROPICAL_FISH_VARIANT_BETTY =        "entity.minecraft.tropical_fish.type.betty";
     String TROPICAL_FISH_VARIANT_CLAYFISH =     "entity.minecraft.tropical_fish.type.clayfish";
+
+    String MOOSHROOM_VARIANT_PREFIX = "entity.minecraft.mooshroom.variant.";
+
+    String CAT_VARIANT_PREFIX = "entity.minecraft.cat.variant.";
+
+    String FROG_VARIANT_PREFIX = "entity.minecraft.frog.variant.";
 
     String FOX_VARIANT_PREFIX = "entity.minecraft.fox.variant.";
 
@@ -164,6 +161,7 @@ public interface Keys {
     String PROPERTY_WIDGET_HAS_AI_DESCRIPTION_BUTTON1 = "property_widget.bole.has_ai.description.button1";
     String PROPERTY_WIDGET_TAME = "property_widget.bole.tame";
     String PROPERTY_WIDGET_TAME_DESCRIPTION = "property_widget.bole.tame.description";
+    String PROPERTY_WIDGET_TAME_DESCRIPTION_BUTTON1 = "property_widget.bole.tame.description.button1";
     String PROPERTY_WIDGET_BABY = "property_widget.bole.baby";
     String PROPERTY_WIDGET_BABY_DESCRIPTION = "property_widget.bole.baby.description";
     String PROPERTY_WIDGET_BABY_DESCRIPTION_BUTTON1 = "property_widget.bole.baby.description.button1";
@@ -198,10 +196,14 @@ public interface Keys {
     String PROPERTY_WIDGET_VILLAGER_CLOTHING_DESCRIPTION = "property_widget.bole.villager_clothing.description";
     String PROPERTY_WIDGET_RABBIT_VARIANT = "property_widget.bole.rabbit_variant";
     String PROPERTY_WIDGET_RABBIT_VARIANT_DESCRIPTION = "property_widget.bole.rabbit_variant.description";
+    String PROPERTY_WIDGET_MOOSHROOM_VARIANT = "property_widget.bole.mooshroom_variant";
+    String PROPERTY_WIDGET_MOOSHROOM_VARIANT_DESCRIPTION = "property_widget.bole.mooshroom_variant.description";
     String PROPERTY_WIDGET_CAT_VARIANT = "property_widget.bole.cat_variant";
     String PROPERTY_WIDGET_CAT_VARIANT_DESCRIPTION = "property_widget.bole.cat_variant.description";
     String PROPERTY_WIDGET_PARROT_VARIANT = "property_widget.bole.parrot_variant";
     String PROPERTY_WIDGET_PARROT_VARIANT_DESCRIPTION = "property_widget.bole.parrot_variant.description";
+    String PROPERTY_WIDGET_FROG_VARIANT = "property_widget.bole.frog_variant";
+    String PROPERTY_WIDGET_FROG_VARIANT_DESCRIPTION = "property_widget.bole.frog_variant.description";
     String PROPERTY_WIDGET_LLAMA_VARIANT = "property_widget.bole.llama_variant";
     String PROPERTY_WIDGET_LLAMA_VARIANT_DESCRIPTION = "property_widget.bole.llama_variant.description";
     String PROPERTY_WIDGET_HORSE_COLOR_VARIANT = "property_widget.bole.horse_color_variant";
@@ -229,6 +231,10 @@ public interface Keys {
     String PROPERTY_WIDGET_MOISTNESS_DESCRIPTION = "property_widget.bole.moistness.description";
     String PROPERTY_WIDGET_SCREAMING_GOAT = "property_widget.bole.screaming_goat";
     String PROPERTY_WIDGET_SCREAMING_GOAT_DESCRIPTION = "property_widget.bole.screaming_goat.description";
+    String PROPERTY_WIDGET_ALLEY_LIKED = "property_widget.bole.allay_liked";
+    String PROPERTY_WIDGET_ALLEY_LIKED_DESCRIPTION = "property_widget.bole.allay_liked.description";
+    String PROPERTY_WIDGET_ALLEY_LIKED_DESCRIPTION_BUTTON1 = "property_widget.bole.allay_liked.description.button1";
+    String PROPERTY_WIDGET_DESCRIPTION_GET_NAME_BY_UUID = "property_widget.bole.description.get_name_by_uuid";
 
     String HINT_TEXT_OFFER_OR_DROP = "text.hint.bole.offer_or_drop";
     String HINT_TEXT_ONLY_IN_GOD_MODE = "text.hint.bole.only_in_god_mode";
@@ -245,6 +251,8 @@ public interface Keys {
     String HINT_TEXT_JOB_SITE_DIFFERENT_DIMENSION = "text.hint.bole.job_site_different_dimension";
     String HINT_TEXT_REFUSE_TO_RESET_JOB = "text.hint.bole.refuse_to_reset_job";
     String HINT_TEXT_SOMETHING_IS_WRONG = "text.hint.bole.something_is_wrong";
+    String HINT_TEXT_ALLAY_LIKE_NO_NOTEBLOCK = "text.hint.bole.allay_like_no_noteblock";
+    String HINT_TEXT_ENTITY_REORDER_DONE = "text.hint.bole.entity_reorder_done";
 
     String ERROR_TEXT_DATA_LOAD = "text.error.bole.data_load";
     String ERROR_TEXT_CLIENT_SERVER_MOD_VERSION_NOT_MATCH = "text.error.bole.client_server_mod_version_not_match";
@@ -253,6 +261,8 @@ public interface Keys {
     String WARNING_TEXT_DISABLE_AI = "text.warning.bole.disable_ai";
     String WARNING_TEXT_OPEN_MERCHANT_INVENTORY = "text.warning.bole.open_merchant_inventory";
     String WARNING_TEXT_VILLAGER_RESET_JOB = "text.warning.bole.villager_reset_job";
+    String WARNING_TEXT_VILLAGER_CHANGE_CLOTH = "text.warning.bole.villager_change_cloth";
+    String WARNING_TEXT_ENTITY_REORDER_DONE = "text.warning.bole.entity_reorder_done";
 
     String TEXT_COLON = "text.bole.colon";
     String TEXT_COMMA = "text.bole.comma";
@@ -302,4 +312,8 @@ public interface Keys {
     String TEXT_LEASH_FALL = "text.bole.leash_fall";
     String TEXT_CURRENT_FEATURE_REQUEST = "text.bole.current_feature_request";
     String TEXT_FEATURE_REQUEST_BANNED_FROM_SERVER = "text.bole.feature_request_banned_from_server";
+    String TEXT_REQUESTING_MOJANG_API = "text.bole.requesting_mojang_api";
+    String TEXT_FAIL_TO_REQUEST_MOJANG_API = "text.bole.fail_to_request_mojang_api";
+    String TEXT_NOT_GENUINE_PLAYER = "text.bole.not_genuine_player";
+    String TEXT_NOT_TAMED = "text.bole.not_tamed";
 }

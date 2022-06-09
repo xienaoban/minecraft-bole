@@ -3,47 +3,47 @@ package xienaoban.minecraft.bole.gui.screen.entity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.passive.CatVariant;
+import net.minecraft.entity.passive.FrogEntity;
+import net.minecraft.entity.passive.FrogVariant;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import xienaoban.minecraft.bole.gui.screen.tree.BoleTameableEntityScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleCatEntityScreenHandler<E extends CatEntity> extends BoleTameableEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleCatEntityScreenHandler<CatEntity>> HANDLER
-            = register(new Identifier(Keys.NAMESPACE, "cat_entity"), BoleCatEntityScreenHandler::new);
+public class BoleFrogEntityScreenHandler<E extends FrogEntity> extends BoleAnimalEntityScreenHandler<E> {
+    public static final ScreenHandlerType<BoleFrogEntityScreenHandler<FrogEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "frog_entity"), BoleFrogEntityScreenHandler::new);
 
-    public BoleCatEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public BoleFrogEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }
 
-    public BoleCatEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleFrogEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
         this(HANDLER, syncId, playerInventory, entity);
     }
 
-    public BoleCatEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
+    public BoleFrogEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
         this(handler, syncId, playerInventory, clientEntity());
     }
 
-    public BoleCatEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleFrogEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
         registerEntitySettingsBufHandlers();
     }
 
     private void registerEntitySettingsBufHandlers() {
-        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_CAT_VARIANT, new EntitySettingsBufHandler() {
+        registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_FROG_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 if (isGod()) {
-                    entity.setVariant(Registry.CAT_VARIANT.get(buf.readIdentifier()));
+                    entity.setVariant(Registry.FROG_VARIANT.get(buf.readIdentifier()));
                 }
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
-                CatVariant variant = (CatVariant) args[0];
-                buf.writeIdentifier(Registry.CAT_VARIANT.getId(variant));
+                FrogVariant variant = (FrogVariant) args[0];
+                buf.writeIdentifier(Registry.FROG_VARIANT.getId(variant));
                 entity.setVariant(variant);
             }
         });

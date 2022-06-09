@@ -3,30 +3,30 @@ package xienaoban.minecraft.bole.gui.screen.tree;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleHorseBaseEntityScreenHandler<E extends HorseBaseEntity> extends BoleAnimalEntityScreenHandler<E> {
-    public static final ScreenHandlerType<BoleHorseBaseEntityScreenHandler<HorseBaseEntity>> HANDLER
-            = register(new Identifier(Keys.NAMESPACE, "horse_base_entity"), BoleHorseBaseEntityScreenHandler::new);
+public class BoleAbstractHorseEntityScreenHandler<E extends AbstractHorseEntity> extends BoleAnimalEntityScreenHandler<E> {
+    public static final ScreenHandlerType<BoleAbstractHorseEntityScreenHandler<AbstractHorseEntity>> HANDLER
+            = register(new Identifier(Keys.NAMESPACE, "horse_base_entity"), BoleAbstractHorseEntityScreenHandler::new);
 
-    public BoleHorseBaseEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public BoleAbstractHorseEntityScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(HANDLER, syncId, playerInventory);
     }
 
-    public BoleHorseBaseEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleAbstractHorseEntityScreenHandler(int syncId, PlayerInventory playerInventory, Entity entity) {
         this(HANDLER, syncId, playerInventory, entity);
     }
 
-    public BoleHorseBaseEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
+    public BoleAbstractHorseEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory) {
         this(handler, syncId, playerInventory, clientEntity());
     }
 
-    public BoleHorseBaseEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
+    public BoleAbstractHorseEntityScreenHandler(ScreenHandlerType<?> handler, int syncId, PlayerInventory playerInventory, Entity entity) {
         super(handler, syncId, playerInventory, entity);
     }
 

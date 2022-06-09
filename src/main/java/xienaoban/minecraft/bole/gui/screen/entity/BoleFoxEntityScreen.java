@@ -7,10 +7,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
 import xienaoban.minecraft.bole.mixin.IMixinFoxEntity;
-import xienaoban.minecraft.bole.mixin.IMixinFoxEntityType;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
@@ -42,7 +40,7 @@ public class BoleFoxEntityScreen<E extends FoxEntity, H extends BoleFoxEntityScr
     }
 
     public class FoxVariantsPropertyWidget extends VariantsPropertyWidget {
-        private static final FoxEntity.Type[] VARIANTS = IMixinFoxEntityType.getTypes();
+        private static final FoxEntity.Type[] VARIANTS = IMixinFoxEntity.IMixinFoxEntityType.getTypes();
 
         public FoxVariantsPropertyWidget() {
             super(2, 3);
@@ -71,7 +69,7 @@ public class BoleFoxEntityScreen<E extends FoxEntity, H extends BoleFoxEntityScr
 
         @Override
         protected Text[] initNames() {
-            return Arrays.stream(VARIANTS).map(type -> new TranslatableText(Keys.FOX_VARIANT_PREFIX + type.getKey())).toArray(Text[]::new);
+            return Arrays.stream(VARIANTS).map(type -> Text.translatable(Keys.FOX_VARIANT_PREFIX + type.getKey())).toArray(Text[]::new);
         }
 
         @Override

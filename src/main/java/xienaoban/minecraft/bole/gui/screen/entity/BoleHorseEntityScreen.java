@@ -9,9 +9,8 @@ import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.passive.HorseMarking;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
-import xienaoban.minecraft.bole.gui.screen.tree.BoleHorseBaseEntityScreen;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAbstractHorseEntityScreen;
 import xienaoban.minecraft.bole.mixin.IMixinHorseColor;
 import xienaoban.minecraft.bole.mixin.IMixinHorseEntity;
 import xienaoban.minecraft.bole.mixin.IMixinHorseMarking;
@@ -21,7 +20,7 @@ import xienaoban.minecraft.bole.util.MiscUtil;
 import java.util.Arrays;
 
 @Environment(EnvType.CLIENT)
-public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEntityScreenHandler<E>> extends BoleHorseBaseEntityScreen<E, H> {
+public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEntityScreenHandler<E>> extends BoleAbstractHorseEntityScreen<E, H> {
     public BoleHorseEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
@@ -75,7 +74,7 @@ public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEnt
         @Override
         protected Text[] initNames() {
             String[] keys = { Keys.HORSE_COLOR_VARIANT_WHITE, Keys.HORSE_COLOR_VARIANT_CREAMY, Keys.HORSE_COLOR_VARIANT_CHESTNUT, Keys.HORSE_COLOR_VARIANT_BROWN, Keys.HORSE_COLOR_VARIANT_BLACK, Keys.HORSE_COLOR_VARIANT_GRAY, Keys.HORSE_COLOR_VARIANT_DARKBROWN };
-            return Arrays.stream(keys).map(TranslatableText::new).toArray(Text[]::new);
+            return Arrays.stream(keys).map(Text::translatable).toArray(Text[]::new);
         }
 
         @Override
@@ -123,7 +122,7 @@ public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEnt
         @Override
         protected Text[] initNames() {
             String[] keys = { Keys.HORSE_MARKING_VARIANT_NONE, Keys.HORSE_MARKING_VARIANT_WHITE, Keys.HORSE_MARKING_VARIANT_WHITE_FIELD, Keys.HORSE_MARKING_VARIANT_WHITE_DOTS, Keys.HORSE_MARKING_VARIANT_BLACK_DOTS };
-            return Arrays.stream(keys).map(TranslatableText::new).toArray(Text[]::new);
+            return Arrays.stream(keys).map(Text::translatable).toArray(Text[]::new);
         }
 
         @Override

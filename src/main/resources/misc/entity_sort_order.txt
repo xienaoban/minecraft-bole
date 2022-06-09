@@ -28,11 +28,14 @@ minecraft:cod
 minecraft:salmon
 minecraft:tropical_fish
 minecraft:pufferfish
+minecraft:tadpole
+minecraft:frog
 minecraft:axolotl
 minecraft:dolphin
 minecraft:turtle
 minecraft:squid
 minecraft:glow_squid
+minecraft:allay
 minecraft:strider
 
 # misc
@@ -75,5 +78,6 @@ minecraft:evoker
 minecraft:illusioner
 minecraft:witch
 minecraft:giant
+minecraft:warden
 minecraft:wither
 minecraft:ender_dragon

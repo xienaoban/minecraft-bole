@@ -9,7 +9,7 @@ import net.minecraft.text.Text;
 import xienaoban.minecraft.bole.util.Keys;
 
 @Environment(EnvType.CLIENT)
-public class BoleAbstractDonkeyEntityScreen<E extends AbstractDonkeyEntity, H extends BoleAbstractDonkeyEntityScreenHandler<E>> extends BoleHorseBaseEntityScreen<E, H> {
+public class BoleAbstractDonkeyEntityScreen<E extends AbstractDonkeyEntity, H extends BoleAbstractDonkeyEntityScreenHandler<E>> extends BoleAbstractHorseEntityScreen<E, H> {
     public BoleAbstractDonkeyEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }

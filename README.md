@@ -1,7 +1,17 @@
-# Bole
+# Bole Handbook
 
-A mod that displays information of creatures and provides some new optional
-features about creatures.
+A mod that displays information of creatures and allows you to modify some properties
+of the creatures.
+
+- Want to know how high your horse jumps and how fast it runs?
+- Want to know a creature's health, oxygen, potion effects, hitbox, and more?
+- Want baby animals to never grow up?
+- Want to shut up your chickens, sheep or parrots?
+- Want to change villagers' outfits even in survival mode?
+- Want to take your pets out on an adventure but worry about their stupid AI?
+- *(see the end for more features)...*
+
+**This mod is what you need in vanilla survival mode!**
 
 ![Screenshot1](assets/head-small.png)
 
@@ -66,14 +76,15 @@ opened. You can also open the screen by pressing the hotkey.
     - PlayerEntity
       - [X] `Experience`
     - MobEntity:
-      - [X] `Attractive items` (goalSelector - TemptGoal)
-      - [X] `Can be leashed` (canBeLeashedBy)
+      - [X] `Attractive items`
+      - [X] `Can be leashed`
       - [X] `Disable AI`
       - PathAwareEntity:
         - PassiveEntity:
-          - [X] `Set baby / Never grow up` (breedingAge)
+          - [X] `Set baby / Never grow up`
           - AnimalEntity:
-            - [X] `Breeding item` (isBreedingItem)
+            - [X] `Breeding item`
+            - [ ] `Breeding cooldown`
             - TameableEntity:
               - [X] `Is tamed`
               - [ ] `Set owner`
@@ -88,13 +99,17 @@ opened. You can also open the screen by pressing the hotkey.
                   - [ ] `Breedable`
               - CatEntity:
                 - [X] `Set variant`
-            - HorseBaseEntity:
+            - AbstractHorseEntity:
               - AbstractDonkeyEntity
                 - [X] `Chest size`
               - HorseEntity:
                 - [X] `Running speed`
                 - [X] `Jump height`
                 - [X] `Set variant`
+            - CowEntity:
+              - MooshroomEntity:
+                - [X] `Set variant`
+                - [ ] `Spawn different variants randomly`
             - BeeEntity:
               - [X] `Beehive position`
               - [X] `Reset beehive position`
@@ -113,6 +128,8 @@ opened. You can also open the screen by pressing the hotkey.
               - [X] `Set variant`
             - Goat:
               - [X] `Is Screaming`
+            - FrogEntity:
+              - [X] `Set variant`
           - MerchantEntity:
             - [X] `Get inventory`
             - [X] `Set inventory`
@@ -124,7 +141,7 @@ opened. You can also open the screen by pressing the hotkey.
             - WanderingTraderEntity:
               - [X] `Notify players when spawned`
               - [X] `Despawn time`
-              - [X] `Add Despawn time`
+              - [X] `Add despawn time`
         - WaterCreatureEntity:
           - FishEntity:
             - SchoolingFishEntity:
@@ -136,7 +153,8 @@ opened. You can also open the screen by pressing the hotkey.
           - AbstractPiglinEntity:
             - PiglinEntity:
               - [ ] `Pay to dance`
-
+        - AllayEntity:
+          - [X] `What the allay likes`
 ## Q&A
 
 - **What does "Bole" mean?**

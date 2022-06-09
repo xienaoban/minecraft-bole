@@ -5,15 +5,21 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.CatEntity;
+import net.minecraft.entity.passive.CatVariant;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleTameableEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 @Environment(EnvType.CLIENT)
 public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScreenHandler<E>> extends BoleTameableEntityScreen<E, H> {
+    public static final CatVariant[] CAT_VARIANTS = initCatVariants();
+
     public BoleCatEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
@@ -37,11 +43,21 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class CatVariantsPropertyWidget1 extends VariantsPropertyWidget {
-        private static final String[] NAMES = { Keys.CAT_VARIANT_TABBY, Keys.CAT_VARIANT_BLACK, Keys.CAT_VARIANT_RED, Keys.CAT_VARIANT_SIAMESE,
-                Keys.CAT_VARIANT_BRITISH_SHORTHAIR, Keys.CAT_VARIANT_CALICO, Keys.CAT_VARIANT_PERSIAN, Keys.CAT_VARIANT_RAGDOLL,
-                Keys.CAT_VARIANT_WHITE, Keys.CAT_VARIANT_JELLIE, Keys.CAT_VARIANT_ALL_BLACK };
+    private static CatVariant[] initCatVariants() {
+        return Arrays.stream(CatVariant.class.getDeclaredFields())
+                .filter(field -> CatVariant.class.isAssignableFrom(field.getType()))
+                .map(field -> {
+                    try {
+                        return (CatVariant) field.get(CatVariant.class);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                })
+                .toArray(CatVariant[]::new);
+    }
 
+    public class CatVariantsPropertyWidget1 extends VariantsPropertyWidget {
         public CatVariantsPropertyWidget1() {
             super(4, 2);
         }
@@ -63,7 +79,7 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
                     throw new RuntimeException("Failed to create a CatEntity on the client side.");
                 }
                 copyEntityNbtForDisplay(real, entity);
-                entity.setCatType(i);
+                entity.setVariant(CAT_VARIANTS[i]);
                 entities[i - typeFrom()] = entity;
             }
             return MiscUtil.cast(entities);
@@ -74,7 +90,8 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
             final int types = typeTo() - typeFrom();
             Text[] res = new Text[types];
             for (int i = typeFrom(); i < typeTo(); ++i) {
-                res[i - typeFrom()] = new TranslatableText(NAMES[i]);
+                res[i - typeFrom()] = Text.translatable(Keys.CAT_VARIANT_PREFIX
+                        + Objects.requireNonNull(Registry.CAT_VARIANT.getId(CAT_VARIANTS[i])).getPath());
             }
             return res;
         }
@@ -86,12 +103,12 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
 
         @Override
         protected boolean isChosen(E fake) {
-            return handler.entity.getCatType() == fake.getCatType();
+            return handler.entity.getVariant() == fake.getVariant();
         }
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CAT_VARIANT, fake.getCatType());
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_CAT_VARIANT, fake.getVariant());
         }
 
         @Override

@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.BoleClient;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.network.ClientNetworkManager;
@@ -58,7 +57,7 @@ public class BoleMerchantEntityScreen<E extends MerchantEntity, H extends BoleMe
             drawTextureNormally(matrices, 256, 256, 40, 20, getZOffset(), x + 11, y + 1, 10, 90);
             SimpleInventory inventory = handler.entityInventory;
             if (inventory == null) {
-                drawText(matrices, new TranslatableText(Keys.TEXT_LOADING), DARK_TEXT_COLOR, 0.5F, this.box.left() + 13, this.box.top() + 3.25F);
+                drawText(matrices, Text.translatable(Keys.TEXT_LOADING), DARK_TEXT_COLOR, 0.5F, this.box.left() + 13, this.box.top() + 3.25F);
                 return;
             }
             final float size = 8.0F / 16.0F;
@@ -74,17 +73,27 @@ public class BoleMerchantEntityScreen<E extends MerchantEntity, H extends BoleMe
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (isGod()) {
+                doJump();
+                return true;
+            }
             ItemStack cost = BoleMerchantEntityScreenHandler.OPEN_INVENTORY_COST;
-            MerchantEntity merchantEntity = handler.entity;
-            setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.WARNING_TEXT_OPEN_MERCHANT_INVENTORY, cost.getCount(), cost.getItem().getName()), () -> {
+            setPopup(new PopUpConfirmWindow(Text.translatable(Keys.WARNING_TEXT_OPEN_MERCHANT_INVENTORY, cost.getCount(), cost.getItem().getName()), () -> {
                 if (handler.trySpendItems(cost)) {
-                    setPopup(new PopUpConfirmWindow(new TranslatableText(Keys.TEXT_WAIT_FOR_SERVER), () -> {}));
-                    BoleClient.getInstance().setHitEntity(merchantEntity);
-                    ClientNetworkManager.requestMerchantInventoryScreen(merchantEntity);
+                    setPopup(new PopUpConfirmWindow(Text.translatable(Keys.TEXT_WAIT_FOR_SERVER), () -> {}));
+                    doJump();
                 }
-                else showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
+                else {
+                    showOverlayMessage(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS);
+                }
             }));
             return true;
+        }
+
+        private void doJump() {
+            MerchantEntity merchantEntity = handler.entity;
+            BoleClient.getInstance().setHitEntity(merchantEntity);
+            ClientNetworkManager.requestMerchantInventoryScreen(merchantEntity);
         }
     }
 }

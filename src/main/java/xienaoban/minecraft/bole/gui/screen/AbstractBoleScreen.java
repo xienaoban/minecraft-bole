@@ -11,10 +11,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
@@ -74,7 +72,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         this.overlayMessageHud = new OverlayMessageHud();
         this.bookmarks = new HashMap<>();
         this.emptyPage = new Page();
-        this.emptyPage.setSlot(0, 4, new CenteredTextPropertyWidget(4, 2, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), 0xaa666666, 1.0F));
+        this.emptyPage.setSlot(0, 4, new CenteredTextPropertyWidget(4, 2, Text.translatable(Keys.TEXT_EMPTY_WITH_BRACKETS), 0xaa666666, 1.0F));
         this.pages = new ArrayList<>();
         this.pages.add(new Page());
         this.pages.add(new Page());
@@ -275,7 +273,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     }
 
     public void showOverlayMessage(String translationKey) {
-        this.overlayMessageHud.showMessage(new TranslatableText(translationKey));
+        this.overlayMessageHud.showMessage(Text.translatable(translationKey));
     }
 
     public void showOverlayMessage(Text text) {
@@ -338,7 +336,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         private final Text title;
 
         public BookmarkButtonWidget(int x, int y, int color, Text title, PressAction onPress) {
-            super(x, y, 30, 10, LiteralText.EMPTY, onPress);
+            super(x, y, 30, 10, Text.empty(), onPress);
             this.color = color % 5;
             this.title = title;
         }
@@ -366,10 +364,10 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
 
         public PopUpConfirmWindow(Text text, Runnable onConfirm, Runnable onCancel) {
             super(180, 120);
-            this.title = new TranslatableText(Keys.TEXT_ANTI_MISTOUCH_WARNING);
+            this.title = Text.translatable(Keys.TEXT_ANTI_MISTOUCH_WARNING);
             this.lines = textRenderer.wrapLines(text, this.box.width() - 24);
-            this.confirm = new PopUpButton(new TranslatableText(Keys.GUI_OK), onConfirm);
-            this.cancel = new PopUpButton(new TranslatableText(Keys.GUI_CANCEL), onCancel);
+            this.confirm = new PopUpButton(Text.translatable(Keys.GUI_OK), onConfirm);
+            this.cancel = new PopUpButton(Text.translatable(Keys.GUI_CANCEL), onCancel);
         }
 
         @Override
@@ -387,8 +385,8 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             for (int i = 0; i < lines.size(); ++i) {
                 textRenderer.draw(matrices, lines.get(i), x + 12, y + 22 + i * 10, DARK_TEXT_COLOR);
             }
-            this.confirm.draw(matrices, this.box.right() - this.confirm.box.width() - this.cancel.box.width() - 25, this.box.bottom() - this.confirm.box.height() - 12, mouseX, mouseY);
-            this.cancel.draw(matrices, this.box.right() - this.cancel.box.width() - 20, this.box.bottom() - this.cancel.box.height() - 12, mouseX, mouseY);
+            this.confirm.draw(matrices, this.box.right() - this.confirm.box.width() - this.cancel.box.width() - 25, this.box.bottom() - this.confirm.box.height() - 8, mouseX, mouseY);
+            this.cancel.draw(matrices, this.box.right() - this.cancel.box.width() - 20, this.box.bottom() - this.cancel.box.height() - 8, mouseX, mouseY);
             drawDebugBox(matrices, this.box, 0x66dd001b);
         }
 
@@ -609,7 +607,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
             initTooltipLines();
             String name = this.getClass().getName();
             name = name.substring(name.lastIndexOf('.') + 1).replaceFirst("\\$", " -> ");
-            this.widgetClassText = new LiteralText(name).formatted(Formatting.DARK_GRAY).asOrderedText();
+            this.widgetClassText = Text.literal(name).formatted(Formatting.DARK_GRAY).asOrderedText();
         }
 
         protected abstract void initTooltipLines();
@@ -623,7 +621,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         protected void initTooltipEmptyLine() {
-            this.tooltipLines.add(new LiteralText(" ").asOrderedText());
+            this.tooltipLines.add(Text.literal(" ").asOrderedText());
         }
 
         protected void initTooltipButtonDescription(String translateKey) {
@@ -631,11 +629,11 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         }
 
         protected final void addTooltipLine(String translateKey, Formatting color) {
-            this.tooltipLines.add(new TranslatableText(translateKey).formatted(color).asOrderedText());
+            this.tooltipLines.add(Text.translatable(translateKey).formatted(color).asOrderedText());
         }
 
         protected final void addTooltipLines(String translateKey, Formatting color) {
-            List<OrderedText> lines = MinecraftClient.getInstance().textRenderer.wrapLines(new TranslatableText(translateKey).formatted(color), 250);
+            List<OrderedText> lines = MinecraftClient.getInstance().textRenderer.wrapLines(Text.translatable(translateKey).formatted(color), 250);
             this.tooltipLines.addAll(lines);
         }
 

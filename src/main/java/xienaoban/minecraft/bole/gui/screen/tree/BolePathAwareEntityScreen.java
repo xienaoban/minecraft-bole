@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -52,13 +51,13 @@ public class BolePathAwareEntityScreen<E extends PathAwareEntity, H extends Bole
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
             drawIcon(matrices, 110, 0);
             if (handler.entityAttractiveItems == null) {
-                drawBarText(matrices, new TranslatableText(Keys.TEXT_LOADING), DARK_TEXT_COLOR);
+                drawBarText(matrices, Text.translatable(Keys.TEXT_LOADING), DARK_TEXT_COLOR);
             }
             else if (handler.entityAttractiveItems.length > 0) {
                 drawItems(matrices, handler.entityAttractiveItems);
             }
             else {
-                drawBarText(matrices, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), DARK_TEXT_COLOR);
+                drawBarText(matrices, Text.translatable(Keys.TEXT_EMPTY_WITH_BRACKETS), DARK_TEXT_COLOR);
             }
         }
 

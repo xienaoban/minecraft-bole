@@ -11,9 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.FishEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
@@ -48,21 +46,21 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
     @Override
     protected void initCustom() {
-        this.pages.get(1).setSlot(0, 5, new CenteredTextPropertyWidget(4, 2, new TranslatableText(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
+        this.pages.get(1).setSlot(0, 5, new CenteredTextPropertyWidget(4, 2, Text.translatable(Keys.TEXT_UNSUPPORTED_ENTITY), 0xaa666666, 1.0F));
     }
 
     @Override
     protected void initButtons() {
         super.initButtons();
-        addBookmark(0, new TranslatableText(Keys.TEXT_RETURN_TO_HOMEPAGE), button -> {
+        addBookmark(0, Text.translatable(Keys.TEXT_RETURN_TO_HOMEPAGE), button -> {
             BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState(0, 0, debugMode));
             ClientNetworkManager.requestBoleScreen();
         });
-        addBookmark(8, new TranslatableText(Keys.TEXT_SETTINGS), button -> {
+        addBookmark(8, Text.translatable(Keys.TEXT_SETTINGS), button -> {
             BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState(8, 0, debugMode));
             ClientNetworkManager.requestBoleScreen();
         });
-        addBookmark(9, new TranslatableText(Keys.TEXT_ABOUT), button -> {
+        addBookmark(9, Text.translatable(Keys.TEXT_ABOUT), button -> {
             BoleClient.getInstance().setHomepageScreenState(new BoleHomepageScreenState(9, 0, debugMode));
             ClientNetworkManager.requestBoleScreen();
         });
@@ -229,7 +227,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             if (this.displayedEntity == null) {
                 if (targetEntity instanceof AbstractClientPlayerEntity clientPlayer) {
                     GameProfile profile = clientPlayer.getGameProfile();
-                    this.displayedEntity = new OtherClientPlayerEntity(clientPlayer.clientWorld, new GameProfile(profile.getId(), profile.getName()));
+                    this.displayedEntity = new OtherClientPlayerEntity(clientPlayer.clientWorld, new GameProfile(profile.getId(), profile.getName()), null);
                     // to make name label invisible
                     // @see net.minecraft.client.render.entity.LivingEntityRenderer#hasLabel
                     Vec3d targetPos = targetEntity.getPos();
@@ -315,7 +313,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             int index = calMousePosition(mouseX, mouseY);
             if (index != IDX_BUTTON_BEGIN || button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
             if (handler.isOtherPlayer() && Bole.getInstance().getServerConfigs().isForbidToSetNetherPortalCooldownOfOtherPlayers()) {
-                showOverlayMessage(new TranslatableText(Keys.HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS));
+                showOverlayMessage(Text.translatable(Keys.HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS));
                 return true;
             }
             int cooldown;
@@ -337,7 +335,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         public CustomNamePropertyWidget() {
             super(2, true, 1);
-            this.lastCustomName = new LiteralText(""); // not null
+            this.lastCustomName = Text.literal(""); // not null
             this.cacheText = null;
             this.cacheColor = 0xff000000;
         }
@@ -379,14 +377,14 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             }
             if (customName == null) {
                 this.cacheColor = 0xffccb65d;
-                this.cacheText = new TranslatableText(Keys.TEXT_UNNAMED);
+                this.cacheText = Text.translatable(Keys.TEXT_UNNAMED);
             }
             else {
                 this.cacheColor = 0xff997617;
                 final int maxWidth = 2 * (33 - 2 * 2);
                 if (textRenderer.getWidth(customName) > maxWidth) {
-                    String trimmed = textRenderer.trimToWidth(customName.asString(), maxWidth - 6, false) + "...";
-                    this.cacheText = new LiteralText(trimmed);
+                    String trimmed = textRenderer.trimToWidth(customName.getString(), maxWidth - 6, false) + "...";
+                    this.cacheText = Text.literal(trimmed);
                 }
                 else {
                     this.cacheText = customName;

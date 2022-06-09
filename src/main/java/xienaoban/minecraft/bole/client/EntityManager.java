@@ -12,7 +12,6 @@ import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
@@ -59,11 +58,10 @@ public class EntityManager {
      */
     public static EntityManager getInstance() {
         if (instance == null) {
-            // It should be single-threaded here, so there is no need for thread synchronization.
+            // Looks like it's single threaded here, so there is no need for thread synchronization.
             instance = new EntityManager();
             Bole.LOGGER.info("EntityManager of Bole initialized.");
         }
-        // instance.generateDeobfuscationFiles();
         return instance;
     }
 
@@ -97,6 +95,7 @@ public class EntityManager {
     private EntityManager() {
         initEntitySortIds();
         initEntityInfos();
+        // generateDeobfuscationFiles();    // This method is only called when updating mc version
         initDeobfuscation();
         initJavaTags();
         initDefaultTags();
@@ -221,12 +220,12 @@ public class EntityManager {
 
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, this.classTags.getTag(getClassId(AnimalEntity.class)).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_HUMAN).getEntities());
-        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, List.of(getEntityInfo(EntityType.BAT), getEntityInfo(EntityType.SPIDER), getEntityInfo(EntityType.CAVE_SPIDER), getEntityInfo(EntityType.SILVERFISH)));
-        this.defaultTags.removeFromTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, getEntityInfo(EntityType.AXOLOTL));
+        this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL, List.of(getEntityInfo(EntityType.BAT), getEntityInfo(EntityType.ALLAY), getEntityInfo(EntityType.SPIDER), getEntityInfo(EntityType.CAVE_SPIDER), getEntityInfo(EntityType.SILVERFISH)));
 
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, this.classTags.getTag(getClassId(WaterCreatureEntity.class)).getEntities());
         this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.TURTLE));
         this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.AXOLOTL));
+        this.defaultTags.addToTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL, getEntityInfo(EntityType.FROG));
 
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_TERRESTRIAL_ANIMAL).getEntities());
         this.defaultTags.addAllToTag(Keys.TAG_DEFAULT_ANIMAL, this.defaultTags.getTag(Keys.TAG_DEFAULT_AQUATIC_ANIMAL).getEntities());
@@ -357,10 +356,9 @@ public class EntityManager {
      * like "net.minecraft.entity.class_12345").
      */
     public void generateDeobfuscationFiles() {
-        String dir = "tmp";
-        System.out.println("Generating " + Path.of(dir).toAbsolutePath());
+        System.out.println("Generating " + Path.of(MISC_PATH).toAbsolutePath());
         try {
-            Files.createDirectories(Path.of(dir));
+            Files.createDirectories(Path.of(MISC_PATH));
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -532,7 +530,7 @@ public class EntityManager {
 
         public TagGroup(String tagGroupName) {
             this.name = tagGroupName;
-            this.text = new TranslatableText(tagGroupName);
+            this.text = Text.translatable(tagGroupName);
             this.tags = new HashMap<>();
             this.rootTags = new ArrayList<>();
         }
@@ -615,7 +613,7 @@ public class EntityManager {
 
         public Tag(String name, Tag father) {
             this.name = name;
-            this.text = new TranslatableText(name);
+            this.text = Text.translatable(name);
             this.entities = new ArrayList<>();
             this.father = father;
             if (father != null) {

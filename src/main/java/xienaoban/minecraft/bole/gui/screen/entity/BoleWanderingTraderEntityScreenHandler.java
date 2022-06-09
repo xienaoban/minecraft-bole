@@ -10,8 +10,8 @@ import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleMerchantEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -45,11 +45,13 @@ public class BoleWanderingTraderEntityScreenHandler<E extends WanderingTraderEnt
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_ADD_WANDERING_VILLAGER_WANDERING_TIME, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (trySpendBuckets(addDespawnDelayCost)) {
+                if (isGod() || trySpendBuckets(addDespawnDelayCost)) {
                     entity.setDespawnDelay(entity.getDespawnDelay() + addDespawnDelayTicks);
                     entity.playSound(SoundEvents.ENTITY_GENERIC_DRINK, 0.6F, 0.8F);
                 }
-                else Bole.LOGGER.error("The player inventory data on the client and server are inconsistent.");
+                else {
+                    sendOverlayMessage(Text.translatable(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS));
+                }
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 entityDespawnDelay += addDespawnDelayTicks;

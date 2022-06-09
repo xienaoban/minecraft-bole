@@ -4,25 +4,25 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.passive.LlamaEntity;
+import net.minecraft.entity.passive.MooshroomEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import xienaoban.minecraft.bole.gui.screen.tree.BoleAbstractDonkeyEntityScreen;
+import xienaoban.minecraft.bole.mixin.IMixinMooshroomEntity;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.Arrays;
 
 @Environment(EnvType.CLIENT)
-public class BoleLlamaEntityScreen<E extends LlamaEntity, H extends BoleLlamaEntityScreenHandler<E>> extends BoleAbstractDonkeyEntityScreen<E, H> {
-    public BoleLlamaEntityScreen(H handler, PlayerInventory inventory, Text title) {
+public class BoleMooshroomEntityScreen<E extends MooshroomEntity, H extends BoleMooshroomEntityScreenHandler<E>> extends BoleCowEntityScreen<E, H> {
+    public BoleMooshroomEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(1).addSlotLazyAfter(new LlamaVariantsPropertyWidget(), null);
+        this.pages.get(1).addSlotLazyAfter(new MooshroomVariantsPropertyWidget(), null);
     }
 
     @Override
@@ -38,29 +38,30 @@ public class BoleLlamaEntityScreen<E extends LlamaEntity, H extends BoleLlamaEnt
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
     }
 
-    public class LlamaVariantsPropertyWidget extends VariantsPropertyWidget {
-        private static final int VARIANT_CNT = 4;
+    public class MooshroomVariantsPropertyWidget extends VariantsPropertyWidget {
+        private static final MooshroomEntity.Type[] TYPES = MooshroomEntity.Type.values();
 
-        public LlamaVariantsPropertyWidget() {
-            super(4, 3);
+        public MooshroomVariantsPropertyWidget() {
+            super(2, 3);
         }
 
         @Override
         protected void initTooltipLines() {
-            initTooltipTitle(Keys.PROPERTY_WIDGET_LLAMA_VARIANT);
-            initTooltipDescription(Keys.PROPERTY_WIDGET_LLAMA_VARIANT_DESCRIPTION);
+            initTooltipTitle(Keys.PROPERTY_WIDGET_MOOSHROOM_VARIANT);
+            initTooltipDescription(Keys.PROPERTY_WIDGET_MOOSHROOM_VARIANT_DESCRIPTION);
         }
 
         @Override
         protected E[] initEntities() {
-            LlamaEntity[] entities = new LlamaEntity[VARIANT_CNT];
-            for (int i = 0; i < VARIANT_CNT; ++i) {
-                LlamaEntity entity = (LlamaEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
+            MooshroomEntity[] entities = new MooshroomEntity[TYPES.length];
+            for (int i = 0; i < TYPES.length; ++i) {
+                MooshroomEntity entity = (MooshroomEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
                 if (entity == null) {
-                    throw new RuntimeException("Failed to create a LlamaEntity on the client side.");
+                    throw new RuntimeException("Failed to create a MooshroomEntity on the client side.");
                 }
                 copyEntityNbtForDisplay(handler.entity, entity);
-                entity.setVariant(i);
+
+                ((IMixinMooshroomEntity) entity).callSetType(TYPES[i]);
                 entities[i] = entity;
             }
             return MiscUtil.cast(entities);
@@ -68,8 +69,8 @@ public class BoleLlamaEntityScreen<E extends LlamaEntity, H extends BoleLlamaEnt
 
         @Override
         protected Text[] initNames() {
-            String[] keys = {Keys.LLAMA_VARIANT_SAND, Keys.LLAMA_VARIANT_SNOW, Keys.LLAMA_VARIANT_WOOD, Keys.LLAMA_VARIANT_DIRTY};
-            return Arrays.stream(keys).map(Text::translatable).toArray(Text[]::new);
+            return Arrays.stream(TYPES).map(type -> Text.translatable(Keys.MOOSHROOM_VARIANT_PREFIX
+                    + ((IMixinMooshroomEntity.IMixinMooshroomEntityType)(Object) type).getName())).toArray(Text[]::new);
         }
 
         @Override
@@ -79,12 +80,12 @@ public class BoleLlamaEntityScreen<E extends LlamaEntity, H extends BoleLlamaEnt
 
         @Override
         protected boolean isChosen(E fake) {
-            return handler.entity.getVariant() == fake.getVariant();
+            return handler.entity.getMooshroomType() == fake.getMooshroomType();
         }
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_LLAMA_VARIANT, fake.getVariant());
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_MOOSHROOM_VARIANT, fake.getMooshroomType());
         }
     }
 }

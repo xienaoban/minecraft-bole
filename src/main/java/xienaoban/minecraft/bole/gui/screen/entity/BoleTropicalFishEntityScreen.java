@@ -7,7 +7,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.TropicalFishEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleSchoolingFishEntityScreen;
@@ -46,14 +45,14 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         TropicalFishPatternColorPropertyWidget2 tropicalFishPatternColorPropertyWidget2 = new TropicalFishPatternColorPropertyWidget2();
         Page p1 = new Page()
                 .addSlotLazy(bigFishPropertyWidget)
-                .addSlotLazy(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.PROPERTY_WIDGET_TROPICAL_FISH_VARIANT).formatted(Formatting.BOLD, Formatting.UNDERLINE), TITLE_COLOR, 0.5F))
+                .addSlotLazy(new LeftTextPropertyWidget(4, 1, Text.translatable(Keys.PROPERTY_WIDGET_TROPICAL_FISH_VARIANT).formatted(Formatting.BOLD, Formatting.UNDERLINE), TITLE_COLOR, 0.5F))
                 .addSlotLazy(tropicalFishBigVariantsPropertyWidget)
                 .addSlotLazy(tropicalFishSmallVariantsPropertyWidget);
         Page p2 = new Page()
-                .addSlotLazy(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.PROPERTY_WIDGET_TROPICAL_FISH_BASE_COLOR).formatted(Formatting.BOLD, Formatting.UNDERLINE), TITLE_COLOR, 0.5F))
+                .addSlotLazy(new LeftTextPropertyWidget(4, 1, Text.translatable(Keys.PROPERTY_WIDGET_TROPICAL_FISH_BASE_COLOR).formatted(Formatting.BOLD, Formatting.UNDERLINE), TITLE_COLOR, 0.5F))
                 .addSlotLazy(tropicalFishBaseColorPropertyWidget1)
                 .addSlotLazy(tropicalFishBaseColorPropertyWidget2)
-                .addSlotLazy(new LeftTextPropertyWidget(4, 1, new TranslatableText(Keys.PROPERTY_WIDGET_TROPICAL_FISH_PATTERN_COLOR).formatted(Formatting.BOLD, Formatting.UNDERLINE), TITLE_COLOR, 0.5F))
+                .addSlotLazy(new LeftTextPropertyWidget(4, 1, Text.translatable(Keys.PROPERTY_WIDGET_TROPICAL_FISH_PATTERN_COLOR).formatted(Formatting.BOLD, Formatting.UNDERLINE), TITLE_COLOR, 0.5F))
                 .addSlotLazy(tropicalFishPatternColorPropertyWidget1)
                 .addSlotLazy(tropicalFishPatternColorPropertyWidget2);
         this.pages.add(p1);
@@ -93,7 +92,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
 
         public VariantTurnPagePropertyWidget() {
             super(4, 2);
-            this.text = new TranslatableText(Keys.TEXT_TROPICAL_FISH_VARIANT_TURN_PAGE).formatted(Formatting.BOLD, Formatting.UNDERLINE);
+            this.text = Text.translatable(Keys.TEXT_TROPICAL_FISH_VARIANT_TURN_PAGE).formatted(Formatting.BOLD, Formatting.UNDERLINE);
             ArrayList<Integer> commons = Arrays.stream(TropicalFishEntity.COMMON_VARIANTS).boxed().collect(Collectors.toCollection(ArrayList::new));
             Collections.shuffle(commons);
             this.entities = commons.stream().limit(7).map(v -> {
@@ -189,7 +188,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
 
         @Override
         protected Text[] initNames() {
-            return Arrays.stream(KEYS[shape()]).map(TranslatableText::new).toArray(Text[]::new);
+            return Arrays.stream(KEYS[shape()]).map(Text::translatable).toArray(Text[]::new);
         }
 
         @Override
@@ -264,7 +263,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         @Override
         protected Text[] initNames() {
             Stream<DyeColor> stream = Arrays.stream(IMixinDyeColor.getValues());
-            return (low() ? stream.limit(MID) : stream.skip(MID)).map(dyeColor -> new TranslatableText(Keys.COLOR_PREFIX + dyeColor.getName())).toArray(Text[]::new);
+            return (low() ? stream.limit(MID) : stream.skip(MID)).map(dyeColor -> Text.translatable(Keys.COLOR_PREFIX + dyeColor.getName())).toArray(Text[]::new);
         }
 
         @Override

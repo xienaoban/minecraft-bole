@@ -52,6 +52,11 @@ public abstract class GenericScreenHandler extends ScreenHandler {
         return true;
     }
 
+    @Override
+    public ItemStack transferSlot(PlayerEntity player, int index) {
+        return ItemStack.EMPTY;
+    }
+
     public boolean isGod() {
         return Bole.isGod(this.player);
     }

@@ -1,24 +1,22 @@
-package xienaoban.minecraft.bole.gui.screen.tree;
+package xienaoban.minecraft.bole.gui.screen.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-
-import java.util.UUID;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
 
 @Environment(EnvType.CLIENT)
-public class BoleTameableEntityScreen<E extends TameableEntity, H extends BoleTameableEntityScreenHandler<E>> extends BoleAnimalEntityScreen<E, H> {
-    public BoleTameableEntityScreen(H handler, PlayerInventory inventory, Text title) {
+public class BoleCowEntityScreen<E extends CowEntity, H extends BoleCowEntityScreenHandler<E>> extends BoleAnimalEntityScreen<E, H> {
+    public BoleCowEntityScreen(H handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Override
     protected void initPages() {
         super.initPages();
-        this.pages.get(1).addSlotLazyAfter(new TamePropertyWidget(), BabyPropertyWidget.class);
     }
 
     @Override
@@ -32,17 +30,5 @@ public class BoleTameableEntityScreen<E extends TameableEntity, H extends BoleTa
     @Override
     protected void drawRightContent(MatrixStack matrices, float delta, int x, int y, int mouseX, int mouseY) {
         super.drawRightContent(matrices, delta, x, y, mouseX, mouseY);
-    }
-
-    public class TamePropertyWidget extends AbstractTamePropertyWidget {
-        @Override
-        protected boolean isTame() {
-            return handler.entity.isTamed();
-        }
-
-        @Override
-        protected UUID getOwnerUuid() {
-            return handler.entity.getOwnerUuid();
-        }
     }
 }

@@ -10,11 +10,11 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import xienaoban.minecraft.bole.gui.screen.tree.BoleHorseBaseEntityScreenHandler;
+import xienaoban.minecraft.bole.gui.screen.tree.BoleAbstractHorseEntityScreenHandler;
 import xienaoban.minecraft.bole.mixin.IMixinHorseEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
-public class BoleHorseEntityScreenHandler<E extends HorseEntity> extends BoleHorseBaseEntityScreenHandler<E> {
+public class BoleHorseEntityScreenHandler<E extends HorseEntity> extends BoleAbstractHorseEntityScreenHandler<E> {
     public static final ScreenHandlerType<BoleHorseEntityScreenHandler<HorseEntity>> HANDLER
             = register(new Identifier(Keys.NAMESPACE, "horse_entity"), BoleHorseEntityScreenHandler::new);
 

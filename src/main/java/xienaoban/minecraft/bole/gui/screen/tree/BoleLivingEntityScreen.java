@@ -9,12 +9,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.util.Keys;
@@ -67,7 +65,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         protected void initTooltipLines() {
             initTooltipTitle(Keys.PROPERTY_WIDGET_HEALTH);
             initTooltipDescription(Keys.PROPERTY_WIDGET_HEALTH_DESCRIPTION);
-            if (handler.entity instanceof HorseBaseEntity) {
+            if (handler.entity instanceof AbstractHorseEntity) {
                 initTooltipDescription(Keys.PROPERTY_WIDGET_HEALTH_DESCRIPTION_HORSE_BASE);
             }
         }
@@ -158,15 +156,15 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
             else {
                 int maxWidth = 0;
                 for (StatusEffectInstance effect : effects) {
-                    Text text = new TranslatableText(effect.getEffectType().getTranslationKey());
+                    Text text = Text.translatable(effect.getEffectType().getTranslationKey());
                     maxWidth = Math.max(textRenderer.getWidth(text), maxWidth);
                 }
                 for (StatusEffectInstance effect : effects) {
-                    MutableText text1 = new TranslatableText(effect.getEffectType().getTranslationKey()).append(String.valueOf(effect.getAmplifier() + 1)).formatted(Formatting.WHITE);
-                    MutableText text2 = new LiteralText((effect.getDuration() / 20) + "s").formatted(Formatting.GRAY);
+                    MutableText text1 = Text.translatable(effect.getEffectType().getTranslationKey()).append(String.valueOf(effect.getAmplifier() + 1)).formatted(Formatting.WHITE);
+                    MutableText text2 = Text.literal((effect.getDuration() / 20) + "s").formatted(Formatting.GRAY);
                     int w = textRenderer.getWidth(text1) + textRenderer.getWidth(text2);
                     String dot = ".".repeat(Math.max(0, (maxWidth + 40 - w) / 2));
-                    this.tooltipLines.add(text1.append(new LiteralText(dot).formatted(Formatting.DARK_GRAY)).append(text2).asOrderedText());
+                    this.tooltipLines.add(text1.append(Text.literal(dot).formatted(Formatting.DARK_GRAY)).append(text2).asOrderedText());
                 }
             }
             super.drawTooltip(matrices);
@@ -177,11 +175,11 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         protected void drawEffects(MatrixStack matrices) {
             Collection<StatusEffectInstance> effects = handler.entityStatusEffects;
             if (effects == null) {
-                drawBarText(matrices, new TranslatableText(Keys.TEXT_LOADING), DARK_TEXT_COLOR);
+                drawBarText(matrices, Text.translatable(Keys.TEXT_LOADING), DARK_TEXT_COLOR);
                 return;
             }
             if (effects.isEmpty()) {
-                drawBarText(matrices, new TranslatableText(Keys.TEXT_EMPTY_WITH_BRACKETS), DARK_TEXT_COLOR);
+                drawBarText(matrices, Text.translatable(Keys.TEXT_EMPTY_WITH_BRACKETS), DARK_TEXT_COLOR);
                 return;
             }
             float w = Math.min(9.0F, (this.box.width() - 20.0F) / Math.max(1, effects.size() - 1));
