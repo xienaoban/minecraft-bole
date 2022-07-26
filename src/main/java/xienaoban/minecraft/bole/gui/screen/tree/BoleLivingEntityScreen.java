@@ -150,7 +150,10 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
         @Override
         protected void drawTooltip(MatrixStack matrices) {
             Collection<StatusEffectInstance> effects = handler.entityStatusEffects;
-            if (effects.isEmpty()) {
+            if (effects == null) {
+                addTooltipLine(Keys.TEXT_LOADING, Formatting.GRAY);
+            }
+            else if (effects.isEmpty()) {
                 addTooltipLine(Keys.TEXT_EMPTY_WITH_BRACKETS, Formatting.GRAY);
             }
             else {

@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 
 @Environment(EnvType.CLIENT)
 public class EntityManager {
-    private static EntityManager instance = null;
+    private static volatile EntityManager instance = null;
 
     private static final String MISC_PATH = "misc/";
     private static final String DEOBFUSCATION_ENTITY_TO_CLASS_PATH = MISC_PATH + "deobfuscation_entity_to_class.txt";
@@ -58,9 +58,12 @@ public class EntityManager {
      */
     public static EntityManager getInstance() {
         if (instance == null) {
-            // Looks like it's single threaded here, so there is no need for thread synchronization.
-            instance = new EntityManager();
-            Bole.LOGGER.info("EntityManager of Bole initialized.");
+            synchronized (EntityManager.class) {
+                if (instance == null) {
+                    instance = new EntityManager();
+                    Bole.LOGGER.info("EntityManager of Bole initialized.");
+                }
+            }
         }
         return instance;
     }
@@ -440,11 +443,16 @@ public class EntityManager {
             Map<String, List<Class<?>>> entityToInterface = calEntityToInterfaceMap();
             while ((line = ieReader.readLine()) != null) {
                 String[] tmp = line.split(" ", 2);
-                String interfaze = tmp[0], entity = tmp[1];
+                String interfaze = tmp[0], entities = tmp[1];
                 // 3. infer entity interface names based on the entities that implement it.
-                List<Class<?>> list = entityToInterface.get(entity);
-                classMap.put(list.get(0), interfaze);
-                list.remove(0);
+                List<Class<?>> list = entityToInterface.get(entities);
+                if (list != null && !list.isEmpty()) {
+                    classMap.put(list.get(0), interfaze);
+                    list.remove(0);
+                }
+                else {
+                    Bole.LOGGER.warn("Interface '" + interfaze + "' has no matched class!");
+                }
             }
         }
         catch (IOException e) {
@@ -473,7 +481,7 @@ public class EntityManager {
         }
         for (Map.Entry<Class<?>, Set<String>> entry : interfaceToEntity.entrySet()) {
             StringBuilder builder = new StringBuilder();
-            entry.getValue().stream().sorted().forEach(s -> builder.append(s).append(' '));
+            entry.getValue().stream().filter(s -> s.startsWith("minecraft:")).sorted().forEach(s -> builder.append(s).append(' '));
             builder.deleteCharAt(builder.length() - 1);
             String entity = builder.substring(0, builder.length() - 1);
             List<Class<?>> list = map.computeIfAbsent(entity, key -> new ArrayList<>());
