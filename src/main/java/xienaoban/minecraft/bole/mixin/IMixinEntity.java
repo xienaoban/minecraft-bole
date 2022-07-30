@@ -16,10 +16,10 @@ public interface IMixinEntity {
     boolean getInNetherPortal();
 
     @Accessor
-    int getNetherPortalCooldown();
+    int getPortalCooldown();
 
     @Accessor
-    void setNetherPortalCooldown(int netherPortalCooldown);
+    void setPortalCooldown(int netherPortalCooldown);
 
     @Accessor
     void setTouchingWater(boolean touchingWater);
@@ -28,5 +28,5 @@ public interface IMixinEntity {
     void callSetFlag(int index, boolean value);
 
     @Invoker
-    void callTickNetherPortalCooldown();
+    void callTickPortalCooldown();
 }

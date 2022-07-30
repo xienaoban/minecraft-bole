@@ -61,11 +61,11 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
                     sendOverlayMessage(Text.translatable(Keys.HINT_TEXT_FORBID_TO_SET_NETHER_PORTAL_COOLDOWN_OF_OTHER_PLAYERS));
                     return;
                 }
-                ((IMixinEntity)entity).setNetherPortalCooldown(buf.readInt());
+                ((IMixinEntity)entity).setPortalCooldown(buf.readInt());
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 int cooldown = (Integer) args[0];
-                ((IMixinEntity) entity).setNetherPortalCooldown(cooldown);
+                ((IMixinEntity) entity).setPortalCooldown(cooldown);
                 buf.writeInt(cooldown);
             }
         });
@@ -118,7 +118,7 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     @Override
     protected void writeServerEntityToBuf(PacketByteBuf buf) {
         buf.writeInt(this.syncId);
-        buf.writeInt(((IMixinEntity)this.entity).getNetherPortalCooldown());
+        buf.writeInt(((IMixinEntity)this.entity).getPortalCooldown());
         buf.writeBoolean(this.entity.isInvulnerable());
     }
 
@@ -129,14 +129,14 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
         if (this.syncId != id) {
             throw new RuntimeException("Expired packet of the server entity.");
         }
-        ((IMixinEntity)this.entity).setNetherPortalCooldown(buf.readInt());
+        ((IMixinEntity)this.entity).setPortalCooldown(buf.readInt());
         this.entity.setInvulnerable(buf.readBoolean());
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     protected void resetClientEntityServerProperties() {
-        ((IMixinEntity)this.entity).setNetherPortalCooldown(0);
+        ((IMixinEntity)this.entity).setPortalCooldown(0);
         this.entity.setInvulnerable(false);
     }
 
@@ -163,8 +163,8 @@ public class BoleEntityScreenHandler<E extends Entity> extends AbstractBoleScree
     @Environment(EnvType.CLIENT)
     private void calculateClientEntityNetherPortalCooldown() {
         switch (isClientEntityInNetherPortal()) {
-            case -1 -> ((IMixinEntity) this.entity).callTickNetherPortalCooldown();
-            case 1 -> this.entity.resetNetherPortalCooldown();
+            case -1 -> ((IMixinEntity) this.entity).callTickPortalCooldown();
+            case 1 -> this.entity.resetPortalCooldown();
             default -> {}
         }
     }
