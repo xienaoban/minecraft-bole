@@ -292,18 +292,18 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
 
         @Override
         protected void drawContent(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-            int cooldown = ((IMixinEntity)handler.entity).getNetherPortalCooldown();
+            int cooldown = ((IMixinEntity)handler.entity).getPortalCooldown();
             boolean lock = cooldown == BoleEntityScreenHandler.NETHER_PORTAL_LOCK;
-            float p = Math.min(1.0F, (float)cooldown / handler.entity.getDefaultNetherPortalCooldown());
+            float p = Math.min(1.0F, (float)cooldown / handler.entity.getDefaultPortalCooldown());
             drawIcon(matrices, 0, 30);
             drawBar(matrices, 1.0F, 10, 30);
             drawBar(matrices, p, 50, 30);
             drawButton(matrices, 0, 200 + (lock ? 10 : 0), 0);
             String text;
-            if (debugMode) text = ((IMixinEntity)handler.entity).getNetherPortalCooldown() + "t";
+            if (debugMode) text = ((IMixinEntity)handler.entity).getPortalCooldown() + "t";
             else if (lock) text = "∞";
             else {
-                text = (((IMixinEntity)handler.entity).getNetherPortalCooldown() / 20) + "s";
+                text = (((IMixinEntity)handler.entity).getPortalCooldown() / 20) + "s";
             }
             drawBarText(matrices, text, LIGHT_TEXT_COLOR);
         }
@@ -317,7 +317,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
                 return true;
             }
             int cooldown;
-            if (((IMixinEntity)handler.entity).getNetherPortalCooldown() == BoleEntityScreenHandler.NETHER_PORTAL_LOCK) cooldown = 0;
+            if (((IMixinEntity)handler.entity).getPortalCooldown() == BoleEntityScreenHandler.NETHER_PORTAL_LOCK) cooldown = 0;
             else cooldown = BoleEntityScreenHandler.NETHER_PORTAL_LOCK;
             handler.sendClientEntitySettings(Keys.ENTITY_SETTING_NETHER_PORTAL_COOLDOWN, cooldown);
             return true;
