@@ -11,7 +11,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
-import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.client.entity.EntityManager;
 import xienaoban.minecraft.bole.client.EventsManager;
 import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
@@ -88,7 +88,6 @@ public class BoleClient implements ClientModInitializer {
         Bole.getInstance().setServerVersion("<unknown>");
         Bole.getInstance().setServerConfigs(Configs.getInstance());
         preventMemoryLeak();
-        ClientWorld world = MinecraftClient.getInstance().world;
     }
 
     public void clientTick() {

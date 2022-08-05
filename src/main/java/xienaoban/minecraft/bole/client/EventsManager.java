@@ -95,7 +95,7 @@ public class EventsManager {
     }
 
     public static class ShoulderEntityFirstPersonRenderer {
-        private static final float HEAD_YAW_SPEED = 0.1F;
+        private static final float HEAD_YAW_SPEED = 0.02F;
 
         private final NbtCompound[] oldNbts = new NbtCompound[2];
         private final LivingEntity[] entities = new LivingEntity[2];
@@ -142,13 +142,12 @@ public class EventsManager {
                     entity.setPitch(0);
                     this.entities[i] = entity;
                 }
-                long time = System.currentTimeMillis();
                 LivingEntity entity = this.entities[i];
                 if (lastTime > this.nextHeadYawTime[i]) {
-                    this.nextHeadYawTime[i] = lastTime + 2000 + (long)(Math.random() * 8000);
+                    this.nextHeadYawTime[i] = lastTime + 2000 + (long)(Math.random() * 6000);
                     this.nextHeadYaw[i] = (float) (Math.random() * 60 - 30);
                 }
-                entity.setHeadYaw(entity.getHeadYaw() + HEAD_YAW_SPEED * (this.nextHeadYaw[i] - entity.getHeadYaw()));
+                entity.setHeadYaw(entity.getHeadYaw() + HEAD_YAW_SPEED * diffTime * (this.nextHeadYaw[i] - entity.getHeadYaw()));
                 int pos = i * -2 + 1;
                 matrices.push();
                 matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(rx));

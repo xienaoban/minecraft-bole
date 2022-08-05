@@ -16,7 +16,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
-import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.client.entity.EntityManager;
 import xienaoban.minecraft.bole.gui.ScreenElement;
 import xienaoban.minecraft.bole.gui.Textures;
 import xienaoban.minecraft.bole.mixin.IMixinItemStack;

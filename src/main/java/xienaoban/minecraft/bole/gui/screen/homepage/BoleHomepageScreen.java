@@ -26,7 +26,7 @@ import net.minecraft.world.entity.EntityLookup;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
-import xienaoban.minecraft.bole.client.EntityManager;
+import xienaoban.minecraft.bole.client.entity.EntityManager;
 import xienaoban.minecraft.bole.client.PlayerDataCacheManager;
 import xienaoban.minecraft.bole.client.highlight.HighlightManager;
 import xienaoban.minecraft.bole.config.Configs;
