@@ -35,12 +35,12 @@ public class BoleLlamaEntityScreenHandler<E extends LlamaEntity> extends BoleAbs
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_LLAMA_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (isGod()) entity.setVariant(buf.readInt());
+                if (isGod()) entity.setVariant(LlamaEntity.Variant.byId(buf.readInt()));
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 int variant = (Integer) args[0];
                 buf.writeInt(variant);
-                entity.setVariant(variant);
+                entity.setVariant(LlamaEntity.Variant.byId(variant));
             }
         });
     }

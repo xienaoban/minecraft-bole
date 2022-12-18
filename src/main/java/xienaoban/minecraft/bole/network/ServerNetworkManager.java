@@ -13,6 +13,8 @@ import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.MinecraftServer;
@@ -21,8 +23,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.config.Configs;
@@ -113,7 +113,7 @@ public class ServerNetworkManager {
         ServerPlayNetworking.registerGlobalReceiver(Channels.REQUEST_SERVER_ENTITIES_GLOWING, (server, player, handler, buf, responseSender) -> {
             int size = buf.readInt();
             Identifier worldId = buf.readIdentifier();
-            World world = server.getWorld(RegistryKey.of(Registry.WORLD_KEY, worldId));
+            World world = server.getWorld(RegistryKey.of(RegistryKeys.WORLD, worldId));
             if (world == null) return;
             int[] entityIds = new int[size];
             for (int i = 0; i < size; ++i) entityIds[i] = buf.readInt();

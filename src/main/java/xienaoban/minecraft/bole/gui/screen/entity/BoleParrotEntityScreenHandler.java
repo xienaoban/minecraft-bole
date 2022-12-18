@@ -35,12 +35,12 @@ public class BoleParrotEntityScreenHandler<E extends ParrotEntity> extends BoleT
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_PARROT_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (isGod()) entity.setVariant(buf.readInt());
+                if (isGod()) entity.setVariant(ParrotEntity.Variant.byIndex(buf.readInt()));
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 int variant = (Integer) args[0];
                 buf.writeInt(variant);
-                entity.setVariant(variant);
+                entity.setVariant(ParrotEntity.Variant.byIndex(variant));
             }
         });
     }

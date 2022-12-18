@@ -15,8 +15,5 @@ public interface IMixinEatGrassGoal {
     }
 
     @Accessor
-    int getTimer();
-
-    @Accessor
     void setTimer(int timer);
 }

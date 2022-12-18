@@ -8,9 +8,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -79,7 +79,7 @@ public class BoleAnimalEntityScreenHandler<E extends AnimalEntity> extends BoleP
 
     @Environment(EnvType.CLIENT)
     private Item[] getBreedingItems() {
-        return Registry.ITEM.stream().filter(item -> entity.isBreedingItem(new ItemStack(item)))
-                .sorted(Comparator.comparing(Registry.ITEM::getId)).toArray(Item[]::new);
+        return Registries.ITEM.stream().filter(item -> entity.isBreedingItem(new ItemStack(item)))
+                .sorted(Comparator.comparing(Registries.ITEM::getId)).toArray(Item[]::new);
     }
 }

@@ -23,10 +23,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Quaternionf;
 import xienaoban.minecraft.bole.config.Configs;
 import xienaoban.minecraft.bole.gui.screen.GenericHandledScreen;
-import xienaoban.minecraft.bole.mixin.IMixinBlockItem;
 import xienaoban.minecraft.bole.util.Keys;
 
 import java.util.ArrayList;
@@ -54,8 +53,8 @@ public class EventsManager {
                     beeLines.add(Text.translatable(Keys.TEXT_HONEY_LEVEL, honeyLevel + "/" + BeehiveBlock.FULL_HONEY_LEVEL).formatted(Formatting.YELLOW));
                 }
             }
-            if (nbt.contains(IMixinBlockItem.getBlockEntityTagKey(), NbtElement.COMPOUND_TYPE)) {
-                NbtCompound entityNbt = nbt.getCompound(IMixinBlockItem.getBlockEntityTagKey());
+            if (nbt.contains(BlockItem.BLOCK_ENTITY_TAG_KEY, NbtElement.COMPOUND_TYPE)) {
+                NbtCompound entityNbt = nbt.getCompound(BlockItem.BLOCK_ENTITY_TAG_KEY);
                 if (entityNbt.contains(BeehiveBlockEntity.BEES_KEY, NbtElement.LIST_TYPE)) {
                     NbtList bees = entityNbt.getList(BeehiveBlockEntity.BEES_KEY, NbtElement.COMPOUND_TYPE);
                     int beeCnt = bees.size();
@@ -150,9 +149,9 @@ public class EventsManager {
                 entity.setHeadYaw(entity.getHeadYaw() + HEAD_YAW_SPEED * diffTime * (this.nextHeadYaw[i] - entity.getHeadYaw()));
                 int pos = i * -2 + 1;
                 matrices.push();
-                matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(rx));
-                matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(ry));
-                matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(rz));
+                matrices.multiply(new Quaternionf().rotateX(rx));
+                matrices.multiply(new Quaternionf().rotateY(ry));
+                matrices.multiply(new Quaternionf().rotateZ(rz));
                 matrices.translate(pos * tx, ty, tz);
                 entityRenderDispatcher.setRenderShadows(false);
                 entityRenderDispatcher.render(entity, 0, 0, 0, 0, 1.0F, matrices, vertexConsumers, light);

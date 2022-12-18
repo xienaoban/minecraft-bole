@@ -10,9 +10,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleMerchantEntityScreenHandler<E extends MerchantEntity> extends BolePassiveEntityScreenHandler<E> {
@@ -68,7 +68,7 @@ public class BoleMerchantEntityScreenHandler<E extends MerchantEntity> extends B
         buf.writeInt(size);
         for (int i = 0; i < size; ++i) {
             ItemStack stack = inventory.getStack(i);
-            buf.writeString(Registry.ITEM.getId(stack.getItem()).toString());
+            buf.writeString(Registries.ITEM.getId(stack.getItem()).toString());
             buf.writeInt(stack.getCount());
         }
     }
@@ -80,7 +80,7 @@ public class BoleMerchantEntityScreenHandler<E extends MerchantEntity> extends B
         int size = buf.readInt();
         SimpleInventory inventory = new SimpleInventory(size);
         for (int i = 0; i < size; ++i) {
-            Item item = Registry.ITEM.get(new Identifier(buf.readString()));
+            Item item = Registries.ITEM.get(new Identifier(buf.readString()));
             int count = buf.readInt();
             ItemStack stack = new ItemStack(item, count);
             inventory.setStack(i, stack);

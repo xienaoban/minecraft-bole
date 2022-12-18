@@ -72,7 +72,7 @@ public class BolePandaEntityScreen<E extends PandaEntity, H extends BolePandaEnt
         protected Text[] initNames() {
             return Arrays.stream(PandaEntity.Gene.values())
                     .sorted(Comparator.comparingInt(PandaEntity.Gene::getId))
-                    .map(gene -> Text.translatable(Keys.PANDA_VARIANT_PREFIX + gene.getName()))
+                    .map(gene -> Text.translatable(Keys.PANDA_VARIANT_PREFIX + gene.asString()))
                     .toArray(Text[]::new);
         }
 

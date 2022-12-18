@@ -39,8 +39,6 @@ public class BoleRabbitEntityScreen<E extends RabbitEntity, H extends BoleRabbit
     }
 
     public class RabbitVariantsPropertyWidget extends VariantsPropertyWidget {
-        private static final int[] VARIANTS = {RabbitEntity.BROWN_TYPE, RabbitEntity.WHITE_TYPE, RabbitEntity.BLACK_TYPE, RabbitEntity.WHITE_SPOTTED_TYPE, RabbitEntity.GOLD_TYPE, RabbitEntity.SALT_TYPE, RabbitEntity.KILLER_BUNNY_TYPE};
-
         public RabbitVariantsPropertyWidget() {
             super(4, 3);
         }
@@ -53,14 +51,14 @@ public class BoleRabbitEntityScreen<E extends RabbitEntity, H extends BoleRabbit
 
         @Override
         protected E[] initEntities() {
-            RabbitEntity[] entities = new RabbitEntity[VARIANTS.length];
-            for (int i = 0; i < VARIANTS.length; ++i) {
+            RabbitEntity[] entities = new RabbitEntity[RabbitEntity.RabbitType.values().length];
+            for (int i = 0; i < RabbitEntity.RabbitType.values().length; ++i) {
                 RabbitEntity entity = (RabbitEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
                 if (entity == null) {
                     throw new RuntimeException("Failed to create a RabbitEntity on the client side.");
                 }
                 copyEntityNbtForDisplay(handler.entity, entity);
-                entity.setRabbitType(VARIANTS[i]);
+                entity.setVariant(RabbitEntity.RabbitType.byId(i));
                 entities[i] = entity;
             }
             return MiscUtil.cast(entities);
@@ -79,12 +77,12 @@ public class BoleRabbitEntityScreen<E extends RabbitEntity, H extends BoleRabbit
 
         @Override
         protected boolean isChosen(E fake) {
-            return handler.entity.getRabbitType() == fake.getRabbitType();
+            return handler.entity.getVariant() == fake.getVariant();
         }
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RABBIT_VARIANT, fake.getRabbitType());
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_RABBIT_VARIANT, fake.getVariant());
         }
     }
 }

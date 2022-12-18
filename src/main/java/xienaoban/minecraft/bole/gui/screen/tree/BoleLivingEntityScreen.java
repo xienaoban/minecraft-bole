@@ -194,7 +194,7 @@ public class BoleLivingEntityScreen<E extends LivingEntity, H extends BoleLiving
             for (StatusEffectInstance effectInstance : effects) {
                 StatusEffect effect = effectInstance.getEffectType();
                 Sprite sprite = statusEffectSpriteManager.getSprite(effect);
-                setTexture(sprite.getAtlas().getId());
+                setTexture(sprite.getAtlasId());
                 drawSprite(matrices, (int)((this.box.left() + i * w + 11) / size), (int)((this.box.top() + 1) / size), getZOffset(), 18, 18, sprite);
                 --i;
             }

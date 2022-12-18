@@ -10,16 +10,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleSchoolingFishEntityScreen;
-import xienaoban.minecraft.bole.mixin.IMixinDyeColor;
 import xienaoban.minecraft.bole.mixin.IMixinEntity;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Environment(EnvType.CLIENT)
@@ -93,19 +90,17 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         public VariantTurnPagePropertyWidget() {
             super(4, 2);
             this.text = Text.translatable(Keys.TEXT_TROPICAL_FISH_VARIANT_TURN_PAGE).formatted(Formatting.BOLD, Formatting.UNDERLINE);
-            ArrayList<Integer> commons = Arrays.stream(TropicalFishEntity.COMMON_VARIANTS).boxed().collect(Collectors.toCollection(ArrayList::new));
-            Collections.shuffle(commons);
-            this.entities = commons.stream().limit(7).map(v -> {
+            this.entities = TropicalFishEntity.COMMON_VARIANTS.stream().limit(7).map(v -> {
                 TropicalFishEntity entity = (TropicalFishEntity) handler.entity.getType().create(MinecraftClient.getInstance().world);
                 if (entity == null) throw new RuntimeException("Failed to create a TropicalFishEntity on the client side.");
                 ((IMixinEntity) entity).setTouchingWater(true);
-                entity.setVariant(v);
+                entity.setVariant(TropicalFishEntity.Variety.fromId(v.getId()));
                 return entity;
             }).toArray(TropicalFishEntity[]::new);
             for (int i = 0; i < this.entities.length; ++i) {
                 TropicalFishEntity e = this.entities[i];
-                if ((i & 1) == 0) e.setVariant(e.getVariant() & (~0xFF));
-                else e.setVariant(e.getVariant() | 1);
+                if ((i & 1) == 0) e.setVariant(TropicalFishEntity.Variety.fromId(e.getVariant().getId() & (~0xFF)));
+                else e.setVariant(TropicalFishEntity.Variety.fromId(e.getVariant().getId() | 1));
             }
         }
 
@@ -180,7 +175,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
                 if (entity == null) throw new RuntimeException("Failed to create a TropicalFishEntity on the client side.");
                 copyEntityNbtForDisplay(real, entity);
                 ((IMixinEntity) entity).setTouchingWater(true);
-                entity.setVariant((entity.getVariant() & (~0xFFFF)) | shape() | (i << 8));
+                entity.setVariant(TropicalFishEntity.Variety.fromId((entity.getVariant().getId() & (~0xFFFF)) | shape() | (i << 8)));
                 entities[i] = entity;
             }
             return MiscUtil.cast(entities);
@@ -198,12 +193,12 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
 
         @Override
         protected boolean isChosen(E fake) {
-            return ((handler.entity.getVariant() ^ fake.getVariant()) & 0xFFFF) == 0;
+            return ((handler.entity.getVariant().getId() ^ fake.getVariant().getId()) & 0xFFFF) == 0;
         }
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_TROPICAL_FISH_VARIANT, (handler.entity.getVariant() & (~0xFFFF)) | (fake.getVariant() & 0xFFFF));
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_TROPICAL_FISH_VARIANT, (handler.entity.getVariant().getId() & (~0xFFFF)) | (fake.getVariant().getId() & 0xFFFF));
             syncAll(this);
         }
 
@@ -220,7 +215,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
             for (int i = 0; i < this.variants.length; ++i) {
                 TropicalFishEntity entity = this.variants[i];
                 copyEntityNbtForDisplay(handler.entity, entity);
-                entity.setVariant((entity.getVariant() & (~0xFFFF)) | shape() | (i << 8));
+                entity.setVariant(TropicalFishEntity.Variety.fromId((entity.getVariant().getId() & (~0xFFFF)) | shape() | (i << 8)));
             }
         }
     }
@@ -233,7 +228,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
     }
 
     public class TropicalFishBaseColorPropertyWidget1 extends VariantsPropertyWidget implements Syncable {
-        private static final int MID = IMixinDyeColor.getValues().length >> 1;
+        private static final int MID = DyeColor.values().length >> 1;
 
         public TropicalFishBaseColorPropertyWidget1() {
             super(4, 2);
@@ -254,7 +249,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
                 if (entity == null) throw new RuntimeException("Failed to create a TropicalFishEntity on the client side.");
                 copyEntityNbtForDisplay(real, entity);
                 ((IMixinEntity) entity).setTouchingWater(true);
-                entity.setVariant((entity.getVariant() & ~(0xFF << offset())) | (i << offset()));
+                entity.setVariant(TropicalFishEntity.Variety.fromId((entity.getVariant().getId() & ~(0xFF << offset())) | (i << offset())));
                 entities[i - indexFrom()] = entity;
             }
             return MiscUtil.cast(entities);
@@ -262,7 +257,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
 
         @Override
         protected Text[] initNames() {
-            Stream<DyeColor> stream = Arrays.stream(IMixinDyeColor.getValues());
+            Stream<DyeColor> stream = Arrays.stream(DyeColor.values());
             return (low() ? stream.limit(MID) : stream.skip(MID)).map(dyeColor -> Text.translatable(Keys.COLOR_PREFIX + dyeColor.getName())).toArray(Text[]::new);
         }
 
@@ -273,12 +268,12 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
 
         @Override
         protected boolean isChosen(E fake) {
-            return (((handler.entity.getVariant() ^ fake.getVariant()) >> offset()) & 0xFF) == 0;
+            return (((handler.entity.getVariant().getId() ^ fake.getVariant().getId()) >> offset()) & 0xFF) == 0;
         }
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_TROPICAL_FISH_VARIANT, (handler.entity.getVariant() & ~(0xFF << offset())) | (fake.getVariant() & (0xFF << offset())));
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_TROPICAL_FISH_VARIANT, (handler.entity.getVariant().getId() & ~(0xFF << offset())) | (fake.getVariant().getId() & (0xFF << offset())));
             syncAll(this);
         }
 
@@ -292,7 +287,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
         }
 
         private int indexTo() {
-            return low() ? MID : IMixinDyeColor.getValues().length;
+            return low() ? MID : DyeColor.values().length;
         }
 
         protected boolean low() {
@@ -307,7 +302,7 @@ public class BoleTropicalFishEntityScreen<E extends TropicalFishEntity, H extend
             for (int i = indexFrom(); i < indexTo(); ++i) {
                 TropicalFishEntity entity = this.variants[i - indexFrom()];
                 copyEntityNbtForDisplay(handler.entity, entity);
-                entity.setVariant((entity.getVariant() & ~(0xFF << offset())) | (i << offset()));
+                entity.setVariant(TropicalFishEntity.Variety.fromId((entity.getVariant().getId() & ~(0xFF << offset())) | (i << offset())));
             }
         }
     }

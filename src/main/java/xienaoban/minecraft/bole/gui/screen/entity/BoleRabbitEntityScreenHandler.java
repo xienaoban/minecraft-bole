@@ -35,12 +35,12 @@ public class BoleRabbitEntityScreenHandler<E extends RabbitEntity> extends BoleA
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RABBIT_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (isGod()) entity.setRabbitType(buf.readInt());
+                if (isGod()) entity.setVariant(RabbitEntity.RabbitType.byId(buf.readInt()));
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 int variant = (Integer) args[0];
                 buf.writeInt(variant);
-                entity.setRabbitType(variant);
+                entity.setVariant(RabbitEntity.RabbitType.byId(variant));
             }
         });
     }

@@ -11,17 +11,19 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.MerchantEntity;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 import xienaoban.minecraft.bole.util.TreeNodeExecutor;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.nio.file.Path;
 import java.util.*;
@@ -130,7 +132,7 @@ public class EntityManager {
 
     private void initEntityInfos() {
         this.tree.put(Entity.class, new EntityTreeNode());
-        for (EntityType<?> entityType : Registry.ENTITY_TYPE) {
+        for (EntityType<?> entityType : Registries.ENTITY_TYPE) {
             EntityInfo entityInfo;
             try { entityInfo = new EntityInfo(entityType); }
             catch (Exception e) { continue; }

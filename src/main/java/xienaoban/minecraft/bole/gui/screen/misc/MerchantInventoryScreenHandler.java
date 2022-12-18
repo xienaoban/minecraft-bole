@@ -49,11 +49,11 @@ public class MerchantInventoryScreenHandler extends GenericScreenHandler {
     public void clientTick(int ticks) {}
 
     /**
-     * @see net.minecraft.screen.HorseScreenHandler#transferSlot
-     * @see net.minecraft.screen.HopperScreenHandler#transferSlot
+     * @see net.minecraft.screen.HorseScreenHandler#quickMove
+     * @see net.minecraft.screen.HopperScreenHandler#quickMove
      */
     @Override
-    public ItemStack transferSlot(PlayerEntity player, int index) {
+    public ItemStack quickMove(PlayerEntity player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot != null && slot.hasStack()) {

@@ -60,7 +60,7 @@ public class BoleParrotEntityScreen<E extends ParrotEntity, H extends BoleParrot
                     throw new RuntimeException("Failed to create a ParrotEntity on the client side.");
                 }
                 copyEntityNbtForDisplay(handler.entity, entity);
-                entity.setVariant(i);
+                entity.setVariant(ParrotEntity.Variant.byIndex(i));
                 entities[i] = entity;
             }
             return MiscUtil.cast(entities);

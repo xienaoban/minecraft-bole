@@ -13,9 +13,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.mixin.IMixinMobEntity;
 import xienaoban.minecraft.bole.mixin.IMixinTemptGoal;
 import xienaoban.minecraft.bole.util.Keys;
@@ -72,7 +72,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
         super.writeServerEntityToBuf(buf);
         Item[] items = getEntityAttractiveItems();
         buf.writeInt(items.length);
-        Arrays.stream(items).forEach(item -> buf.writeString(Registry.ITEM.getId(item).toString()));
+        Arrays.stream(items).forEach(item -> buf.writeString(Registries.ITEM.getId(item).toString()));
     }
 
     @Environment(EnvType.CLIENT)
@@ -82,7 +82,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
         int len = buf.readInt();
         Item[] items = new Item[len];
         for (int i = 0; i < len; ++i) {
-            items[i] = Registry.ITEM.get(new Identifier(buf.readString()));
+            items[i] = Registries.ITEM.get(new Identifier(buf.readString()));
         }
         this.entityAttractiveItems = items;
     }
@@ -111,7 +111,7 @@ public class BolePathAwareEntityScreenHandler<E extends PathAwareEntity> extends
             Ingredient foods = ((IMixinTemptGoal) goal).getFood();
             ItemStack[] itemStacks = foods.getMatchingStacks();
             items = Arrays.stream(itemStacks).map(ItemStack::getItem)
-                    .sorted(Comparator.comparing(Registry.ITEM::getId)).toArray(Item[]::new);
+                    .sorted(Comparator.comparing(Registries.ITEM::getId)).toArray(Item[]::new);
             break;
         }
         if (items == null) {

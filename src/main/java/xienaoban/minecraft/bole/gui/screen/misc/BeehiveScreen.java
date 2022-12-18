@@ -58,7 +58,7 @@ public class BeehiveScreen extends GenericHandledScreen<BeehiveScreenHandler> {
         this.mills = System.currentTimeMillis();
         int diff = (int) (this.mills - lastMills);
         this.renderBackground(matrices);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, Textures.BEEHIVE);
         int w = (this.width - 128) >> 1;

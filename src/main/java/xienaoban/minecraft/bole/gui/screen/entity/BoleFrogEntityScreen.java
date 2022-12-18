@@ -7,8 +7,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.passive.FrogVariant;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
-import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
@@ -86,7 +86,7 @@ public class BoleFrogEntityScreen<E extends FrogEntity, H extends BoleFrogEntity
         @Override
         protected Text[] initNames() {
             return Arrays.stream(FROG_VARIANTS).map(frogVariant -> Text.translatable(Keys.FROG_VARIANT_PREFIX
-                    + Objects.requireNonNull(Registry.FROG_VARIANT.getId(frogVariant)).getPath())).toArray(Text[]::new);
+                    + Objects.requireNonNull(Registries.FROG_VARIANT.getId(frogVariant)).getPath())).toArray(Text[]::new);
         }
 
         @Override

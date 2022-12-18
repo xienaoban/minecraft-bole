@@ -61,7 +61,7 @@ public class BoleMooshroomEntityScreen<E extends MooshroomEntity, H extends Bole
                 }
                 copyEntityNbtForDisplay(handler.entity, entity);
 
-                ((IMixinMooshroomEntity) entity).callSetType(TYPES[i]);
+                entity.setVariant(TYPES[i]);
                 entities[i] = entity;
             }
             return MiscUtil.cast(entities);
@@ -80,12 +80,12 @@ public class BoleMooshroomEntityScreen<E extends MooshroomEntity, H extends Bole
 
         @Override
         protected boolean isChosen(E fake) {
-            return handler.entity.getMooshroomType() == fake.getMooshroomType();
+            return handler.entity.getVariant() == fake.getVariant();
         }
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_MOOSHROOM_VARIANT, fake.getMooshroomType());
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_MOOSHROOM_VARIANT, fake.getVariant());
         }
     }
 }

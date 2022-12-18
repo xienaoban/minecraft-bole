@@ -60,7 +60,7 @@ public class BoleLlamaEntityScreen<E extends LlamaEntity, H extends BoleLlamaEnt
                     throw new RuntimeException("Failed to create a LlamaEntity on the client side.");
                 }
                 copyEntityNbtForDisplay(handler.entity, entity);
-                entity.setVariant(i);
+                entity.setVariant(LlamaEntity.Variant.byId(i));
                 entities[i] = entity;
             }
             return MiscUtil.cast(entities);

@@ -7,9 +7,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(MooshroomEntity.class)
 public interface IMixinMooshroomEntity {
-    @Invoker
-    void callSetType(MooshroomEntity.Type type);
-
     @Mixin(MooshroomEntity.Type.class)
     interface IMixinMooshroomEntityType {
         @Accessor

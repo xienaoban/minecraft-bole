@@ -9,7 +9,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
-import xienaoban.minecraft.bole.mixin.IMixinAxolotlEntity;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
@@ -53,7 +52,7 @@ public class BoleAxolotlEntityScreen<E extends AxolotlEntity, H extends BoleAxol
 
         @Override
         protected E[] initEntities() {
-            AxolotlEntity.Variant[] variants = AxolotlEntity.Variant.VARIANTS;
+            AxolotlEntity.Variant[] variants = AxolotlEntity.Variant.values();
             AxolotlEntity[] entities = new AxolotlEntity[variants.length];
             World world = MinecraftClient.getInstance().world;
             for (int i = 0; i < variants.length; ++i) {
@@ -62,7 +61,7 @@ public class BoleAxolotlEntityScreen<E extends AxolotlEntity, H extends BoleAxol
                     throw new RuntimeException("Failed to create a AxolotlEntity on the client side.");
                 }
                 copyEntityNbtForDisplay(handler.entity, entity);
-                ((IMixinAxolotlEntity) entity).callSetVariant(variants[i]);
+                entity.setVariant(variants[i]);
                 entities[i] = entity;
             }
             return MiscUtil.cast(entities);
@@ -70,7 +69,7 @@ public class BoleAxolotlEntityScreen<E extends AxolotlEntity, H extends BoleAxol
 
         @Override
         protected Text[] initNames() {
-            return Arrays.stream(AxolotlEntity.Variant.VARIANTS).map(variant -> Text.literal(variant.getName())).toArray(Text[]::new);
+            return Arrays.stream(AxolotlEntity.Variant.values()).map(variant -> Text.literal(variant.getName())).toArray(Text[]::new);
         }
 
         @Override

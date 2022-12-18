@@ -9,14 +9,15 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
@@ -58,7 +59,7 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_RESET_VILLAGER_JOB, new EntitySettingsBufHandler() {
             /**
-             * @see net.minecraft.entity.ai.brain.task.LoseJobOnSiteLossTask#shouldRun
+             * @see net.minecraft.entity.ai.brain.task.LoseJobOnSiteLossTask
              */
             @Override public void readFromBuf(PacketByteBuf buf) {
                 entity.setOffers(null);
@@ -90,7 +91,7 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
                     sendOverlayMessage(Text.translatable(Keys.HINT_TEXT_NOT_ENOUGH_ITEMS));
                     return;
                 }
-                VillagerType type = Registry.VILLAGER_TYPE.get(Identifier.tryParse(buf.readString()));
+                VillagerType type = Registries.VILLAGER_TYPE.get(Identifier.tryParse(buf.readString()));
                 entity.setVillagerData(entity.getVillagerData().withType(type));
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
@@ -142,7 +143,7 @@ public class BoleVillagerEntityScreenHandler<E extends VillagerEntity> extends B
         this.entityRestocksToday = buf.readInt();
 
         if (buf.readBoolean()) {
-            RegistryKey<World> dimension = RegistryKey.of(Registry.WORLD_KEY, buf.readIdentifier());
+            RegistryKey<World> dimension = RegistryKey.of(RegistryKeys.WORLD, buf.readIdentifier());
             BlockPos blockPos = new BlockPos(buf.readBlockPos());
             this.entityJobSitePos = GlobalPos.create(dimension, blockPos);
         }

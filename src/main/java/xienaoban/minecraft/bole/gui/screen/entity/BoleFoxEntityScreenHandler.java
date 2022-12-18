@@ -9,7 +9,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreenHandler;
-import xienaoban.minecraft.bole.mixin.IMixinFoxEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleFoxEntityScreenHandler<E extends FoxEntity> extends BoleAnimalEntityScreenHandler<E> {
@@ -37,13 +36,13 @@ public class BoleFoxEntityScreenHandler<E extends FoxEntity> extends BoleAnimalE
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_FOX_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 if (isGod()) {
-                    ((IMixinFoxEntity) entity).callSetType(FoxEntity.Type.byName(buf.readString()));
+                    entity.setVariant(FoxEntity.Type.byName(buf.readString()));
                 }
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 FoxEntity.Type type = (FoxEntity.Type) args[0];
-                buf.writeString(type.getKey());
-                ((IMixinFoxEntity) entity).callSetType(type);
+                buf.writeString(type.asString());
+                entity.setVariant(type);
             }
         });
     }

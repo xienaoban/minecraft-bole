@@ -202,7 +202,7 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         this.renderBackground(matrices);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         setTexture(Textures.BOOK);
         int x0 = this.bodyLeft, x1 = this.bodyRight, y0 = this.bodyTop, y1 = this.bodyBottom;
@@ -336,20 +336,20 @@ public abstract class AbstractBoleScreen<E extends Entity, H extends AbstractBol
         private final Text title;
 
         public BookmarkButtonWidget(int x, int y, int color, Text title, PressAction onPress) {
-            super(x, y, 30, 10, Text.empty(), onPress);
+            super(x, y, 30, 10, Text.empty(), onPress, ButtonWidget.DEFAULT_NARRATION_SUPPLIER);
             this.color = color % 5;
             this.title = title;
         }
 
         @Override
         public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShader(GameRenderer::getPositionColorProgram);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             setTexture(Textures.ICONS);
             int u = this.isHovered() ? 190 : 220;
             int v = 200 + 10 * this.color;
-            this.drawTexture(matrices, this.x, this.y, u, v, 30, 10);
-            drawText(matrices, this.title, LIGHT_TEXT_COLOR, 0.5F, this.x + 28 - textRenderer.getWidth(this.title) * 0.5F, this.y + 3);
+            this.drawTexture(matrices, this.getX(), this.getY(), u, v, 30, 10);
+            drawText(matrices, this.title, LIGHT_TEXT_COLOR, 0.5F, this.getX() + 28 - textRenderer.getWidth(this.title) * 0.5F, this.getY() + 3);
         }
     }
 

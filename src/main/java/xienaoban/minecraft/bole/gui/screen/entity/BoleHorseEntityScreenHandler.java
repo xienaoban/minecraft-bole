@@ -38,24 +38,24 @@ public class BoleHorseEntityScreenHandler<E extends HorseEntity> extends BoleAbs
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_HORSE_COLOR_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                HorseColor color = HorseColor.byIndex(buf.readInt());
-                if (isGod()) ((IMixinHorseEntity) entity).callSetVariant(color, entity.getMarking());
+                HorseColor color = HorseColor.byId(buf.readInt());
+                if (isGod()) ((IMixinHorseEntity) entity).callSetHorseVariant(color, entity.getMarking());
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 HorseColor color = (HorseColor) args[0];
-                buf.writeInt(color.getIndex());
-                ((IMixinHorseEntity) entity).callSetVariant(color, entity.getMarking());
+                buf.writeInt(color.getId());
+                ((IMixinHorseEntity) entity).callSetHorseVariant(color, entity.getMarking());
             }
         });
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_HORSE_MARKING_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 HorseMarking marking = HorseMarking.byIndex(buf.readInt());
-                if (isGod()) ((IMixinHorseEntity) entity).callSetVariant(entity.getColor(), marking);
+                if (isGod()) ((IMixinHorseEntity) entity).callSetHorseVariant(entity.getVariant(), marking);
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 HorseMarking marking = (HorseMarking) args[0];
-                buf.writeInt(marking.getIndex());
-                ((IMixinHorseEntity) entity).callSetVariant(entity.getColor(), marking);
+                buf.writeInt(marking.getId());
+                ((IMixinHorseEntity) entity).callSetHorseVariant(entity.getVariant(), marking);
             }
         });
     }

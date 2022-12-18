@@ -35,12 +35,12 @@ public class BoleTropicalFishEntityScreenHandler<E extends TropicalFishEntity> e
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_TROPICAL_FISH_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                if (isGod()) entity.setVariant(buf.readInt());
+                if (isGod()) entity.setVariant(TropicalFishEntity.Variety.fromId(buf.readInt()));
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 int variant = (Integer) args[0];
                 buf.writeInt(variant);
-                entity.setVariant(variant);
+                entity.setVariant(TropicalFishEntity.Variety.fromId(variant));
             }
         });
     }

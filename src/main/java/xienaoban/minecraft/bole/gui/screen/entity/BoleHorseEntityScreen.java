@@ -11,9 +11,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAbstractHorseEntityScreen;
-import xienaoban.minecraft.bole.mixin.IMixinHorseColor;
 import xienaoban.minecraft.bole.mixin.IMixinHorseEntity;
-import xienaoban.minecraft.bole.mixin.IMixinHorseMarking;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
@@ -60,12 +58,12 @@ public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEnt
         protected E[] initEntities() {
             World world = MinecraftClient.getInstance().world;
             HorseMarking marking = handler.entity.getMarking();
-            HorseEntity[] entities = Arrays.stream(IMixinHorseColor.getValues()).map(color -> {
+            HorseEntity[] entities = Arrays.stream(HorseColor.values()).map(color -> {
                 HorseEntity entity = (HorseEntity) handler.entity.getType().create(world);
                 if (entity == null) {
                     throw new RuntimeException("Failed to create a HorseEntity on the client side.");
                 }
-                ((IMixinHorseEntity) entity).callSetVariant(color, marking);
+                ((IMixinHorseEntity) entity).callSetHorseVariant(color, marking);
                 return entity;
             }).toArray(HorseEntity[]::new);
             return MiscUtil.cast(entities);
@@ -84,12 +82,12 @@ public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEnt
 
         @Override
         protected boolean isChosen(E fake) {
-            return handler.entity.getColor() == fake.getColor();
+            return handler.entity.getVariant() == fake.getVariant();
         }
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_HORSE_COLOR_VARIANT, fake.getColor());
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_HORSE_COLOR_VARIANT, fake.getVariant());
         }
     }
 
@@ -107,13 +105,13 @@ public class BoleHorseEntityScreen<E extends HorseEntity, H extends BoleHorseEnt
         @Override
         protected E[] initEntities() {
             World world = MinecraftClient.getInstance().world;
-            HorseColor color = handler.entity.getColor();
-            HorseEntity[] entities = Arrays.stream(IMixinHorseMarking.getValues()).map(marking -> {
+            HorseColor color = handler.entity.getVariant();
+            HorseEntity[] entities = Arrays.stream(HorseMarking.values()).map(marking -> {
                 HorseEntity entity = (HorseEntity) handler.entity.getType().create(world);
                 if (entity == null) {
                     throw new RuntimeException("Failed to create a HorseEntity on the client side.");
                 }
-                ((IMixinHorseEntity) entity).callSetVariant(color, marking);
+                ((IMixinHorseEntity) entity).callSetHorseVariant(color, marking);
                 return entity;
             }).toArray(HorseEntity[]::new);
             return MiscUtil.cast(entities);

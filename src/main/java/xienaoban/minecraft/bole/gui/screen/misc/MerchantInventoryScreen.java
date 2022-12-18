@@ -23,7 +23,7 @@ public class MerchantInventoryScreen extends GenericHandledScreen<MerchantInvent
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, Textures.HORSE_SCREEN);
         int i = (this.width - this.backgroundWidth) / 2;

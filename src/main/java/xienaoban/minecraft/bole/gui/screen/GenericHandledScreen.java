@@ -17,10 +17,9 @@ import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.math.Vec3f;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.lwjgl.glfw.GLFW;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.BoleClient;
@@ -28,7 +27,6 @@ import xienaoban.minecraft.bole.client.KeyBindingManager;
 import xienaoban.minecraft.bole.gui.ElementBox;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class GenericHandledScreen<T extends GenericScreenHandler> extends HandledScreen<T> {
     /**
@@ -165,11 +163,11 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         MatrixStack matrixStack2 = new MatrixStack();
         matrixStack2.translate(0.0D, 0.0D, 1000.0D);
         matrixStack2.scale(fSize, fSize, fSize);
-        Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(0.0F);
-        Quaternion quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(g * 20.0F);
-        Quaternion quaternion3 = Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.getYaw(0.0F) - f * 40.0F);
-        quaternion.hamiltonProduct(quaternion2);
-        quaternion.hamiltonProduct(quaternion3);
+        Quaternionf quaternion = new Quaternionf().rotateZ((float)Math.PI);
+        Quaternionf quaternion2 = new Quaternionf().rotateX(g * 20.0F * ((float)Math.PI / 180));
+        Quaternionf quaternion3 = new Quaternionf().rotateY(entity.getYaw((0.0F) - f * 40.0F) * ((float)Math.PI / 180));
+        quaternion.mul(quaternion2);
+        quaternion.mul(quaternion3);
         matrixStack2.multiply(quaternion);
         DiffuseLighting.method_34742();
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
@@ -197,11 +195,11 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         MatrixStack matrixStack2 = new MatrixStack();
         matrixStack2.translate(0.0, 0.0, 1000.0);
         matrixStack2.scale(size, size, size);
-        Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0f + rotateZ);
-        Quaternion quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(rotateX);
-        Quaternion quaternion3 = Vec3f.POSITIVE_Y.getDegreesQuaternion(rotateY);
-        quaternion.hamiltonProduct(quaternion2);
-        quaternion.hamiltonProduct(quaternion3);
+        Quaternionf quaternion = new Quaternionf().rotateZ(180.0f + rotateZ);
+        Quaternionf quaternion2 = new Quaternionf().rotateX(rotateX * ((float)Math.PI / 180));
+        Quaternionf quaternion3 = new Quaternionf().rotateY(rotateY * ((float)Math.PI / 180));
+        quaternion.mul(quaternion2);
+        quaternion.mul(quaternion3);
         matrixStack2.multiply(quaternion);
         DiffuseLighting.method_34742();
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
@@ -250,13 +248,13 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(model, x0, y0, z).color(r, g, b, a).next();    // The four vertices must
         bufferBuilder.vertex(model, x2, y2, z).color(r, g, b, a).next();    // be added in clockwise
         bufferBuilder.vertex(model, x3, y3, z).color(r, g, b, a).next();    // or counterclockwise
         bufferBuilder.vertex(model, x1, y1, z).color(r, g, b, a).next();    // order.
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
@@ -350,14 +348,14 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         u2 /= textureWidth; v2 /= textureHeight;
         u3 /= textureWidth; v3 /= textureHeight;
         Matrix4f model = matrices.peek().getPositionMatrix();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         bufferBuilder.vertex(model, x0, y0, z).texture(u0, v0).next();      // The four vertices must
         bufferBuilder.vertex(model, x2, y2, z).texture(u2, v2).next();      // be added in clockwise
         bufferBuilder.vertex(model, x3, y3, z).texture(u3, v3).next();      // or counterclockwise
         bufferBuilder.vertex(model, x1, y1, z).texture(u1, v1).next();      // order.
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
     }
 
     public void drawText(MatrixStack matrices, String text, int color, float x, float y) {
@@ -399,7 +397,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
      * @see net.minecraft.client.gui.screen.Screen#renderTooltipFromComponents
      */
     public void renderTooltip(MatrixStack matrices, @NotNull List<OrderedText> lines, float size, int x, int y) {
-        List<TooltipComponent> components = lines.stream().map(TooltipComponent::of).collect(Collectors.toList());
+        List<TooltipComponent> components = lines.stream().map(TooltipComponent::of).toList();
         TooltipComponent tooltipComponent2;
         int s;
         int k;
@@ -433,7 +431,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         this.itemRenderer.zOffset = q;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
         Screen.fillGradient(matrix4f, bufferBuilder, xx - 3, yy - 4, xx + k + 3, yy - 3, q, n, n);
@@ -449,7 +447,7 @@ public abstract class GenericHandledScreen<T extends GenericScreenHandler> exten
         RenderSystem.disableTexture();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         RenderSystem.disableBlend();
         RenderSystem.enableTexture();
         VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());

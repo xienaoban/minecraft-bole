@@ -1,7 +1,9 @@
 package xienaoban.minecraft.bole.core;
 
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.WrittenBookItem;
@@ -26,6 +28,10 @@ import xienaoban.minecraft.bole.util.Keys;
 public class BoleHandbookItem {
     // Any writable book with this nbt key will be recognized as a bole handbook.
     public static final String ID = "bole_handbook";
+
+    public static void init() {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> entries.add(createBook()));
+    }
 
     public static ItemStack createBook() {
         return createWritableBook();

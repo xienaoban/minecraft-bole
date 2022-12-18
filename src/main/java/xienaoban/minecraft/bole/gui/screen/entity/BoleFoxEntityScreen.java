@@ -8,7 +8,6 @@ import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreen;
-import xienaoban.minecraft.bole.mixin.IMixinFoxEntity;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
 
@@ -40,7 +39,7 @@ public class BoleFoxEntityScreen<E extends FoxEntity, H extends BoleFoxEntityScr
     }
 
     public class FoxVariantsPropertyWidget extends VariantsPropertyWidget {
-        private static final FoxEntity.Type[] VARIANTS = IMixinFoxEntity.IMixinFoxEntityType.getTypes();
+        private static final FoxEntity.Type[] VARIANTS = FoxEntity.Type.values();
 
         public FoxVariantsPropertyWidget() {
             super(2, 3);
@@ -61,7 +60,7 @@ public class BoleFoxEntityScreen<E extends FoxEntity, H extends BoleFoxEntityScr
                     throw new RuntimeException("Failed to create a FoxEntity on the client side.");
                 }
                 copyEntityNbtForDisplay(handler.entity, entity);
-                ((IMixinFoxEntity) entity).callSetType(VARIANTS[i]);
+                entity.setVariant(VARIANTS[i]);
                 entities[i] = entity;
             }
             return MiscUtil.cast(entities);
@@ -69,7 +68,7 @@ public class BoleFoxEntityScreen<E extends FoxEntity, H extends BoleFoxEntityScr
 
         @Override
         protected Text[] initNames() {
-            return Arrays.stream(VARIANTS).map(type -> Text.translatable(Keys.FOX_VARIANT_PREFIX + type.getKey())).toArray(Text[]::new);
+            return Arrays.stream(VARIANTS).map(type -> Text.translatable(Keys.FOX_VARIANT_PREFIX + type.asString())).toArray(Text[]::new);
         }
 
         @Override
@@ -79,12 +78,12 @@ public class BoleFoxEntityScreen<E extends FoxEntity, H extends BoleFoxEntityScr
 
         @Override
         protected boolean isChosen(E fake) {
-            return handler.entity.getFoxType() == fake.getFoxType();
+            return handler.entity.getVariant() == fake.getVariant();
         }
 
         @Override
         protected void setChosen(E fake) {
-            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_FOX_VARIANT, fake.getFoxType());
+            handler.sendClientEntitySettings(Keys.ENTITY_SETTING_FOX_VARIANT, fake.getVariant());
         }
     }
 }

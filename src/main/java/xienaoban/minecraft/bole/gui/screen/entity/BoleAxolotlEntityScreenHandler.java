@@ -9,7 +9,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreenHandler;
-import xienaoban.minecraft.bole.mixin.IMixinAxolotlEntity;
 import xienaoban.minecraft.bole.util.Keys;
 
 public class BoleAxolotlEntityScreenHandler<E extends AxolotlEntity> extends BoleAnimalEntityScreenHandler<E> {
@@ -36,13 +35,13 @@ public class BoleAxolotlEntityScreenHandler<E extends AxolotlEntity> extends Bol
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_AXOLOTL_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                AxolotlEntity.Variant variant = AxolotlEntity.Variant.VARIANTS[buf.readInt()];
-                if (isGod()) ((IMixinAxolotlEntity) entity).callSetVariant(variant);
+                AxolotlEntity.Variant variant = AxolotlEntity.Variant.byId(buf.readInt());
+                if (isGod()) entity.setVariant(variant);
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 AxolotlEntity.Variant variant = (AxolotlEntity.Variant) args[0];
                 buf.writeInt(variant.getId());
-                ((IMixinAxolotlEntity) entity).callSetVariant(variant);
+                entity.setVariant(variant);
             }
         });
     }

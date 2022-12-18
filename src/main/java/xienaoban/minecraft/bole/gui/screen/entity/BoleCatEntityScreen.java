@@ -7,8 +7,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.passive.CatVariant;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
-import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleTameableEntityScreen;
 import xienaoban.minecraft.bole.util.Keys;
 import xienaoban.minecraft.bole.util.MiscUtil;
@@ -91,7 +91,7 @@ public class BoleCatEntityScreen<E extends CatEntity, H extends BoleCatEntityScr
             Text[] res = new Text[types];
             for (int i = typeFrom(); i < typeTo(); ++i) {
                 res[i - typeFrom()] = Text.translatable(Keys.CAT_VARIANT_PREFIX
-                        + Objects.requireNonNull(Registry.CAT_VARIANT.getId(CAT_VARIANTS[i])).getPath());
+                        + Objects.requireNonNull(Registries.CAT_VARIANT.getId(CAT_VARIANTS[i])).getPath());
             }
             return res;
         }

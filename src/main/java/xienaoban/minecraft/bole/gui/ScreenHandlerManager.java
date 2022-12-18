@@ -7,8 +7,8 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.Bole;
 import xienaoban.minecraft.bole.gui.screen.AbstractBoleScreenHandler;
 import xienaoban.minecraft.bole.gui.screen.entity.*;
@@ -30,7 +30,7 @@ public class ScreenHandlerManager {
      * executed on the dedicated server side, which will cause the handlers to not be registered.
      */
     public static void registerHandler(ScreenHandlerType<?> handlerType) {
-        if (Registry.SCREEN_HANDLER.getId(handlerType) == null) throw new RuntimeException("ScreenHandlerType not found.");
+        if (Registries.SCREEN_HANDLER.getId(handlerType) == null) throw new RuntimeException("ScreenHandlerType not found.");
     }
 
     /**

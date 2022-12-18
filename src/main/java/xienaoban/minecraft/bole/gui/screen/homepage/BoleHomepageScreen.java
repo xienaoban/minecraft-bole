@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -21,6 +22,7 @@ import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
+import net.minecraft.util.function.LazyIterationConsumer;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.entity.EntityLookup;
 import org.lwjgl.glfw.GLFW;
@@ -325,6 +327,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                         hl.highlight(entity, 8 * 20);
                         cnt.incrementAndGet();
                     }
+                    return LazyIterationConsumer.NextIteration.CONTINUE;
                 });
                 playScreenSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 0.6F, -10.0F);
                 player.sendMessage(Text.translatable(Keys.TEXT_HIGHLIGHT, cnt.get(), Text.translatable(entityType.getTranslationKey()), (int) Math.sqrt(dis2)).formatted(Formatting.DARK_GREEN, Formatting.BOLD), true);
@@ -489,7 +492,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             debugMode = !debugMode;
-            playScreenSound(SoundEvents.UI_BUTTON_CLICK, 0.5F, 1.0F);
+            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
             return true;
         }
     }
@@ -519,7 +522,7 @@ public final class BoleHomepageScreen extends AbstractBoleScreen<Entity, BoleHom
                 return false;
             }
             boolean ret = onMouseClick();
-            playScreenSound(SoundEvents.UI_BUTTON_CLICK, 0.6F, 1.0F);
+            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
             return ret;
         }
 

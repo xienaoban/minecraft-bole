@@ -9,5 +9,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(HorseEntity.class)
 public interface IMixinHorseEntity {
     @Invoker
-    void callSetVariant(HorseColor color, HorseMarking marking);
+    void callSetHorseVariant(HorseColor color, HorseMarking marking);
 }

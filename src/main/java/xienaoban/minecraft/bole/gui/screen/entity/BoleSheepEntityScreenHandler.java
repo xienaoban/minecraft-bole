@@ -3,6 +3,7 @@ package xienaoban.minecraft.bole.gui.screen.entity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.goal.EatGrassGoal;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
@@ -37,9 +38,9 @@ public class BoleSheepEntityScreenHandler<E extends SheepEntity> extends BoleAni
     private void registerEntitySettingsBufHandlers() {
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_SHEEP_EAT_GRASS, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
-                IMixinEatGrassGoal goal = (IMixinEatGrassGoal) ((IMixinSheepEntity) entity).getEatGrassGoal();
+                EatGrassGoal goal = ((IMixinSheepEntity) entity).getEatGrassGoal();
                 if (goal.getTimer() == 0) {
-                    goal.setTimer(-1);
+                    ((IMixinEatGrassGoal) goal).setTimer(-1);
                 }
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {}

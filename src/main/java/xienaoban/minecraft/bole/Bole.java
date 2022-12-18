@@ -73,6 +73,7 @@ public class Bole implements ModInitializer {
         Configs.init();
         ScreenHandlerManager.init();
         ServerNetworkManager.init();
+        BoleHandbookItem.init();
     }
 
     @Environment(EnvType.CLIENT)

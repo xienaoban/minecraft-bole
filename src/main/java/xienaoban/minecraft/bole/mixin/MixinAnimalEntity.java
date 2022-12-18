@@ -34,7 +34,7 @@ public class MixinAnimalEntity {
                 else attacker = entityDamageSource.getSource();
                 return Bole.isMonster(attacker) || isOtherPlayer(that, attacker) ? amount : 0.0F;
             }
-            return source == DamageSource.ANVIL || source == DamageSource.OUT_OF_WORLD ? amount : 0.0F;
+            return source == DamageSource.CRAMMING || source == DamageSource.OUT_OF_WORLD ? amount : 0.0F;
         }
         return amount;
     }

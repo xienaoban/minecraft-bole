@@ -227,7 +227,7 @@ public class BoleEntityScreen<E extends Entity, H extends BoleEntityScreenHandle
             if (this.displayedEntity == null) {
                 if (targetEntity instanceof AbstractClientPlayerEntity clientPlayer) {
                     GameProfile profile = clientPlayer.getGameProfile();
-                    this.displayedEntity = new OtherClientPlayerEntity(clientPlayer.clientWorld, new GameProfile(profile.getId(), profile.getName()), null);
+                    this.displayedEntity = new OtherClientPlayerEntity(clientPlayer.clientWorld, new GameProfile(profile.getId(), profile.getName()));
                     // to make name label invisible
                     // @see net.minecraft.client.render.entity.LivingEntityRenderer#hasLabel
                     Vec3d targetPos = targetEntity.getPos();

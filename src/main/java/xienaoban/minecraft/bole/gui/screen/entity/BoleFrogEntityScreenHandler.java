@@ -7,9 +7,9 @@ import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.passive.FrogVariant;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import xienaoban.minecraft.bole.gui.screen.tree.BoleAnimalEntityScreenHandler;
 import xienaoban.minecraft.bole.util.Keys;
 
@@ -38,12 +38,12 @@ public class BoleFrogEntityScreenHandler<E extends FrogEntity> extends BoleAnima
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_FROG_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 if (isGod()) {
-                    entity.setVariant(Registry.FROG_VARIANT.get(buf.readIdentifier()));
+                    entity.setVariant(Registries.FROG_VARIANT.get(buf.readIdentifier()));
                 }
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 FrogVariant variant = (FrogVariant) args[0];
-                buf.writeIdentifier(Registry.FROG_VARIANT.getId(variant));
+                buf.writeIdentifier(Registries.FROG_VARIANT.getId(variant));
                 entity.setVariant(variant);
             }
         });

@@ -36,15 +36,13 @@ public class BoleMooshroomEntityScreenHandler<E extends MooshroomEntity> extends
         registerEntitySettingsBufHandler(Keys.ENTITY_SETTING_MOOSHROOM_VARIANT, new EntitySettingsBufHandler() {
             @Override public void readFromBuf(PacketByteBuf buf) {
                 if (isGod()) {
-                    ((IMixinMooshroomEntity) entity).callSetType(
-                            IMixinMooshroomEntity.IMixinMooshroomEntityType.callFromName(buf.readString())
-                    );
+                    entity.setVariant(IMixinMooshroomEntity.IMixinMooshroomEntityType.callFromName(buf.readString()));
                 }
             }
             @Override public void writeToBuf(PacketByteBuf buf, Object... args) {
                 MooshroomEntity.Type type = (MooshroomEntity.Type) args[0];
                 buf.writeString(((IMixinMooshroomEntity.IMixinMooshroomEntityType)(Object) type).getName());
-                ((IMixinMooshroomEntity) entity).callSetType(type);
+                entity.setVariant(type);
             }
         });
     }
